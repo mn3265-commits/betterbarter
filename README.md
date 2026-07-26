@@ -9,7 +9,8 @@ no accounts without a school email. Every campus is its own isolated board.
 
 This repository implements the design handoff (`Student marketplace scope`) as a
 **React + Vite + TypeScript** app rendered inside an iPhone frame, so the whole
-10-screen flow is clickable in a browser. The design language is a strict
+10-screen flow is clickable in a browser. It's deployed on Vercel:
+**https://handoff-bay-two.vercel.app**. The design language is a strict
 flat/modernist system: **zero border radius anywhere**, everything **flush left**,
 2px rules instead of shadows, a single accent red on a light ground, Archivo
 throughout.
@@ -69,6 +70,19 @@ src/
   Notes.tsx      the design-rationale column (presentation only)
   App.tsx        composes the frame + current screen
 ```
+
+## Backend (Vercel + Supabase)
+
+The deployed app runs on in-memory seed data. Turning it into a real,
+persistent, multi-user marketplace is a Supabase job — Auth (verified school
+email), Postgres with campus-isolation row-level security, Realtime chat,
+Storage for photos, and Edge Functions for the day-7 cron and paragraph
+extraction. The Postgres schema and RLS are already written in
+`supabase/migrations/0001_init.sql`, and the client is in `src/lib/supabase.ts`
+(a no-op until env vars are set, so the prototype keeps working meanwhile).
+
+See **[SUPABASE.md](./SUPABASE.md)** for the architecture, the spec-to-Supabase
+mapping, and the exact setup steps.
 
 ## Design system
 
