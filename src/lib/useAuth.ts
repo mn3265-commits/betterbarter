@@ -68,6 +68,21 @@ export function useAuth() {
     if (error) throw error
   }
 
+  /** One-tap sign-in with a Columbia Google (LionMail) account. `hd` hints Google
+   *  to prefer the columbia.edu workspace; the handle_new_user() trigger still
+   *  rejects any non-enrolled domain server-side. */
+  async function signInWithGoogle(): Promise<void> {
+    if (!supabase) throw new Error('Supabase not configured')
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: {
+        redirectTo: window.location.origin,
+        queryParams: { hd: 'columbia.edu', prompt: 'select_account' },
+      },
+    })
+    if (error) throw error
+  }
+
   async function signOut(): Promise<void> {
     await supabase?.auth.signOut()
   }
@@ -79,6 +94,7 @@ export function useAuth() {
     profile,
     loading,
     signIn,
+    signInWithGoogle,
     signOut,
   }
 }

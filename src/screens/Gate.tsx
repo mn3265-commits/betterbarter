@@ -4,12 +4,14 @@ import type { Auth } from '../lib/useAuth'
 import type { Handoff } from '../lib/useHandoff'
 
 /** Gate (sign-in): states the one thing that makes the product different.
- *  With a live backend it sends a real magic link; without one it's the demo. */
+ *  With a live backend it offers Google (LionMail) sign-in plus a magic-link
+ *  fallback; without one it's the demo. */
 export function Gate({ h, auth }: { h: Handoff; auth?: Auth }) {
   const live = Boolean(auth?.configured)
   const [email, setEmail] = useState('')
   const [sent, setSent] = useState(false)
   const [busy, setBusy] = useState(false)
+  const [gBusy, setGBusy] = useState(false)
   const [err, setErr] = useState<string | null>(null)
 
   async function send() {
@@ -23,6 +25,19 @@ export function Gate({ h, auth }: { h: Handoff; auth?: Auth }) {
       setErr(e instanceof Error ? e.message : 'Could not send the link. Try again.')
     } finally {
       setBusy(false)
+    }
+  }
+
+  async function google() {
+    if (!auth) return
+    setGBusy(true)
+    setErr(null)
+    try {
+      await auth.signInWithGoogle()
+      // On success the browser redirects to Google; nothing more to do here.
+    } catch (e) {
+      setErr(e instanceof Error ? e.message : 'Could not start Google sign-in.')
+      setGBusy(false)
     }
   }
 
@@ -51,6 +66,33 @@ export function Gate({ h, auth }: { h: Handoff; auth?: Auth }) {
 
         {live && !sent ? (
           <>
+            {/* Primary: one-tap Columbia Google (LionMail) sign-in. */}
+            <button
+              onClick={() => void google()}
+              disabled={gBusy}
+              style={{
+                border: 0,
+                background: 'var(--color-bg)',
+                color: 'var(--color-accent-700)',
+                fontFamily: 'var(--font-heading)',
+                fontWeight: 800,
+                fontSize: 16,
+                padding: '16px 18px',
+                textAlign: 'left',
+                cursor: gBusy ? 'default' : 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                width: '100%',
+                opacity: gBusy ? 0.6 : 1,
+              }}
+            >
+              <span>{gBusy ? 'Opening Google…' : 'Continue with Google'}</span>
+              <ArrowRight size={20} strokeWidth={2} />
+            </button>
+
+            {/* Secondary: magic-link fallback. */}
+            <div style={{ fontSize: 11, opacity: 0.75, marginTop: 2 }}>or use your school email</div>
             <input
               className="input"
               type="email"
@@ -68,7 +110,7 @@ export function Gate({ h, auth }: { h: Handoff; auth?: Auth }) {
                 border: '2px solid color-mix(in srgb, var(--color-bg) 55%, transparent)',
                 color: 'var(--color-bg)',
                 caretColor: 'var(--color-bg)',
-                minHeight: 48,
+                minHeight: 46,
                 fontSize: 15,
               }}
             />
@@ -76,13 +118,13 @@ export function Gate({ h, auth }: { h: Handoff; auth?: Auth }) {
               onClick={() => void send()}
               disabled={busy || !email.trim()}
               style={{
-                border: 0,
-                background: 'var(--color-bg)',
-                color: 'var(--color-accent-700)',
+                border: '2px solid var(--color-bg)',
+                background: 'transparent',
+                color: 'var(--color-bg)',
                 fontFamily: 'var(--font-heading)',
                 fontWeight: 800,
-                fontSize: 16,
-                padding: '16px 18px',
+                fontSize: 14,
+                padding: '12px 16px',
                 textAlign: 'left',
                 cursor: busy ? 'default' : 'pointer',
                 display: 'flex',
@@ -93,23 +135,13 @@ export function Gate({ h, auth }: { h: Handoff; auth?: Auth }) {
               }}
             >
               <span>{busy ? 'Sending…' : 'Email me a login link'}</span>
-              <ArrowRight size={20} strokeWidth={2} />
+              <ArrowRight size={18} strokeWidth={2} />
             </button>
             {err && <div style={{ fontSize: 12, opacity: 0.95 }}>{err}</div>}
-            <div style={{ fontSize: 11, opacity: 0.75 }}>
-              We re-check the login every term. If your school email stops working, so does the account.
-            </div>
           </>
         ) : live && sent ? (
           <>
-            <div
-              style={{
-                border: '2px solid var(--color-bg)',
-                padding: '14px 16px',
-                fontSize: 15,
-                lineHeight: 1.4,
-              }}
-            >
+            <div style={{ border: '2px solid var(--color-bg)', padding: '14px 16px', fontSize: 15, lineHeight: 1.4 }}>
               Check <b>{email}</b> for a login link. Open it on this device and you are in.
             </div>
             <button
@@ -130,7 +162,7 @@ export function Gate({ h, auth }: { h: Handoff; auth?: Auth }) {
                 width: '100%',
               }}
             >
-              Use a different email
+              Back
             </button>
           </>
         ) : (
