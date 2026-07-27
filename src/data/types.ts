@@ -1,4 +1,6 @@
 export type Screen =
+  | 'rules'
+  | 'how'
   | 'gate'
   | 'browse'
   | 'detail'

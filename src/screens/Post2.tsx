@@ -8,6 +8,8 @@ import type { Handoff } from '../lib/useHandoff'
  */
 export function Post2({ h }: { h: Handoff }) {
   const p = h.parse
+  // A blocked match cannot be posted at all, so the button says so.
+  const blocked = h.ruleHits.some((x) => x.level === 'blocked')
   const rows: { key: string; label: string; value: string; fixable: boolean }[] = [
     { key: 'title', label: 'What it is', value: p.title, fixable: true },
     { key: 'price', label: 'Price', value: p.free ? 'Free' : '$' + p.price, fixable: true },
@@ -149,10 +151,36 @@ export function Post2({ h }: { h: Handoff }) {
         )}
       </div>
 
+      {h.ruleHits.length > 0 && (
+        <div style={{ borderTop: '2px solid var(--color-accent)', background: 'var(--color-accent-100)', padding: '13px 16px' }}>
+          <div style={{ fontSize: 10, letterSpacing: '.14em', textTransform: 'uppercase', color: 'var(--color-accent-800)' }}>
+            {h.ruleHits[0].level === 'blocked' ? 'Not allowed on the board' : 'Check this before you post'}
+          </div>
+          <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 800, fontSize: 15, marginTop: 5, color: 'var(--color-accent-800)' }}>
+            This reads like {h.ruleHits.map((x) => x.label).join(', ')}.
+          </div>
+          {h.ruleHits.map((x) => (
+            <div key={x.label} style={{ fontSize: 12.5, color: 'var(--color-accent-800)', opacity: 0.85, marginTop: 4, textWrap: 'pretty' }}>
+              {x.why}
+            </div>
+          ))}
+          <div style={{ display: 'flex', gap: 8, marginTop: 12, flexWrap: 'wrap' }}>
+            <button onClick={h.editAfterFlag} className="btn btn-primary">
+              Edit my post
+            </button>
+            {h.ruleHits.every((x) => x.level === 'flagged') && (
+              <button onClick={h.postAnyway} className="btn btn-secondary">
+                It is not that — post it
+              </button>
+            )}
+          </div>
+        </div>
+      )}
+
       <div style={{ borderTop: '2px solid var(--color-divider)', padding: '12px 16px 40px', background: 'var(--color-bg)' }}>
         <button
           onClick={h.publish}
-          disabled={h.busy}
+          disabled={h.busy || blocked}
           style={{
             width: '100%',
             border: 0,
@@ -163,10 +191,11 @@ export function Post2({ h }: { h: Handoff }) {
             fontSize: 15,
             padding: '15px 16px',
             textAlign: 'left',
-            cursor: 'pointer',
+            cursor: blocked ? 'not-allowed' : 'pointer',
+            opacity: blocked ? 0.45 : 1,
           }}
         >
-          {h.busy ? 'Posting…' : `Post to ${h.campusName || 'campus'}`}
+          {h.busy ? 'Posting…' : blocked ? 'Cannot post this' : `Post to ${h.campusName || 'campus'}`}
         </button>
       </div>
     </div>

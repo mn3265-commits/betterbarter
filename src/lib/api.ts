@@ -404,3 +404,44 @@ export async function updateName(userId: string, name: string): Promise<void> {
   const { error } = await db().from('profiles').update({ name: clean }).eq('id', userId)
   if (error) throw error
 }
+
+// ── community rules ───────────────────────────────────────────────────────────
+
+const rulesKey = (userId: string, version: number) => `handoff:rules:v${version}:${userId}`
+
+/**
+ * Whether this account has agreed to the current community rules.
+ *
+ * The agreement belongs in the database — it is a record, not a preference — but
+ * the column arrives with migration 0004, so a project that has not run it yet
+ * falls back to local storage instead of locking everyone out.
+ */
+export async function fetchRulesAccepted(userId: string, version: number): Promise<boolean> {
+  try {
+    const { data, error } = await db()
+      .from('profiles')
+      .select('rules_accepted_at, rules_version')
+      .eq('id', userId)
+      .maybeSingle()
+    if (error) throw error
+    const row = data as { rules_accepted_at: string | null; rules_version: number | null } | null
+    if (row?.rules_accepted_at && (row.rules_version ?? 0) >= version) return true
+    // Column exists and says no — but honour a local acceptance from before the
+    // migration so nobody is asked twice.
+    return localStorage.getItem(rulesKey(userId, version)) === 'yes'
+  } catch {
+    return localStorage.getItem(rulesKey(userId, version)) === 'yes'
+  }
+}
+
+export async function acceptRules(userId: string, version: number): Promise<void> {
+  localStorage.setItem(rulesKey(userId, version), 'yes')
+  try {
+    await db()
+      .from('profiles')
+      .update({ rules_accepted_at: new Date().toISOString(), rules_version: version })
+      .eq('id', userId)
+  } catch {
+    /* pre-migration: the local record stands in until 0004 is applied */
+  }
+}

@@ -236,6 +236,27 @@ export function Me({ h }: { h: Handoff }) {
           </div>
         </div>
 
+        {/* help */}
+        <div style={{ padding: '0 16px 16px' }}>
+          <h6 style={{ margin: '0 0 10px' }}>Using Handoff</h6>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 2, background: 'var(--color-divider)' }}>
+            <button
+              onClick={() => h.go('how')}
+              style={{ background: 'var(--color-bg)', border: 0, padding: '13px 0', textAlign: 'left', cursor: 'pointer', font: 'inherit' }}
+            >
+              <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 800, fontSize: 14 }}>How Handoff works</div>
+              <div style={{ fontSize: 11.5, opacity: 0.6 }}>Posting, claiming, and meeting up — in four screens.</div>
+            </button>
+            <button
+              onClick={() => h.go('rules')}
+              style={{ background: 'var(--color-bg)', border: 0, padding: '13px 0', textAlign: 'left', cursor: 'pointer', font: 'inherit' }}
+            >
+              <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 800, fontSize: 14 }}>Community rules</div>
+              <div style={{ fontSize: 11.5, opacity: 0.6 }}>What may not be listed, and how to meet safely. You agreed to these.</div>
+            </button>
+          </div>
+        </div>
+
         {/* account */}
         <div style={{ padding: '0 16px' }}>
           <div style={{ borderTop: '2px solid var(--color-divider)', paddingTop: 14, fontSize: 11.5, opacity: 0.6, textWrap: 'pretty' }}>

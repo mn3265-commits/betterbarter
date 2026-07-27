@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 import { IOSDevice } from './components/IOSDevice'
 import { Toast } from './components/Toast'
 import { Notes } from './Notes'
@@ -14,11 +14,17 @@ import { Me } from './screens/Me'
 import { Post1 } from './screens/Post1'
 import { Post2 } from './screens/Post2'
 import { Posted } from './screens/Posted'
+import { Rules } from './screens/Rules'
+import { HowItWorks } from './screens/HowItWorks'
 
 const CONFIG = { moveOutBanner: false, defaultTab: 'free' as const }
 
 function CurrentScreen({ h }: { h: Handoff }) {
   switch (h.screen) {
+    case 'rules':
+      return <Rules mode="read" campus={h.campusName} onClose={h.jumpMe} />
+    case 'how':
+      return <HowItWorks onDone={h.jumpMe} doneLabel="Done" />
     case 'gate':
       return <Gate h={h} />
     case 'browse':
@@ -124,10 +130,25 @@ function LiveApp() {
 
   const h = useHandoff(CONFIG, live)
 
+  // The walkthrough is a first-run courtesy, not a record — local is the right
+  // place for it. The rules agreement is not: that lives on the account.
+  const howKey = p ? `handoff:how:${p.id}` : null
+  const [seenHow, setSeenHow] = useState(() =>
+    howKey ? localStorage.getItem(howKey) === 'yes' : true,
+  )
+  const markHowSeen = useCallback(() => {
+    if (howKey) localStorage.setItem(howKey, 'yes')
+    setSeenHow(true)
+  }, [howKey])
+
   let body: React.ReactNode
   if (auth.loading) body = <Splash />
   else if (!auth.session) body = <Gate h={h} auth={auth} />
   else if (!p) body = <NotEnrolled email={auth.email} onSignOut={() => void auth.signOut()} />
+  else if (h.rulesLoading) body = <Splash />
+  else if (!h.rulesAccepted)
+    body = <Rules mode="accept" campus={h.campusName} onAccept={h.acceptRules} />
+  else if (!seenHow) body = <HowItWorks onDone={markHowSeen} />
   else body = <CurrentScreen h={h} />
 
   return (

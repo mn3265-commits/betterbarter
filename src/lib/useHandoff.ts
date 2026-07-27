@@ -14,6 +14,7 @@ import type {
 } from '../data/types'
 import * as api from './api'
 import { parseListing } from './parse'
+import { checkListing, RULES_VERSION, type RuleHit } from './rules'
 
 export interface HandoffConfig {
   moveOutBanner: boolean
@@ -95,6 +96,12 @@ export function useHandoff(config: HandoffConfig, live?: LiveContext) {
 
   const [wantedDraft, setWantedDraft] = useState('')
 
+  // community rules: agreed once per account, checked again before each post
+  const [rulesAccepted, setRulesAccepted] = useState(!isLive)
+  const [rulesLoading, setRulesLoading] = useState(isLive)
+  const [ruleHits, setRuleHits] = useState<RuleHit[]>([])
+  const [ruleOverride, setRuleOverride] = useState(false)
+
   const [postedTitle, setPostedTitle] = useState('')
   const [postedNote, setPostedNote] = useState('')
 
@@ -165,6 +172,22 @@ export function useHandoff(config: HandoffConfig, live?: LiveContext) {
       /* non-critical */
     }
   }, [isLive])
+
+  useEffect(() => {
+    if (!isLive || !userId) return
+    let cancelled = false
+    api
+      .fetchRulesAccepted(userId, RULES_VERSION)
+      .then((ok) => {
+        if (!cancelled) setRulesAccepted(ok)
+      })
+      .finally(() => {
+        if (!cancelled) setRulesLoading(false)
+      })
+    return () => {
+      cancelled = true
+    }
+  }, [isLive, userId])
 
   useEffect(() => {
     if (!isLive) return
@@ -398,6 +421,8 @@ export function useHandoff(config: HandoffConfig, live?: LiveContext) {
     setPostText('')
     setEdit(null)
     resetOverrides()
+    setRuleHits([])
+    setRuleOverride(false)
     setToast(null)
   }, [resetOverrides])
 
@@ -448,6 +473,16 @@ export function useHandoff(config: HandoffConfig, live?: LiveContext) {
 
   const publish = useCallback(() => {
     const p = parse
+
+    // Nothing dangerous or illegal goes on the board. Blocked matches cannot be
+    // overridden; ambiguous ones can, once the person has read why.
+    const hits = checkListing(postText)
+    const blocked = hits.some((x) => x.level === 'blocked')
+    if (hits.length && (blocked || !ruleOverride)) {
+      setRuleHits(hits)
+      return
+    }
+    setRuleHits([])
     const note = p.free
       ? 'It is on the board now. Anyone on campus with a matching saved search gets pinged.'
       : 'Listed at $' + p.price + '. It is on the board now.'
@@ -514,7 +549,7 @@ export function useHandoff(config: HandoffConfig, live?: LiveContext) {
         setBusy(false)
       }
     })()
-  }, [parse, isLive, live, extra.length, postText, photoFile, refreshBoard, fail])
+  }, [parse, isLive, live, extra.length, postText, photoFile, ruleOverride, refreshBoard, fail])
 
   // ── claim ──────────────────────────────────────────────────────────────────
   const confirmClaim = useCallback(() => {
@@ -744,6 +779,23 @@ export function useHandoff(config: HandoffConfig, live?: LiveContext) {
     [live, refreshBoard, flash, fail],
   )
 
+  const acceptRules = useCallback(() => {
+    if (!live) {
+      setRulesAccepted(true)
+      return
+    }
+    setRulesAccepted(true)
+    void api.acceptRules(live.userId, RULES_VERSION)
+  }, [live])
+
+  /** "It is not that" on an ambiguous match: let the post through, once. */
+  const postAnyway = useCallback(() => {
+    setRuleOverride(true)
+    setRuleHits([])
+  }, [])
+
+  const editAfterFlag = useCallback(() => setRuleHits([]), [])
+
   const signOut = useCallback(() => {
     void live?.signOut()
   }, [live])
@@ -776,6 +828,9 @@ export function useHandoff(config: HandoffConfig, live?: LiveContext) {
     parse,
     busy,
     loadingBoard,
+    rulesAccepted,
+    rulesLoading,
+    ruleHits,
     error,
     campusName,
     campusSpots: spots,
@@ -844,6 +899,9 @@ export function useHandoff(config: HandoffConfig, live?: LiveContext) {
     postWanted,
     setBuilding,
     setDisplayName,
+    acceptRules,
+    postAnyway,
+    editAfterFlag,
     refreshBoard,
   }
 }
