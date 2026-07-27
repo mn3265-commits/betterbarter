@@ -23,6 +23,15 @@ export const isBackendConfigured = Boolean(url && anonKey)
 
 export const supabase: SupabaseClient | null = isBackendConfigured
   ? createClient(url, anonKey, {
-      auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true },
+      auth: {
+        persistSession: true,
+        autoRefreshToken: true,
+        detectSessionInUrl: true,
+        // Implicit flow puts the tokens in the URL hash, so the magic link works
+        // even when the email opens it in a different browser than the one that
+        // requested it (the common mobile "link won't go through" failure). PKCE
+        // needs a code_verifier stored in the originating browser and breaks there.
+        flowType: 'implicit',
+      },
     })
   : null
