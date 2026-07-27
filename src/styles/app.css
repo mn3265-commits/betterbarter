@@ -1,6 +1,30 @@
 /* App shell: the presentation scaffold (rationale column + iPhone frame). None
  * of this ships inside the product — the app is only what sits inside the bezel. */
 
+/* ── App mode (default): the product itself, full-screen and mobile-first ── */
+.app-shell {
+  min-height: 100dvh;
+  display: flex;
+  justify-content: center;
+  background: var(--color-neutral-200);
+}
+.app-viewport {
+  width: 100%;
+  max-width: 440px;
+  height: 100dvh;
+  position: relative;
+  overflow: hidden;
+  background: var(--color-bg);
+}
+/* On wider screens, frame the mobile column so it reads as an app, not a
+   stretched page. On a phone it is edge-to-edge. */
+@media (min-width: 460px) {
+  .app-viewport {
+    box-shadow: 0 0 0 1px var(--color-divider), 0 20px 60px rgba(0, 0, 0, 0.12);
+  }
+}
+
+/* ── Showcase mode (?showcase): the design-reference presentation ── */
 .stage {
   display: flex;
   align-items: flex-start;
