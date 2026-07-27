@@ -1,82 +1,100 @@
 # Backend: Vercel + Supabase
 
-The front end (this repo) deploys to **Vercel** as a static Vite build. The
-backend is **Supabase**: the browser talks to it directly with the anon key, and
+The front end deploys to **Vercel** from this repo (push to
+`claude/new-commits-qxnib0` → production build). The backend is **Supabase**:
+the browser talks to it directly with the publishable anon key, and
 **row-level security** does the enforcement — every read is scoped to the
 viewer's campus, so a query can never cross the campus wall.
 
 ```
   Browser (React, on Vercel)
-      │  supabase-js  (anon key)
+      │  supabase-js  (publishable anon key)
       ▼
   Supabase
-   ├─ Postgres + RLS      the campus-isolated board, threads, profiles
-   ├─ Auth                verified school email (OTP), .edu-domain gated
-   ├─ Realtime            live chat threads
-   ├─ Storage             listing photos
-   └─ Edge Functions      paragraph extraction, the day-7 cron  (service role)
+   ├─ Postgres + RLS      campus-isolated board, threads, profiles
+   ├─ Auth                Google (LionMail) + school-email magic link
+   ├─ Realtime            live board + live chat
+   ├─ Storage             listing photos (bucket: listing-photos)
+   └─ pg_cron             the day-7 freshness check
 ```
 
-## How the handoff spec maps to Supabase
+Project: `gkqyaynukcrrewspekmf` · campus seeded: **Columbia** (`columbia.edu`).
 
-| Spec requirement | Supabase piece | Status |
-| --- | --- | --- |
-| Verified school-email accounts, per-term re-check | Auth (email OTP) + `profiles.read_only` / `last_verified_at` | schema ✅ · auth wiring ⏳ |
-| Campus isolation (every campus its own board) | RLS via `current_campus()` | ✅ in `0001_init.sql` |
-| Board feed, filtered by tab/query, distance sort | `listings` + `listings_board_idx` | schema ✅ · queries ⏳ |
-| Threads & messages, realtime | `threads` / `messages` + Realtime | schema ✅ · realtime ⏳ |
-| Create-listing with photo upload | Storage bucket + `listings.photo_path` | column ✅ · upload ⏳ |
-| Day-7 freshness check → auto-pause at 48h | `day7_prompt_at`/`confirmed_at` + pg_cron Edge Function | columns ✅ · job ⏳ |
-| Per-campus meetup spots with use counts | `meetup_spots` | ✅ |
-| Saved searches + push | `saved_searches` | schema ✅ · push ⏳ |
-| Paragraph → listing | client parser today (`src/lib/parse.ts`); Edge Function later | client ✅ · function ⏳ |
-| Handoff-count confirmation loop | `threads.buyer_done`/`seller_done` + `profiles.handoffs` | columns ✅ · trigger ⏳ |
+## What is live
 
-## First-time setup (what you do)
+| Capability | Status |
+| --- | --- |
+| Google sign-in (LionMail), magic-link fallback | ✅ |
+| Campus isolation via RLS | ✅ |
+| Real profile: name, school email, joined, handoff count, hall | ✅ |
+| Board reads live listings + realtime updates | ✅ |
+| Empty states for a campus with nothing posted yet | ✅ |
+| Post: camera → Storage upload → listing insert | ✅ (needs the bucket, below) |
+| Claim → thread + 3-hour hold + opening message | ✅ |
+| Chat: real messages, realtime | ✅ |
+| Wanted posts: read, offer, create | ✅ |
+| Day-7 lifecycle buttons (still here / free / gone / relist) | ✅ |
+| Day-7 auto-pause on no answer | ⏳ needs pg_cron (below) |
+| Saved-search push notifications | ⏳ not built |
+| Handoff-count confirmation loop | ⏳ not built (see below) |
 
-1. **Create a Supabase project** at supabase.com (free tier is fine).
-2. **Run the migration.** Either:
-   - Supabase CLI: `supabase link --project-ref <ref>` then `supabase db push`, or
-   - paste `supabase/migrations/0001_init.sql` into the SQL editor and run it.
-3. **Seed the pilot campus** (SQL editor):
-   ```sql
-   with c as (
-     insert into campuses (name, slug) values ('Columbia', 'columbia') returning id
-   )
-   insert into campus_domains (domain, campus_id) select 'columbia.edu', id from c;
-   ```
-4. **Enable email auth**: Auth → Providers → Email (magic link / OTP is enough).
-5. **Create a public-read Storage bucket** named `listing-photos`.
-6. **Set env vars** in both places (values from Project Settings → API):
-   - local `.env` (copy `.env.example`)
-   - Vercel → Project → Settings → Environment Variables
-   ```
-   VITE_SUPABASE_URL=…
-   VITE_SUPABASE_ANON_KEY=…
-   ```
-7. Redeploy. `isBackendConfigured` in `src/lib/supabase.ts` flips to true.
+## Setup still to do in the dashboard
 
-Until step 6, the app runs on the in-memory seed data exactly as it does now, so
-the live prototype never breaks while the backend is being wired.
+Two things the app cannot do for itself:
 
-## Remaining wiring (the ⏳ rows — needs a live project to verify)
+**1. Photo storage.** Supabase → **Storage** → **New bucket** → name it exactly
+`listing-photos`, tick **Public bucket**, create. Until this exists, posting
+still works but silently drops the photo (by design — a missing bucket must
+never block a post).
 
-The current app keeps all state in `src/lib/useHandoff.ts` over the seed arrays
-in `src/data/`. The integration replaces those reads with Supabase queries,
-feature-flagged on `isBackendConfigured`:
+**2. Day-7 auto-pause.** Supabase → **Database** → **Extensions** → enable
+**pg_cron**, then run `supabase/migrations/0003_day7_check.sql` in the SQL
+editor. The lifecycle *buttons* already work without this; the cron is what
+pauses a listing whose owner never answers.
 
-1. **Auth on the Gate** — `supabase.auth.signInWithOtp({ email })`, gate the
-   input to campus domains, handle the read-only state on failed re-verify.
-2. **Board** — `select` from `listings` (status = active) with tab/query filters
-   and the viewer's building for distance; subscribe for live inserts.
-3. **Post** — upload the photo to Storage, run the parse, `insert` the listing.
-4. **Claim → Chat** — `insert` a thread (with `hold_expires_at = now() + 3h`),
-   seed the two messages, then a Realtime subscription on `messages`.
-5. **Day-7 lifecycle** — a scheduled Edge Function stamps `day7_prompt_at`, and
-   auto-pauses listings with no response after 48h.
-6. **Handoff loop** — when `buyer_done` and `seller_done` are both true, a
-   trigger releases the hold and increments both `profiles.handoffs`.
+## Migrations
 
-This is deliberately staged so it can be built and verified one screen at a time
-once the project exists. Hand me the project URL + anon key (and confirm the
-migration ran) and I'll wire it up and test each flow against live data.
+Run in order, in the SQL editor or via `supabase db push`:
+
+- `0001_init.sql` — schema + campus-isolation RLS. **Applied.**
+- `0002_harden_rls.sql` — RLS on the lookup tables, helper functions off the
+  public RPC surface. **Applied.**
+- `0003_day7_check.sql` — the day-7 job. *Pending (needs pg_cron).*
+
+Seeded once, after 0001:
+
+```sql
+with c as (
+  insert into campuses (name, slug) values ('Columbia', 'columbia') returning id
+)
+insert into campus_domains (domain, campus_id) select 'columbia.edu', id from c;
+```
+
+Adding another school is that same insert with a new name/slug/domain — the
+app needs no code change, and the two campuses cannot see each other.
+
+## Auth
+
+- **Google**: Supabase → Authentication → Providers → Google, with an OAuth
+  client whose redirect URI is
+  `https://gkqyaynukcrrewspekmf.supabase.co/auth/v1/callback`. The app passes
+  `hd=columbia.edu` to steer Google at the campus workspace.
+- **Site URL**: Authentication → URL Configuration → `https://handoff-bay-two.vercel.app`,
+  with `https://handoff-bay-two.vercel.app/**` in Redirect URLs.
+- The client uses the **implicit** flow so a magic link still completes when the
+  email opens it in a different browser than the one that asked for it.
+- Sign-up is gated server-side: `handle_new_user()` maps the email domain to a
+  campus and rejects anything not enrolled. The app shows that person a clear
+  "not a campus we run yet" screen.
+
+While the Google OAuth consent screen is in **Testing**, only accounts added as
+test users can sign in, and they see an "unverified app" interstitial. Publish
+the consent screen when you want the whole campus to be able to log in.
+
+## The next real piece of work
+
+The **handoff confirmation loop**: both people tap "handed off" in the thread,
+which releases the hold and increments both `profiles.handoffs`. The columns
+exist (`threads.buyer_done`, `threads.seller_done`), the UI does not. That count
+is the app's only reputation signal and its primary success metric — handoffs
+per week per building — so it is the thing worth building next.

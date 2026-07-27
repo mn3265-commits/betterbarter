@@ -73,16 +73,16 @@ src/
 
 ## Backend (Vercel + Supabase)
 
-The deployed app runs on in-memory seed data. Turning it into a real,
-persistent, multi-user marketplace is a Supabase job — Auth (verified school
-email), Postgres with campus-isolation row-level security, Realtime chat,
-Storage for photos, and Edge Functions for the day-7 cron and paragraph
-extraction. The Postgres schema and RLS are already written in
-`supabase/migrations/0001_init.sql`, and the client is in `src/lib/supabase.ts`
-(a no-op until env vars are set, so the prototype keeps working meanwhile).
+The app runs on a live Supabase backend: Google (LionMail) sign-in, a
+campus-isolated Postgres board enforced by row-level security, realtime chat,
+Storage for photos. Pushes to this branch auto-deploy to Vercel.
 
-See **[SUPABASE.md](./SUPABASE.md)** for the architecture, the spec-to-Supabase
-mapping, and the exact setup steps.
+See **[SUPABASE.md](./SUPABASE.md)** for the architecture, what is live, the
+two remaining dashboard steps (photo bucket + the day-7 cron), and how to add
+another campus.
+
+`?showcase` renders the original design walkthrough — phone frame, scope notes,
+seed data — with no account needed.
 
 ## Design system
 
