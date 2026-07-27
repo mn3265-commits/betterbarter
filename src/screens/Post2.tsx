@@ -1,4 +1,3 @@
-import { CAMPUS } from '../data/seed'
 import type { EditField } from '../data/types'
 import type { Handoff } from '../lib/useHandoff'
 
@@ -57,9 +56,16 @@ export function Post2({ h }: { h: Handoff }) {
 
       <div style={{ flex: 1, overflowY: 'auto', padding: '18px 16px' }}>
         <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
-          <div className="hatch-sm" style={{ width: 66, height: 66, flex: 'none', border: '1px solid var(--color-divider)' }} />
+          <div
+            className={h.photoPreview ? undefined : 'hatch-sm'}
+            style={{ width: 66, height: 66, flex: 'none', border: '1px solid var(--color-divider)', overflow: 'hidden' }}
+          >
+            {h.photoPreview && (
+              <img src={h.photoPreview} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'grayscale(1) contrast(1.08)' }} />
+            )}
+          </div>
           <div style={{ fontSize: 12, opacity: 0.65, textWrap: 'pretty' }}>
-            Goes to everyone at {CAMPUS}. People in Carman see it at the top.
+            Goes to everyone at {h.campusName || 'campus'}.{h.me.building ? ` People in ${h.me.building.split(' ')[0]} see it at the top.` : ''}
           </div>
         </div>
         <hr className="hr" />
@@ -146,6 +152,7 @@ export function Post2({ h }: { h: Handoff }) {
       <div style={{ borderTop: '2px solid var(--color-divider)', padding: '12px 16px 40px', background: 'var(--color-bg)' }}>
         <button
           onClick={h.publish}
+          disabled={h.busy}
           style={{
             width: '100%',
             border: 0,
@@ -159,7 +166,7 @@ export function Post2({ h }: { h: Handoff }) {
             cursor: 'pointer',
           }}
         >
-          Post to {CAMPUS}
+          {h.busy ? 'Posting…' : `Post to ${h.campusName || 'campus'}`}
         </button>
       </div>
     </div>

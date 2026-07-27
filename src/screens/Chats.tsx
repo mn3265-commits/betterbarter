@@ -3,13 +3,22 @@ import type { Handoff } from '../lib/useHandoff'
 
 /** Chats list — tab 4. One row per thread, or an empty state. */
 export function Chats({ h }: { h: Handoff }) {
-  const d0 = h.item(h.selId)
-  const hasThread = h.msgs.length > 0
-  const lastMsg = hasThread ? h.msgs[h.msgs.length - 1].text : ''
-  const initials = d0.seller
-    .split(' ')
-    .map((w) => w[0])
-    .join('')
+  // In demo mode there is one synthetic thread; live mode lists real ones.
+  const rows = h.live
+    ? h.threads
+    : h.msgs.length
+      ? [
+          {
+            id: 'demo',
+            otherName: h.item(h.selId).seller,
+            otherHandoffs: h.item(h.selId).handoffs,
+            listingTitle: h.item(h.selId).title,
+            spotName: h.spotLabel(),
+            pickupWindow: h.win,
+            lastMessage: h.msgs[h.msgs.length - 1].text,
+          },
+        ]
+      : []
 
   return (
     <div className="screen">
@@ -26,42 +35,53 @@ export function Chats({ h }: { h: Handoff }) {
       </div>
 
       <div style={{ flex: 1, overflowY: 'auto' }}>
-        {hasThread ? (
-          <div
-            onClick={h.jumpChat}
-            style={{
-              padding: '14px 16px',
-              borderBottom: '1px solid var(--color-divider)',
-              cursor: 'pointer',
-              display: 'flex',
-              gap: 12,
-              alignItems: 'center',
-            }}
-          >
-            <div
-              style={{
-                width: 42,
-                height: 42,
-                flex: 'none',
-                background: 'var(--color-neutral-300)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                fontFamily: 'var(--font-heading)',
-                fontWeight: 800,
-                color: 'var(--color-neutral-800)',
-              }}
-            >
-              {initials}
-            </div>
-            <div style={{ flex: 1, minWidth: 0 }}>
-              <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 800, fontSize: 15 }}>{d0.seller}</div>
-              <div style={{ fontSize: 12, opacity: 0.6, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                {lastMsg}
+        {rows.length > 0 ? (
+          rows.map((t) => {
+            const initials = t.otherName
+              .split(' ')
+              .filter(Boolean)
+              .map((w) => w[0])
+              .join('')
+              .slice(0, 2)
+            return (
+              <div
+                key={t.id}
+                onClick={() => (h.live ? h.openThread(t.id) : h.jumpChat())}
+                style={{
+                  padding: '14px 16px',
+                  borderBottom: '1px solid var(--color-divider)',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  gap: 12,
+                  alignItems: 'center',
+                }}
+              >
+                <div
+                  style={{
+                    width: 42,
+                    height: 42,
+                    flex: 'none',
+                    background: 'var(--color-neutral-300)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontFamily: 'var(--font-heading)',
+                    fontWeight: 800,
+                    color: 'var(--color-neutral-800)',
+                  }}
+                >
+                  {initials}
+                </div>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 800, fontSize: 15 }}>{t.otherName}</div>
+                  <div style={{ fontSize: 12, opacity: 0.6, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                    {t.lastMessage || t.spotName}
+                  </div>
+                </div>
+                <div style={{ width: 8, height: 8, background: 'var(--color-accent)', flex: 'none' }} />
               </div>
-            </div>
-            <div style={{ width: 8, height: 8, background: 'var(--color-accent)', flex: 'none' }} />
-          </div>
+            )
+          })
         ) : (
           <div style={{ padding: '40px 22px', textAlign: 'left' }}>
             <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 800, fontSize: 20, lineHeight: 1.15 }}>Nothing yet.</div>

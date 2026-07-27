@@ -1,15 +1,15 @@
 import type { RealtimeChannel } from '@supabase/supabase-js'
-import type { Item, Message, Tab } from '../data/types'
+import type { CampusSpot, Item, ListingStatus, Message, ThreadSummary, Wanted } from '../data/types'
 import { supabase } from './supabase'
 
 /**
- * Supabase-backed data layer. Every function assumes the caller has already
- * checked `isBackendConfigured` (so `supabase` is non-null). Row-level security
- * scopes all of this to the signed-in user's campus — see the migrations.
+ * Supabase-backed data layer. Row-level security scopes every read to the
+ * signed-in user's campus (see supabase/migrations), so none of these queries
+ * filter by campus themselves except where a write needs the id.
  *
- * This module maps database rows to the app's existing view types (`Item`,
- * `Message`) so the screens do not need to change shape when they switch from
- * seed data to live data.
+ * Joins are done in JS rather than with PostgREST embeds: one query for the
+ * rows, one for the related profiles. It costs a round trip but does not depend
+ * on foreign-key constraint naming, which makes it far harder to break.
  */
 
 function db() {
@@ -17,7 +17,48 @@ function db() {
   return supabase
 }
 
-// ── shapes coming back from Postgres ──────────────────────────────────────────
+const PHOTO_BUCKET = 'listing-photos'
+
+/** "just now" / "18m" / "3h" / "2d" — a compact age from a timestamp. */
+export function ago(iso: string): string {
+  const secs = Math.max(0, Math.floor((Date.now() - new Date(iso).getTime()) / 1000))
+  if (secs < 90) return 'just now'
+  const mins = Math.floor(secs / 60)
+  if (mins < 60) return mins + 'm'
+  const hrs = Math.floor(mins / 60)
+  if (hrs < 24) return hrs + 'h'
+  return Math.floor(hrs / 24) + 'd'
+}
+
+function daysSince(iso: string): number {
+  return Math.floor((Date.now() - new Date(iso).getTime()) / 86_400_000)
+}
+
+/** A stable positive int derived from a uuid, so existing screens can keep
+ *  using numeric ids as keys. */
+export function numId(uuid: string): number {
+  let h = 0
+  for (let i = 0; i < uuid.length; i++) h = (h * 31 + uuid.charCodeAt(i)) | 0
+  return Math.abs(h)
+}
+
+function monthYear(iso: string | null): string {
+  if (!iso) return ''
+  return new Date(iso).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })
+}
+
+export function initialsOf(name: string): string {
+  return name
+    .split(' ')
+    .filter(Boolean)
+    .map((w) => w[0])
+    .join('')
+    .slice(0, 2)
+    .toUpperCase()
+}
+
+// ── rows ──────────────────────────────────────────────────────────────────────
+
 interface ListingRow {
   id: string
   seller_id: string
@@ -29,39 +70,39 @@ interface ListingRow {
   condition: string
   building: string | null
   spot_name: string
-  status: 'active' | 'paused' | 'gone'
+  status: ListingStatus
+  photo_path: string | null
   created_at: string
   confirmed_at: string | null
-  day7_prompt_at: string | null
-  seller?: { name: string; handoffs: number; joined_at: string } | null
 }
 
-/** "18m" / "3h" / "2d" — a compact age from a timestamp. */
-export function ago(iso: string): string {
-  const secs = Math.max(0, Math.floor((Date.now() - new Date(iso).getTime()) / 1000))
-  if (secs < 60) return 'just now'
-  const mins = Math.floor(secs / 60)
-  if (mins < 60) return mins + 'm'
-  const hrs = Math.floor(mins / 60)
-  if (hrs < 24) return hrs + 'h'
-  return Math.floor(hrs / 24) + 'd'
+interface ProfileRow {
+  id: string
+  name: string
+  handoffs: number
+  joined_at: string | null
 }
 
-/** A stable positive int id derived from a listing uuid, for the seed-shaped Item. */
-function numId(uuid: string): number {
-  let h = 0
-  for (let i = 0; i < uuid.length; i++) h = (h * 31 + uuid.charCodeAt(i)) | 0
-  return Math.abs(h)
+async function profilesByIds(ids: string[]): Promise<Map<string, ProfileRow>> {
+  const unique = Array.from(new Set(ids)).filter(Boolean)
+  const map = new Map<string, ProfileRow>()
+  if (!unique.length) return map
+  const { data } = await db().from('profiles').select('id, name, handoffs, joined_at').in('id', unique)
+  for (const p of (data ?? []) as ProfileRow[]) map.set(p.id, p)
+  return map
 }
 
-const uuidById = new Map<number, string>()
+export function photoUrl(path: string | null): string | null {
+  if (!path) return null
+  return db().storage.from(PHOTO_BUCKET).getPublicUrl(path).data.publicUrl
+}
 
-/** Map a DB row to the app's `Item`, remembering the uuid behind the numeric id. */
-function toItem(r: ListingRow): Item {
-  const id = numId(r.id)
-  uuidById.set(id, r.id)
+function toItem(r: ListingRow, seller: ProfileRow | undefined, meId: string | null): Item {
+  // The freshness clock restarts whenever the owner confirms the listing.
+  const clock = r.confirmed_at ?? r.created_at
   return {
-    id,
+    id: numId(r.id),
+    uuid: r.id,
     free: r.is_free,
     price: r.price ?? undefined,
     title: r.title,
@@ -69,119 +110,147 @@ function toItem(r: ListingRow): Item {
     cond: r.condition,
     loc: r.building ?? '',
     ago: ago(r.created_at),
-    seller: r.seller?.name ?? 'Someone',
-    handoffs: r.seller?.handoffs ?? 0,
-    since: r.seller?.joined_at ? new Date(r.seller.joined_at).toLocaleDateString('en-US', { month: 'short', year: 'numeric' }) : '',
+    seller: seller?.name ?? 'Someone on campus',
+    sellerId: r.seller_id,
+    handoffs: seller?.handoffs ?? 0,
+    since: monthYear(seller?.joined_at ?? null),
     spot: r.spot_name,
     desc: r.description,
+    photoUrl: photoUrl(r.photo_path),
+    status: r.status,
+    ageDays: daysSince(clock),
+    mine: meId != null && r.seller_id === meId,
   }
 }
 
-/** Recover the real listing uuid for an app-side numeric id. */
-export function listingUuid(id: number): string | undefined {
-  return uuidById.get(id)
+// ── campus ────────────────────────────────────────────────────────────────────
+
+export async function fetchCampusName(): Promise<string> {
+  const { data } = await db().from('campuses').select('name').limit(1).maybeSingle()
+  return (data as { name: string } | null)?.name ?? 'campus'
 }
 
-// ── auth ──────────────────────────────────────────────────────────────────────
-
-/** Send a magic-link / OTP to a school email. Sign-up is gated to enrolled
- *  campus domains by the handle_new_user() trigger. */
-export async function signInWithEmail(email: string) {
-  const { error } = await db().auth.signInWithOtp({
-    email,
-    options: { emailRedirectTo: window.location.origin },
-  })
-  if (error) throw error
+export async function fetchSpots(): Promise<CampusSpot[]> {
+  const { data } = await db().from('meetup_spots').select('name, uses').order('uses', { ascending: false })
+  return (data ?? []) as CampusSpot[]
 }
 
-export async function signOut() {
-  await db().auth.signOut()
-}
-
-export async function currentUserId(): Promise<string | null> {
-  const { data } = await db().auth.getUser()
-  return data.user?.id ?? null
+/** Record that a spot was used, creating it the first time. This is how the
+ *  per-campus spot list builds itself out of real handoffs. */
+export async function bumpSpot(campusId: string, name: string): Promise<void> {
+  const clean = name.trim()
+  if (!clean) return
+  const { data } = await db().from('meetup_spots').select('id, uses').eq('name', clean).maybeSingle()
+  const row = data as { id: string; uses: number } | null
+  if (row) await db().from('meetup_spots').update({ uses: row.uses + 1 }).eq('id', row.id)
+  else await db().from('meetup_spots').insert({ campus_id: campusId, name: clean, uses: 1 })
 }
 
 // ── board ─────────────────────────────────────────────────────────────────────
 
-const SELLER_JOIN = 'seller:profiles!listings_seller_id_fkey (name, handoffs, joined_at)'
+const LISTING_COLS =
+  'id, seller_id, title, description, is_free, price, category, condition, building, spot_name, status, photo_path, created_at, confirmed_at'
 
-/** The live board for a tab, newest first. RLS already limits it to the campus
- *  and to active listings (plus the viewer's own). */
-export async function fetchBoard(tab: Tab, query: string): Promise<Item[]> {
-  let q = db()
+/** Everything the viewer may see: active listings on their campus, plus their
+ *  own paused/gone ones (RLS enforces both). */
+export async function fetchListings(meId: string | null): Promise<Item[]> {
+  const { data, error } = await db()
     .from('listings')
-    .select(`id, seller_id, title, description, is_free, price, category, condition, building, spot_name, status, created_at, confirmed_at, day7_prompt_at, ${SELLER_JOIN}`)
-    .eq('status', 'active')
+    .select(LISTING_COLS)
     .order('created_at', { ascending: false })
-
-  if (tab === 'free') q = q.eq('is_free', true)
-  else if (tab === 'sale') q = q.eq('is_free', false)
-
-  const { data, error } = await q
   if (error) throw error
-  const rows = (data ?? []) as unknown as ListingRow[]
-  const needle = query.trim().toLowerCase()
-  return rows
-    .map(toItem)
-    .filter((it) => !needle || (it.title + ' ' + it.cat).toLowerCase().includes(needle))
+  const rows = (data ?? []) as ListingRow[]
+  const profiles = await profilesByIds(rows.map((r) => r.seller_id))
+  return rows.map((r) => toItem(r, profiles.get(r.seller_id), meId))
+}
+
+export async function fetchWanted(): Promise<Wanted[]> {
+  const { data } = await db()
+    .from('wanted_posts')
+    .select('id, author_id, title, created_at')
+    .order('created_at', { ascending: false })
+  const rows = (data ?? []) as { id: string; author_id: string; title: string; created_at: string }[]
+  const profiles = await profilesByIds(rows.map((r) => r.author_id))
+  return rows.map((r) => ({
+    id: numId(r.id),
+    uuid: r.id,
+    authorId: r.author_id,
+    title: r.title,
+    who: profiles.get(r.author_id)?.name ?? 'Someone',
+    ago: ago(r.created_at),
+    handoffs: profiles.get(r.author_id)?.handoffs ?? 0,
+  }))
+}
+
+export async function createWanted(campusId: string, authorId: string, title: string): Promise<void> {
+  const { error } = await db().from('wanted_posts').insert({ campus_id: campusId, author_id: authorId, title })
+  if (error) throw error
 }
 
 // ── posting ───────────────────────────────────────────────────────────────────
 
+/** Upload a listing photo. Returns null (rather than throwing) if Storage is not
+ *  set up yet, so a missing bucket can never block someone from posting. */
+export async function uploadPhoto(file: File, userId: string): Promise<string | null> {
+  const ext = file.name.split('.').pop() || 'jpg'
+  const path = `${userId}/${crypto.randomUUID()}.${ext}`
+  const { error } = await db().storage.from(PHOTO_BUCKET).upload(path, file, {
+    cacheControl: '3600',
+    upsert: false,
+    contentType: file.type || 'image/jpeg',
+  })
+  if (error) {
+    console.warn('[handoff] photo upload skipped:', error.message)
+    return null
+  }
+  return path
+}
+
 export interface NewListing {
+  campusId: string
+  sellerId: string
   title: string
   free: boolean
-  price: number | null
+  price: number
   category: string
   condition: string
   spotName: string
   building: string
   description: string
-  photoPath?: string
+  photoPath: string | null
 }
 
-export async function createListing(input: NewListing, campusId: string, sellerId: string): Promise<void> {
-  const { error } = await db()
-    .from('listings')
-    .insert({
-      campus_id: campusId,
-      seller_id: sellerId,
-      title: input.title,
-      description: input.description,
-      is_free: input.free,
-      price: input.free ? null : input.price,
-      category: input.category,
-      condition: input.condition,
-      building: input.building,
-      spot_name: input.spotName,
-      photo_path: input.photoPath ?? null,
-    })
+export async function createListing(input: NewListing): Promise<void> {
+  const { error } = await db().from('listings').insert({
+    campus_id: input.campusId,
+    seller_id: input.sellerId,
+    title: input.title,
+    description: input.description,
+    is_free: input.free,
+    price: input.free ? null : input.price,
+    category: input.category,
+    condition: input.condition,
+    building: input.building || null,
+    spot_name: input.spotName,
+    photo_path: input.photoPath,
+  })
   if (error) throw error
-}
-
-/** Upload a listing photo to the public `listing-photos` bucket; returns its path. */
-export async function uploadPhoto(file: File, userId: string): Promise<string> {
-  const path = `${userId}/${crypto.randomUUID()}-${file.name}`
-  const { error } = await db().storage.from('listing-photos').upload(path, file)
-  if (error) throw error
-  return path
 }
 
 // ── claim → thread → chat ─────────────────────────────────────────────────────
 
-/** Create the thread on claim, seed the two opening messages, start the 3-hour
- *  hold, and return the thread id. */
-export async function claim(args: {
-  listingUuid: string
+/** Create the thread on claim, start the 3-hour hold, and post the opening
+ *  message. Only the buyer's own message is inserted — RLS (correctly) forbids
+ *  writing a message as the other person, so the seller's reply is real or not
+ *  at all. */
+export async function claimListing(args: {
+  listingUuid: string | null
   campusId: string
   buyerId: string
   sellerId: string
   spotName: string
   pickupWindow: string
-  buyerText: string
-  sellerText: string
+  openingMessage: string
 }): Promise<string> {
   const holdExpires = new Date(Date.now() + 3 * 60 * 60 * 1000).toISOString()
   const { data, error } = await db()
@@ -199,16 +268,61 @@ export async function claim(args: {
     .single()
   if (error) throw error
   const threadId = (data as { id: string }).id
-  await db().from('messages').insert([
-    { thread_id: threadId, sender_id: args.buyerId, body: args.buyerText },
-    { thread_id: threadId, sender_id: args.sellerId, body: args.sellerText },
-  ])
+  await sendMessage(threadId, args.buyerId, args.openingMessage)
   return threadId
 }
 
-export async function sendMessage(threadId: string, senderId: string, body: string): Promise<void> {
-  const { error } = await db().from('messages').insert({ thread_id: threadId, sender_id: senderId, body })
-  if (error) throw error
+interface ThreadRow {
+  id: string
+  listing_id: string | null
+  buyer_id: string
+  seller_id: string
+  spot_name: string
+  pickup_window: string
+  created_at: string
+}
+
+export async function fetchThreads(meId: string): Promise<ThreadSummary[]> {
+  const { data } = await db()
+    .from('threads')
+    .select('id, listing_id, buyer_id, seller_id, spot_name, pickup_window, created_at')
+    .order('created_at', { ascending: false })
+  const rows = (data ?? []) as ThreadRow[]
+  if (!rows.length) return []
+
+  const others = rows.map((t) => (t.buyer_id === meId ? t.seller_id : t.buyer_id))
+  const profiles = await profilesByIds(others)
+
+  const listingIds = rows.map((t) => t.listing_id).filter((x): x is string => Boolean(x))
+  const titles = new Map<string, string>()
+  if (listingIds.length) {
+    const { data: ls } = await db().from('listings').select('id, title').in('id', listingIds)
+    for (const l of (ls ?? []) as { id: string; title: string }[]) titles.set(l.id, l.title)
+  }
+
+  const { data: msgs } = await db()
+    .from('messages')
+    .select('thread_id, body, created_at')
+    .in('thread_id', rows.map((t) => t.id))
+    .order('created_at', { ascending: false })
+  const last = new Map<string, string>()
+  for (const m of (msgs ?? []) as { thread_id: string; body: string }[]) {
+    if (!last.has(m.thread_id)) last.set(m.thread_id, m.body)
+  }
+
+  return rows.map((t) => {
+    const otherId = t.buyer_id === meId ? t.seller_id : t.buyer_id
+    const p = profiles.get(otherId)
+    return {
+      id: t.id,
+      otherName: p?.name ?? 'Someone on campus',
+      otherHandoffs: p?.handoffs ?? 0,
+      listingTitle: t.listing_id ? (titles.get(t.listing_id) ?? '') : '',
+      spotName: t.spot_name,
+      pickupWindow: t.pickup_window,
+      lastMessage: last.get(t.id) ?? '',
+    }
+  })
 }
 
 export async function fetchMessages(threadId: string, meId: string): Promise<Message[]> {
@@ -218,31 +332,46 @@ export async function fetchMessages(threadId: string, meId: string): Promise<Mes
     .eq('thread_id', threadId)
     .order('created_at', { ascending: true })
   if (error) throw error
-  return (data ?? []).map((m, i) => ({
-    id: i + 1,
-    who: (m as { sender_id: string }).sender_id === meId ? 'me' : 'them',
-    text: (m as { body: string }).body,
-  }))
+  return (data ?? []).map((m) => {
+    const row = m as { id: string; sender_id: string; body: string }
+    return { id: numId(row.id), who: row.sender_id === meId ? 'me' : 'them', text: row.body }
+  })
 }
 
-/** Live-subscribe to new messages on a thread. Returns the channel so the caller
- *  can unsubscribe. */
-export function subscribeMessages(threadId: string, onInsert: (m: { sender_id: string; body: string }) => void): RealtimeChannel {
-  const channel = db()
+export async function sendMessage(threadId: string, senderId: string, body: string): Promise<void> {
+  const text = body.trim()
+  if (!text) return
+  const { error } = await db().from('messages').insert({ thread_id: threadId, sender_id: senderId, body: text })
+  if (error) throw error
+}
+
+/** Live-subscribe to new messages on a thread. */
+export function subscribeMessages(threadId: string, onInsert: () => void): RealtimeChannel {
+  return db()
     .channel(`messages:${threadId}`)
     .on(
       'postgres_changes',
       { event: 'INSERT', schema: 'public', table: 'messages', filter: `thread_id=eq.${threadId}` },
-      (payload) => onInsert(payload.new as { sender_id: string; body: string }),
+      () => onInsert(),
     )
     .subscribe()
-  return channel
 }
 
-// ── day-7 lifecycle ───────────────────────────────────────────────────────────
+/** Live-subscribe to the campus board. */
+export function subscribeListings(onChange: () => void): RealtimeChannel {
+  return db()
+    .channel('listings:board')
+    .on('postgres_changes', { event: '*', schema: 'public', table: 'listings' }, () => onChange())
+    .subscribe()
+}
 
-export async function setListingStatus(uuid: string, status: 'active' | 'paused' | 'gone'): Promise<void> {
-  const { error } = await db().from('listings').update({ status }).eq('id', uuid)
+// ── lifecycle ─────────────────────────────────────────────────────────────────
+
+export async function setListingStatus(uuid: string, status: ListingStatus): Promise<void> {
+  const patch: Record<string, unknown> = { status }
+  // Relisting re-dates the listing so the day-7 clock starts over.
+  if (status === 'active') patch.confirmed_at = new Date().toISOString()
+  const { error } = await db().from('listings').update(patch).eq('id', uuid)
   if (error) throw error
 }
 
@@ -255,6 +384,23 @@ export async function confirmStillHere(uuid: string): Promise<void> {
 }
 
 export async function makeListingFree(uuid: string): Promise<void> {
-  const { error } = await db().from('listings').update({ is_free: true, price: null }).eq('id', uuid)
+  const { error } = await db()
+    .from('listings')
+    .update({ is_free: true, price: null, confirmed_at: new Date().toISOString() })
+    .eq('id', uuid)
+  if (error) throw error
+}
+
+// ── profile ───────────────────────────────────────────────────────────────────
+
+export async function updateBuilding(userId: string, building: string): Promise<void> {
+  const { error } = await db().from('profiles').update({ building: building.trim() || null }).eq('id', userId)
+  if (error) throw error
+}
+
+export async function updateName(userId: string, name: string): Promise<void> {
+  const clean = name.trim()
+  if (!clean) return
+  const { error } = await db().from('profiles').update({ name: clean }).eq('id', userId)
   if (error) throw error
 }

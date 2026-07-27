@@ -1,10 +1,14 @@
 import { ChevronRight } from 'lucide-react'
+import { Photo } from '../components/Photo'
 import { TabBar } from '../components/TabBar'
-import { ITEMS, WANTED } from '../data/seed'
 import type { Item } from '../data/types'
 import type { Handoff } from '../lib/useHandoff'
 
-function walkTime(loc: string): string {
+/** Walk time from the viewer's own hall. Same building = same door. */
+function walkTime(loc: string, myBuilding: string): string {
+  if (!loc) return 'on campus'
+  const hall = (s: string) => s.split(' ')[0].toLowerCase()
+  if (myBuilding && hall(loc) === hall(myBuilding)) return '1 min'
   if (loc.startsWith('Carman')) return '1 min'
   if (loc.startsWith('John Jay')) return '4 min'
   if (loc.startsWith('Wallach')) return '6 min'
@@ -16,11 +20,11 @@ export function Board({ h }: { h: Handoff }) {
   const q = h.q.trim().toLowerCase()
   const pool = h
     .all()
-    .filter((it) => (h.tab === 'free' ? h.isFree(it) : !h.isFree(it)) && !h.isPaused(it))
+    .filter((it) => (h.live ? it.status === 'active' : !h.isPaused(it)))
+    .filter((it) => (h.tab === 'free' ? h.isFree(it) : !h.isFree(it)))
   const cards = pool.filter((it) => !q || (it.title + ' ' + it.cat).toLowerCase().includes(q))
-
-  // The two demo listings that can go stale (day-7 freshness check).
-  const staleMine = [ITEMS[6], ITEMS[7]].filter((it) => h.isStale(it))
+  const staleMine = h.staleListings
+  const campus = h.campusName || 'campus'
 
   return (
     <div className="screen">
@@ -55,9 +59,9 @@ export function Board({ h }: { h: Handoff }) {
             lineHeight: 1.25,
           }}
         >
-          Columbia
+          {campus}
           <br />
-          <span style={{ opacity: 0.7 }}>All halls</span>
+          <span style={{ opacity: 0.7 }}>{h.me.building || 'All halls'}</span>
         </div>
       </div>
 
@@ -65,7 +69,7 @@ export function Board({ h }: { h: Handoff }) {
         {/* count line */}
         <div style={{ padding: '12px 16px 0', display: 'flex', alignItems: 'baseline', gap: 8 }}>
           <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 800, fontSize: 26, letterSpacing: '-.02em' }}>
-            {h.liveCount} live
+            {h.loadingBoard ? '—' : h.liveCount} live
           </div>
           <div style={{ fontSize: 12, opacity: 0.6 }}>across campus · closest to you first</div>
         </div>
@@ -86,14 +90,7 @@ export function Board({ h }: { h: Handoff }) {
             }}
           >
             <div style={{ flex: 1 }}>
-              <div
-                style={{
-                  fontFamily: 'var(--font-heading)',
-                  fontWeight: 800,
-                  fontSize: 13.5,
-                  color: 'var(--color-accent-800)',
-                }}
-              >
+              <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 800, fontSize: 13.5, color: 'var(--color-accent-800)' }}>
                 {staleMine.length} of your listings passed a week
               </div>
               <div style={{ fontSize: 11.5, color: 'var(--color-accent-800)', opacity: 0.8 }}>
@@ -176,37 +173,71 @@ export function Board({ h }: { h: Handoff }) {
               Wanted posts run the board in reverse: buyers say what they need, and the board stays full even when the
               shelves are empty.
             </p>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 2, background: 'var(--color-divider)' }}>
-              {WANTED.map((w) => (
-                <div
-                  key={w.id}
-                  style={{ background: 'var(--color-bg)', padding: '12px 0', display: 'flex', alignItems: 'center', gap: 12 }}
-                >
-                  <div style={{ flex: 1 }}>
-                    <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 800, fontSize: 15 }}>{w.title}</div>
-                    <div style={{ fontSize: 11, opacity: 0.6, marginTop: 2 }}>
-                      {w.who} · {w.handoffs} handoffs · {w.ago}
+
+            {h.wanted.length > 0 ? (
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 2, background: 'var(--color-divider)' }}>
+                {h.wanted.map((w) => (
+                  <div
+                    key={w.id}
+                    style={{ background: 'var(--color-bg)', padding: '12px 0', display: 'flex', alignItems: 'center', gap: 12 }}
+                  >
+                    <div style={{ flex: 1 }}>
+                      <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 800, fontSize: 15 }}>{w.title}</div>
+                      <div style={{ fontSize: 11, opacity: 0.6, marginTop: 2 }}>
+                        {w.who} · {w.handoffs} handoffs · {w.ago}
+                      </div>
                     </div>
+                    <button onClick={() => h.offerWanted(w)} className="btn btn-secondary" style={{ flex: 'none' }}>
+                      I have one
+                    </button>
                   </div>
-                  <button onClick={() => h.offerWanted(w.title, w.who)} className="btn btn-secondary" style={{ flex: 'none' }}>
-                    I have one
-                  </button>
-                </div>
-              ))}
+                ))}
+              </div>
+            ) : (
+              <div style={{ fontSize: 13, opacity: 0.6, textWrap: 'pretty' }}>
+                Nobody has asked for anything yet. Say what you need and the board works for you.
+              </div>
+            )}
+
+            {/* compose a wanted post */}
+            <div className="field" style={{ marginTop: 16 }}>
+              <label>What do you need?</label>
+              <input
+                className="input"
+                placeholder="Box fan — under $15"
+                value={h.wantedDraft}
+                onChange={(e) => h.setWantedDraft(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') h.postWanted()
+                }}
+              />
             </div>
-            <button onClick={h.startPost} className="btn btn-ghost" style={{ marginTop: 14 }}>
-              Post what you need →
+            <button
+              onClick={h.postWanted}
+              disabled={!h.wantedDraft.trim()}
+              className="btn btn-primary"
+              style={{ marginTop: 8, opacity: h.wantedDraft.trim() ? 1 : 0.45 }}
+            >
+              Post what you need
             </button>
           </div>
         )}
 
         {/* item grid (Free / For sale) */}
         {h.tab !== 'wanted' && (
-          <div style={{ padding: '16px 16px 0', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
-            {cards.map((it) => (
-              <ItemCard key={it.id} it={it} h={h} walk={walkTime(it.loc)} />
-            ))}
-          </div>
+          <>
+            {h.loadingBoard ? (
+              <div style={{ padding: '24px 16px', fontSize: 13, opacity: 0.55 }}>Loading the board…</div>
+            ) : cards.length === 0 ? (
+              <EmptyBoard h={h} />
+            ) : (
+              <div style={{ padding: '16px 16px 0', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
+                {cards.map((it) => (
+                  <ItemCard key={it.id} it={it} h={h} walk={walkTime(it.loc, h.me.building)} />
+                ))}
+              </div>
+            )}
+          </>
         )}
       </div>
 
@@ -215,27 +246,32 @@ export function Board({ h }: { h: Handoff }) {
   )
 }
 
+function EmptyBoard({ h }: { h: Handoff }) {
+  const searching = h.q.trim().length > 0
+  return (
+    <div style={{ padding: '32px 16px 0' }}>
+      <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 800, fontSize: 20, lineHeight: 1.15 }}>
+        {searching ? 'Nothing matches that.' : h.tab === 'free' ? 'Nothing free yet.' : 'Nothing for sale yet.'}
+      </div>
+      <p style={{ fontSize: 13.5, opacity: 0.65, margin: '8px 0 16px', textWrap: 'pretty' }}>
+        {searching
+          ? 'Try a shorter word, or save it as a search and get pinged when one shows up.'
+          : 'The board fills up when someone posts. Be the first — a photo and one sentence is the whole thing.'}
+      </p>
+      {!searching && (
+        <button onClick={h.startPost} className="btn btn-primary">
+          Post the first thing
+        </button>
+      )}
+    </div>
+  )
+}
+
 function ItemCard({ it, h, walk }: { it: Item; h: Handoff; walk: string }) {
   const isGone = h.gone.includes(it.id)
   return (
-    <div
-      onClick={() => h.openDetail(it.id)}
-      style={{ cursor: 'pointer', display: 'flex', flexDirection: 'column', gap: 7 }}
-    >
-      <div
-        className="hatch-sm"
-        style={{
-          height: 118,
-          border: '1px solid var(--color-divider)',
-          position: 'relative',
-          display: 'flex',
-          alignItems: 'flex-end',
-          padding: 7,
-        }}
-      >
-        <span style={{ fontSize: 8, letterSpacing: '.12em', textTransform: 'uppercase', color: 'var(--color-neutral-700)' }}>
-          {it.cat} · {it.loc}
-        </span>
+    <div onClick={() => h.openDetail(it.id)} style={{ cursor: 'pointer', display: 'flex', flexDirection: 'column', gap: 7 }}>
+      <Photo url={it.photoUrl} caption={[it.cat, it.loc].filter(Boolean).join(' · ')} height={118}>
         {isGone && (
           <div
             style={{
@@ -255,7 +291,7 @@ function ItemCard({ it, h, walk }: { it: Item; h: Handoff; walk: string }) {
             GONE
           </div>
         )}
-      </div>
+      </Photo>
       <div style={{ display: 'flex', alignItems: 'baseline', gap: 6 }}>
         <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 800, fontSize: 13, color: 'var(--color-accent-700)' }}>
           {h.priceOf(it)}
@@ -263,9 +299,7 @@ function ItemCard({ it, h, walk }: { it: Item; h: Handoff; walk: string }) {
         <div style={{ fontSize: 10, opacity: 0.55, marginLeft: 'auto' }}>{it.ago}</div>
       </div>
       <div style={{ fontSize: 13, lineHeight: 1.25 }}>{it.title}</div>
-      <div style={{ fontSize: 10.5, opacity: 0.55 }}>
-        {it.loc} · {walk} walk
-      </div>
+      <div style={{ fontSize: 10.5, opacity: 0.55 }}>{it.loc ? `${it.loc} · ${walk} walk` : 'On campus'}</div>
     </div>
   )
 }

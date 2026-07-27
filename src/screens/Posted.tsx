@@ -7,7 +7,7 @@ export function Posted({ h }: { h: Handoff }) {
       className="screen"
       style={{ background: 'var(--color-accent)', color: 'var(--color-bg)', padding: '74px 26px 46px' }}
     >
-      <div style={{ fontSize: 10, letterSpacing: '.16em', textTransform: 'uppercase', opacity: 0.85 }}>Live at Columbia</div>
+      <div style={{ fontSize: 10, letterSpacing: '.16em', textTransform: 'uppercase', opacity: 0.85 }}>{`Live at ${h.campusName || 'your campus'}`}</div>
       <div style={{ height: 2, background: 'var(--color-bg)', opacity: 0.5, margin: '14px 0 22px' }} />
       <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 800, fontSize: 44, lineHeight: 0.98, letterSpacing: '-.025em' }}>
         {h.postedTitle}

@@ -1,14 +1,31 @@
+import { useEffect, useState } from 'react'
+import { Photo } from '../components/Photo'
 import { Switch } from '../components/Switch'
 import { TabBar } from '../components/TabBar'
-import { ITEMS, ME } from '../data/seed'
-import type { Item } from '../data/types'
 import type { Handoff } from '../lib/useHandoff'
 
 /** Me — tab 5. Identity, the day-7 decisions, paused items, listings, toggles. */
 export function Me({ h }: { h: Handoff }) {
-  const staleMine = [ITEMS[6], ITEMS[7]].filter((it) => h.isStale(it))
-  const paused = [ITEMS[7]].filter((it) => h.isPaused(it))
-  const mine: Item[] = h.extra.concat([ITEMS[1], ITEMS[7]])
+  const staleMine = h.staleListings
+  const paused = h.pausedListings
+  const mine = h.myListings
+
+  const [name, setName] = useState(h.me.name)
+  const [building, setBuilding] = useState(h.me.building)
+  const [editing, setEditing] = useState(false)
+
+  useEffect(() => {
+    setName(h.me.name)
+    setBuilding(h.me.building)
+  }, [h.me.name, h.me.building])
+
+  const needsBuilding = h.live && !h.me.building
+
+  function saveProfile() {
+    if (name.trim() && name.trim() !== h.me.name) h.setDisplayName(name)
+    if (building.trim() !== h.me.building) h.setBuilding(building)
+    setEditing(false)
+  }
 
   return (
     <div className="screen">
@@ -37,20 +54,60 @@ export function Me({ h }: { h: Handoff }) {
               color: 'var(--color-neutral-800)',
             }}
           >
-            {ME.initials}
+            {h.me.initials}
           </div>
-          <div>
-            <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 800, fontSize: 19 }}>{ME.name}</div>
-            <div style={{ fontSize: 12, opacity: 0.65, marginTop: 2 }}>
-              {ME.email} · joined {ME.since}
+          <div style={{ flex: 1, minWidth: 0 }}>
+            <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 800, fontSize: 19 }}>{h.me.name}</div>
+            <div style={{ fontSize: 12, opacity: 0.65, marginTop: 2, wordBreak: 'break-all' }}>
+              {h.me.email}
+              {h.me.since ? ` · joined ${h.me.since}` : ''}
             </div>
             <div style={{ display: 'flex', gap: 6, marginTop: 8, flexWrap: 'wrap' }}>
-              <span className="tag tag-accent">{ME.handoffs} handoffs</span>
-              <span className="tag tag-neutral">{ME.noShows} no-shows</span>
-              <span className="tag tag-outline">{ME.building}</span>
+              <span className="tag tag-accent">{h.me.handoffs} handoffs</span>
+              <span className="tag tag-neutral">{h.me.noShows} no-shows</span>
+              {h.me.building && <span className="tag tag-outline">{h.me.building}</span>}
             </div>
+            {h.live && (
+              <button onClick={() => setEditing((v) => !v)} className="btn btn-ghost" style={{ fontSize: 12, marginTop: 8, paddingInline: 0 }}>
+                {editing ? 'Cancel' : 'Edit profile'}
+              </button>
+            )}
           </div>
         </div>
+
+        {/* first-run: which hall are you in */}
+        {(needsBuilding || editing) && (
+          <div style={{ padding: 16, borderBottom: '2px solid var(--color-divider)' }}>
+            <h6 style={{ margin: '0 0 10px', color: needsBuilding ? 'var(--color-accent-700)' : undefined }}>
+              {needsBuilding ? 'One thing first' : 'Your details'}
+            </h6>
+            {needsBuilding && (
+              <p style={{ fontSize: 12.5, opacity: 0.7, margin: '0 0 12px', textWrap: 'pretty' }}>
+                Which hall are you in? It sorts the board by walking distance and shows on your listings. Never a room
+                number — just the building.
+              </p>
+            )}
+            <div className="field">
+              <label>Your name, as people will see it</label>
+              <input className="input" value={name} onChange={(e) => setName(e.target.value)} placeholder="Alex M." />
+            </div>
+            <div className="field" style={{ marginTop: 10 }}>
+              <label>Your hall</label>
+              <input
+                className="input"
+                value={building}
+                onChange={(e) => setBuilding(e.target.value)}
+                placeholder="Carman"
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') saveProfile()
+                }}
+              />
+            </div>
+            <button onClick={saveProfile} className="btn btn-primary" style={{ marginTop: 12 }}>
+              Save
+            </button>
+          </div>
+        )}
 
         {/* needs a decision (day-7) */}
         {staleMine.length > 0 && (
@@ -68,7 +125,7 @@ export function Me({ h }: { h: Handoff }) {
                     <div style={{ fontSize: 12.5, opacity: 0.7, marginTop: 6, textWrap: 'pretty' }}>
                       {h.isFree(it)
                         ? 'Nobody has claimed it. Confirm it is still there or clear it.'
-                        : 'Two people asked, nobody came. Dropping to free moves it in a day.'}
+                        : 'Nobody came for it. Dropping to free moves it in a day.'}
                     </div>
                     <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginTop: 12 }}>
                       <button onClick={() => h.confirmStill(it.id)} className="btn btn-primary">
@@ -88,8 +145,8 @@ export function Me({ h }: { h: Handoff }) {
               })}
             </div>
             <p style={{ fontSize: 11.5, opacity: 0.6, margin: '12px 0 0', textWrap: 'pretty' }}>
-              Every listing gets this check on day 7. No answer in 48 hours and it pauses itself, so nothing sits on the
-              board rotting.
+              Every listing gets this check on day 7. No answer and it pauses itself, so nothing sits on the board
+              rotting.
             </p>
           </div>
         )}
@@ -103,7 +160,7 @@ export function Me({ h }: { h: Handoff }) {
                 <div key={it.id} style={{ background: 'var(--color-bg)', padding: '11px 0', display: 'flex', alignItems: 'center', gap: 11 }}>
                   <div style={{ flex: 1, minWidth: 0 }}>
                     <div style={{ fontSize: 14, fontWeight: 500, opacity: 0.75 }}>{it.title}</div>
-                    <div style={{ fontSize: 11, opacity: 0.55 }}>Paused after {h.daysOf(it)} days · no reply to the day-7 check</div>
+                    <div style={{ fontSize: 11, opacity: 0.55 }}>Paused · hidden from the board</div>
                   </div>
                   <button onClick={() => h.relist(it.id)} className="btn btn-secondary" style={{ flex: 'none', fontSize: 12 }}>
                     Relist
@@ -117,30 +174,38 @@ export function Me({ h }: { h: Handoff }) {
         {/* my listings */}
         <div style={{ padding: 16 }}>
           <h6 style={{ margin: '0 0 10px' }}>My listings</h6>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 2, background: 'var(--color-divider)' }}>
-            {mine.map((it) => {
-              const isGone = h.gone.includes(it.id)
-              const stat = isGone
-                ? 'Gone · handed off in the lobby'
-                : h.isPaused(it)
-                  ? 'Paused · hidden from the board'
-                  : h.isFree(it)
-                    ? 'Free · 4 people asked'
-                    : '$' + it.price + ' · 2 people asked'
-              return (
-                <div key={it.id} style={{ background: 'var(--color-bg)', padding: '11px 0', display: 'flex', alignItems: 'center', gap: 11 }}>
-                  <div className="hatch-sm" style={{ width: 40, height: 40, flex: 'none', border: '1px solid var(--color-divider)' }} />
-                  <div style={{ flex: 1, minWidth: 0 }}>
-                    <div style={{ fontSize: 14, fontWeight: 500 }}>{it.title}</div>
-                    <div style={{ fontSize: 11, opacity: 0.6 }}>{stat}</div>
+          {mine.length === 0 ? (
+            <div style={{ fontSize: 13, opacity: 0.6, textWrap: 'pretty' }}>
+              You have not posted anything yet. A photo and one sentence is the whole thing.
+            </div>
+          ) : (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 2, background: 'var(--color-divider)' }}>
+              {mine.map((it) => {
+                const isGone = h.gone.includes(it.id)
+                const stat = isGone
+                  ? 'Gone · handed off'
+                  : h.isPaused(it)
+                    ? 'Paused · hidden from the board'
+                    : h.isFree(it)
+                      ? 'Free · on the board'
+                      : '$' + it.price + ' · on the board'
+                return (
+                  <div key={it.id} style={{ background: 'var(--color-bg)', padding: '11px 0', display: 'flex', alignItems: 'center', gap: 11 }}>
+                    <div style={{ width: 40, height: 40, flex: 'none' }}>
+                      <Photo url={it.photoUrl} height={40} />
+                    </div>
+                    <div style={{ flex: 1, minWidth: 0 }}>
+                      <div style={{ fontSize: 14, fontWeight: 500 }}>{it.title}</div>
+                      <div style={{ fontSize: 11, opacity: 0.6 }}>{stat}</div>
+                    </div>
+                    <button onClick={() => h.toggleGone(it.id, isGone)} className="btn btn-secondary" style={{ flex: 'none', fontSize: 12 }}>
+                      {isGone ? 'Relist' : 'Mark as gone'}
+                    </button>
                   </div>
-                  <button onClick={() => h.toggleGone(it.id, isGone)} className="btn btn-secondary" style={{ flex: 'none', fontSize: 12 }}>
-                    {isGone ? 'Relist' : 'Mark as gone'}
-                  </button>
-                </div>
-              )
-            })}
-          </div>
+                )
+              })}
+            </div>
+          )}
         </div>
 
         {/* saved searches */}
@@ -148,8 +213,10 @@ export function Me({ h }: { h: Handoff }) {
           <h6 style={{ margin: '0 0 10px' }}>Saved searches</h6>
           <div style={{ border: '2px solid var(--color-divider)', padding: '12px 13px', display: 'flex', alignItems: 'center', gap: 12 }}>
             <div style={{ flex: 1 }}>
-              <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 800, fontSize: 15 }}>“desk lamp” under $20</div>
-              <div style={{ fontSize: 11.5, opacity: 0.62, marginTop: 2 }}>Pings you the second one is posted anywhere on campus.</div>
+              <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 800, fontSize: 15 }}>Ping me on new posts</div>
+              <div style={{ fontSize: 11.5, opacity: 0.62, marginTop: 2 }}>
+                Tells you the second something matching lands on the board.
+              </div>
             </div>
             <Switch on={h.alerts} onToggle={() => h.setAlerts(!h.alerts)} />
           </div>
@@ -160,20 +227,26 @@ export function Me({ h }: { h: Handoff }) {
           <h6 style={{ margin: '0 0 10px' }}>Move-out mode</h6>
           <div style={{ border: '2px solid var(--color-divider)', padding: '12px 13px', display: 'flex', alignItems: 'center', gap: 12 }}>
             <div style={{ flex: 1 }}>
-              <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 800, fontSize: 15 }}>May 12–19</div>
-              <div style={{ fontSize: 11.5, opacity: 0.62, marginTop: 2 }}>Bulk posting, everything priced $5 or free, one tap per item.</div>
+              <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 800, fontSize: 15 }}>Move-out week</div>
+              <div style={{ fontSize: 11.5, opacity: 0.62, marginTop: 2 }}>
+                Puts the move-out banner on the board so the hall empties fast.
+              </div>
             </div>
             <Switch on={h.moveOut} onToggle={() => h.setMoveOut(!h.moveOut)} />
           </div>
         </div>
 
-        {/* re-verification note */}
+        {/* account */}
         <div style={{ padding: '0 16px' }}>
           <div style={{ borderTop: '2px solid var(--color-divider)', paddingTop: 14, fontSize: 11.5, opacity: 0.6, textWrap: 'pretty' }}>
-            We cannot tell who has graduated — only whether your school email still logs in. Re-verify once a term with
-            one tap. If the login stops working the account goes read-only, and your handoff count is waiting if you come
-            back for grad school.
+            We cannot tell who has graduated — only whether your school email still logs in. If the login stops working
+            the account goes read-only, and your handoff count is waiting if you come back for grad school.
           </div>
+          {h.live && (
+            <button onClick={h.signOut} className="btn btn-secondary" style={{ marginTop: 14, fontSize: 13 }}>
+              Sign out
+            </button>
+          )}
         </div>
       </div>
 

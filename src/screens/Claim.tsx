@@ -1,26 +1,21 @@
 import { ArrowRight } from 'lucide-react'
-import { CAMPUS_SPOTS, SPOTS, WINDOWS } from '../data/seed'
+import { SPOTS, WINDOWS } from '../data/seed'
 import type { Handoff } from '../lib/useHandoff'
 
 /**
  * Claim / meetup (modal): agree on a public place without either person
- * revealing where they live. The app enforces a rule, not a curated list.
+ * revealing where they live. The app enforces a rule, not a curated list —
+ * the named spots come from that campus's own accumulated handoffs.
  */
 export function Claim({ h }: { h: Handoff }) {
   const d0 = h.item(h.selId)
-  const first = d0.seller.split(' ')[0]
+  const first = (d0.seller || 'them').split(' ')[0]
   const cta = h.isFree(d0) ? 'Claim and message ' + first : 'Message ' + first
+  const canSend = Boolean(h.spotName.trim() || h.spot) && !h.busy
 
   return (
     <div className="screen">
-      <div
-        style={{
-          padding: '58px 16px 10px',
-          borderBottom: '2px solid var(--color-divider)',
-          display: 'flex',
-          alignItems: 'center',
-        }}
-      >
+      <div style={{ padding: '58px 16px 10px', borderBottom: '2px solid var(--color-divider)', display: 'flex', alignItems: 'center' }}>
         <button
           onClick={h.back}
           style={{
@@ -67,24 +62,33 @@ export function Claim({ h }: { h: Handoff }) {
 
         <div className="field" style={{ marginTop: 18 }}>
           <label>Name it, so you both find it</label>
-          <input className="input" placeholder="Carman front desk" value={h.spotName} onChange={(e) => h.setSpotName(e.target.value)} />
+          <input
+            className="input"
+            placeholder={d0.spot || 'The front desk'}
+            value={h.spotName}
+            onChange={(e) => h.setSpotName(e.target.value)}
+          />
         </div>
 
         <div style={{ marginTop: 14, fontSize: 10, letterSpacing: '.14em', textTransform: 'uppercase', opacity: 0.6 }}>
           Used before on your campus
         </div>
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 7, marginTop: 9 }}>
-          {CAMPUS_SPOTS.map((cs) => (
-            <button
-              key={cs.name}
-              onClick={() => h.setSpotName(cs.name)}
-              className="btn btn-secondary"
-              style={{ fontSize: 12.5, fontWeight: 500 }}
-            >
-              {cs.name} · {cs.uses}×
-            </button>
-          ))}
-        </div>
+        {h.campusSpots.length > 0 ? (
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 7, marginTop: 9 }}>
+            {h.campusSpots.map((cs) => (
+              <button
+                key={cs.name}
+                onClick={() => h.setSpotName(cs.name)}
+                className="btn btn-secondary"
+                style={{ fontSize: 12.5, fontWeight: 500 }}
+              >
+                {cs.name} · {cs.uses}×
+              </button>
+            ))}
+          </div>
+        ) : (
+          <div style={{ fontSize: 12, opacity: 0.55, marginTop: 8 }}>Nothing yet — yours will be the first.</div>
+        )}
         <p style={{ fontSize: 11.5, opacity: 0.6, margin: '9px 0 0', textWrap: 'pretty' }}>
           This list is built by students at your school, not by us. It starts empty and fills up after the first few
           handoffs.
@@ -110,6 +114,7 @@ export function Claim({ h }: { h: Handoff }) {
       <div style={{ borderTop: '2px solid var(--color-divider)', padding: '12px 16px 40px', background: 'var(--color-bg)' }}>
         <button
           onClick={h.confirmClaim}
+          disabled={!canSend}
           style={{
             width: '100%',
             border: 0,
@@ -120,13 +125,14 @@ export function Claim({ h }: { h: Handoff }) {
             fontSize: 15,
             padding: '15px 16px',
             textAlign: 'left',
-            cursor: 'pointer',
+            cursor: canSend ? 'pointer' : 'default',
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'center',
+            opacity: canSend ? 1 : 0.6,
           }}
         >
-          <span>{cta}</span>
+          <span>{h.busy ? 'Holding it…' : cta}</span>
           <ArrowRight size={20} strokeWidth={2} />
         </button>
       </div>

@@ -1,18 +1,20 @@
+import { useRef } from 'react'
 import { Camera } from 'lucide-react'
 import type { Handoff } from '../lib/useHandoff'
 
-/** Post, step 1 — photo (modal). Get the photo in one tap. */
+/** Post, step 1 — photo. Get the photo in one tap: on a phone this opens the
+ *  camera directly. */
 export function Post1({ h }: { h: Handoff }) {
+  const fileRef = useRef<HTMLInputElement>(null)
+
+  const openPicker = () => {
+    if (h.live) fileRef.current?.click()
+    else h.shoot()
+  }
+
   return (
     <div className="screen">
-      <div
-        style={{
-          padding: '58px 16px 10px',
-          borderBottom: '2px solid var(--color-divider)',
-          display: 'flex',
-          alignItems: 'center',
-        }}
-      >
+      <div style={{ padding: '58px 16px 10px', borderBottom: '2px solid var(--color-divider)', display: 'flex', alignItems: 'center' }}>
         <button
           onClick={h.jumpBrowse}
           style={{
@@ -33,10 +35,19 @@ export function Post1({ h }: { h: Handoff }) {
         </div>
       </div>
 
+      <input
+        ref={fileRef}
+        type="file"
+        accept="image/*"
+        capture="environment"
+        style={{ display: 'none' }}
+        onChange={(e) => h.pickPhoto(e.target.files?.[0] ?? null)}
+      />
+
       <div style={{ flex: 1, overflowY: 'auto', padding: '18px 16px' }}>
         {!h.photo ? (
           <button
-            onClick={h.shoot}
+            onClick={openPicker}
             style={{
               width: '100%',
               height: 300,
@@ -58,13 +69,52 @@ export function Post1({ h }: { h: Handoff }) {
           </button>
         ) : (
           <>
-            <div className="hatch-lg" style={{ height: 300, border: '1px solid var(--color-divider)', display: 'flex', alignItems: 'flex-end', padding: 12 }}>
-              <span style={{ fontSize: 9, letterSpacing: '.12em', textTransform: 'uppercase', color: 'var(--color-neutral-700)' }}>
-                Photo · shot in Carman 6
+            <div
+              className={h.photoPreview ? undefined : 'hatch-lg'}
+              style={{
+                height: 300,
+                border: '1px solid var(--color-divider)',
+                display: 'flex',
+                alignItems: 'flex-end',
+                padding: 12,
+                position: 'relative',
+                overflow: 'hidden',
+              }}
+            >
+              {h.photoPreview && (
+                <img
+                  src={h.photoPreview}
+                  alt=""
+                  style={{
+                    position: 'absolute',
+                    inset: 0,
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover',
+                    filter: 'grayscale(1) contrast(1.08)',
+                  }}
+                />
+              )}
+              <span
+                style={{
+                  position: 'relative',
+                  fontSize: 9,
+                  letterSpacing: '.12em',
+                  textTransform: 'uppercase',
+                  color: h.photoPreview ? 'var(--color-bg)' : 'var(--color-neutral-700)',
+                  textShadow: h.photoPreview ? '0 1px 3px rgba(0,0,0,.7)' : undefined,
+                }}
+              >
+                Photo{h.me.building ? ` · shot in ${h.me.building}` : ''}
               </span>
             </div>
-            <div style={{ marginTop: 16, fontSize: 12.5, opacity: 0.65, textWrap: 'pretty' }}>
-              That is the only photo you need. Next you write one paragraph and the app fills in the rest.
+            <div style={{ display: 'flex', gap: 10, marginTop: 12, alignItems: 'center' }}>
+              <button onClick={openPicker} className="btn btn-secondary" style={{ fontSize: 12 }}>
+                Retake
+              </button>
+              <div style={{ fontSize: 12.5, opacity: 0.65, textWrap: 'pretty', flex: 1 }}>
+                That is the only photo you need. Next you write one paragraph.
+              </div>
             </div>
           </>
         )}

@@ -12,9 +12,13 @@ export type Screen =
 
 export type Tab = 'free' | 'sale' | 'wanted'
 
-/** A single listing on the campus board. */
+export type ListingStatus = 'active' | 'paused' | 'gone'
+
+/** A listing on the campus board. Live rows carry `uuid` (the DB id); the
+ *  numeric `id` is a stable hash used as a React key and for local lookups. */
 export interface Item {
   id: number
+  uuid?: string
   free: boolean
   price?: number
   title: string
@@ -23,14 +27,21 @@ export interface Item {
   loc: string
   ago: string
   seller: string
+  sellerId?: string
   handoffs: number
   since: string
   spot: string
   desc: string
+  photoUrl?: string | null
+  status?: ListingStatus
+  ageDays?: number
+  mine?: boolean
 }
 
 export interface Wanted {
   id: number
+  uuid?: string
+  authorId?: string
   title: string
   who: string
   ago: string
@@ -51,6 +62,28 @@ export interface Message {
   id: number
   who: 'me' | 'them'
   text: string
+}
+
+/** One row in the Chats list. */
+export interface ThreadSummary {
+  id: string
+  otherName: string
+  otherHandoffs: number
+  listingTitle: string
+  spotName: string
+  pickupWindow: string
+  lastMessage: string
+}
+
+/** The signed-in user as the screens consume it. */
+export interface MeProfile {
+  name: string
+  initials: string
+  email: string
+  since: string
+  handoffs: number
+  noShows: number
+  building: string
 }
 
 /** The three fields the parse produces that a user can override in one tap. */

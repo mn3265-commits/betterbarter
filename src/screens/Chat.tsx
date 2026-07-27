@@ -5,7 +5,12 @@ const CHIPS = ['On my way', 'Can I come at 7?', 'Still available?']
 
 /** Chat (thread): finish the arrangement, with the meetup already written down. */
 export function Chat({ h }: { h: Handoff }) {
-  const d0 = h.item(h.selId)
+  const t = h.activeThread
+  const fallback = h.item(h.selId)
+  const name = t?.otherName ?? fallback.seller
+  const handoffs = t?.otherHandoffs ?? fallback.handoffs
+  const spot = t?.spotName ?? h.spotLabel()
+  const window_ = t?.pickupWindow ?? h.win
 
   return (
     <div className="screen">
@@ -18,14 +23,21 @@ export function Chat({ h }: { h: Handoff }) {
           gap: 11,
         }}
       >
-        <button onClick={h.jumpBrowse} style={{ border: 0, background: 'transparent', cursor: 'pointer', padding: 0, display: 'flex', color: 'var(--color-text)' }}>
+        <button
+          onClick={h.jumpChats}
+          style={{ border: 0, background: 'transparent', cursor: 'pointer', padding: 0, display: 'flex', color: 'var(--color-text)' }}
+        >
           <ArrowLeft size={19} strokeWidth={2.2} />
         </button>
-        <div style={{ flex: 1 }}>
-          <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 800, fontSize: 15 }}>{d0.seller}</div>
-          <div style={{ fontSize: 11, opacity: 0.6 }}>{d0.handoffs} handoffs · verified school email</div>
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 800, fontSize: 15 }}>{name}</div>
+          <div style={{ fontSize: 11, opacity: 0.6 }}>{handoffs} handoffs · verified school email</div>
         </div>
-        <button onClick={() => h.flash('Reported. This account is hidden from you and flagged for review.')} className="btn btn-ghost" style={{ fontSize: 12 }}>
+        <button
+          onClick={() => h.flash('Reported. This account is hidden from you and flagged for review.')}
+          className="btn btn-ghost"
+          style={{ fontSize: 12 }}
+        >
           Block
         </button>
       </div>
@@ -36,8 +48,11 @@ export function Chat({ h }: { h: Handoff }) {
           <div style={{ fontSize: 10, letterSpacing: '.14em', textTransform: 'uppercase', color: 'var(--color-accent-700)' }}>
             Handoff scheduled
           </div>
-          <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 800, fontSize: 15, marginTop: 4 }}>{h.spotLabel()}</div>
-          <div style={{ fontSize: 11.5, opacity: 0.65, marginTop: 2 }}>{h.win} · held for 3 hours</div>
+          <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 800, fontSize: 15, marginTop: 4 }}>{spot}</div>
+          <div style={{ fontSize: 11.5, opacity: 0.65, marginTop: 2 }}>
+            {window_} · held for 3 hours
+            {t?.listingTitle ? ` · ${t.listingTitle}` : ''}
+          </div>
         </div>
 
         {h.msgs.map((m) => (
@@ -72,6 +87,12 @@ export function Chat({ h }: { h: Handoff }) {
             )}
           </div>
         ))}
+
+        {h.live && h.msgs.length <= 1 && (
+          <div style={{ fontSize: 11.5, opacity: 0.55, textWrap: 'pretty' }}>
+            {name.split(' ')[0]} gets this on their board. Replies show up here the moment they send one.
+          </div>
+        )}
       </div>
 
       {/* quick-reply chips */}
