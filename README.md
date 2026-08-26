@@ -92,12 +92,21 @@ radius and the component classes (`.btn`, `.input`, `.seg`, `.radio`, `.tag`,
 `.hr`). Retune the look there rather than hard-coding values. Icons are
 [Lucide](https://lucide.dev); type is Archivo.
 
+## The confirmation loop
+
+Both people tap **handed off** in the thread. The second tap is the one with
+consequences: it closes the listing, releases the 3-hour hold, writes the record
+into the conversation, and adds **+1 to both handoff counts** — the app's only
+reputation signal and its primary success metric (handoffs per week per
+building). A browser cannot do that on its own, since nobody may write another
+person's profile row, so it runs in one server-side function
+(`set_handoff_done`, migration `0005`) that re-checks the caller is one of the
+two participants and locks the thread so a simultaneous tap can only count once.
+Until the other side answers, your own tap is undoable.
+
 ## Not built yet (recommended next work)
 
-The **handoff confirmation loop** — both parties tap "handed off" in the chat,
-which releases the 3-hour hold and increments both handoff counts. That count is
-the app's primary success metric (handoffs per week per building), and the
-prototype deliberately never increments it. Also implied but not built: loading
+Implied but not built: loading
 and offline feeds, image-upload progress and failure, expired-hold recovery,
 blocked-user views, empty boards on a brand-new campus, and the read-only state
 after a failed per-term re-verification.

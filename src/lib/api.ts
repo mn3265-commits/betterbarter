@@ -280,12 +280,17 @@ interface ThreadRow {
   spot_name: string
   pickup_window: string
   created_at: string
+  buyer_done: boolean
+  seller_done: boolean
+  completed_at: string | null
 }
 
 export async function fetchThreads(meId: string): Promise<ThreadSummary[]> {
   const { data } = await db()
     .from('threads')
-    .select('id, listing_id, buyer_id, seller_id, spot_name, pickup_window, created_at')
+    .select(
+      'id, listing_id, buyer_id, seller_id, spot_name, pickup_window, created_at, buyer_done, seller_done, completed_at',
+    )
     .order('created_at', { ascending: false })
   const rows = (data ?? []) as ThreadRow[]
   if (!rows.length) return []
@@ -311,7 +316,8 @@ export async function fetchThreads(meId: string): Promise<ThreadSummary[]> {
   }
 
   return rows.map((t) => {
-    const otherId = t.buyer_id === meId ? t.seller_id : t.buyer_id
+    const iAmBuyer = t.buyer_id === meId
+    const otherId = iAmBuyer ? t.seller_id : t.buyer_id
     const p = profiles.get(otherId)
     return {
       id: t.id,
@@ -321,6 +327,9 @@ export async function fetchThreads(meId: string): Promise<ThreadSummary[]> {
       spotName: t.spot_name,
       pickupWindow: t.pickup_window,
       lastMessage: last.get(t.id) ?? '',
+      myDone: iAmBuyer ? t.buyer_done : t.seller_done,
+      theirDone: iAmBuyer ? t.seller_done : t.buyer_done,
+      completed: t.completed_at != null,
     }
   })
 }
@@ -357,12 +366,47 @@ export function subscribeMessages(threadId: string, onInsert: () => void): Realt
     .subscribe()
 }
 
+/** Live-subscribe to one thread's own row — the other side's handoff
+ *  confirmation arrives here. Harmless if `threads` is not in the realtime
+ *  publication: the chat also re-reads the thread on every new message. */
+export function subscribeThread(threadId: string, onChange: () => void): RealtimeChannel {
+  return db()
+    .channel(`thread:${threadId}`)
+    .on(
+      'postgres_changes',
+      { event: 'UPDATE', schema: 'public', table: 'threads', filter: `id=eq.${threadId}` },
+      () => onChange(),
+    )
+    .subscribe()
+}
+
 /** Live-subscribe to the campus board. */
 export function subscribeListings(onChange: () => void): RealtimeChannel {
   return db()
     .channel('listings:board')
     .on('postgres_changes', { event: '*', schema: 'public', table: 'listings' }, () => onChange())
     .subscribe()
+}
+
+/**
+ * Mark this side of a handoff done (or undo it while the other side has not
+ * answered yet). The second confirmation is the one that counts: it closes the
+ * listing, releases the hold and adds +1 to both handoff counts — which a
+ * browser cannot do on its own, since nobody may write another person's
+ * profile. `set_handoff_done` does it server-side after checking the caller is
+ * one of the two participants.
+ */
+export interface HandoffState {
+  buyerDone: boolean
+  sellerDone: boolean
+  completed: boolean
+}
+
+export async function setHandoffDone(threadId: string, done: boolean): Promise<HandoffState> {
+  const { data, error } = await db().rpc('set_handoff_done', { p_thread: threadId, p_done: done })
+  if (error) throw error
+  const r = (data ?? {}) as Partial<HandoffState>
+  return { buyerDone: r.buyerDone ?? false, sellerDone: r.sellerDone ?? false, completed: r.completed ?? false }
 }
 
 // ── lifecycle ─────────────────────────────────────────────────────────────────

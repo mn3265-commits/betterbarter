@@ -82,6 +82,9 @@ export function useHandoff(config: HandoffConfig, live?: LiveContext) {
   const [msgs, setMsgs] = useState<Message[]>([])
   const [draftMsg, setDraftMsg] = useState('')
   const [activeThreadId, setActiveThreadId] = useState<string | null>(null)
+  // Demo-mode stand-in for the two confirmations (live mode reads the thread).
+  const [demoHandoff, setDemoHandoff] = useState({ myDone: false, theirDone: false, completed: false })
+  const [confirming, setConfirming] = useState(false)
 
   const [photo, setPhoto] = useState(false)
   const [photoFile, setPhotoFile] = useState<File | null>(null)
@@ -314,11 +317,17 @@ export function useHandoff(config: HandoffConfig, live?: LiveContext) {
 
   useEffect(() => {
     if (!isLive || !activeThreadId) return
-    const ch = api.subscribeMessages(activeThreadId, () => void loadMessages(activeThreadId))
+    const msgCh = api.subscribeMessages(activeThreadId, () => {
+      void loadMessages(activeThreadId)
+      void refreshThreads()
+    })
+    // The other side tapping "handed off" changes the thread row, not a message.
+    const threadCh = api.subscribeThread(activeThreadId, () => void refreshThreads())
     return () => {
-      void ch.unsubscribe()
+      void msgCh.unsubscribe()
+      void threadCh.unsubscribe()
     }
-  }, [isLive, activeThreadId, loadMessages])
+  }, [isLive, activeThreadId, loadMessages, refreshThreads])
 
   const openThread = useCallback(
     (threadId: string) => {
@@ -326,8 +335,83 @@ export function useHandoff(config: HandoffConfig, live?: LiveContext) {
       setScreen('chat')
       setToast(null)
       void loadMessages(threadId)
+      void refreshThreads()
     },
-    [loadMessages],
+    [loadMessages, refreshThreads],
+  )
+
+  // ── the handoff confirmation loop ──────────────────────────────────────────
+  /** What the chat shows: my tap, their tap, and whether it has been counted. */
+  const handoffState = useMemo(() => {
+    if (!isLive) return demoHandoff
+    return {
+      myDone: activeThread?.myDone ?? false,
+      theirDone: activeThread?.theirDone ?? false,
+      completed: activeThread?.completed ?? false,
+    }
+  }, [isLive, demoHandoff, activeThread])
+
+  /**
+   * Tap "handed off" (or undo it, while the other side has not answered). The
+   * second confirmation is the one with consequences: the listing closes, the
+   * hold is released and both handoff counts go up — which is why it happens in
+   * one server-side function rather than in the browser.
+   */
+  const markHandedOff = useCallback(
+    (done = true) => {
+      const first = (activeThread?.otherName ?? item(selId).seller ?? 'they').split(' ')[0]
+
+      if (!isLive) {
+        if (!done) {
+          setDemoHandoff({ myDone: false, theirDone: false, completed: false })
+          return
+        }
+        setDemoHandoff((prev) => ({ ...prev, myDone: true }))
+        flash('Marked. It counts once ' + first + ' confirms too.')
+        clearTimeout(replyTimer.current)
+        replyTimer.current = setTimeout(() => {
+          setDemoHandoff({ myDone: true, theirDone: true, completed: true })
+          setMsgs((prev) => prev.concat([{ id: Date.now(), who: 'them', text: 'Handed off. +1 for both of us.' }]))
+          flash('Handed off. +1 for both of you.')
+        }, 1400)
+        return
+      }
+
+      if (!activeThreadId || confirming) return
+      setConfirming(true)
+      void (async () => {
+        try {
+          const res = await api.setHandoffDone(activeThreadId, done)
+          await refreshThreads()
+          if (res.completed) {
+            await loadMessages(activeThreadId)
+            void refreshBoard()
+            live?.refreshProfile()
+            flash('Handed off. +1 for both of you.')
+          } else if (done) {
+            flash('Marked. It counts once ' + first + ' confirms too.')
+          }
+        } catch (e) {
+          fail(e, 'Could not confirm that handoff.')
+        } finally {
+          setConfirming(false)
+        }
+      })()
+    },
+    [
+      isLive,
+      activeThread,
+      activeThreadId,
+      confirming,
+      item,
+      selId,
+      flash,
+      fail,
+      refreshThreads,
+      refreshBoard,
+      loadMessages,
+      live,
+    ],
   )
 
   const sendText = useCallback(
@@ -557,6 +641,7 @@ export function useHandoff(config: HandoffConfig, live?: LiveContext) {
     const first = (d0.seller || 'them').split(' ')[0]
 
     if (!isLive || !live) {
+      setDemoHandoff({ myDone: false, theirDone: false, completed: false })
       setMsgs([
         { id: 1, who: 'me', text: 'Claimed the ' + d0.title.toLowerCase() + '. Does the window still work for you?' },
         { id: 2, who: 'them', text: 'Yes — I will bring it down. It is heavier than it looks, fair warning.' },
@@ -838,6 +923,8 @@ export function useHandoff(config: HandoffConfig, live?: LiveContext) {
     wantedDraft,
     threads,
     activeThread,
+    handoffState,
+    confirming,
     me,
     myListings,
     staleListings,
@@ -890,6 +977,7 @@ export function useHandoff(config: HandoffConfig, live?: LiveContext) {
     publish,
     confirmClaim,
     sendText,
+    markHandedOff,
     confirmStill,
     markGoneStale,
     makeFree,

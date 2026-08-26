@@ -1,3 +1,4 @@
+import { Check } from 'lucide-react'
 import { TabBar } from '../components/TabBar'
 import type { Handoff } from '../lib/useHandoff'
 
@@ -16,6 +17,9 @@ export function Chats({ h }: { h: Handoff }) {
             spotName: h.spotLabel(),
             pickupWindow: h.win,
             lastMessage: h.msgs[h.msgs.length - 1].text,
+            myDone: h.handoffState.myDone,
+            theirDone: h.handoffState.theirDone,
+            completed: h.handoffState.completed,
           },
         ]
       : []
@@ -78,7 +82,17 @@ export function Chats({ h }: { h: Handoff }) {
                     {t.lastMessage || t.spotName}
                   </div>
                 </div>
-                <div style={{ width: 8, height: 8, background: 'var(--color-accent)', flex: 'none' }} />
+                {t.completed ? (
+                  <Check size={16} strokeWidth={2.6} style={{ flex: 'none', opacity: 0.5 }} />
+                ) : t.theirDone && !t.myDone ? (
+                  <div
+                    style={{ flex: 'none', fontSize: 10.5, letterSpacing: '.08em', textTransform: 'uppercase', color: 'var(--color-accent)' }}
+                  >
+                    Confirm
+                  </div>
+                ) : (
+                  <div style={{ width: 8, height: 8, background: 'var(--color-accent)', flex: 'none' }} />
+                )}
               </div>
             )
           })

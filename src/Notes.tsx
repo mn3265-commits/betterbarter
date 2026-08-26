@@ -54,6 +54,13 @@ export function Notes({ h }: { h: Handoff }) {
           </div>
         ))}
         <div className="notes__cell" style={{ gridColumn: '1 / -1' }}>
+          <b>Both-sides confirmation</b>
+          <span>
+            The handoff only counts when both people tap it in the thread. That second tap closes the listing, ends the
+            hold and adds +1 to each public handoff count — the one number this product runs on.
+          </span>
+        </div>
+        <div className="notes__cell" style={{ gridColumn: '1 / -1' }}>
           <b>Day-7 freshness check</b>
           <span>
             A week old and the app asks: still there? Silence pauses the listing, so the board can never fill with things

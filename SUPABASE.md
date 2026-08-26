@@ -36,7 +36,7 @@ Project: `gkqyaynukcrrewspekmf` · campus seeded: **Columbia** (`columbia.edu`).
 | Day-7 lifecycle buttons (still here / free / gone / relist) | ✅ |
 | Day-7 auto-pause on no answer | ⏳ needs pg_cron (below) |
 | Saved-search push notifications | ⏳ not built |
-| Handoff-count confirmation loop | ⏳ not built (see below) |
+| Handoff-count confirmation loop | ✅ (needs migration 0005) |
 
 ## Setup still to do in the dashboard
 
@@ -60,6 +60,8 @@ Run in order, in the SQL editor or via `supabase db push`:
 - `0002_harden_rls.sql` — RLS on the lookup tables, helper functions off the
   public RPC surface. **Applied.**
 - `0003_day7_check.sql` — the day-7 job. *Pending (needs pg_cron).*
+- `0004_rules_agreement.sql` — the community-rules record. **Applied.**
+- `0005_handoff_confirm.sql` — `threads.completed_at` + `set_handoff_done()`.
 
 Seeded once, after 0001:
 
@@ -91,10 +93,19 @@ While the Google OAuth consent screen is in **Testing**, only accounts added as
 test users can sign in, and they see an "unverified app" interstitial. Publish
 the consent screen when you want the whole campus to be able to log in.
 
+## The handoff confirmation loop
+
+Live as of migration `0005`. Both people tap "handed off" in the thread;
+`set_handoff_done(thread, done)` records that side, and the second tap completes
+it: `threads.completed_at` is stamped, the hold is cleared, the listing goes
+`gone`, a line lands in the conversation, and **both** `profiles.handoffs` go up
+by one. It is SECURITY DEFINER because no client may write the other person's
+profile, and it takes `for update` on the thread so two simultaneous taps still
+count exactly once. `completed_at` makes it idempotent for good.
+
 ## The next real piece of work
 
-The **handoff confirmation loop**: both people tap "handed off" in the thread,
-which releases the hold and increments both `profiles.handoffs`. The columns
-exist (`threads.buyer_done`, `threads.seller_done`), the UI does not. That count
-is the app's only reputation signal and its primary success metric — handoffs
-per week per building — so it is the thing worth building next.
+**Saved-search notifications** — the saved_searches table exists and the Me
+screen already toggles alerts, but nothing yet watches new listings and tells
+the people waiting for them. After that: the day-7 cron (above) and no-show
+reporting, which is the only other input to reputation.

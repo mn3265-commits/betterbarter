@@ -1,4 +1,4 @@
-import { ArrowLeft, ArrowRight } from 'lucide-react'
+import { ArrowLeft, ArrowRight, Check } from 'lucide-react'
 import type { Handoff } from '../lib/useHandoff'
 
 const CHIPS = ['On my way', 'Can I come at 7?', 'Still available?']
@@ -11,6 +11,8 @@ export function Chat({ h }: { h: Handoff }) {
   const handoffs = t?.otherHandoffs ?? fallback.handoffs
   const spot = t?.spotName ?? h.spotLabel()
   const window_ = t?.pickupWindow ?? h.win
+  const first = name.split(' ')[0]
+  const { myDone, theirDone, completed } = h.handoffState
 
   return (
     <div className="screen">
@@ -43,15 +45,56 @@ export function Chat({ h }: { h: Handoff }) {
       </div>
 
       <div style={{ flex: 1, overflowY: 'auto', padding: 16, display: 'flex', flexDirection: 'column', gap: 12 }}>
-        {/* pinned handoff card */}
+        {/* pinned handoff card — the meetup, then the confirmation loop */}
         <div style={{ border: '2px solid var(--color-text)', padding: '11px 12px' }}>
           <div style={{ fontSize: 10, letterSpacing: '.14em', textTransform: 'uppercase', color: 'var(--color-accent-700)' }}>
-            Handoff scheduled
+            {completed ? 'Handed off' : 'Handoff scheduled'}
           </div>
           <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 800, fontSize: 15, marginTop: 4 }}>{spot}</div>
           <div style={{ fontSize: 11.5, opacity: 0.65, marginTop: 2 }}>
-            {window_} · held for 3 hours
+            {completed ? window_ : `${window_} · held for 3 hours`}
             {t?.listingTitle ? ` · ${t.listingTitle}` : ''}
+          </div>
+
+          <div style={{ borderTop: '1px solid var(--color-divider)', marginTop: 11, paddingTop: 10 }}>
+            {completed ? (
+              <div style={{ display: 'flex', gap: 8, alignItems: 'flex-start' }}>
+                <Check size={16} strokeWidth={2.6} style={{ flex: 'none', marginTop: 1, color: 'var(--color-accent)' }} />
+                <div style={{ fontSize: 12.5, lineHeight: 1.4 }}>
+                  Both of you confirmed. <strong>+1 handoff</strong> each, and the listing is off the board.
+                </div>
+              </div>
+            ) : myDone ? (
+              <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
+                <div style={{ flex: 1, fontSize: 12.5, lineHeight: 1.4, opacity: 0.75 }}>
+                  You marked this handed off. Waiting for {first} to confirm.
+                </div>
+                <button
+                  onClick={() => h.markHandedOff(false)}
+                  disabled={h.confirming}
+                  className="btn btn-ghost"
+                  style={{ flex: 'none', fontSize: 12 }}
+                >
+                  Undo
+                </button>
+              </div>
+            ) : (
+              <>
+                <button
+                  onClick={() => h.markHandedOff(true)}
+                  disabled={h.confirming}
+                  className="btn btn-primary"
+                  style={{ width: '100%' }}
+                >
+                  {theirDone ? 'Confirm the handoff' : 'Mark as handed off'}
+                </button>
+                <div style={{ fontSize: 11.5, opacity: 0.6, marginTop: 7, textWrap: 'pretty' }}>
+                  {theirDone
+                    ? `${first} says it happened. Your tap is the one that counts it — +1 for both of you.`
+                    : 'Both of you tap this after the item changes hands. It ends the hold and adds +1 to each handoff count.'}
+                </div>
+              </>
+            )}
           </div>
         </div>
 

@@ -75,6 +75,10 @@ export interface ThreadSummary {
   spotName: string
   pickupWindow: string
   lastMessage: string
+  /** The confirmation loop: each side taps once, the second tap counts it. */
+  myDone: boolean
+  theirDone: boolean
+  completed: boolean
 }
 
 /** The signed-in user as the screens consume it. */
