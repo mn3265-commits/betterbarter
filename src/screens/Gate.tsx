@@ -46,8 +46,17 @@ export function Gate({ h, auth }: { h: Handoff; auth?: Auth }) {
       className="screen"
       style={{ background: 'var(--color-accent)', color: 'var(--color-bg)', padding: '74px 26px 46px' }}
     >
-      <div style={{ fontSize: 10, letterSpacing: '.16em', textTransform: 'uppercase', opacity: 0.85 }}>
-        Any university · trial at Columbia
+      <div style={{ display: 'flex', alignItems: 'baseline', gap: 10 }}>
+        <div style={{ fontSize: 10, letterSpacing: '.16em', textTransform: 'uppercase', opacity: 0.85 }}>
+          Campus reuse, counted · Columbia
+        </div>
+        {/* The only way back to the public site, for anyone who arrived here first. */}
+        <a
+          href="/"
+          style={{ marginLeft: 'auto', fontSize: 11, color: 'var(--color-bg)', opacity: 0.8, textDecoration: 'underline' }}
+        >
+          What is this?
+        </a>
       </div>
       <div style={{ height: 2, background: 'var(--color-bg)', opacity: 0.5, margin: '14px 0 22px' }} />
       <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 800, fontSize: 62, lineHeight: 0.94, letterSpacing: '-.025em' }}>
@@ -55,13 +64,28 @@ export function Gate({ h, auth }: { h: Handoff; auth?: Auth }) {
         <br />
         OFF
       </div>
-      <p style={{ fontSize: 17, lineHeight: 1.35, margin: '20px 0 0', maxWidth: '22ch' }}>
-        Give it away or sell it to someone else on campus. Starting at Columbia.
+      <p style={{ fontSize: 17, lineHeight: 1.35, margin: '20px 0 0', maxWidth: '24ch' }}>
+        Give away or resell what you are done with — to someone in your own building.
       </p>
+
+      {/* The three promises, in the order they matter. They also stop the screen
+          from being a wordmark floating in an empty red field on a laptop. */}
+      <div style={{ marginTop: 26, display: 'flex', flexDirection: 'column', gap: 1 }}>
+        {[
+          ['One verified school email', 'One campus per board. No strangers, ever.'],
+          ['Meet in a lobby', 'No shipping, no packaging, no van. It never leaves the building.'],
+          ['Both sides confirm it', 'That tap is what counts the object as kept in use.'],
+        ].map(([title, line]) => (
+          <div key={title} style={{ borderTop: '1px solid color-mix(in srgb, var(--color-bg) 45%, transparent)', padding: '11px 0' }}>
+            <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 800, fontSize: 14 }}>{title}</div>
+            <div style={{ fontSize: 12.5, opacity: 0.85, lineHeight: 1.4, marginTop: 2 }}>{line}</div>
+          </div>
+        ))}
+      </div>
 
       <div style={{ marginTop: 'auto', display: 'flex', flexDirection: 'column', gap: 12 }}>
         <div style={{ fontSize: 12, opacity: 0.9, letterSpacing: '.02em' }}>
-          No strangers. One verified school email per account, and you only ever see your own campus.
+          Columbia only, for now. Sign in with the address you already have.
         </div>
 
         {live && !sent ? (

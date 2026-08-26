@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Photo } from '../components/Photo'
 import { Switch } from '../components/Switch'
 import { TabBar } from '../components/TabBar'
+import { averageItem, co2eLabel, kgLabel } from '../lib/impact'
 import type { Handoff } from '../lib/useHandoff'
 
 /** Me — tab 5. Identity, the day-7 decisions, paused items, listings, toggles. */
@@ -73,6 +74,29 @@ export function Me({ h }: { h: Handoff }) {
               </button>
             )}
           </div>
+        </div>
+
+        {/* What those handoffs add up to. The count is measured; the two numbers
+            beside it are estimates from the published model, and say so. */}
+        <div style={{ padding: 16, borderBottom: '2px solid var(--color-divider)' }}>
+          <h6 style={{ margin: '0 0 10px' }}>What you have kept in use</h6>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 1, background: 'var(--color-divider)', border: '1px solid var(--color-divider)' }}>
+            {[
+              [String(h.me.handoffs), 'handoffs', 'measured'],
+              [kgLabel(averageItem().kg * h.me.handoffs), 'kept in use', 'estimated'],
+              [co2eLabel(averageItem().co2e * h.me.handoffs), 'avoided', 'estimated'],
+            ].map(([big, label, kind]) => (
+              <div key={label} style={{ background: 'var(--color-bg)', padding: '10px 11px' }}>
+                <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 800, fontSize: 18, letterSpacing: '-.02em' }}>{big}</div>
+                <div style={{ fontSize: 11.5, opacity: 0.7, marginTop: 2 }}>{label}</div>
+                <div style={{ fontSize: 9.5, letterSpacing: '.1em', textTransform: 'uppercase', opacity: 0.45, marginTop: 3 }}>{kind}</div>
+              </div>
+            ))}
+          </div>
+          <p style={{ fontSize: 11.5, opacity: 0.6, margin: '9px 0 0', textWrap: 'pretty' }}>
+            Mass and emissions use the published category model at a displacement rate of 0.5 — the method is on{' '}
+            <a href="/#impact">the site</a>.
+          </p>
         </div>
 
         {/* first-run: which hall are you in */}
