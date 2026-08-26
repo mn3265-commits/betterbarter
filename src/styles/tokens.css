@@ -6,34 +6,38 @@
  */
 
 :root {
-  --color-bg: #f3f2f2;
-  --color-surface: #eae9e9;
-  --color-text: #201e1d;
-  --color-accent: #ec3013;
-  --color-accent-2: #e15b47;
-  --color-divider: color-mix(in srgb, #201e1d 40%, transparent);
+  /* The ground is paper, not screen: a warm off-white with a trace of green in
+     it, so the accent reads as material rather than as a UI colour. */
+  --color-bg: #f1f3ef;
+  --color-surface: #e6eae2;
+  --color-text: #16201a;
+  /* Deep pine, not eco-mint. It has to survive being a full-bleed field behind
+     white type, which a bright "sustainability green" never does. */
+  --color-accent: #1c7a4f;
+  --color-accent-2: #2f9463;
+  --color-divider: color-mix(in srgb, #16201a 40%, transparent);
 
   /* Tonal ramps — generated in OKLCH on one shared lightness scale, so the
      same step of any role matches the others in visual value. */
-  --color-neutral-100: #f8f4f4;
-  --color-neutral-200: #eae7e7;
-  --color-neutral-300: #d7d3d3;
-  --color-neutral-400: #bab6b6;
-  --color-neutral-500: #9b9797;
-  --color-neutral-600: #7d7979;
-  --color-neutral-700: #605d5d;
-  --color-neutral-800: #444141;
-  --color-neutral-900: #2d2b2b;
+  --color-neutral-100: #f5f7f3;
+  --color-neutral-200: #e7eae4;
+  --color-neutral-300: #d3d8ce;
+  --color-neutral-400: #b6bcb1;
+  --color-neutral-500: #979e92;
+  --color-neutral-600: #798074;
+  --color-neutral-700: #5d6359;
+  --color-neutral-800: #414640;
+  --color-neutral-900: #2a2f29;
 
-  --color-accent-100: #fff2ef;
-  --color-accent-200: #ffe0d9;
-  --color-accent-300: #ffc4b8;
-  --color-accent-400: #ff9783;
-  --color-accent-500: #ff563c;
-  --color-accent-600: #dd2b0f;
-  --color-accent-700: #ae1800;
-  --color-accent-800: #7c1405;
-  --color-accent-900: #4d170e;
+  --color-accent-100: #eaf4ee;
+  --color-accent-200: #cfe6d8;
+  --color-accent-300: #a9d3ba;
+  --color-accent-400: #6fb890;
+  --color-accent-500: #2f9463;
+  --color-accent-600: #176a44;
+  --color-accent-700: #115538;
+  --color-accent-800: #0d422c;
+  --color-accent-900: #0a3022;
 
   --font-heading: "Archivo", system-ui, sans-serif;
   --font-heading-weight: 800;
@@ -51,9 +55,9 @@
   --radius-lg: 0px;
 
   /* Elevation exists but the app deliberately uses rules + alignment, not shadow. */
-  --shadow-sm: 0 1px 2px color-mix(in srgb, #2d2b2b 14%, transparent);
-  --shadow-md: 0 3px 10px color-mix(in srgb, #2d2b2b 16%, transparent);
-  --shadow-lg: 0 12px 32px color-mix(in srgb, #2d2b2b 22%, transparent);
+  --shadow-sm: 0 1px 2px color-mix(in srgb, #2a2f29 14%, transparent);
+  --shadow-md: 0 3px 10px color-mix(in srgb, #2a2f29 16%, transparent);
+  --shadow-lg: 0 12px 32px color-mix(in srgb, #2a2f29 22%, transparent);
 }
 
 *, *::before, *::after { box-sizing: border-box; }

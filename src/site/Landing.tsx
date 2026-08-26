@@ -4,6 +4,7 @@ import { RULES, RULES_SUMMARY } from '../lib/rules'
 import {
   DISPLACEMENT,
   FACTORS,
+  MIX,
   MODEL_VERSION,
   SOURCES,
   co2eLabel,
@@ -129,6 +130,55 @@ const FAQ: [string, string][] = [
   ],
 ]
 
+/**
+ * The mark: one object leaving a hand and arriving in another, closed into a
+ * loop. Drawn rather than imported so it inherits the current colour, and kept
+ * to two strokes so it survives at 18px in a browser tab bar.
+ */
+function LoopMark({ size = 20 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" aria-hidden="true" style={{ display: 'block', flex: 'none' }}>
+      <path
+        d="M4 12a8 8 0 0 1 13.7-5.6"
+        stroke="currentColor"
+        strokeWidth="2.2"
+        strokeLinecap="square"
+      />
+      <path d="M20 12a8 8 0 0 1-13.7 5.6" stroke="currentColor" strokeWidth="2.2" strokeLinecap="square" />
+      <path d="M18 2.6v4.2h-4.2" stroke="currentColor" strokeWidth="2.2" strokeLinecap="square" />
+      <path d="M6 21.4v-4.2h4.2" stroke="currentColor" strokeWidth="2.2" strokeLinecap="square" />
+    </svg>
+  )
+}
+
+/** The assumed category mix, drawn as the material flow it is. */
+function MixBar() {
+  const rows = Object.entries(MIX).sort((a, b) => b[1] - a[1])
+  const shades = ['#0d422c', '#115538', '#176a44', '#1c7a4f', '#2f9463', '#4aa87a', '#6fb890', '#a9d3ba', '#cfe6d8']
+  return (
+    <div className="site__mix">
+      <div className="site__mixbar">
+        {rows.map(([cat, share], i) => (
+          <div
+            key={cat}
+            className="site__mixbar-seg"
+            style={{ width: share * 100 + '%', background: shades[i % shades.length] }}
+            title={cat + ' · ' + Math.round(share * 100) + '%'}
+          />
+        ))}
+      </div>
+      <div className="site__mixkey">
+        {rows.map(([cat, share], i) => (
+          <div key={cat}>
+            <i style={{ background: shades[i % shades.length] }} />
+            {cat} <b>{Math.round(share * 100)}%</b>
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
 /** The forecast tool: what one floor, one building or one class year moves. */
 function Estimator() {
   const [students, setStudents] = useState(120)
@@ -189,7 +239,10 @@ export function Landing() {
     <div className="site">
       <header className="site__bar">
         <div className="site__wrap site__bar-in">
-          <div className="site__mark">HANDOFF</div>
+          <div className="site__mark">
+            <LoopMark size={19} />
+            HANDOFF
+          </div>
           <span className="tag tag-outline">Circular economy · Columbia</span>
           <a className="site__bar-link" href="#how">
             How it works
@@ -348,6 +401,14 @@ export function Landing() {
             it, like every other parsed field. The table lives in one file in the public repository, so any number here
             can be checked, argued with, or replaced.
           </p>
+
+          <h3 className="site__sub">The mix a forecast assumes</h3>
+          <p className="site__fine" style={{ marginBottom: 16 }}>
+            A move-out hallway is mostly small things. Weighting the forecast this way rather than averaging the table
+            flat keeps the estimate off the back of the two emissions-dense categories — it lowers our own number by
+            roughly a third, which is the direction an honest assumption should move it.
+          </p>
+          <MixBar />
 
           <h3 className="site__sub">What a floor, a building or a class year moves</h3>
           <Estimator />
