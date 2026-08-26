@@ -15,6 +15,23 @@ flat/modernist system: **zero border radius anywhere**, everything **flush left*
 2px rules instead of shadows, a single accent red on a light ground, Archivo
 throughout.
 
+## The impact model
+
+`src/lib/impact.ts` is the one place a confirmed handoff becomes a circularity
+number, and it is written to keep the three levels apart:
+
+| Level | Number | Status |
+| --- | --- | --- |
+| 1 | Confirmed handoffs — both people tapped "handed off" | **Measured** |
+| 2 | Mass kept in use = count × typical mass for the category | Estimated |
+| 3 | Production avoided = mass × low-end cradle-to-gate factor × displacement | Estimated, conservative |
+
+Displacement is held at **0.5**: a reused object only avoids manufacturing when
+it stops someone buying a new one, and we assume that happens half the time.
+Forecasts use an assumed move-out category mix weighted toward small things, so
+the estimate is not quietly carried by bikes and laptops. The site renders the
+whole factor table from this file, so the page and the model cannot drift.
+
 ## Routes
 
 | Path | What it is |

@@ -1,86 +1,111 @@
+import { useState } from 'react'
 import { ArrowRight, Check } from 'lucide-react'
 import { RULES, RULES_SUMMARY } from '../lib/rules'
+import {
+  DISPLACEMENT,
+  FACTORS,
+  MODEL_VERSION,
+  SOURCES,
+  co2eLabel,
+  forecast,
+  kgLabel,
+} from '../lib/impact'
 import '../styles/site.css'
 
 /**
- * The public front door at `/`. The product itself lives at `/app`; this page
- * exists so a link to Handoff can be sent to someone who has never heard of it
- * and still explains itself — what the board is, who is allowed on it, how a
- * handoff actually happens, and what the app deliberately does not do.
+ * The public front door at `/`. The product itself lives at `/app`.
  *
- * Same design system as the app (tokens.css): zero radius, flush left, 2px
- * rules, one accent red. Copy is the app's own voice, not marketing language.
+ * The page has one job the app cannot do: explain why a campus reuse board is a
+ * circular-economy intervention rather than a classifieds app — what gets kept
+ * in use, how it is counted, and which part of that number is measured versus
+ * estimated. Everything quantitative on this page comes from `lib/impact.ts`,
+ * so the site and the model can never drift apart.
+ *
+ * Same design system as the product (tokens.css): zero radius, flush left, 2px
+ * rules, one accent red.
  */
 
 const APP = '/app'
 
 const SEGMENTS: [string, string][] = [
-  ['Free', 'The thing you would otherwise leave in a hallway. Someone on your floor takes it today.'],
+  ['Free', 'The thing that would otherwise go in a hallway or a dumpster. Someone on your floor takes it today.'],
   ['For sale', 'Cheap, and settled between the two of you. The app never touches the money.'],
-  ['Wanted', 'The board in reverse: say what you need, and let the person holding it find you.'],
+  ['Wanted', 'The board in reverse: say what you need before you buy it new.'],
+]
+
+const PROBLEM: [string, string, string][] = [
+  ['12.1M', 'tons', 'of furniture and furnishings thrown out in the US in one year — 80.1% of it landfilled.'],
+  ['17M', 'tons', 'of textiles generated in the same year; 11.3M tons went straight to landfill.'],
+  ['1 week', 'in May', 'is when a residential campus throws out most of its year — all at once, into the same dumpsters.'],
 ]
 
 const STEPS: [string, string, string][] = [
   [
     '01',
     'Post it in about twenty seconds',
-    'One photo where the thing stands, then a sentence written the way you would text a friend. The app reads the price, category, condition and meetup spot out of your own words — there is no form, and any of it can be corrected in one tap.',
+    'One photo where the thing stands, then a sentence written the way you would text a friend. The app reads the price, category, condition and meetup spot out of your own words. Nothing is thrown out because listing it felt like paperwork.',
   ],
   [
     '02',
-    'Claim what you want, nearest first',
-    'The board only ever shows your campus, closest halls first. Free things are free — take them. Priced things are cheap and arranged between you two.',
+    'Someone on your campus claims it',
+    'The board only ever shows your school, closest halls first. Free things are free. The item is held for three hours so two people are not walking to the same lobby.',
   ],
   [
     '03',
-    'Meet somewhere public',
-    'Claiming opens a conversation with the meetup already written into it, and holds the item for three hours. A lobby, a front desk, a dining entrance — somewhere other people are. Never a room number, yours or theirs.',
+    'You meet in a lobby, not a loading dock',
+    'The exchange is two students and a doorway — no shipping, no packaging, no van, no warehouse. The lowest-carbon second life an object can have is the one that never leaves the building.',
   ],
   [
     '04',
     'Both of you confirm it happened',
-    'When the thing changes hands, you both tap "handed off". That adds +1 to each of your public handoff counts — the whole reputation system, and the only number this product runs on.',
+    'That second tap is what turns an intention into a measured reuse event: one object, verified as kept in use, by two people who both said so. Every number on this page is built out of that one event.',
   ],
 ]
 
-const DIFFERENT: [string, string][] = [
+const WHY: [string, string][] = [
   [
-    'A school email is the whole door',
-    'One verified school email per account, re-checked every term. Everyone on the board goes to your school, and you never see another campus.',
+    'Year-round, not one week in May',
+    'Donation drives run when the trucks are booked. A board runs on the Tuesday you actually decide to get rid of the chair, which is when the decision to bin it is really made.',
   ],
   [
-    'A paragraph, not a form',
-    'Nobody fills in eight fields to give away a lamp. Write the sentence; the app shows you what it understood and lets you fix any of it in one tap.',
+    'Peer-to-peer, so nothing is handled twice',
+    'Collect, sort, store, resell is four touches and a vehicle. Floor to floor is one walk. Reuse loses its advantage the moment logistics get involved.',
   ],
   [
-    'Spot rules, not a spot list',
-    'The app never claims to know your campus. It gives you the rule — public, populated, never a room — and the spots students actually use build themselves out of real handoffs.',
+    'Counted at the object, not the truck',
+    'Drives report weight after the fact, in aggregate. Handoff records one confirmed event per object, with its category — so the number is auditable from the bottom up.',
   ],
   [
-    'A handoff count, not stars',
-    'No five-star theatre. One public number that only goes up when both people confirm a real handoff, so it cannot be farmed by talking.',
+    'Verified people, so reuse is not risky',
+    'The reason students bin a working lamp instead of listing it is strangers. One verified school email per account, one campus per board, and a public handoff count.',
+  ],
+  [
+    'It complements the drives, it does not replace them',
+    'What the board cannot rehome still belongs in Give & Go Green and Clean + Go Green. The board removes the easy 80% from the pile so staffed collection can deal with the rest.',
   ],
   [
     'A board that cleans itself',
-    'On day seven the app asks whether the thing is still there. Silence pauses the listing. A board full of things that already left is a dead board.',
-  ],
-  [
-    'Move-out mode',
-    'May is the whole business. Turn it on when you are clearing a room and everything you post goes out as a batch that ends on the day you leave.',
+    'On day seven the app asks whether the thing is still there. Silence pauses the listing — a board full of things that already left is a dead board, and a dead board sends everything back to the dumpster.',
   ],
 ]
 
 const NOT: [string, string][] = [
+  ['Not a marketplace', 'No payments, no shipping, no fee per deal. The exchange happens in a lobby, and we cannot see it, so we do not charge it.'],
   ['Not trading', 'Two people rarely want each other’s thing. Money already solved this.'],
   ['Not renting', 'Deposits, damage, disputes — a second app hiding inside the first.'],
-  ['No fee per deal', 'The handoff happens in a lobby, on Venmo. We cannot see it, so we do not charge it.'],
-  ['Not every campus', 'One school at a time. All of Columbia first, dense before wide.'],
+  ['Not every campus at once', 'One school at a time. Reuse only works at density: a board with nothing on it is worse than no board.'],
 ]
 
 const FAQ: [string, string][] = [
   [
     'Who can sign in?',
-    'Anyone with a working @columbia.edu address, and nobody else. Sign-up checks the email domain server-side, so an account on a campus we do not run yet cannot get onto the board at all.',
+    'Anyone with a working @columbia.edu address, and nobody else. Sign-up checks the email domain server-side, so an account from a campus we do not run yet cannot reach the board at all.',
+  ],
+  [
+    'How is the impact number calculated?',
+    'Confirmed handoffs are counted directly. Mass is that count times a typical mass for the item’s category. Avoided emissions are that mass times a low-end production factor, times a displacement rate of ' +
+      DISPLACEMENT +
+      ' — because a reused object only avoids manufacturing when it stops someone buying a new one. The whole table is published below and lives in one file in the open-source repository.',
   ],
   [
     'Does it cost anything?',
@@ -96,11 +121,7 @@ const FAQ: [string, string][] = [
   ],
   [
     'What can I not post?',
-    'Nothing dangerous or illegal: weapons, drugs and prescriptions, alcohol and vapes, IDs and keys, stolen or university-owned property, coursework meant to be handed in. The app checks a listing before it posts and tells you why.',
-  ],
-  [
-    'Is my stuff visible to the whole internet?',
-    'No. The board is readable only by signed-in accounts on your own campus — enforced in the database, not by hiding a link.',
+    'Nothing dangerous or illegal: weapons, drugs and prescriptions, alcohol and vapes, IDs and keys, stolen or university-owned property, coursework meant to be handed in. The app checks a listing before it posts and says why.',
   ],
   [
     'When do other schools get it?',
@@ -108,15 +129,73 @@ const FAQ: [string, string][] = [
   ],
 ]
 
+/** The forecast tool: what one floor, one building or one class year moves. */
+function Estimator() {
+  const [students, setStudents] = useState(120)
+  const [each, setEach] = useState(3)
+  const out = forecast(students, each)
+
+  return (
+    <div className="site__calc">
+      <div className="site__calc-in">
+        <label>
+          <span>Students taking part</span>
+          <input
+            className="input"
+            type="number"
+            min={0}
+            max={100000}
+            value={students}
+            onChange={(e) => setStudents(Number(e.target.value))}
+          />
+        </label>
+        <label>
+          <span>Items each</span>
+          <input
+            className="input"
+            type="number"
+            min={0}
+            max={100}
+            value={each}
+            onChange={(e) => setEach(Number(e.target.value))}
+          />
+        </label>
+      </div>
+      <div className="site__calc-out">
+        <div>
+          <b>{out.items.toLocaleString()}</b>
+          <span>objects kept in use</span>
+        </div>
+        <div>
+          <b>{kgLabel(out.kg)}</b>
+          <span>kept out of the landfill</span>
+        </div>
+        <div>
+          <b>{co2eLabel(out.co2e)}</b>
+          <span>production avoided</span>
+        </div>
+      </div>
+      <p className="site__calc-note">
+        Using the published factor table, an assumed move-out category mix (weighted toward small things, not toward
+        bikes and laptops) and a displacement rate of {DISPLACEMENT}. A forecast, not a claim: the app itself only ever
+        reports what two people confirmed.
+      </p>
+    </div>
+  )
+}
+
 export function Landing() {
   return (
     <div className="site">
       <header className="site__bar">
         <div className="site__wrap site__bar-in">
           <div className="site__mark">HANDOFF</div>
-          <span className="tag tag-outline">Columbia trial</span>
+          <span className="tag tag-outline">Circular economy · Columbia</span>
           <a className="site__bar-link" href="#how">
             How it works
+          </a>
+          <a className="site__bar-link" href="#impact">
+            Impact
           </a>
           <a className="site__bar-link" href="#safety">
             Safety
@@ -129,49 +208,61 @@ export function Landing() {
 
       <section className="site__hero">
         <div className="site__wrap">
-          <div className="site__kicker">V1 · Trialing at Columbia</div>
+          <div className="site__kicker">Campus circular economy · V1 trialing at Columbia</div>
           <h1>
             HAND
             <br />
             OFF
           </h1>
           <p className="site__lede">
-            Give it away or sell it to someone else on campus. One school, one board, no shipping and no strangers.
+            Keep the things a campus already owns in use — and count every object that stayed out of the landfill.
           </p>
           <div className="site__cta-row">
             <a className="site__cta" href={APP}>
               Continue with school email <ArrowRight size={19} strokeWidth={2.4} />
             </a>
-            <a className="site__cta site__cta--ghost" href="#how">
-              See how it works
+            <a className="site__cta site__cta--ghost" href="#impact">
+              See how we count it
             </a>
           </div>
           <p className="site__hero-note">
             Every May a working desk lamp goes into a dumpster because the person two floors down never knew it existed.
-            That is the entire problem this board solves.
+            A campus is the densest reuse market in a city — and the only one where the buyer, the seller and the object
+            are already inside the same building.
           </p>
         </div>
       </section>
 
       <section className="site__section">
         <div className="site__wrap">
-          <div className="site__kicker">One board, three ways to use it</div>
-          <h2>Post what you are done with. Take what you need.</h2>
-          <div className="site__segs">
-            {SEGMENTS.map(([name, line]) => (
-              <div key={name} className="site__seg">
-                <b>{name}</b>
+          <div className="site__kicker">The problem</div>
+          <h2>Reuse fails on friction, not on willingness.</h2>
+          <p className="site__section-lede">
+            Students do not throw out working things because they want to. They throw them out because listing an item
+            takes longer than carrying it to the bin, and because the alternative is meeting a stranger off campus. The
+            waste is downstream of a user-experience problem.
+          </p>
+          <div className="site__stats">
+            {PROBLEM.map(([big, unit, line]) => (
+              <div key={big} className="site__stat">
+                <b>
+                  {big} <i>{unit}</i>
+                </b>
                 <span>{line}</span>
               </div>
             ))}
           </div>
+          <p className="site__fine">
+            US figures for 2018 from the EPA, linked in full under the method below. A single move-out week compresses a
+            year of that curve into seven days on one campus.
+          </p>
         </div>
       </section>
 
       <section className="site__section" id="how">
         <div className="site__wrap">
-          <div className="site__kicker">How it works</div>
-          <h2>Four steps, and the last one is the point.</h2>
+          <div className="site__kicker">How a handoff happens</div>
+          <h2>Four steps, and the last one is what makes it measurable.</h2>
           <div className="site__steps">
             {STEPS.map(([n, title, body]) => (
               <div key={n} className="site__step">
@@ -183,20 +274,104 @@ export function Landing() {
               </div>
             ))}
           </div>
+          <div className="site__segs">
+            {SEGMENTS.map(([name, line]) => (
+              <div key={name} className="site__seg">
+                <b>{name}</b>
+                <span>{line}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="site__section" id="impact">
+        <div className="site__wrap">
+          <div className="site__kicker">The method · model v{MODEL_VERSION}</div>
+          <h2>We count objects first, carbon second, and say which is which.</h2>
+          <p className="site__section-lede">
+            Most reuse claims are a weight divided by an assumption. Ours is built from a single verifiable event — two
+            students both confirming that one object changed hands — and every conversion after that is published, in
+            the open, at the low end of its range.
+          </p>
+
+          <div className="site__levels">
+            <div className="site__level">
+              <div className="site__level-tag">Level 1 · Measured</div>
+              <b>Confirmed handoffs</b>
+              <span>
+                Both people tapped “handed off” in the thread. One object, two verified students, one timestamp. This is
+                the only number we state without a qualifier.
+              </span>
+            </div>
+            <div className="site__level">
+              <div className="site__level-tag">Level 2 · Estimated</div>
+              <b>Mass kept in use</b>
+              <span>
+                Item count × a typical mass for its category. Ordinary dorm objects at ordinary weights, never the
+                heaviest thing the category could hold.
+              </span>
+            </div>
+            <div className="site__level">
+              <div className="site__level-tag">Level 3 · Conservative</div>
+              <b>Production avoided</b>
+              <span>
+                Mass × a low-end cradle-to-gate factor × a displacement rate of {DISPLACEMENT}, because a reused object
+                only avoids manufacturing if it stops a purchase.
+              </span>
+            </div>
+          </div>
+
+          <h3 className="site__sub">The factor table, in full</h3>
+          <table className="site__factors">
+            <thead>
+              <tr>
+                <th>Category</th>
+                <th>Typical mass</th>
+                <th>kg CO₂e / kg</th>
+                <th>Basis</th>
+              </tr>
+            </thead>
+            <tbody>
+              {Object.entries(FACTORS).map(([cat, f]) => (
+                <tr key={cat}>
+                  <td>{cat}</td>
+                  <td>{f.kg} kg</td>
+                  <td>{f.efPerKg.toFixed(1)}</td>
+                  <td>{f.basis}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <p className="site__fine">
+            Defaults for a first campus, not measurements of your object — a poster who knows the real weight can correct
+            it, like every other parsed field. The table lives in one file in the public repository, so any number here
+            can be checked, argued with, or replaced.
+          </p>
+
+          <h3 className="site__sub">What a floor, a building or a class year moves</h3>
+          <Estimator />
+
+          <h3 className="site__sub">Sources</h3>
+          <ul className="site__sources">
+            {SOURCES.map((s) => (
+              <li key={s.url}>
+                {s.claim}{' '}
+                <a href={s.url} target="_blank" rel="noreferrer">
+                  {s.source}
+                </a>
+              </li>
+            ))}
+          </ul>
         </div>
       </section>
 
       <section className="site__section">
         <div className="site__wrap">
-          <div className="site__kicker">What is different</div>
-          <h2>Built for a hallway, not a marketplace.</h2>
-          <p className="site__section-lede">
-            The handoff itself happens between two people standing in a lobby. No app is there for that, so everything
-            here is designed around the parts an app can actually control: who gets in, what may be listed, where people
-            meet, and whether the thing really changed hands.
-          </p>
+          <div className="site__kicker">Why a board, and not another donation drive</div>
+          <h2>Reuse dies on logistics. A campus does not need any.</h2>
           <div className="site__grid">
-            {DIFFERENT.map(([title, body]) => (
+            {WHY.map(([title, body]) => (
               <div key={title} className="site__cell">
                 <b>{title}</b>
                 <span>{body}</span>
@@ -220,7 +395,7 @@ export function Landing() {
                   </div>
                 ))}
               </div>
-              <p style={{ fontSize: 13.5, opacity: 0.65, margin: '14px 0 0' }}>
+              <p className="site__fine" style={{ marginTop: 14 }}>
                 Every account agrees to the full text once, before it can reach the board.
               </p>
             </div>
@@ -273,10 +448,10 @@ export function Landing() {
 
       <section className="site__close">
         <div className="site__wrap">
-          <h2>Move-out is the busiest week of the year. Start before it.</h2>
+          <h2>The greenest object on campus is the one already here.</h2>
           <p>
-            One photo and one sentence puts something on your campus board. Sign in with the Columbia address you
-            already have.
+            One photo and one sentence puts it back into use, and one confirmation from each side puts it on the record.
+            Sign in with the Columbia address you already have.
           </p>
           <div className="site__cta-row">
             <a className="site__cta" href={APP}>
@@ -287,10 +462,13 @@ export function Landing() {
       </section>
 
       <footer className="site__wrap site__foot">
-        <span>Handoff — campus give-away &amp; resale board · v1, trialing at Columbia.</span>
+        <span>
+          Handoff — campus reuse, counted · v1, trialing at Columbia · impact model v{MODEL_VERSION}, displacement{' '}
+          {DISPLACEMENT}.
+        </span>
         <a href={APP}>Open the board</a>
         <a href="/?showcase">Design walkthrough</a>
-        <a href="https://github.com/mn3265-commits/handoff">Source</a>
+        <a href="https://github.com/mn3265-commits/handoff">Source &amp; model</a>
       </footer>
     </div>
   )
