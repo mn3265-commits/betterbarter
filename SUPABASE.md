@@ -82,7 +82,9 @@ app needs no code change, and the two campuses cannot see each other.
   `https://gkqyaynukcrrewspekmf.supabase.co/auth/v1/callback`. The app passes
   `hd=columbia.edu` to steer Google at the campus workspace.
 - **Site URL**: Authentication → URL Configuration → `https://handoff-bay-two.vercel.app`,
-  with `https://handoff-bay-two.vercel.app/**` in Redirect URLs.
+  with `https://handoff-bay-two.vercel.app/**` in Redirect URLs. Both sign-in
+  methods now ask to come back to **`/app`**, since `/` is the public site; a
+  token that still lands on `/` is forwarded to `/app` with its hash intact.
 - The client uses the **implicit** flow so a magic link still completes when the
   email opens it in a different browser than the one that asked for it.
 - Sign-up is gated server-side: `handle_new_user()` maps the email domain to a

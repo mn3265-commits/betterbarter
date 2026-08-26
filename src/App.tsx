@@ -1,4 +1,5 @@
 import { useCallback, useMemo, useState } from 'react'
+import { Landing } from './site/Landing'
 import { IOSDevice } from './components/IOSDevice'
 import { Toast } from './components/Toast'
 import { Notes } from './Notes'
@@ -178,11 +179,27 @@ function Showcase() {
   )
 }
 
-export default function App() {
-  const showcase =
-    typeof window !== 'undefined' && new URLSearchParams(window.location.search).has('showcase')
+/** The product lives under /app; everything else is the public site. */
+function isAppPath(pathname: string): boolean {
+  return pathname === '/app' || pathname.startsWith('/app/')
+}
 
+export default function App() {
+  if (typeof window === 'undefined') return null
+
+  const { search, pathname, hash } = window.location
+  const showcase = new URLSearchParams(search).has('showcase')
   if (showcase) return <Showcase />
+
+  // A sign-in link resolves against the site URL, which is the landing page.
+  // Carry the token hash over to the app rather than dropping the session on
+  // the floor — this also covers links sent before /app existed.
+  if (!isAppPath(pathname) && hash.includes('access_token')) {
+    window.location.replace('/app' + hash)
+    return null
+  }
+
+  if (!isAppPath(pathname)) return <Landing />
 
   return (
     <div className="app-shell">

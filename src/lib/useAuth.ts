@@ -76,7 +76,7 @@ export function useAuth() {
     if (!supabase) throw new Error('Supabase not configured')
     const { error } = await supabase.auth.signInWithOtp({
       email: email.trim(),
-      options: { emailRedirectTo: window.location.origin },
+      options: { emailRedirectTo: window.location.origin + '/app' },
     })
     if (error) throw error
   }
@@ -87,7 +87,7 @@ export function useAuth() {
     const { error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
-        redirectTo: window.location.origin,
+        redirectTo: window.location.origin + '/app',
         queryParams: { hd: 'columbia.edu', prompt: 'select_account' },
       },
     })

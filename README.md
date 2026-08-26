@@ -7,13 +7,25 @@ claim them (free) or buy them (cheap). The only trust mechanism is a verified
 school email plus a public per-user **handoff count** — no payments, no shipping,
 no accounts without a school email. Every campus is its own isolated board.
 
-This repository implements the design handoff (`Student marketplace scope`) as a
-**React + Vite + TypeScript** app rendered inside an iPhone frame, so the whole
-10-screen flow is clickable in a browser. It's deployed on Vercel:
+This repository is the whole thing: a **React + Vite + TypeScript** app at
+`/app`, a public site at `/`, and the original design walkthrough — the 10-screen
+flow inside an iPhone frame — at `/?showcase`. It's deployed on Vercel:
 **https://handoff-bay-two.vercel.app**. The design language is a strict
 flat/modernist system: **zero border radius anywhere**, everything **flush left**,
 2px rules instead of shadows, a single accent red on a light ground, Archivo
 throughout.
+
+## Routes
+
+| Path | What it is |
+| --- | --- |
+| `/` | The public site — what Handoff is, how a handoff works, the rules, the FAQ. Sendable to someone who has never heard of it. |
+| `/app` | The product. Sign-in gate, board, chat, posting, Me. |
+| `/?showcase` | The original design walkthrough: phone frame, scope notes, seed data, no account needed. |
+
+The site and the app are one Vite bundle with a path switch in `App.tsx`, so
+there is no router dependency and no second deploy. `vercel.json` rewrites every
+path to `index.html` so `/app` survives a hard refresh.
 
 ## Running it
 
