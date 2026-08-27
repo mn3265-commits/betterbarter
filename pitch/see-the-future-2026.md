@@ -8,6 +8,17 @@ actually live at https://handoff-bay-two.vercel.app — nothing below claims a
 user, a partner or a number the project does not have. Fields marked `[FILL]`
 need something only you can answer.
 
+## Submission checklist
+
+| Item | Status |
+| --- | --- |
+| Every text field on the form | Drafted below — paste as-is |
+| **Project introduction document (PDF, required)** | ✅ `pitch/Handoff-SEE-THE-FUTURE-2026.pdf` — 3 pages, one placeholder (Tessa's role) |
+| Company / project website | https://handoff-bay-two.vercel.app |
+| Logo (optional) | Not exported yet — the loop mark + wordmark is at `public/icon.svg`, and `public/icon-512.png` is a usable square |
+| Phone, LinkedIn, team size | `[FILL]` |
+| Tessa's role and background | `[FILL]` — appears in three places: the form, the PDF and /about |
+
 ---
 
 ## Primary contact
@@ -90,7 +101,11 @@ building.
   have a thing: a drill borrowed by six people is five drills that were never
   manufactured. What we deliberately do *not* add back is deposits, escrow or
   damage adjudication — a loan here is two verified students and a promise.
-- **Only your campus can see it.** One verified school email per account,
+- **Meet on campus, not at anyone's home.** A library entrance, a dining hall
+  door, a student centre, a department lobby. Nothing assumes you live in a
+  hall, so commuters are first-class; the app will not accept a room number as a
+  meetup spot.
+- **Only your campus can see it.** One verified university email per account,
   enforced in the database, not in the interface. Every campus is an isolated
   board. That removes the stranger problem which stops students listing.
 - **The exchange is two people and a doorway.** Claiming opens a conversation
@@ -141,18 +156,27 @@ May 2027 move-out peak.
    **a borrowed object earns no carbon credit at all**, because it comes back.
    That is rare enough in reuse claims to be a differentiator with institutional
    buyers.
-4. **Zero-logistics circularity.** Collect, sort, store, resell is four touches
-   and a vehicle. Floor to floor is one walk. The model works precisely because
-   it refuses the logistics that make most reuse ventures unprofitable.
-5. **Verification as infrastructure.** A school email domain maps to a campus
-   server-side, so trust and isolation are database facts. Adding a campus is a
-   single row — no code change, and no two campuses can see each other.
+4. **Zero-logistics circularity, with the transport term named.** Collect, sort,
+   store, resell is four touches and a vehicle: a 10 km collection round is
+   roughly 2.5 kg CO₂e for one object even at the EPA's passenger-car factor,
+   which flatters a van. Two students crossing a campus they were crossing
+   anyway emit nothing extra, so our transport term is zero rather than small —
+   and we say so rather than quietly omitting it.
+5. **Verification as infrastructure, and self-serve campuses.** A university
+   email domain maps to a campus server-side, so trust and isolation are
+   database facts. A school with no board gets one the moment its first student
+   signs in: the campus is created, then named and marked from a bundled
+   registry of 7,328 academic domains. No waiting list, no launch, no code.
 
 ## Traction
 
 - **Live product** at https://handoff-bay-two.vercel.app — deployed, on a real
   backend, not a prototype video. Public site, `/about` for the vision, and the
   board itself behind Columbia sign-in.
+- **Installable PWA and a full desktop web app** — one codebase, a phone layout
+  below 1000px and a navigation rail above it.
+- **Any university can open a board**, which makes the pilot a choice about
+  attention rather than a gate we control.
 - **Ten screens shipped end to end:** verification gate, board with Free / For
   sale / Borrow / Swap / Wanted, listing detail, claim with a three-hour hold, realtime chat,
   paragraph-based posting, day-7 lifecycle, profile, community-rules agreement,
@@ -249,10 +273,23 @@ offices, EcoReps and residence-hall staff already own the move-out problem and
 already send the emails students read. The impact model is the pitch to them:
 they get an auditable circularity number they currently cannot produce.
 
-**Revenue, when it comes, is charged before a deal exists** — a bump to the top
-of the board, verified-audience slots for movers and storage companies, and club
-or department accounts with real budgets — never a fee per handoff, which we
-cannot see and would not want to price.
+**Revenue is charged before a deal exists, never on the object.**
+
+1. **Campus licence — the main line.** Housing and sustainability offices already
+   pay to haul this material away and already have to report circularity. A
+   licensed campus gets the admin tools, the move-out programme and an audited,
+   object-level number they cannot produce today. That is an existing budget
+   spent against an existing cost, and it is an institutional sale rather than a
+   consumer one.
+2. **Verified-audience placements.** Movers, storage, print shops and student
+   services reaching one campus in the one fortnight of the year when the whole
+   population has the same problem. Paid up front, clearly marked, never mixed
+   into the board's ranking.
+3. **Free permanently, on the object path.** Posting, claiming, giving away,
+   lending and swapping. No listing fee, no cut of a handoff, no charge to a
+   student for the thing itself — a fee on a give-away is a tax on generosity
+   and would defeat the product. If payments are ever added it is as an option
+   on paid items only, with the fee on that path alone.
 
 ## Additional information
 

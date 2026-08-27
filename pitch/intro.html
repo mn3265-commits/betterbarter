@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<title>Handoff — Project Introduction</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:SOFT,WONK,opsz,wght@0..100,0..1,9..144,500..700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#16201a; --bg:#f1f3ef; --surface:#e6eae2; --accent:#1c7a4f; --accent-700:#115538;
+    --accent-100:#eaf4ee; --line:rgba(22,32,26,.22); --muted:rgba(22,32,26,.62);
+    --serif:"Fraunces",Georgia,serif; --sans:"Plus Jakarta Sans",system-ui,sans-serif;
+  }
+  @page { size: A4; margin: 14mm 14mm 12mm; }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:var(--sans);color:var(--ink);background:#fff;font-size:10pt;line-height:1.5}
+  h1,h2,h3{font-family:var(--serif);font-weight:600;font-variation-settings:'SOFT' 70,'WONK' 1,'opsz' 96;margin:0}
+  h1{font-size:34pt;line-height:1;letter-spacing:-.02em}
+  h2{font-size:14pt;margin:0 0 6pt;letter-spacing:-.01em}
+  h3{font-size:11pt;margin:0 0 3pt}
+  p{margin:0 0 7pt}
+  .kicker{font-size:7.5pt;letter-spacing:.14em;text-transform:uppercase;color:var(--accent-700);font-weight:600}
+  .cover{background:var(--accent);color:var(--bg);padding:16mm 14mm;margin:-14mm -14mm 8mm;}
+  .cover .kicker{color:rgba(255,255,255,.85)}
+  .cover p{max-width:78mm;font-size:11pt;margin-top:6pt}
+  .cover .meta{margin-top:10mm;font-size:8.5pt;line-height:1.6;opacity:.9}
+  section{margin-bottom:7mm;break-inside:avoid}
+  .rule{height:1px;background:var(--line);margin:5mm 0}
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:6mm}
+  .three{display:grid;grid-template-columns:1fr 1fr 1fr;gap:4mm}
+  .card{border:1px solid var(--line);border-radius:3mm;padding:4mm}
+  .card b{display:block;font-family:var(--serif);font-weight:600;font-size:10.5pt;margin-bottom:2pt}
+  .card span{font-size:9pt;color:var(--muted);line-height:1.45}
+  .stat{background:var(--accent-100);border-radius:3mm;padding:4mm}
+  .stat b{display:block;font-family:var(--serif);font-size:20pt;color:var(--accent);line-height:1}
+  .stat span{display:block;font-size:8.5pt;color:var(--muted);margin-top:2pt;line-height:1.4}
+  table{width:100%;border-collapse:collapse;font-size:9pt}
+  td,th{text-align:left;padding:2.4mm 3mm 2.4mm 0;border-bottom:1px solid var(--line);vertical-align:top}
+  th{font-size:7.5pt;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:600}
+  td:first-child{font-weight:600;width:34mm}
+  ul{margin:0 0 7pt;padding-left:4.6mm}
+  li{margin-bottom:2.4pt}
+  .foot{font-size:8pt;color:var(--muted);border-top:1px solid var(--line);padding-top:3mm}
+  .lede{font-size:11pt;color:var(--ink)}
+  .page-break{break-before:page}
+  b.h{font-weight:700}
+</style></head><body>
+
+<div class="cover">
+  <div class="kicker">Project introduction · SEE THE FUTURE 2026 · Circular economy</div>
+  <h1>Handoff</h1>
+  <p>A verified campus reuse board where students give, sell, lend or swap what they already own — and every confirmed handoff is measured.</p>
+  <div class="meta">
+    handoff-bay-two.vercel.app · github.com/mn3265-commits/handoff<br>
+    Agung Nugroho &amp; Tessa Wong · Columbia University · moh.agungnugroho@gmail.com
+  </div>
+</div>
+
+<section>
+  <div class="kicker">The problem</div>
+  <h2>A campus throws out most of a year in one week, and buys it back in September.</h2>
+  <p>At move-out, working lamps, fridges, rugs, textbooks and coats go into the same dumpsters — not because students want to discard them, but because listing an item takes longer than carrying it downstairs, and because the alternative is meeting a stranger from a public marketplace off campus. Eight weeks later the next intake buys the identical objects new, often financed on money they do not have.</p>
+  <div class="three" style="margin-top:4mm">
+    <div class="stat"><b>12.1M t</b><span>US furniture and furnishings generated in 2018 — 80.1% landfilled (EPA)</span></div>
+    <div class="stat"><b>17M t</b><span>US textiles generated the same year; 11.3M t landfilled (EPA)</span></div>
+    <div class="stat"><b>1 week</b><span>of May carries most of a residential campus's annual discard</span></div>
+  </div>
+  <p style="margin-top:4mm">Existing responses are one-week, staffed, one-way donation drives, bound by trucks, storage and volunteer hours. Nothing runs on the ordinary Tuesday when the decision to bin the chair is actually made. <b class="h">The waste is downstream of a user-experience problem, and that is the part nobody has built for.</b></p>
+</section>
+
+<div class="rule"></div>
+
+<section>
+  <div class="kicker">The solution</div>
+  <h2>Four ways to keep an object in use, and one tap that counts it.</h2>
+  <div class="two">
+    <div class="card"><b>Twenty seconds to post</b><span>One photo, then one sentence written like a text message. The app reads price, category, condition and meetup spot out of the words — no form — and any of it is corrected in one tap.</span></div>
+    <div class="card"><b>Give, sell, lend or swap</b><span>Ownership is one way to have a thing. A drill borrowed by six people is five drills never manufactured; a swap keeps two objects in use instead of one.</span></div>
+    <div class="card"><b>Only your campus sees it</b><span>One verified university email per account, enforced in the database. Every school is an isolated board — which removes the stranger problem that stops students listing.</span></div>
+    <div class="card"><b>Both sides confirm</b><span>The exchange happens at a library entrance or a dining hall door. Both people tap "handed off": the object is counted, and each public handoff count rises by one.</span></div>
+  </div>
+</section>
+
+<section>
+  <div class="kicker">Why it is different</div>
+  <h2>Reuse measured at the object, not at the truck.</h2>
+  <ul>
+    <li><b class="h">An auditable circularity metric.</b> Drives report a weight after the fact, in aggregate. Handoff records one confirmed event per object, with category and timestamp, agreed by both parties — bottom-up, and defensible line by line.</li>
+    <li><b class="h">The measurement is the reputation.</b> The tap that counts the reuse is the tap that raises both people's public handoff count, so the incentive to record impact is intrinsic rather than bolted on for reporting.</li>
+    <li><b class="h">No transport term.</b> A collection round burns fuel per item — roughly 2.5 kg CO₂e for a 10 km round trip, at the EPA's passenger-car factor, which flatters a van. Two students crossing a campus they were crossing anyway emit nothing extra.</li>
+    <li><b class="h">An honest model, published in the open.</b> Measured, estimated and conservative numbers are kept apart; factors take the low end; displacement is held at 0.5; and a borrowed object earns no carbon credit at all, because it comes back.</li>
+    <li><b class="h">Any university, instantly.</b> A school with no board gets one the moment its first student signs in — the campus is created, named and marked from a registry of 7,328 academic domains. No waiting list, no launch.</li>
+  </ul>
+</section>
+
+<section>
+  <div class="kicker">The impact model · v1.1</div>
+  <h2>Three levels, never blurred.</h2>
+  <table>
+    <thead><tr><th>Level</th><th>Number</th><th>Status</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td>Confirmed handoffs — both people tapped, one object, one timestamp</td><td><b>Measured</b></td></tr>
+      <tr><td>2</td><td>Mass kept in use = count × typical mass for the category</td><td>Estimated</td></tr>
+      <tr><td>3</td><td>Production avoided = mass × low-end cradle-to-gate factor × displacement 0.5</td><td>Estimated, conservative</td></tr>
+    </tbody>
+  </table>
+  <p style="margin-top:4mm">Forecasts use an assumed move-out category mix weighted toward small things rather than an unweighted average, which lowers our own estimate by roughly a third. On that basis a single participating floor — 120 students, three items each — is about <b class="h">360 objects, 1.2 tonnes kept out of landfill and 2.6 tonnes CO₂e of avoided production</b>. The full factor table, the mix and the sources are printed on the public site, and the model lives in one file in an open repository.</p>
+</section>
+
+<section>
+  <div class="kicker">Current stage</div>
+  <h2>Working product, pre-pilot.</h2>
+  <p>Deployed and running on a live backend, not a mockup: Google (university) sign-in, campus-isolated Postgres with row-level security, realtime chat, photo storage, the day-7 freshness check, a community-rules gate, a pre-post safety check, and the both-sides handoff confirmation. The board is also an installable PWA and a full desktop web app. Two verified accounts exist; the board has not yet been opened to residents. The pilot is scoped for the coming term, ahead of the May 2027 move-out peak.</p>
+</section>
+
+<section>
+  <div class="kicker">How it pays for itself</div>
+  <h2>Charged before a deal exists, never on the object.</h2>
+  <div class="three">
+    <div class="card"><b>Campus licence</b><span>The main line. Housing and sustainability offices already pay to haul this material away and already must report circularity; a licensed campus gets admin tools, the move-out programme and an audited object-level number.</span></div>
+    <div class="card"><b>Verified-audience placements</b><span>Movers, storage and student services reaching one campus at one fortnight of the year. Paid up front, clearly marked, never mixed into ranking.</span></div>
+    <div class="card"><b>Free permanently</b><span>Posting, claiming, giving, lending, swapping. No listing fee and no cut of a handoff — a fee on a give-away would be a tax on generosity.</span></div>
+  </div>
+</section>
+
+<section>
+  <div class="kicker">Team</div>
+  <h2>Two people, in the open.</h2>
+  <p><b class="h">Agung Nugroho</b> — product and build. Designs the board, writes the code, owns the impact model, runs the pilot. Graduate student and Graduate Assistant at Columbia SPS; professional background in customer-lifecycle and CRM marketing at telecommunications scale, where the daily problem is the same one this product has: getting a very large number of ordinary people to complete one specific action, and measuring honestly whether they did.</p>
+  <p><b class="h">Tessa Wong</b> — Columbia University. [role and background]</p>
+  <p>Campus reuse does not fail on technology. It fails on adoption and on trust, which are behaviour and product problems before they are engineering ones.</p>
+</section>
+
+<section>
+  <div class="kicker">Scale</div>
+  <h2>Dense before wide.</h2>
+  <p>Adding a school costs nothing and requires no code: a university email opens a board, and row-level security keeps every campus isolated. What does not copy is density, so our attention stays on one campus — building by building — until the board is useful on an ordinary Tuesday and not only in the last week of May. Distribution then runs through institutions rather than advertising: housing, sustainability offices and student groups already own the move-out problem, and the impact model is the pitch to them.</p>
+</section>
+
+<div class="foot">
+  Handoff — campus reuse, counted · Impact model v1.1, displacement 0.5 · Sources: EPA Facts and Figures (durable goods, textiles), EPA typical passenger vehicle, WRAP re-use benefits · Prepared for SEE THE FUTURE 2026, Columbia Climate School · SEE · F20.
+</div>
+</body></html>
