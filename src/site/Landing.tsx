@@ -97,13 +97,17 @@ const NOT: [string, string][] = [
   ['Not a payments platform', 'No checkout, no escrow, no fee per deal. Money moves between two students the way it already does; we cannot see it, so we do not charge it.'],
   ['Not a deposit holder', 'Lending is a promise between two people on the same campus, not a contract we underwrite. We hold nothing and adjudicate nothing.'],
   ['Not a shipping or storage service', 'Nothing is collected, warehoused or driven anywhere. Logistics is exactly what makes reuse cost more than it saves.'],
-  ['Not every campus at once', 'One school at a time. Reuse only works at density: a board with nothing on it is worse than no board.'],
+  ['Not one board for everyone', 'Every school gets its own isolated board. A national marketplace is exactly the stranger problem we removed.'],
 ]
 
 const FAQ: [string, string][] = [
   [
     'Who can sign in?',
-    'Anyone with a working @columbia.edu address, and nobody else. Sign-up checks the email domain server-side, so an account from a campus we do not run yet cannot reach the board at all.',
+    'Anyone with a working university email address — .edu, .ac.uk, .edu.au, .ac.id and the rest of the academic namespaces. The domain is checked server-side, so a personal address cannot get onto any board, and your board only ever contains people from your own school.',
+  ],
+  [
+    'My university is not on here yet. Can I use it?',
+    'Yes — signing in creates it. The first person to arrive from a school opens that school\u2019s board, and it is theirs from that moment: separate from every other campus, named and marked with their own institution. There is no waiting list and nothing for us to approve.',
   ],
   [
     'How is the impact number calculated?',
@@ -136,8 +140,8 @@ const FAQ: [string, string][] = [
     'Nothing dangerous or illegal: weapons, drugs and prescriptions, alcohol and vapes, IDs and keys, stolen or university-owned property, coursework meant to be handed in. The app checks a listing before it posts and says why.',
   ],
   [
-    'When do other schools get it?',
-    'When Columbia is dense enough to be useful on a Tuesday, not just in May. Adding a campus is one database row; adding it early is how boards die empty.',
+    'What are you concentrating on right now?',
+    'They already have it: a university email opens a board. What we are deliberately not doing is spending attention everywhere at once — the first campus has to be dense enough to be useful on an ordinary Tuesday before we go and recruit the second.',
   ],
 ]
 
@@ -233,7 +237,7 @@ export function Landing() {
             <LoopMark size={19} />
             Handoff
           </div>
-          <span className="tag tag-outline">Circular economy · Columbia</span>
+          <span className="tag tag-outline">Circular economy · For universities</span>
           <a className="site__bar-link" href="#how">
             How it works
           </a>
@@ -254,10 +258,10 @@ export function Landing() {
 
       <section className="site__hero">
         <div className="site__wrap">
-          <div className="site__kicker">Campus circular economy · V1 trialing at Columbia</div>
+          <div className="site__kicker">Campus circular economy · Any university, one board each</div>
           <h1>Handoff</h1>
           <p className="site__lede">
-            Keep the things a campus already owns in use — and count every object that stayed out of the landfill.
+            Keep the things your campus already owns in use — and count every object that stayed out of the landfill.
           </p>
           <div className="site__cta-row">
             <a className="site__cta" href={APP}>
@@ -502,7 +506,7 @@ export function Landing() {
           <h2>The greenest object on campus is the one already here.</h2>
           <p>
             One photo and one sentence puts it back into use, and one confirmation from each side puts it on the record.
-            Sign in with the Columbia address you already have.
+            Sign in with the university address you already have.
           </p>
           <div className="site__cta-row">
             <a className="site__cta" href={APP}>
@@ -514,8 +518,8 @@ export function Landing() {
 
       <footer className="site__wrap site__foot">
         <span>
-          Handoff — campus reuse, counted · Built by Agung Nugroho and Tessa Wong · impact model v{MODEL_VERSION},
-          displacement {DISPLACEMENT}.
+          Handoff — campus reuse, counted · Any university, one board each · Built by Agung Nugroho and Tessa Wong ·
+          impact model v{MODEL_VERSION}, displacement {DISPLACEMENT}.
         </span>
         <a href="/about">About</a>
         <a href={APP}>Open the board</a>

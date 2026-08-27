@@ -49,6 +49,16 @@ export function Board({ h }: { h: Handoff }) {
         >
           Handoff
         </div>
+        {h.campusLogo && (
+          <img
+            src={h.campusLogo}
+            alt=""
+            width={20}
+            height={20}
+            style={{ borderRadius: 4, flex: 'none', opacity: 0.9 }}
+            onError={(e) => ((e.currentTarget.style.display = 'none'))}
+          />
+        )}
         <div
           style={{
             fontSize: 11,

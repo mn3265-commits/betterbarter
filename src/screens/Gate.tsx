@@ -51,7 +51,7 @@ export function Gate({ h, auth }: { h: Handoff; auth?: Auth }) {
       <div className="gate__intro">
       <div style={{ display: 'flex', alignItems: 'baseline', gap: 10 }}>
         <div style={{ fontSize: 10, letterSpacing: '.16em', textTransform: 'uppercase', opacity: 0.85 }}>
-          Campus reuse, counted · Columbia
+          Campus reuse, counted
         </div>
         {/* The only way back to the public site, for anyone who arrived here first. */}
         <a
@@ -66,7 +66,7 @@ export function Gate({ h, auth }: { h: Handoff; auth?: Auth }) {
         Handoff
       </div>
       <p style={{ fontSize: 17, lineHeight: 1.35, margin: '20px 0 0', maxWidth: '24ch' }}>
-        Give away or resell what you are done with — to someone in your own building.
+        Give away, sell, lend or swap what you are done with — to someone in your own building.
       </p>
 
       {/* The three promises, in the order they matter. They also stop the screen
@@ -88,12 +88,12 @@ export function Gate({ h, auth }: { h: Handoff; auth?: Auth }) {
 
       <div className="gate__signin" style={{ marginTop: 'auto', display: 'flex', flexDirection: 'column', gap: 12 }}>
         <div style={{ fontSize: 12, opacity: 0.9, letterSpacing: '.02em' }}>
-          Columbia only, for now. Sign in with the address you already have.
+          Sign in with your university email. Your school gets its own board — if it has no board yet, yours opens it.
         </div>
 
         {live && !sent ? (
           <>
-            {/* Primary: one-tap Columbia Google (LionMail) sign-in. */}
+            {/* Primary: one-tap university Google sign-in. */}
             <button
               onClick={() => void google()}
               disabled={gBusy}
@@ -127,7 +127,7 @@ export function Gate({ h, auth }: { h: Handoff; auth?: Auth }) {
               inputMode="email"
               autoCapitalize="none"
               autoCorrect="off"
-              placeholder="you@columbia.edu"
+              placeholder="you@your-university.edu"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               onKeyDown={(e) => {

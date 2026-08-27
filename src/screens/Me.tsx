@@ -63,6 +63,23 @@ export function Me({ h }: { h: Handoff }) {
               {h.me.email}
               {h.me.since ? ` · joined ${h.me.since}` : ''}
             </div>
+            {/* The campus this account belongs to, as its own institution shows
+                itself: name and mark, both read from the campus row. */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginTop: 9 }}>
+              {h.campusLogo && (
+                <img
+                  src={h.campusLogo}
+                  alt=""
+                  width={22}
+                  height={22}
+                  style={{ borderRadius: 5, flex: 'none' }}
+                  onError={(e) => ((e.currentTarget.style.display = 'none'))}
+                />
+              )}
+              <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 600, fontSize: 14.5 }}>
+                {h.campusName || 'Your campus'}
+              </div>
+            </div>
             <div style={{ display: 'flex', gap: 6, marginTop: 8, flexWrap: 'wrap' }}>
               <span className="tag tag-accent">{h.me.handoffs} handoffs</span>
               <span className="tag tag-neutral">{h.me.noShows} no-shows</span>

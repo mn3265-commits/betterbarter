@@ -72,7 +72,10 @@ export function useHandoff(config: HandoffConfig, live?: LiveContext) {
   const [wanted, setWanted] = useState<Wanted[]>(isLive ? [] : WANTED)
   const [threads, setThreads] = useState<ThreadSummary[]>([])
   const [spots, setSpots] = useState<CampusSpot[]>(isLive ? [] : CAMPUS_SPOTS)
-  const [campusName, setCampusName] = useState(isLive ? '' : 'Columbia')
+  const [campusName, setCampusName] = useState(isLive ? '' : 'Columbia University')
+  const [campusLogo, setCampusLogo] = useState<string | null>(
+    isLive ? null : 'https://www.google.com/s2/favicons?domain=columbia.edu&sz=128',
+  )
   const [loadingBoard, setLoadingBoard] = useState(isLive)
   const [error, setError] = useState<string | null>(null)
 
@@ -199,7 +202,25 @@ export function useHandoff(config: HandoffConfig, live?: LiveContext) {
     void refreshThreads()
     void refreshWanted()
     api.fetchSpots().then(setSpots).catch(() => {})
-    api.fetchCampusName().then(setCampusName).catch(() => {})
+    void (async () => {
+      try {
+        const campus = await api.fetchCampus()
+        setCampusName(campus.name)
+        setCampusLogo(campus.logoUrl)
+
+        // A board that opened minutes ago only knows its domain. The registry is
+        // 340KB, so it loads only in the one case that needs it, once.
+        if (campus.isPlaceholder && live?.email) {
+          const domain = live.email.split('@')[1]?.toLowerCase()
+          if (!domain) return
+          const registry = (await import('../data/campuses.json')).default as Record<string, string>
+          const proper = registry[domain]
+          if (proper && (await api.nameMyCampus(proper))) setCampusName(proper)
+        }
+      } catch {
+        /* the board works without a campus name */
+      }
+    })()
   }, [isLive, refreshBoard, refreshThreads, refreshWanted])
 
   // Board stays live while the app is open.
@@ -949,6 +970,7 @@ export function useHandoff(config: HandoffConfig, live?: LiveContext) {
     ruleHits,
     error,
     campusName,
+    campusLogo,
     campusSpots: spots,
     wanted,
     wantedDraft,

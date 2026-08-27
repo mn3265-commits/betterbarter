@@ -133,9 +133,44 @@ function toItem(r: ListingRow, seller: ProfileRow | undefined, meId: string | nu
 
 // ── campus ────────────────────────────────────────────────────────────────────
 
-export async function fetchCampusName(): Promise<string> {
-  const { data } = await db().from('campuses').select('name').limit(1).maybeSingle()
-  return (data as { name: string } | null)?.name ?? 'campus'
+export interface Campus {
+  name: string
+  logoUrl: string | null
+  website: string | null
+  isPlaceholder: boolean
+}
+
+/** The viewer's own campus. RLS scopes this to exactly one row. */
+export async function fetchCampus(): Promise<Campus> {
+  const { data } = await db()
+    .from('campuses')
+    .select('name, logo_url, website, is_placeholder')
+    .limit(1)
+    .maybeSingle()
+  const row = data as
+    | { name: string; logo_url: string | null; website: string | null; is_placeholder: boolean }
+    | null
+  return {
+    name: row?.name ?? 'campus',
+    logoUrl: row?.logo_url ?? null,
+    website: row?.website ?? null,
+    isPlaceholder: row?.is_placeholder ?? false,
+  }
+}
+
+/**
+ * Give a freshly created campus its real name.
+ *
+ * A board opens the moment someone signs in from a new school, and the trigger
+ * can only name it after the domain ("Columbia" from columbia.edu). The proper
+ * name lives in a registry that ships with the client, so the first person to
+ * arrive finishes the job — and the database only accepts it while the name is
+ * still a placeholder.
+ */
+export async function nameMyCampus(name: string): Promise<boolean> {
+  const { data, error } = await db().rpc('name_my_campus', { p_name: name })
+  if (error) return false
+  return Boolean(data)
 }
 
 export async function fetchSpots(): Promise<CampusSpot[]> {

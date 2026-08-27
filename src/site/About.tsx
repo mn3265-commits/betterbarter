@@ -44,16 +44,16 @@ const PRINCIPLES: [string, string, string][] = [
 
 const HORIZON: [string, string][] = [
   [
-    'Now — one campus, on purpose',
-    'Columbia first, building by building, until the board is useful on an ordinary Tuesday and not only in the last week of May. Density is the whole product: a board with nothing on it is worse than no board.',
+    'Now — one campus deep, not many campuses wide',
+    'Any university email already opens its own board. Our own attention goes to a single school, building by building, until it is useful on an ordinary Tuesday and not only in the last week of May. Density is the whole product: a board with nothing on it is worse than no board.',
   ],
   [
     'Next — the loop closes locally',
     'When borrowing and swapping carry as much traffic as giving away, a floor starts behaving like a small library of things. That is when the count stops being a waste metric and starts being a measure of how much a community can supply itself.',
   ],
   [
-    'Later — the same primitive, another campus',
-    'Adding a school is one row in a database and no new code. What does not scale by copying is trust, so each campus starts the way this one did: with its own verified people, its own spots and its own count.',
+    'Later — the same primitive, every campus',
+    'A school joins by someone signing in, not by us launching. What does not scale by copying is trust, so each campus starts the way the first one did: its own verified people, its own meetup spots, its own count, and its own name and mark on every profile.',
   ],
 ]
 
@@ -66,7 +66,7 @@ export function About() {
             <LoopMark size={19} />
             Handoff
           </a>
-          <span className="tag tag-outline">Circular economy · Columbia</span>
+          <span className="tag tag-outline">Circular economy · For universities</span>
           <a className="site__bar-link" href="/#how">
             How it works
           </a>
@@ -190,7 +190,7 @@ export function About() {
         <div className="site__wrap">
           <h2>The greenest object on campus is the one already here.</h2>
           <p>
-            Give it, sell it, lend it, swap it — the only wrong answer is the dumpster. Sign in with the Columbia
+            Give it, sell it, lend it, swap it — the only wrong answer is the dumpster. Sign in with the university
             address you already have.
           </p>
           <div className="site__cta-row">
@@ -202,7 +202,7 @@ export function About() {
       </section>
 
       <footer className="site__wrap site__foot">
-        <span>Handoff — campus reuse, counted · Built by Agung Nugroho and Tessa Wong · v1, trialing at Columbia.</span>
+        <span>Handoff — campus reuse, counted · Any university, one board each · Built by Agung Nugroho and Tessa Wong.</span>
         <a href="/">Home</a>
         <a href={APP}>Open the board</a>
         <a href="https://github.com/mn3265-commits/handoff">Source &amp; model</a>
