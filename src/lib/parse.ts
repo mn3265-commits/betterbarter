@@ -1,4 +1,4 @@
-import type { ParseResult } from '../data/types'
+import type { ListingKind, ParseResult } from '../data/types'
 
 /**
  * Overrides that win over the parse. Any user correction ("Fix") becomes an
@@ -32,7 +32,33 @@ export function parseListing(rawText: string, o: ParseOverrides): ParseResult {
 
   // Free: give-away words, but only when no price was stated. Empty text = free.
   const freeWord = /\b(free|giving it away|give it away|giving away|take it|no charge|whoever wants)\b/.test(low)
-  const free = o.oFree !== null ? o.oFree : priceRead === null ? freeWord || !t : false
+
+  // Renting: "$5 a week", "borrow it for the term", "lending my drill".
+  const rentWord = /\b(rent|renting|rent out|borrow|borrowing|lend|lending|loan|per week|a week|per day|a day|per month|a month|for the term)\b/.test(low)
+  const rateMatch = low.match(
+    /\$?\s?(\d{1,4})\s?(?:dollars|bucks|usd)?\s*(?:\/|per|a|each)\s*(day|week|month|term|semester)\b/,
+  )
+  const rentRateRead = rateMatch ? parseInt(rateMatch[1], 10) : null
+  const rentPeriodRead = rateMatch ? rateMatch[2].replace('semester', 'term') : 'week'
+
+  // Swapping: "swap for a fan", "trade for headphones", "looking to exchange".
+  const tradeWord = /\b(swap|swapping|trade|trading|exchange|in exchange for)\b/.test(low)
+  // "swap for a fan" and "swapping my heater for a fan" both have to work, so
+  // allow the object being offered to sit between the verb and the "for".
+  const tradeMatch = low.match(/\b(?:swap|swapping|trade|trading|exchange)\b[^.,!?]{0,40}?\bfor\s+([^.,!?]{2,40})/)
+  const tradeForRead = tradeMatch ? tradeMatch[1].trim() : ''
+
+  const kind: ListingKind = rentWord && (rateMatch || /\b(rent|borrow|lend|loan)\b/.test(low))
+    ? 'rent'
+    : tradeWord
+      ? 'trade'
+      : priceRead !== null
+        ? 'sale'
+        : freeWord || !t
+          ? 'free'
+          : 'sale'
+
+  const free = o.oFree !== null ? o.oFree : kind === 'free'
 
   // Title: strip greetings and lead-ins, cut at first punctuation, keep 6 words.
   let title = t
@@ -87,8 +113,13 @@ export function parseListing(rawText: string, o: ParseOverrides): ParseResult {
 
   return {
     title: o.oTitle !== null ? o.oTitle : title || 'Untitled thing',
+    // A price correction means the person meant to sell it, whatever the words said.
+    kind: o.oPrice !== null ? 'sale' : o.oFree === true ? 'free' : kind,
     free,
     price: o.oPrice !== null ? o.oPrice : priceRead === null ? 10 : priceRead,
+    tradeFor: tradeForRead,
+    rentRate: rentRateRead ?? priceRead ?? 5,
+    rentPeriod: rentPeriodRead,
     cat: catOf(),
     cond: condOf(),
     spot: spotOf(),

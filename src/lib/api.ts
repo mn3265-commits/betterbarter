@@ -1,5 +1,5 @@
 import type { RealtimeChannel } from '@supabase/supabase-js'
-import type { CampusSpot, Item, ListingStatus, Message, ThreadSummary, Wanted } from '../data/types'
+import type { CampusSpot, Item, ListingKind, ListingStatus, Message, ThreadSummary, Wanted } from '../data/types'
 import { supabase } from './supabase'
 
 /**
@@ -64,8 +64,12 @@ interface ListingRow {
   seller_id: string
   title: string
   description: string
+  kind: ListingKind
   is_free: boolean
   price: number | null
+  trade_for: string | null
+  rent_rate: number | null
+  rent_period: string | null
   category: string
   condition: string
   building: string | null
@@ -103,8 +107,12 @@ function toItem(r: ListingRow, seller: ProfileRow | undefined, meId: string | nu
   return {
     id: numId(r.id),
     uuid: r.id,
+    kind: r.kind ?? (r.is_free ? 'free' : 'sale'),
     free: r.is_free,
     price: r.price ?? undefined,
+    tradeFor: r.trade_for ?? undefined,
+    rentRate: r.rent_rate ?? undefined,
+    rentPeriod: r.rent_period ?? undefined,
     title: r.title,
     cat: r.category,
     cond: r.condition,
@@ -149,7 +157,7 @@ export async function bumpSpot(campusId: string, name: string): Promise<void> {
 // ── board ─────────────────────────────────────────────────────────────────────
 
 const LISTING_COLS =
-  'id, seller_id, title, description, is_free, price, category, condition, building, spot_name, status, photo_path, created_at, confirmed_at'
+  'id, seller_id, title, description, kind, is_free, price, trade_for, rent_rate, rent_period, category, condition, building, spot_name, status, photo_path, created_at, confirmed_at'
 
 /** Everything the viewer may see: active listings on their campus, plus their
  *  own paused/gone ones (RLS enforces both). */
@@ -210,8 +218,12 @@ export interface NewListing {
   campusId: string
   sellerId: string
   title: string
+  kind: ListingKind
   free: boolean
   price: number
+  tradeFor: string
+  rentRate: number
+  rentPeriod: string
   category: string
   condition: string
   spotName: string
@@ -221,13 +233,18 @@ export interface NewListing {
 }
 
 export async function createListing(input: NewListing): Promise<void> {
+  const priced = input.kind === 'sale'
   const { error } = await db().from('listings').insert({
     campus_id: input.campusId,
     seller_id: input.sellerId,
     title: input.title,
     description: input.description,
-    is_free: input.free,
-    price: input.free ? null : input.price,
+    kind: input.kind,
+    is_free: input.kind === 'free',
+    price: priced ? input.price : null,
+    trade_for: input.kind === 'trade' ? input.tradeFor || null : null,
+    rent_rate: input.kind === 'rent' ? input.rentRate : null,
+    rent_period: input.kind === 'rent' ? input.rentPeriod : null,
     category: input.category,
     condition: input.condition,
     building: input.building || null,
@@ -430,7 +447,7 @@ export async function confirmStillHere(uuid: string): Promise<void> {
 export async function makeListingFree(uuid: string): Promise<void> {
   const { error } = await db()
     .from('listings')
-    .update({ is_free: true, price: null, confirmed_at: new Date().toISOString() })
+    .update({ kind: 'free', is_free: true, price: null, rent_rate: null, rent_period: null, confirmed_at: new Date().toISOString() })
     .eq('id', uuid)
   if (error) throw error
 }

@@ -1,0 +1,206 @@
+import { ArrowRight } from 'lucide-react'
+import { LoopMark } from './LoopMark'
+import '../styles/site.css'
+
+/**
+ * `/about` — who is behind Handoff and what it is ultimately for.
+ *
+ * The vision is a self-sufficient community that cares about people and planet,
+ * and the page is written to earn that sentence rather than assert it: what
+ * self-sufficient means concretely on a campus, why people and planet are the
+ * same problem here rather than two, and what would have to be true for the
+ * claim to be false.
+ */
+
+const APP = '/app'
+
+const PRINCIPLES: [string, string, string][] = [
+  [
+    '01',
+    'A community should be able to supply itself',
+    'A residential campus already owns almost everything its next intake needs to buy. The lamp exists, the fridge exists, the drill exists — they are two floors away, invisible. Self-sufficiency here is not austerity or off-grid living; it is a community noticing what it already has before it orders more.',
+  ],
+  [
+    '02',
+    'People and planet are the same problem on a campus',
+    'The student who cannot afford a $200 furnishing run and the object heading for a dumpster are two halves of one transaction that never happened. Solve it for the person and the emissions follow; solve it for the emissions alone and you get a donation bin nobody uses. We refuse to treat the two as a trade-off.',
+  ],
+  [
+    '03',
+    'Ownership is only one way to have a thing',
+    'Free, sale, swap and borrow are four answers to the same question — how do you get the use of an object without a new one being made. A drill borrowed by six people is five drills that were never manufactured, and the loan is over in a week.',
+  ],
+  [
+    '04',
+    'Trust is infrastructure, not a feature',
+    'Reuse between strangers fails on fear, so the only wall we build is who gets in: one verified school email, one campus per board, a public count of real handoffs. Everything else — the rules, the public meetup spots, the record kept in the thread — exists so two people who have never met can hand something over without either of them being brave.',
+  ],
+  [
+    '05',
+    'Count it honestly or do not count it',
+    'A circular claim that cannot be audited is marketing. We separate what was measured from what was estimated, publish the factors, take the low end of every range, and give away the assumption most likely to be challenged before anyone asks for it. A smaller number we can defend is worth more than a large one we cannot.',
+  ],
+]
+
+const HORIZON: [string, string][] = [
+  [
+    'Now — one campus, on purpose',
+    'Columbia first, building by building, until the board is useful on an ordinary Tuesday and not only in the last week of May. Density is the whole product: a board with nothing on it is worse than no board.',
+  ],
+  [
+    'Next — the loop closes locally',
+    'When borrowing and swapping carry as much traffic as giving away, a floor starts behaving like a small library of things. That is when the count stops being a waste metric and starts being a measure of how much a community can supply itself.',
+  ],
+  [
+    'Later — the same primitive, another campus',
+    'Adding a school is one row in a database and no new code. What does not scale by copying is trust, so each campus starts the way this one did: with its own verified people, its own spots and its own count.',
+  ],
+]
+
+export function About() {
+  return (
+    <div className="site">
+      <header className="site__bar">
+        <div className="site__wrap site__bar-in">
+          <a className="site__mark" href="/" style={{ textDecoration: 'none' }}>
+            <LoopMark size={19} />
+            HANDOFF
+          </a>
+          <span className="tag tag-outline">Circular economy · Columbia</span>
+          <a className="site__bar-link" href="/#how">
+            How it works
+          </a>
+          <a className="site__bar-link" href="/#impact">
+            Impact
+          </a>
+          <a className="btn btn-primary" href={APP}>
+            Open the board
+          </a>
+        </div>
+      </header>
+
+      <section className="site__hero">
+        <div className="site__wrap">
+          <div className="site__kicker">About Handoff</div>
+          <h1 className="site__about-h1">
+            A self-sufficient
+            <br />
+            community that cares
+            <br />
+            about people and planet.
+          </h1>
+          <p className="site__lede" style={{ maxWidth: '38ch' }}>
+            That is the whole vision, and it is smaller and more literal than it sounds: a place where the things people
+            need are already here, and getting them from one person to the next costs nobody anything.
+          </p>
+        </div>
+      </section>
+
+      <section className="site__section">
+        <div className="site__wrap">
+          <div className="site__kicker">Where this came from</div>
+          <h2>It started as a lamp in a dumpster.</h2>
+          <div className="site__prose">
+            <p>
+              Every May, a residential campus throws out most of a year at once. Working fridges, desks, rugs, coats and
+              textbooks go into the same skips, while eight weeks later the next intake buys the identical objects new —
+              often the same students, in the other direction, financing it on money they do not have.
+            </p>
+            <p>
+              Nobody in that picture wants the waste. The person carrying a lamp downstairs is not making an
+              environmental choice; they are out of time, the truck is booked, and the alternative is arranging to meet a
+              stranger from a marketplace app off campus. The waste is what is left over when the easy path and the
+              right path are different paths.
+            </p>
+            <p>
+              Handoff exists to make them the same path. One photo and one sentence, someone in your own building, an
+              exchange in a lobby, and both of you confirming it happened. Everything else in the product — the
+              verification, the three-hour hold, the day-seven check, the impact model — is scaffolding around that one
+              moment.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section className="site__section" id="principles">
+        <div className="site__wrap">
+          <div className="site__kicker">What we believe</div>
+          <h2>Five things this product refuses to be talked out of.</h2>
+          <div className="site__steps">
+            {PRINCIPLES.map(([n, title, body]) => (
+              <div key={n} className="site__step">
+                <div className="site__step-n">{n}</div>
+                <div>
+                  <h3>{title}</h3>
+                  <p>{body}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="site__section">
+        <div className="site__wrap">
+          <div className="site__kicker">Where it goes</div>
+          <h2>Dense before wide.</h2>
+          <div className="site__grid">
+            {HORIZON.map(([title, body]) => (
+              <div key={title} className="site__cell">
+                <b>{title}</b>
+                <span>{body}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="site__section">
+        <div className="site__wrap">
+          <div className="site__kicker">Who is building it</div>
+          <h2>One person, in the open.</h2>
+          <div className="site__prose">
+            <p>
+              Handoff is built by <b>Mohammad Agung Nugroho</b>, a graduate student at Columbia University's School of
+              Professional Studies, working in customer lifecycle and growth. The product, the interface, the database
+              and the impact model are all one pair of hands — which is why it can move at the speed of one decision,
+              and why the code and the factor table are public rather than described.
+            </p>
+            <p>
+              Campus reuse does not fail on technology. It fails on adoption and on trust, which are product and
+              behaviour problems before they are engineering ones — and those are the problems this project was started
+              to work on.
+            </p>
+            <p>
+              If you run housing, sustainability or a student group at a school where this should exist, or you want to
+              argue with a number in the model,{' '}
+              <a href="https://github.com/mn3265-commits/handoff">the repository</a> is the front door.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section className="site__close">
+        <div className="site__wrap">
+          <h2>The greenest object on campus is the one already here.</h2>
+          <p>
+            Give it, sell it, lend it, swap it — the only wrong answer is the dumpster. Sign in with the Columbia
+            address you already have.
+          </p>
+          <div className="site__cta-row">
+            <a className="site__cta" href={APP}>
+              Open the board <ArrowRight size={19} strokeWidth={2.4} />
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <footer className="site__wrap site__foot">
+        <span>Handoff — campus reuse, counted · v1, trialing at Columbia.</span>
+        <a href="/">Home</a>
+        <a href={APP}>Open the board</a>
+        <a href="https://github.com/mn3265-commits/handoff">Source &amp; model</a>
+      </footer>
+    </div>
+  )
+}

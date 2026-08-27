@@ -62,6 +62,11 @@
   color: var(--color-accent-700);
 }
 .site__hero .site__kicker { color: var(--color-bg); opacity: 0.8; }
+.site__about-h1 { font-size: clamp(34px, 5.4vw, 62px) !important; line-height: 1.02 !important; letter-spacing: -0.03em !important; }
+.site__prose { max-width: 66ch; margin-top: 22px; }
+.site__prose p { font-size: 16.5px; line-height: 1.6; margin: 0 0 16px; opacity: 0.85; text-wrap: pretty; }
+.site__prose p:last-child { margin: 0; }
+
 .site__hero h1 {
   font-size: clamp(64px, 12vw, 132px);
   line-height: 0.88;

@@ -15,6 +15,19 @@ flat/modernist system: **zero border radius anywhere**, everything **flush left*
 2px rules instead of shadows, a single accent red on a light ground, Archivo
 throughout.
 
+## Four ways an object moves
+
+A listing carries a `kind`: **free**, **sale**, **trade** or **rent**. The first
+three transfer the object; a rental comes back, which is the one asymmetry the
+impact model cares about — a loan is counted as a reuse event and earns **no**
+avoided-production credit, because nobody outside the two students can say a
+purchase was truly prevented.
+
+What stays cut is the part that made trade and rent dangerous in v1: deposits,
+escrow and damage adjudication. Handoff still holds no money and settles no
+disputes — a rental is two students and a promise, like every other handoff
+here, and the community rules say so in the text every account agrees to.
+
 ## The impact model
 
 `src/lib/impact.ts` is the one place a confirmed handoff becomes a circularity
@@ -36,7 +49,8 @@ whole factor table from this file, so the page and the model cannot drift.
 
 | Path | What it is |
 | --- | --- |
-| `/` | The public site — what Handoff is, how a handoff works, the rules, the FAQ. Sendable to someone who has never heard of it. |
+| `/` | The public site — what Handoff is, how a handoff works, the impact model, the rules, the FAQ. Sendable to someone who has never heard of it. |
+| `/about` | The vision: a self-sufficient community that cares about people and planet — where it came from, what it refuses to be talked out of, and who is building it. |
 | `/app` | The product. Sign-in gate, board, chat, posting, Me. |
 | `/?showcase` | The original design walkthrough: phone frame, scope notes, seed data, no account needed. |
 

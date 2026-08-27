@@ -1,9 +1,9 @@
 import type { Handoff } from './lib/useHandoff'
 
 const CUT = [
-  ['Trade', "Two people rarely want each other's thing. Money already solved this."],
-  ['Rent', 'Deposits, damage, disputes. A second app hiding in the first.'],
-  ['Fee per deal', 'The handoff happens in a lobby, on Venmo. You cannot see it, so you cannot charge it.'],
+  ['Payments', 'The handoff happens in a lobby, on Venmo. You cannot see it, so you cannot charge it.'],
+  ['Deposits', 'Lending is a promise between two verified students. We hold nothing and adjudicate nothing.'],
+  ['Logistics', 'No collection, no storage, no van. That is what makes reuse cost more than it saves.'],
   ['Many campuses', 'One school at a time. All of Columbia first, dense before wide.'],
 ]
 
@@ -13,6 +13,7 @@ const EARNS = [
   ['Handoff count', 'Reputation as credit history'],
   ['Mark as gone', 'Dead listings kill a board'],
   ['Wanted posts', 'A full board with zero inventory'],
+  ['Four ways to move it', 'Give, sell, lend, swap — one board, one confirmation'],
   ['Move-out mode', 'May is the whole business'],
 ]
 

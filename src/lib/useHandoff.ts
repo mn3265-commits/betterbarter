@@ -38,6 +38,7 @@ export interface LiveContext {
 
 const EMPTY_ITEM: Item = {
   id: -1,
+  kind: 'free',
   free: true,
   title: '',
   cat: '',
@@ -230,7 +231,22 @@ export function useHandoff(config: HandoffConfig, live?: LiveContext) {
     (it: Item) => (isLive ? it.free : it.free || freed.includes(it.id)),
     [isLive, freed],
   )
-  const priceOf = useCallback((it: Item) => (isFree(it) ? 'FREE' : '$' + it.price), [isFree])
+  /** How a listing prices itself on a card: FREE, $40, $5/WEEK, SWAP. */
+  const priceOf = useCallback(
+    (it: Item) => {
+      if (it.kind === 'rent') return '$' + (it.rentRate ?? 0) + '/' + (it.rentPeriod ?? 'week')
+      if (it.kind === 'trade') return 'SWAP'
+      return isFree(it) ? 'FREE' : '$' + it.price
+    },
+    [isFree],
+  )
+
+  /** Which board tab a listing belongs on. `freed` is the demo's day-7 "make it
+   *  free" action, which moves a sale onto the free tab. */
+  const kindOf = useCallback(
+    (it: Item): Item['kind'] => (isFree(it) && it.kind === 'sale' ? 'free' : it.kind),
+    [isFree],
+  )
   const daysOf = useCallback(
     (it: Item) => (isLive ? (it.ageDays ?? 0) : AGE_DAYS[it.id] || 0),
     [isLive],
@@ -567,15 +583,24 @@ export function useHandoff(config: HandoffConfig, live?: LiveContext) {
       return
     }
     setRuleHits([])
-    const note = p.free
-      ? 'It is on the board now. Anyone on campus with a matching saved search gets pinged.'
-      : 'Listed at $' + p.price + '. It is on the board now.'
+    const note =
+      p.kind === 'rent'
+        ? 'Listed to lend at $' + p.rentRate + ' a ' + p.rentPeriod + '. It comes back to you.'
+        : p.kind === 'trade'
+          ? 'Listed as a swap' + (p.tradeFor ? ' for ' + p.tradeFor : '') + '. It is on the board now.'
+          : p.kind === 'sale'
+            ? 'Listed at $' + p.price + '. It is on the board now.'
+            : 'It is on the board now. Anyone on campus with a matching saved search gets pinged.'
 
     if (!isLive || !live) {
       const it: Item = {
         id: 900 + extra.length,
+        kind: p.kind,
         free: p.free,
         price: p.price,
+        tradeFor: p.tradeFor,
+        rentRate: p.rentRate,
+        rentPeriod: p.rentPeriod,
         title: p.title,
         cat: p.cat,
         cond: p.cond,
@@ -591,11 +616,7 @@ export function useHandoff(config: HandoffConfig, live?: LiveContext) {
       setSpotName(p.spot)
       setWin(p.when)
       setPostedTitle(p.title.toUpperCase())
-      setPostedNote(
-        p.free
-          ? '3 people have a saved search that matches this. They are being pinged now.'
-          : 'Listed at $' + p.price + '. Two people saved a search near this price.',
-      )
+      setPostedNote(note)
       setScreen('posted')
       setToast(null)
       return
@@ -609,8 +630,12 @@ export function useHandoff(config: HandoffConfig, live?: LiveContext) {
           campusId: live.campusId,
           sellerId: live.userId,
           title: p.title,
+          kind: p.kind,
           free: p.free,
           price: p.price,
+          tradeFor: p.tradeFor,
+          rentRate: p.rentRate,
+          rentPeriod: p.rentPeriod,
           category: p.cat,
           condition: p.cond,
           spotName: p.spot,
@@ -658,9 +683,15 @@ export function useHandoff(config: HandoffConfig, live?: LiveContext) {
     setBusy(true)
     void (async () => {
       try {
-        const opening = isFree(d0)
-          ? `Claimed the ${d0.title.toLowerCase()}. Does ${win} at ${spotLabel()} work?`
-          : `Is the ${d0.title.toLowerCase()} still available? I can do ${win} at ${spotLabel()}.`
+        const what = d0.title.toLowerCase()
+        const opening =
+          d0.kind === 'rent'
+            ? `Could I borrow the ${what} at ${d0.rentRate ?? 0} a ${d0.rentPeriod ?? 'week'}? I can pick it up ${win} at ${spotLabel()}.`
+            : d0.kind === 'trade'
+              ? `Would you swap the ${what}${d0.tradeFor ? ` — you are after ${d0.tradeFor}?` : '?'} I can meet ${win} at ${spotLabel()}.`
+              : isFree(d0)
+                ? `Claimed the ${what}. Does ${win} at ${spotLabel()} work?`
+                : `Is the ${what} still available? I can do ${win} at ${spotLabel()}.`
         const threadId = await api.claimListing({
           listingUuid,
           campusId: live.campusId,
@@ -948,6 +979,7 @@ export function useHandoff(config: HandoffConfig, live?: LiveContext) {
     item,
     isFree,
     priceOf,
+    kindOf,
     daysOf,
     isPaused,
     isStale,

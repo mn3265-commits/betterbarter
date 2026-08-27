@@ -1,4 +1,5 @@
 import { useCallback, useMemo, useState } from 'react'
+import { About } from './site/About'
 import { Landing } from './site/Landing'
 import { IOSDevice } from './components/IOSDevice'
 import { Toast } from './components/Toast'
@@ -199,6 +200,7 @@ export default function App() {
     return null
   }
 
+  if (pathname === '/about' || pathname === '/about/') return <About />
   if (!isAppPath(pathname)) return <Landing />
 
   return (

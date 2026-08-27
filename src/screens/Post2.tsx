@@ -12,7 +12,23 @@ export function Post2({ h }: { h: Handoff }) {
   const blocked = h.ruleHits.some((x) => x.level === 'blocked')
   const rows: { key: string; label: string; value: string; fixable: boolean }[] = [
     { key: 'title', label: 'What it is', value: p.title, fixable: true },
-    { key: 'price', label: 'Price', value: p.free ? 'Free' : '$' + p.price, fixable: true },
+    {
+      key: 'price',
+      // One row, four possible readings — the app says back what it understood,
+      // including which of the four ways this object is moving.
+      label: p.kind === 'rent' ? 'To borrow' : p.kind === 'trade' ? 'Swap' : 'Price',
+      value:
+        p.kind === 'rent'
+          ? '$' + p.rentRate + ' a ' + p.rentPeriod + ' · it comes back to you'
+          : p.kind === 'trade'
+            ? p.tradeFor
+              ? 'For ' + p.tradeFor
+              : 'Open to offers'
+            : p.free
+              ? 'Free'
+              : '$' + p.price,
+      fixable: true,
+    },
     { key: 'cat', label: 'Category', value: p.cat + ' · ' + p.cond, fixable: false },
     { key: 'spot', label: 'Hand it off at', value: p.spot, fixable: true },
     { key: 'when', label: 'When', value: p.when, fixable: false },
@@ -20,7 +36,11 @@ export function Post2({ h }: { h: Handoff }) {
 
   const editLabel =
     h.edit === 'price'
-      ? 'Price — a number, or the word free'
+      ? p.kind === 'rent'
+        ? 'Rate — a number is per week'
+        : p.kind === 'trade'
+          ? 'What you want for it'
+          : 'Price — a number, or the word free'
       : h.edit === 'spot'
         ? 'Name the spot'
         : 'What it is'

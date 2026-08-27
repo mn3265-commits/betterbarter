@@ -10,7 +10,15 @@ import type { Handoff } from '../lib/useHandoff'
 export function Claim({ h }: { h: Handoff }) {
   const d0 = h.item(h.selId)
   const first = (d0.seller || 'them').split(' ')[0]
-  const cta = h.isFree(d0) ? 'Claim and message ' + first : 'Message ' + first
+  const kind = h.kindOf(d0)
+  const cta =
+    kind === 'rent'
+      ? 'Ask to borrow, and message ' + first
+      : kind === 'trade'
+        ? 'Offer a swap to ' + first
+        : h.isFree(d0)
+          ? 'Claim and message ' + first
+          : 'Message ' + first
   const canSend = Boolean(h.spotName.trim() || h.spot) && !h.busy
 
   return (

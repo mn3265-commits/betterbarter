@@ -18,7 +18,15 @@ export function Detail({ h }: { h: Handoff }) {
     days >= 7
       ? 'Listed ' + days + ' days ago · the seller has not confirmed it this week'
       : 'Listed ' + d0.ago + (d0.ago === 'just now' ? '' : ' ago')
-  const cta = h.isFree(d0) ? 'Claim it' : 'Ask about it — ' + h.priceOf(d0)
+  const kind = h.kindOf(d0)
+  const cta =
+    kind === 'rent'
+      ? 'Ask to borrow it — ' + h.priceOf(d0)
+      : kind === 'trade'
+        ? 'Offer a swap'
+        : h.isFree(d0)
+          ? 'Claim it'
+          : 'Ask about it — ' + h.priceOf(d0)
 
   return (
     <div className="screen">

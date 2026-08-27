@@ -21,7 +21,7 @@ export function Board({ h }: { h: Handoff }) {
   const pool = h
     .all()
     .filter((it) => (h.live ? it.status === 'active' : !h.isPaused(it)))
-    .filter((it) => (h.tab === 'free' ? h.isFree(it) : !h.isFree(it)))
+    .filter((it) => h.kindOf(it) === h.tab)
   const cards = pool.filter((it) => !q || (it.title + ' ' + it.cat).toLowerCase().includes(q))
   const staleMine = h.staleListings
   const campus = h.campusName || 'campus'
@@ -148,21 +148,23 @@ export function Board({ h }: { h: Handoff }) {
           />
         </div>
 
-        {/* segmented control */}
-        <div style={{ padding: '12px 16px 0' }}>
-          <div className="seg" style={{ width: '100%' }}>
-            <label className="seg-opt" style={{ flex: 1, justifyContent: 'flex-start' }}>
-              <input type="radio" name="hf-tab" checked={h.tab === 'free'} onChange={() => h.setTab('free')} />
-              <span>Free</span>
-            </label>
-            <label className="seg-opt" style={{ flex: 1, justifyContent: 'flex-start' }}>
-              <input type="radio" name="hf-tab" checked={h.tab === 'sale'} onChange={() => h.setTab('sale')} />
-              <span>For sale</span>
-            </label>
-            <label className="seg-opt" style={{ flex: 1, justifyContent: 'flex-start' }}>
-              <input type="radio" name="hf-tab" checked={h.tab === 'wanted'} onChange={() => h.setTab('wanted')} />
-              <span>Wanted</span>
-            </label>
+        {/* segmented control — five ways an object can move, scrollable on a phone */}
+        <div style={{ padding: '12px 16px 0', overflowX: 'auto' }}>
+          <div className="seg" style={{ minWidth: '100%', width: 'max-content' }}>
+            {(
+              [
+                ['free', 'Free'],
+                ['sale', 'For sale'],
+                ['rent', 'Borrow'],
+                ['trade', 'Swap'],
+                ['wanted', 'Wanted'],
+              ] as const
+            ).map(([key, label]) => (
+              <label key={key} className="seg-opt" style={{ flex: 1, justifyContent: 'center', whiteSpace: 'nowrap' }}>
+                <input type="radio" name="hf-tab" checked={h.tab === key} onChange={() => h.setTab(key)} />
+                <span>{label}</span>
+              </label>
+            ))}
           </div>
         </div>
 
@@ -251,7 +253,15 @@ function EmptyBoard({ h }: { h: Handoff }) {
   return (
     <div style={{ padding: '32px 16px 0' }}>
       <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 800, fontSize: 20, lineHeight: 1.15 }}>
-        {searching ? 'Nothing matches that.' : h.tab === 'free' ? 'Nothing free yet.' : 'Nothing for sale yet.'}
+        {searching
+          ? 'Nothing matches that.'
+          : h.tab === 'free'
+            ? 'Nothing free yet.'
+            : h.tab === 'rent'
+              ? 'Nothing to borrow yet.'
+              : h.tab === 'trade'
+                ? 'No swaps yet.'
+                : 'Nothing for sale yet.'}
       </div>
       <p style={{ fontSize: 13.5, opacity: 0.65, margin: '8px 0 16px', textWrap: 'pretty' }}>
         {searching

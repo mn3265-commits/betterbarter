@@ -11,6 +11,7 @@ import {
   forecast,
   kgLabel,
 } from '../lib/impact'
+import { LoopMark } from './LoopMark'
 import '../styles/site.css'
 
 /**
@@ -31,6 +32,8 @@ const APP = '/app'
 const SEGMENTS: [string, string][] = [
   ['Free', 'The thing that would otherwise go in a hallway or a dumpster. Someone on your floor takes it today.'],
   ['For sale', 'Cheap, and settled between the two of you. The app never touches the money.'],
+  ['Borrow', 'One drill can serve a whole floor. Lend it by the day or the week — it comes back to you.'],
+  ['Swap', 'Your heater for their fan. Two objects stay in use, and neither of you buys anything.'],
   ['Wanted', 'The board in reverse: say what you need before you buy it new.'],
 ]
 
@@ -48,8 +51,8 @@ const STEPS: [string, string, string][] = [
   ],
   [
     '02',
-    'Someone on your campus claims it',
-    'The board only ever shows your school, closest halls first. Free things are free. The item is held for three hours so two people are not walking to the same lobby.',
+    'Someone on your campus takes it on',
+    'The board only ever shows your school, closest halls first. They can take it free, buy it cheap, borrow it for a week, or offer you something of theirs for it. The item is held for three hours so two people are not walking to the same lobby.',
   ],
   [
     '03',
@@ -91,9 +94,9 @@ const WHY: [string, string][] = [
 ]
 
 const NOT: [string, string][] = [
-  ['Not a marketplace', 'No payments, no shipping, no fee per deal. The exchange happens in a lobby, and we cannot see it, so we do not charge it.'],
-  ['Not trading', 'Two people rarely want each other’s thing. Money already solved this.'],
-  ['Not renting', 'Deposits, damage, disputes — a second app hiding inside the first.'],
+  ['Not a payments platform', 'No checkout, no escrow, no fee per deal. Money moves between two students the way it already does; we cannot see it, so we do not charge it.'],
+  ['Not a deposit holder', 'Lending is a promise between two people on the same campus, not a contract we underwrite. We hold nothing and adjudicate nothing.'],
+  ['Not a shipping or storage service', 'Nothing is collected, warehoused or driven anywhere. Logistics is exactly what makes reuse cost more than it saves.'],
   ['Not every campus at once', 'One school at a time. Reuse only works at density: a board with nothing on it is worse than no board.'],
 ]
 
@@ -107,6 +110,14 @@ const FAQ: [string, string][] = [
     'Confirmed handoffs are counted directly. Mass is that count times a typical mass for the item’s category. Avoided emissions are that mass times a low-end production factor, times a displacement rate of ' +
       DISPLACEMENT +
       ' — because a reused object only avoids manufacturing when it stops someone buying a new one. The whole table is published below and lives in one file in the open-source repository.',
+  ],
+  [
+    'Why does borrowing not count toward the carbon number?',
+    'Because the object comes back. A loan avoids a purchase for the person who borrowed it, but the owner still owns it, and nobody outside the two of them can say a purchase was truly prevented. So a rental is counted and reported as a reuse event, and earns no avoided-production credit at all — the assumption most likely to be challenged, given away before anyone asks.',
+  ],
+  [
+    'Who is responsible if a borrowed thing breaks?',
+    'The two of you. Handoff holds no deposit, no escrow and no insurance, and it will not decide who broke what — lend what you can afford to lose, agree the return date in the thread, and bring things back in the state you got them. That is in the community rules every account agrees to.',
   ],
   [
     'Does it cost anything?',
@@ -129,27 +140,6 @@ const FAQ: [string, string][] = [
     'When Columbia is dense enough to be useful on a Tuesday, not just in May. Adding a campus is one database row; adding it early is how boards die empty.',
   ],
 ]
-
-/**
- * The mark: one object leaving a hand and arriving in another, closed into a
- * loop. Drawn rather than imported so it inherits the current colour, and kept
- * to two strokes so it survives at 18px in a browser tab bar.
- */
-function LoopMark({ size = 20 }: { size?: number }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" aria-hidden="true" style={{ display: 'block', flex: 'none' }}>
-      <path
-        d="M4 12a8 8 0 0 1 13.7-5.6"
-        stroke="currentColor"
-        strokeWidth="2.2"
-        strokeLinecap="square"
-      />
-      <path d="M20 12a8 8 0 0 1-13.7 5.6" stroke="currentColor" strokeWidth="2.2" strokeLinecap="square" />
-      <path d="M18 2.6v4.2h-4.2" stroke="currentColor" strokeWidth="2.2" strokeLinecap="square" />
-      <path d="M6 21.4v-4.2h4.2" stroke="currentColor" strokeWidth="2.2" strokeLinecap="square" />
-    </svg>
-  )
-}
 
 /** The assumed category mix, drawn as the material flow it is. */
 function MixBar() {
@@ -252,6 +242,9 @@ export function Landing() {
           </a>
           <a className="site__bar-link" href="#safety">
             Safety
+          </a>
+          <a className="site__bar-link" href="/about">
+            About
           </a>
           <a className="btn btn-primary" href={APP}>
             Open the board
@@ -370,7 +363,8 @@ export function Landing() {
               <b>Production avoided</b>
               <span>
                 Mass × a low-end cradle-to-gate factor × a displacement rate of {DISPLACEMENT}, because a reused object
-                only avoids manufacturing if it stops a purchase.
+                only avoids manufacturing if it stops a purchase. <b>Borrowing earns nothing here</b> — the object goes
+                back, so we count the loan and claim no carbon for it.
               </span>
             </div>
           </div>
@@ -527,6 +521,7 @@ export function Landing() {
           Handoff — campus reuse, counted · v1, trialing at Columbia · impact model v{MODEL_VERSION}, displacement{' '}
           {DISPLACEMENT}.
         </span>
+        <a href="/about">About</a>
         <a href={APP}>Open the board</a>
         <a href="/?showcase">Design walkthrough</a>
         <a href="https://github.com/mn3265-commits/handoff">Source &amp; model</a>

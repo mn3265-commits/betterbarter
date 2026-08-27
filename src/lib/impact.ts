@@ -26,7 +26,20 @@
  * does this for a living, which matters more than a big number.
  */
 
-export const MODEL_VERSION = '1.0'
+export const MODEL_VERSION = '1.1'
+
+/**
+ * Which ways of moving an object earn an avoided-production credit.
+ *
+ * A give-away, a sale and a swap all transfer the object: someone now has a
+ * thing they would otherwise have bought. A **rental comes back** — the borrower
+ * avoided a purchase for a week, the owner still owns it, and nobody can say
+ * from the outside whether a purchase was actually prevented. So a rental is
+ * counted as a reuse event and reported as one, and earns no carbon credit at
+ * all. Under-claiming here is deliberate: it is the assumption most likely to
+ * be challenged, so we give it away before anyone asks.
+ */
+export const TRANSFER_KINDS = ['free', 'sale', 'trade'] as const
 
 /** Share of reuses assumed to displace the manufacture of a new item.
  *  Reuse literature spans roughly 0.3–1.0 depending on product and market; we
@@ -74,10 +87,11 @@ export interface Impact {
 
 export const ZERO: Impact = { items: 0, kg: 0, co2e: 0 }
 
-/** One item of a category. */
-export function impactOfItem(category: string): Impact {
+/** One item of a category. `rent` keeps the mass, but earns no carbon credit. */
+export function impactOfItem(category: string, kind: string = 'free'): Impact {
   const f = FACTORS[category] ?? FALLBACK
-  return { items: 1, kg: f.kg, co2e: f.kg * f.efPerKg * DISPLACEMENT }
+  const transfers = (TRANSFER_KINDS as readonly string[]).includes(kind)
+  return { items: 1, kg: f.kg, co2e: transfers ? f.kg * f.efPerKg * DISPLACEMENT : 0 }
 }
 
 /** A tally of `{ category: count }` — what both impact RPCs return. */

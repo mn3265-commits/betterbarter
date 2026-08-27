@@ -8,7 +8,7 @@
  * and where people meet (public, never a room).
  */
 
-export const RULES_VERSION = 1
+export const RULES_VERSION = 2
 
 export interface RuleSection {
   title: string
@@ -42,6 +42,11 @@ export const RULES: RuleSection[] = [
       'Hand things off at a lobby, a front desk, a dining entrance, a library door, a gate. Do not give out your room number, and do not go to anyone else’s. If a meeting feels wrong, leave — no item is worth it.',
   },
   {
+    title: 'Lending and swapping are between you two',
+    body:
+      'Handoff holds no deposit, no escrow and no insurance, and it will not decide who broke what. If you lend something, lend what you can afford to lose and agree the return date in the thread. If you borrow something, bring it back on time and in the state you got it. If you swap, both sides describe their thing honestly — a swap is two listings, not one.',
+  },
+  {
     title: 'Show up, or say you cannot',
     body:
       'Claiming holds the item for three hours and takes it away from someone else. If your plan changes, send one message. Two no-shows and you lose the ability to claim for a week.',
@@ -59,7 +64,7 @@ export const RULES: RuleSection[] = [
 ]
 
 export const RULES_SUMMARY =
-  'Nothing dangerous or illegal, describe things honestly, meet in public, and show up.'
+  'Nothing dangerous or illegal, describe things honestly, meet in public, bring back what you borrow, and show up.'
 
 // ── the pre-post check ────────────────────────────────────────────────────────
 

@@ -12,7 +12,14 @@ export type Screen =
   | 'posted'
   | 'me'
 
-export type Tab = 'free' | 'sale' | 'wanted'
+export type Tab = 'free' | 'sale' | 'rent' | 'trade' | 'wanted'
+
+/**
+ * How the object moves. Three of these are transfers — the object changes owner
+ * — and one, `rent`, is a loan that comes back, which is why the impact model
+ * treats it differently (see lib/impact.ts).
+ */
+export type ListingKind = 'free' | 'sale' | 'trade' | 'rent'
 
 export type ListingStatus = 'active' | 'paused' | 'gone'
 
@@ -21,8 +28,14 @@ export type ListingStatus = 'active' | 'paused' | 'gone'
 export interface Item {
   id: number
   uuid?: string
+  kind: ListingKind
   free: boolean
   price?: number
+  /** `trade`: what the owner wants instead. */
+  tradeFor?: string
+  /** `rent`: the rate and the period it covers. */
+  rentRate?: number
+  rentPeriod?: string
   title: string
   cat: string
   cond: string
@@ -98,8 +111,12 @@ export type EditField = 'title' | 'price' | 'spot'
 /** What the paragraph parser reads out of the user's one sentence. */
 export interface ParseResult {
   title: string
+  kind: ListingKind
   free: boolean
   price: number
+  tradeFor: string
+  rentRate: number
+  rentPeriod: string
   cat: string
   cond: string
   spot: string
