@@ -9,7 +9,10 @@ import './styles/app.css'
 // worker in front of the dev server caches things you are still editing.
 if ('serviceWorker' in navigator && import.meta.env.PROD) {
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/sw.js').catch(() => {})
+    // The build id in the URL is what makes the browser see a *new* worker on
+    // every deploy; the worker reads it back and names its cache after it, so a
+    // release can never be served out of the previous one.
+    navigator.serviceWorker.register('/sw.js?v=' + __BUILD_ID__).catch(() => {})
   })
 }
 

@@ -11,12 +11,25 @@
  *   · Supabase and every other API call is left alone entirely. Nothing about
  *     listings, threads or auth is ever cached here.
  */
-const VERSION = 'handoff-v1'
+const VERSION = 'handoff-' + (new URL(self.location.href).searchParams.get('v') || 'dev')
 const SHELL = '/app'
 
 self.addEventListener('install', (event) => {
+  // Fetch the shell past the HTTP cache: a fresh worker exists precisely because
+  // the app changed, so anything it stores now must be the new build.
   event.waitUntil(
-    caches.open(VERSION).then((c) => c.addAll([SHELL, '/', '/icon-192.png', '/icon-512.png'])).catch(() => {}),
+    caches
+      .open(VERSION)
+      .then((c) =>
+        Promise.all(
+          [SHELL, '/', '/icon-192.png', '/icon-512.png'].map((url) =>
+            fetch(url, { cache: 'reload' })
+              .then((res) => (res.ok ? c.put(url, res) : null))
+              .catch(() => null),
+          ),
+        ),
+      )
+      .catch(() => {}),
   )
   self.skipWaiting()
 })
