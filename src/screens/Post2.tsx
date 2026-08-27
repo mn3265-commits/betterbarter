@@ -135,6 +135,35 @@ export function Post2({ h }: { h: Handoff }) {
               </div>
             )}
 
+            <label
+              style={{
+                display: 'flex',
+                gap: 11,
+                alignItems: 'flex-start',
+                marginTop: 14,
+                border: '1px solid var(--color-divider)',
+                borderRadius: 'var(--radius-md)',
+                padding: '12px 13px',
+                cursor: 'pointer',
+              }}
+            >
+              <input
+                type="checkbox"
+                checked={h.needsHelp}
+                onChange={(e) => h.setNeedsHelp(e.target.checked)}
+                style={{ marginTop: 2, accentColor: 'var(--color-accent)' }}
+              />
+              <span>
+                <span style={{ fontFamily: 'var(--font-heading)', fontWeight: 600, fontSize: 14.5, display: 'block' }}>
+                  This needs two people or a trolley
+                </span>
+                <span style={{ fontSize: 12.5, opacity: 0.7, lineHeight: 1.45 }}>
+                  Students who carry things for a few dollars see it. No van, no company — someone on your campus with
+                  an hour, paid directly by whoever needs the help.
+                </span>
+              </span>
+            </label>
+
             <p style={{ fontSize: 11.5, opacity: 0.6, margin: '12px 0 0', textWrap: 'pretty' }}>
               Nothing above is a required field. Your paragraph is the listing — this is only what the app read out of it.
             </p>

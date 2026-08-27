@@ -47,6 +47,10 @@ export interface Item {
   since: string
   spot: string
   desc: string
+  /** The owner says this needs two people or a trolley. */
+  helpWanted?: boolean
+  /** What they suggest paying whoever carries it. Settled between them. */
+  helpFee?: number
   photoUrl?: string | null
   status?: ListingStatus
   ageDays?: number
@@ -101,6 +105,7 @@ export interface MeProfile {
   email: string
   since: string
   handoffs: number
+  carries: number
   noShows: number
   building: string
   /** Where they prefer to hand things over — public, on campus. */

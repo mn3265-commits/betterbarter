@@ -342,6 +342,22 @@ function ItemCard({ it, h }: { it: Item; h: Handoff }) {
           </div>
         )}
       </Photo>
+      {it.helpWanted && (
+        <div
+          style={{
+            fontSize: 9.5,
+            letterSpacing: '.1em',
+            textTransform: 'uppercase',
+            color: 'var(--color-accent-700)',
+            background: 'var(--color-accent-100)',
+            borderRadius: 999,
+            padding: '2px 8px',
+            alignSelf: 'flex-start',
+          }}
+        >
+          Needs a hand{it.helpFee ? ` · $${it.helpFee}` : ''}
+        </div>
+      )}
       <div style={{ display: 'flex', alignItems: 'baseline', gap: 6 }}>
         <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 600, fontSize: 13, color: 'var(--color-accent-700)' }}>
           {h.priceOf(it)}

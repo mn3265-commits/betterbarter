@@ -70,6 +70,8 @@ interface ListingRow {
   trade_for: string | null
   rent_rate: number | null
   rent_period: string | null
+  help_wanted: boolean | null
+  help_fee: number | null
   category: string
   condition: string
   building: string | null
@@ -113,6 +115,8 @@ function toItem(r: ListingRow, seller: ProfileRow | undefined, meId: string | nu
     tradeFor: r.trade_for ?? undefined,
     rentRate: r.rent_rate ?? undefined,
     rentPeriod: r.rent_period ?? undefined,
+    helpWanted: r.help_wanted ?? false,
+    helpFee: r.help_fee ?? undefined,
     title: r.title,
     cat: r.category,
     cond: r.condition,
@@ -192,7 +196,7 @@ export async function bumpSpot(campusId: string, name: string): Promise<void> {
 // ── board ─────────────────────────────────────────────────────────────────────
 
 const LISTING_COLS =
-  'id, seller_id, title, description, kind, is_free, price, trade_for, rent_rate, rent_period, category, condition, building, spot_name, status, photo_path, created_at, confirmed_at'
+  'id, seller_id, title, description, kind, is_free, price, trade_for, rent_rate, rent_period, help_wanted, help_fee, category, condition, building, spot_name, status, photo_path, created_at, confirmed_at'
 
 /** Everything the viewer may see: active listings on their campus, plus their
  *  own paused/gone ones (RLS enforces both). */
@@ -261,6 +265,7 @@ export interface NewListing {
   tradeFor: string
   rentRate: number
   rentPeriod: string
+  helpWanted: boolean
   category: string
   condition: string
   spotName: string
@@ -284,6 +289,7 @@ export async function createListing(input: NewListing): Promise<void> {
     trade_for: input.kind === 'trade' ? input.tradeFor || null : null,
     rent_rate: input.kind === 'rent' ? input.rentRate : null,
     rent_period: input.kind === 'rent' ? input.rentPeriod : null,
+    help_wanted: input.helpWanted,
     category: input.category,
     condition: input.condition,
     building: input.building || null,

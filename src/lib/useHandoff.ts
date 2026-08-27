@@ -34,6 +34,7 @@ export interface LiveContext {
   lat: number | null
   lng: number | null
   handoffs: number
+  carries: number
   noShows: number
   joinedAt: string | null
   refreshProfile: () => void
@@ -116,6 +117,9 @@ export function useHandoff(config: HandoffConfig, live?: LiveContext) {
   const [busy, setBusy] = useState(false)
 
   const [wantedDraft, setWantedDraft] = useState('')
+  // "This needs two people" — set on the post screen, and the one thing that
+  // turns a listing into a job for someone with an hour to spare.
+  const [needsHelp, setNeedsHelp] = useState(false)
 
   // community rules: agreed once per account, checked again before each post
   const [rulesAccepted, setRulesAccepted] = useState(!isLive)
@@ -335,6 +339,7 @@ export function useHandoff(config: HandoffConfig, live?: LiveContext) {
         ? new Date(live.joinedAt).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })
         : '',
       handoffs: live.handoffs,
+      carries: live.carries,
       noShows: live.noShows,
       building: live.building ?? '',
       preferredSpot: live.preferredSpot ?? '',
@@ -576,6 +581,7 @@ export function useHandoff(config: HandoffConfig, live?: LiveContext) {
     resetOverrides()
     setRuleHits([])
     setRuleOverride(false)
+    setNeedsHelp(false)
     setToast(null)
   }, [resetOverrides])
 
@@ -654,6 +660,7 @@ export function useHandoff(config: HandoffConfig, live?: LiveContext) {
         tradeFor: p.tradeFor,
         rentRate: p.rentRate,
         rentPeriod: p.rentPeriod,
+        helpWanted: needsHelp,
         title: p.title,
         cat: p.cat,
         cond: p.cond,
@@ -691,6 +698,7 @@ export function useHandoff(config: HandoffConfig, live?: LiveContext) {
           tradeFor: p.tradeFor,
           rentRate: p.rentRate,
           rentPeriod: p.rentPeriod,
+          helpWanted: needsHelp,
           category: p.cat,
           condition: p.cond,
           spotName: p.spot,
@@ -1083,6 +1091,8 @@ export function useHandoff(config: HandoffConfig, live?: LiveContext) {
     setAlerts,
     setMoveOut,
     setWantedDraft,
+    needsHelp,
+    setNeedsHelp,
 
     // helpers
     all,

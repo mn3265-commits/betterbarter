@@ -119,6 +119,35 @@ export function Detail({ h }: { h: Handoff }) {
         </div>
       </AppBody>
 
+      {d0.helpWanted && !mine && (
+        <div
+          style={{
+            borderTop: '1px solid var(--color-accent)',
+            background: 'var(--color-accent-100)',
+            padding: '12px 16px',
+            display: 'flex',
+            gap: 12,
+            alignItems: 'center',
+          }}
+        >
+          <div style={{ flex: 1, minWidth: 0 }}>
+            <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 600, fontSize: 14 }}>
+              Needs two people{d0.helpFee ? ` · $${d0.helpFee} offered` : ''}
+            </div>
+            <div style={{ fontSize: 12, opacity: 0.7, lineHeight: 1.4 }}>
+              Have an hour and a trolley? Offer to carry it — paid directly, no company in the middle.
+            </div>
+          </div>
+          <button
+            onClick={() => h.flash('Offer sent. They will message you if they want the help.')}
+            className="btn btn-secondary"
+            style={{ flex: 'none', fontSize: 12.5 }}
+          >
+            Offer to carry
+          </button>
+        </div>
+      )}
+
       <div className="app-ft" style={{ flexDirection: 'row', gap: 10 }}>
         {isGone ? (
           <div style={{ flex: 1, padding: '14px 0', fontFamily: 'var(--font-heading)', fontWeight: 600, fontSize: 14, opacity: 0.5 }}>

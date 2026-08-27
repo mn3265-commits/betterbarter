@@ -123,6 +123,7 @@ function LiveApp() {
             lat: p.approx_lat,
             lng: p.approx_lng,
             handoffs: p.handoffs,
+            carries: p.carries,
             noShows: p.no_shows,
             joinedAt: p.joined_at,
             refreshProfile: auth.refreshProfile,

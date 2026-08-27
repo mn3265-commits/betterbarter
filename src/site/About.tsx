@@ -32,11 +32,16 @@ const PRINCIPLES: [string, string, string][] = [
   ],
   [
     '04',
+    'The community is the logistics',
+    'Every reuse venture eventually meets the same wall: someone has to move the heavy thing, and a van erases the carbon saving it was built to create. A campus already contains the answer — a student with an hour, a trolley and a reason to want the work. Paid directly, counted publicly, and emitting nothing a walk across the quad does not.',
+  ],
+  [
+    '05',
     'Trust is infrastructure, not a feature',
     'Reuse between strangers fails on fear, so the only wall we build is who gets in: one verified school email, one campus per board, a public count of real handoffs. Everything else — the rules, the public meetup spots, the record kept in the thread — exists so two people who have never met can hand something over without either of them being brave.',
   ],
   [
-    '05',
+    '06',
     'Count it honestly or do not count it',
     'A circular claim that cannot be audited is marketing. We separate what was measured from what was estimated, publish the factors, take the low end of every range, and give away the assumption most likely to be challenged before anyone asks for it. A smaller number we can defend is worth more than a large one we cannot.',
   ],

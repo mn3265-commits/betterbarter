@@ -101,6 +101,13 @@ building.
   have a thing: a drill borrowed by six people is five drills that were never
   manufactured. What we deliberately do *not* add back is deposits, escrow or
   damage adjudication — a loan here is two verified students and a promise.
+- **The community is the logistics.** Heavy objects are the wall every reuse
+  venture hits: someone has to move the fridge, and a van erases the saving it
+  was built to create. A listing can be marked as needing two people or a
+  trolley, which surfaces it to students on the same campus who want an hour of
+  paid work. The fee is agreed and paid directly between them — Handoff holds
+  nothing — completed carries become their own public count, and because it is a
+  walk across a campus, the transport term stays zero.
 - **Meet on campus, not at anyone's home.** A library entrance, a dining hall
   door, a student centre, a department lobby. Nothing assumes you live in a
   hall, so commuters are first-class; the app will not accept a room number as a
@@ -242,7 +249,9 @@ events changes the default more durably than a poster above a bin does.
 ## Who benefits from your solution?
 
 - **Students** — get furnished for free or nearly free, and dispose of things
-  without guilt, a car, or a stranger.
+  without guilt, a car, or a stranger. Some of them also earn: carrying heavy
+  items for other students is paid work that exists on every campus and is
+  currently arranged, badly, in group chats.
 - **International and low-income students**, most sharply: they arrive with
   nothing, buy everything new in one panicked week, and leave it behind eight
   months later. Handoff turns that cycle into a loop.

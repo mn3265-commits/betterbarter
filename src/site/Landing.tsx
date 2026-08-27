@@ -41,6 +41,7 @@ const SEGMENTS: [string, string][] = [
   ['Borrow', 'One drill can serve a whole floor. Lend it by the day or the week — it comes back to you.'],
   ['Swap', 'Your heater for their fan. Two objects stay in use, and neither of you buys anything.'],
   ['Wanted', 'The board in reverse: say what you need before you buy it new.'],
+  ['Needs a hand', 'A fridge is not a one-person object. Students with an hour and a trolley carry it, paid directly — no van, no company.'],
 ]
 
 const PROBLEM: [string, string, string][] = [
@@ -80,6 +81,10 @@ const WHY: [string, string][] = [
   [
     'Peer-to-peer, so nothing is handled twice',
     'Collect, sort, store, resell is four touches and a vehicle. Building to building is one walk. Reuse loses its advantage the moment logistics get involved.',
+  ],
+  [
+    'Heavy things move without a vehicle',
+    'The alternative to a van is not "nobody can shift a fridge" — it is a student with an hour and a trolley, paid directly by whoever needed the help. Campus jobs instead of logistics costs, and a public carry count for the people who do them.',
   ],
   [
     'No transport term to subtract',
@@ -124,6 +129,10 @@ const FAQ: [string, string][] = [
     'Confirmed handoffs are counted directly. Mass is that count times a typical mass for the item’s category. Avoided emissions are that mass times a low-end production factor, times a displacement rate of ' +
       DISPLACEMENT +
       ' — because a reused object only avoids manufacturing when it stops someone buying a new one. The whole table is published below and lives in one file in the open-source repository.',
+  ],
+  [
+    'Who carries the heavy things?',
+    'Another student. A listing can be marked as needing two people or a trolley, which surfaces it to anyone on the same campus who wants an hour of work; the fee is suggested by the owner and paid directly between them, exactly like every other payment here. Completed carries show as their own public count. No van is dispatched, so nothing about this adds a transport term to the impact figures.',
   ],
   [
     'Why does borrowing not count toward the carbon number?',

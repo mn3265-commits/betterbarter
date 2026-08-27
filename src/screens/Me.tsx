@@ -87,6 +87,7 @@ export function Me({ h }: { h: Handoff }) {
             </div>
             <div style={{ display: 'flex', gap: 6, marginTop: 8, flexWrap: 'wrap' }}>
               <span className="tag tag-accent">{h.me.handoffs} handoffs</span>
+              {h.me.carries > 0 && <span className="tag tag-neutral">{h.me.carries} carries</span>}
               <span className="tag tag-neutral">{h.me.noShows} no-shows</span>
               {h.me.preferredSpot && <span className="tag tag-outline">Meets at {h.me.preferredSpot}</span>}
             </div>
