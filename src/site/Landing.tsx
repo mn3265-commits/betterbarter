@@ -5,13 +5,16 @@ import {
   DISPLACEMENT,
   FACTORS,
   MIX,
+  impactOfItem,
   MODEL_VERSION,
   SOURCES,
   co2eLabel,
   forecast,
   kgLabel,
 } from '../lib/impact'
+import { BarChart, type Row } from './BarChart'
 import { LoopMark } from './LoopMark'
+import { Reveal } from './Reveal'
 import '../styles/site.css'
 
 /**
@@ -173,6 +176,55 @@ function MixBar() {
   )
 }
 
+/**
+ * The same 100 handoffs, measured twice. Two single-series charts rather than
+ * one two-series chart, because mass and emissions do not share a scale — and
+ * because the interesting thing is that they do not agree: clothes and small
+ * kitchen things dominate the count, furniture dominates the weight, and eight
+ * laptops carry more avoided production than everything else put together.
+ */
+function HundredHandoffs() {
+  const cats = Object.keys(MIX)
+  const mass: Row[] = cats
+    .map((c) => {
+      const one = impactOfItem(c)
+      const n = MIX[c] * 100
+      return {
+        label: c,
+        value: one.kg * n,
+        display: kgLabel(one.kg * n),
+        note: `${Math.round(n)} items × ${FACTORS[c].kg} kg`,
+      }
+    })
+    .sort((a, b) => b.value - a.value)
+
+  const carbon: Row[] = cats
+    .map((c) => {
+      const one = impactOfItem(c)
+      const n = MIX[c] * 100
+      return {
+        label: c,
+        value: one.co2e * n,
+        display: co2eLabel(one.co2e * n),
+        note: `${FACTORS[c].efPerKg} kg CO₂e per kg, halved for displacement`,
+      }
+    })
+    .sort((a, b) => b.value - a.value)
+
+  return (
+    <div className="site__charts">
+      <figure>
+        <figcaption>Mass kept in use</figcaption>
+        <BarChart rows={mass} unit="Kilograms, per 100 confirmed handoffs" />
+      </figure>
+      <figure>
+        <figcaption>Production avoided</figcaption>
+        <BarChart rows={carbon} unit="kg CO₂e, per 100 confirmed handoffs · rentals excluded" />
+      </figure>
+    </div>
+  )
+}
+
 /** The forecast tool: what one floor, one building or one class year moves. */
 function Estimator() {
   const [students, setStudents] = useState(120)
@@ -280,6 +332,7 @@ export function Landing() {
       </section>
 
       <section className="site__section">
+        <Reveal>
         <div className="site__wrap">
           <div className="site__kicker">The problem</div>
           <h2>Reuse fails on friction, not on willingness.</h2>
@@ -303,9 +356,11 @@ export function Landing() {
             year of that curve into seven days on one campus.
           </p>
         </div>
+        </Reveal>
       </section>
 
       <section className="site__section" id="how">
+        <Reveal>
         <div className="site__wrap">
           <div className="site__kicker">How a handoff happens</div>
           <h2>Four steps, and the last one is what makes it measurable.</h2>
@@ -329,9 +384,11 @@ export function Landing() {
             ))}
           </div>
         </div>
+        </Reveal>
       </section>
 
       <section className="site__section" id="impact">
+        <Reveal>
         <div className="site__wrap">
           <div className="site__kicker">The method · model v{MODEL_VERSION}</div>
           <h2>We count objects first, carbon second, and say which is which.</h2>
@@ -404,6 +461,13 @@ export function Landing() {
           </p>
           <MixBar />
 
+          <h3 className="site__sub">The same hundred handoffs, measured twice</h3>
+          <p className="site__fine" style={{ marginBottom: 18 }}>
+            Weight and carbon do not rank the same categories, which is exactly why we publish both and lead with
+            neither. Hover a bar for the arithmetic behind it.
+          </p>
+          <HundredHandoffs />
+
           <h3 className="site__sub">What a floor, a building or a class year moves</h3>
           <Estimator />
 
@@ -419,9 +483,11 @@ export function Landing() {
             ))}
           </ul>
         </div>
+        </Reveal>
       </section>
 
       <section className="site__section">
+        <Reveal>
         <div className="site__wrap">
           <div className="site__kicker">Why a board, and not another donation drive</div>
           <h2>Reuse dies on logistics. A campus does not need any.</h2>
@@ -434,9 +500,11 @@ export function Landing() {
             ))}
           </div>
         </div>
+        </Reveal>
       </section>
 
       <section className="site__section" id="safety">
+        <Reveal>
         <div className="site__wrap">
           <div className="site__kicker">Safety and the rules</div>
           <h2>{RULES_SUMMARY}</h2>
@@ -467,9 +535,11 @@ export function Landing() {
             </div>
           </div>
         </div>
+        </Reveal>
       </section>
 
       <section className="site__section">
+        <Reveal>
         <div className="site__wrap">
           <div className="site__kicker">What Handoff is not</div>
           <h2>The things left off the board, on purpose.</h2>
@@ -484,9 +554,11 @@ export function Landing() {
             </tbody>
           </table>
         </div>
+        </Reveal>
       </section>
 
       <section className="site__section">
+        <Reveal>
         <div className="site__wrap">
           <div className="site__kicker">Questions</div>
           <h2>The ones worth answering before you sign in.</h2>
@@ -499,6 +571,7 @@ export function Landing() {
             ))}
           </dl>
         </div>
+        </Reveal>
       </section>
 
       <section className="site__close">
