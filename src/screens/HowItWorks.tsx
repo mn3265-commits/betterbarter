@@ -50,7 +50,7 @@ export function HowItWorks({ onDone, doneLabel = 'Go to the board' }: { onDone: 
       <div
         style={{
           padding: '58px 16px 10px',
-          borderBottom: '2px solid var(--color-divider)',
+          borderBottom: '1px solid var(--color-divider)',
           display: 'flex',
           alignItems: 'center',
         }}
@@ -78,7 +78,7 @@ export function HowItWorks({ onDone, doneLabel = 'Go to the board' }: { onDone: 
         <p style={{ fontSize: 14.5, lineHeight: 1.5, opacity: 0.8, margin: 0, textWrap: 'pretty' }}>{card.body}</p>
       </div>
 
-      <div style={{ borderTop: '2px solid var(--color-divider)', padding: '12px 16px 40px', background: 'var(--color-bg)' }}>
+      <div style={{ borderTop: '1px solid var(--color-divider)', padding: '12px 16px 40px', background: 'var(--color-bg)' }}>
         {/* progress: one flush-left bar per card */}
         <div style={{ display: 'flex', gap: 4, marginBottom: 12 }}>
           {CARDS.map((c, n) => (

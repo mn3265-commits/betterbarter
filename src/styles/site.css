@@ -20,7 +20,7 @@
   top: 0;
   z-index: 50;
   background: var(--color-bg);
-  border-bottom: 2px solid var(--color-divider);
+  border-bottom: 1px solid var(--color-divider);
 }
 .site__bar-in {
   display: flex;
@@ -40,8 +40,8 @@
 }
 .site__bar .tag { margin-right: auto; }
 .site__bar-link {
-  font-family: var(--font-heading);
-  font-weight: 600;
+  font-family: var(--font-body);
+  font-weight: 500;
   font-size: 13.5px;
   color: var(--color-text);
   text-decoration: none;
@@ -57,7 +57,7 @@
 }
 .site__kicker {
   font-size: 11px;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--color-accent-700);
 }
@@ -68,9 +68,9 @@
 .site__prose p:last-child { margin: 0; }
 
 .site__hero h1 {
-  font-size: clamp(64px, 12vw, 132px);
-  line-height: 0.88;
-  letter-spacing: -0.035em;
+  font-size: clamp(58px, 10.5vw, 116px);
+  line-height: 0.94;
+  letter-spacing: -0.02em;
   margin: 16px 0 0;
 }
 .site__lede {
@@ -87,30 +87,32 @@
   gap: 10px;
   background: var(--color-bg);
   color: var(--color-accent-700);
-  font-family: var(--font-heading);
-  font-weight: 800;
+  font-family: var(--font-body);
+  font-weight: 700;
   font-size: 16px;
-  padding: 16px 20px;
+  padding: 16px 22px;
+  border-radius: var(--radius-md);
   text-decoration: none;
+  transition: background 0.14s ease, transform 0.14s ease;
 }
 .site__cta:hover { background: #fff; color: var(--color-accent-700); }
 .site__cta--ghost {
   background: transparent;
   color: var(--color-bg);
-  box-shadow: inset 0 0 0 2px color-mix(in srgb, #fff 55%, transparent);
+  box-shadow: inset 0 0 0 1.5px color-mix(in srgb, #fff 50%, transparent);
 }
 .site__cta--ghost:hover { background: color-mix(in srgb, #fff 12%, transparent); color: var(--color-bg); }
 .site__hero-note { font-size: 13px; opacity: 0.82; margin: 18px 0 0; max-width: 42ch; }
 
 /* ── section scaffold ── */
-.site__section { padding: 64px 0; border-top: 2px solid var(--color-divider); }
+.site__section { padding: 64px 0; border-top: 1px solid var(--color-divider); }
 /* The method section is the argument of the whole page, so it gets its own
    ground rather than another run of the same off-white. */
 #impact { background: var(--color-accent-100); }
 #impact .site__level, #impact .site__calc-out > div { background: var(--color-bg); }
 .site__section h2 {
-  font-size: clamp(28px, 4vw, 40px);
-  letter-spacing: -0.025em;
+  font-size: clamp(28px, 3.8vw, 42px);
+  letter-spacing: -0.01em;
   margin: 12px 0 0;
   max-width: 20ch;
 }
@@ -126,10 +128,12 @@
 /* ── the three segments ── */
 .site__segs {
   display: grid;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
   grid-template-columns: repeat(3, 1fr);
   gap: 2px;
   background: var(--color-divider);
-  border: 2px solid var(--color-divider);
+  border: 1px solid var(--color-divider);
   margin-top: 34px;
 }
 .site__seg { background: var(--color-bg); padding: 22px 20px 24px; }
@@ -165,10 +169,12 @@
 /* ── two-column feature grid ── */
 .site__grid {
   display: grid;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
   grid-template-columns: repeat(2, 1fr);
   gap: 2px;
   background: var(--color-divider);
-  border: 2px solid var(--color-divider);
+  border: 1px solid var(--color-divider);
   margin-top: 34px;
 }
 .site__cell { background: var(--color-bg); padding: 20px; }
@@ -178,10 +184,12 @@
 /* ── stat row (the problem) ── */
 .site__stats {
   display: grid;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
   grid-template-columns: repeat(3, 1fr);
   gap: 2px;
   background: var(--color-divider);
-  border: 2px solid var(--color-divider);
+  border: 1px solid var(--color-divider);
   margin-top: 34px;
 }
 .site__stat { background: var(--color-bg); padding: 22px 20px 24px; }
@@ -203,16 +211,18 @@
 /* ── the three levels of the impact model ── */
 .site__levels {
   display: grid;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
   grid-template-columns: repeat(3, 1fr);
   gap: 2px;
   background: var(--color-divider);
-  border: 2px solid var(--color-divider);
+  border: 1px solid var(--color-divider);
   margin-top: 34px;
 }
 .site__level { background: var(--color-bg); padding: 20px; }
 .site__level-tag {
   font-size: 10.5px;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.09em;
   text-transform: uppercase;
   color: var(--color-accent-700);
   margin-bottom: 10px;
@@ -224,13 +234,13 @@
 .site__factors { width: 100%; border-collapse: collapse; margin-top: 18px; font-size: 14px; }
 .site__factors th {
   text-align: left;
-  font-family: var(--font-heading);
-  font-weight: 800;
+  font-family: var(--font-body);
+  font-weight: 600;
   font-size: 11px;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   padding: 0 12px 8px 0;
-  border-bottom: 2px solid var(--color-divider);
+  border-bottom: 1px solid var(--color-divider);
   white-space: nowrap;
 }
 .site__factors td { padding: 10px 12px 10px 0; border-bottom: 1px solid var(--color-divider); vertical-align: top; }
@@ -239,13 +249,19 @@
 .site__factors td:last-child { opacity: 0.7; line-height: 1.45; }
 
 /* ── forecast tool ── */
-.site__calc { border: 2px solid var(--color-text); margin-top: 18px; }
+.site__calc {
+  border: 1px solid var(--color-divider);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: var(--color-bg);
+  margin-top: 18px;
+}
 .site__calc-in {
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
   padding: 20px;
-  border-bottom: 2px solid var(--color-divider);
+  border-bottom: 1px solid var(--color-divider);
 }
 .site__calc-in label { display: block; }
 .site__calc-in span {
@@ -280,8 +296,8 @@
 .site__mix { margin-top: 6px; }
 .site__mixbar {
   display: flex;
-  height: 34px;
-  border: 2px solid var(--color-text);
+  height: 38px;
+  border-radius: 999px;
   overflow: hidden;
 }
 .site__mixbar-seg + .site__mixbar-seg { border-left: 1px solid var(--color-bg); }
@@ -293,7 +309,7 @@
   font-size: 12.5px;
 }
 .site__mixkey > div { display: flex; align-items: center; gap: 7px; opacity: 0.8; }
-.site__mixkey i { width: 11px; height: 11px; flex: none; display: block; }
+.site__mixkey i { width: 11px; height: 11px; flex: none; display: block; border-radius: 50%; }
 .site__mixkey b { font-weight: 600; font-variant-numeric: tabular-nums; }
 
 /* ── sources ── */
@@ -315,8 +331,9 @@
 .site__rule svg { flex: none; color: var(--color-accent); transform: translateY(2px); }
 .site__panel {
   background: var(--color-surface);
-  border: 2px solid var(--color-text);
-  padding: 24px 22px;
+  border: 1px solid var(--color-divider);
+  border-radius: var(--radius-lg);
+  padding: 26px 24px;
 }
 .site__panel h4 { margin: 0 0 10px; font-size: 19px; }
 .site__panel p { font-size: 14.5px; line-height: 1.5; opacity: 0.8; margin: 0 0 12px; }
@@ -329,7 +346,7 @@
 .site__not td:first-child {
   width: 210px;
   font-family: var(--font-heading);
-  font-weight: 800;
+  font-weight: 600;
   padding-right: 24px;
 }
 .site__not td:last-child { opacity: 0.78; line-height: 1.5; }
@@ -348,8 +365,8 @@
   padding: 66px 0;
 }
 .site__close h2 {
-  font-size: clamp(30px, 4.6vw, 46px);
-  letter-spacing: -0.025em;
+  font-size: clamp(30px, 4.4vw, 46px);
+  letter-spacing: -0.01em;
   margin: 0;
   max-width: 18ch;
 }
@@ -357,7 +374,7 @@
 
 /* ── footer ── */
 .site__foot {
-  border-top: 2px solid var(--color-divider);
+  border-top: 1px solid var(--color-divider);
   padding: 26px 0 44px;
   font-size: 13px;
   opacity: 0.66;

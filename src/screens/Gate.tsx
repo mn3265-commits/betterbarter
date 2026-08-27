@@ -103,6 +103,7 @@ export function Gate({ h, auth }: { h: Handoff; auth?: Auth }) {
                 border: 0,
                 background: 'var(--color-bg)',
                 color: 'var(--color-accent-700)',
+                borderRadius: 'var(--radius-md)',
                 fontFamily: 'var(--font-heading)',
                 fontWeight: 800,
                 fontSize: 16,
@@ -136,7 +137,7 @@ export function Gate({ h, auth }: { h: Handoff; auth?: Auth }) {
               }}
               style={{
                 background: 'color-mix(in srgb, var(--color-bg) 16%, transparent)',
-                border: '2px solid color-mix(in srgb, var(--color-bg) 55%, transparent)',
+                border: '1.5px solid color-mix(in srgb, var(--color-bg) 50%, transparent)', borderRadius: 'var(--radius-md)',
                 color: 'var(--color-bg)',
                 caretColor: 'var(--color-bg)',
                 minHeight: 46,
@@ -147,7 +148,7 @@ export function Gate({ h, auth }: { h: Handoff; auth?: Auth }) {
               onClick={() => void send()}
               disabled={busy || !email.trim()}
               style={{
-                border: '2px solid var(--color-bg)',
+                border: '1.5px solid var(--color-bg)', borderRadius: 'var(--radius-md)',
                 background: 'transparent',
                 color: 'var(--color-bg)',
                 fontFamily: 'var(--font-heading)',
@@ -170,7 +171,7 @@ export function Gate({ h, auth }: { h: Handoff; auth?: Auth }) {
           </>
         ) : live && sent ? (
           <>
-            <div style={{ border: '2px solid var(--color-bg)', padding: '14px 16px', fontSize: 15, lineHeight: 1.4 }}>
+            <div style={{ border: '1.5px solid var(--color-bg)', borderRadius: 'var(--radius-md)', padding: '14px 16px', fontSize: 15, lineHeight: 1.4 }}>
               Check <b>{email}</b> for a login link. Open it on this device and you are in.
             </div>
             <button
@@ -179,7 +180,7 @@ export function Gate({ h, auth }: { h: Handoff; auth?: Auth }) {
                 setErr(null)
               }}
               style={{
-                border: '2px solid var(--color-bg)',
+                border: '1.5px solid var(--color-bg)', borderRadius: 'var(--radius-md)',
                 background: 'transparent',
                 color: 'var(--color-bg)',
                 fontFamily: 'var(--font-heading)',
@@ -202,6 +203,7 @@ export function Gate({ h, auth }: { h: Handoff; auth?: Auth }) {
                 border: 0,
                 background: 'var(--color-bg)',
                 color: 'var(--color-accent-700)',
+                borderRadius: 'var(--radius-md)',
                 fontFamily: 'var(--font-heading)',
                 fontWeight: 800,
                 fontSize: 16,

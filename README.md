@@ -137,11 +137,16 @@ seed data — with no account needed.
 
 ## Design system
 
-`src/styles/tokens.css` is ported verbatim from the handoff's
-`design-system/styles.css` and is the source of truth for color, type, spacing,
-radius and the component classes (`.btn`, `.input`, `.seg`, `.radio`, `.tag`,
-`.hr`). Retune the look there rather than hard-coding values. Icons are
-[Lucide](https://lucide.dev); type is Archivo.
+`src/styles/tokens.css` is the source of truth for color, type, spacing, radius
+and the component classes (`.btn`, `.input`, `.seg`, `.radio`, `.tag`, `.hr`).
+Retune the look there rather than hard-coding values — the red-to-green move and
+the softening pass were both single-file edits, which is the point.
+
+Type is **Fraunces** for headings and **Plus Jakarta Sans** for everything you
+read or click; corners are 6/10/16px rather than zero, and rules are 1px at 22%
+rather than 2px at 40%. The original setting (Archivo, hard edges, heavy rules)
+was right for a notice board and too severe for a product about neighbours
+giving each other things. Icons are [Lucide](https://lucide.dev).
 
 ## The confirmation loop
 

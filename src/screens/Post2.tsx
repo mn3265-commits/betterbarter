@@ -51,7 +51,7 @@ export function Post2({ h }: { h: Handoff }) {
       <div
         style={{
           padding: '58px 16px 10px',
-          borderBottom: '2px solid var(--color-divider)',
+          borderBottom: '1px solid var(--color-divider)',
           display: 'flex',
           alignItems: 'center',
         }}
@@ -107,7 +107,7 @@ export function Post2({ h }: { h: Handoff }) {
 
         {!p.empty ? (
           <>
-            <div style={{ marginTop: 16, border: '2px solid var(--color-text)' }}>
+            <div style={{ marginTop: 16, border: '1px solid var(--color-divider)', borderRadius: 'var(--radius-lg)' }}>
               <div
                 style={{
                   padding: '9px 12px',
@@ -149,7 +149,7 @@ export function Post2({ h }: { h: Handoff }) {
             </div>
 
             {h.edit && (
-              <div style={{ marginTop: 12, border: '2px solid var(--color-accent)', padding: 12 }}>
+              <div style={{ marginTop: 12, border: '1px solid var(--color-accent)', borderRadius: 'var(--radius-md)', padding: 12 }}>
                 <div className="field" style={{ margin: 0 }}>
                   <label>{editLabel}</label>
                   <input className="input" value={editValue} onChange={(e) => h.onEditValue(e.target.value)} />
@@ -172,7 +172,7 @@ export function Post2({ h }: { h: Handoff }) {
       </div>
 
       {h.ruleHits.length > 0 && (
-        <div style={{ borderTop: '2px solid var(--color-accent)', background: 'var(--color-accent-100)', padding: '13px 16px' }}>
+        <div style={{ borderTop: '1px solid var(--color-accent)', background: 'var(--color-accent-100)', padding: '13px 16px' }}>
           <div style={{ fontSize: 10, letterSpacing: '.14em', textTransform: 'uppercase', color: 'var(--color-accent-800)' }}>
             {h.ruleHits[0].level === 'blocked' ? 'Not allowed on the board' : 'Check this before you post'}
           </div>
@@ -197,7 +197,7 @@ export function Post2({ h }: { h: Handoff }) {
         </div>
       )}
 
-      <div style={{ borderTop: '2px solid var(--color-divider)', padding: '12px 16px 40px', background: 'var(--color-bg)' }}>
+      <div style={{ borderTop: '1px solid var(--color-divider)', padding: '12px 16px 40px', background: 'var(--color-bg)' }}>
         <button
           onClick={h.publish}
           disabled={h.busy || blocked}

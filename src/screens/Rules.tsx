@@ -28,7 +28,7 @@ export function Rules({
       <div
         style={{
           padding: '58px 16px 10px',
-          borderBottom: '2px solid var(--color-divider)',
+          borderBottom: '1px solid var(--color-divider)',
           display: 'flex',
           alignItems: 'center',
           gap: 10,
@@ -60,7 +60,7 @@ export function Rules({
         <div
           style={{
             marginTop: accepting ? 18 : 4,
-            border: '2px solid var(--color-text)',
+            border: '1px solid var(--color-divider)', borderRadius: 'var(--radius-lg)',
             display: 'flex',
             flexDirection: 'column',
           }}
@@ -118,7 +118,7 @@ export function Rules({
               alignItems: 'flex-start',
               gap: 11,
               marginTop: 18,
-              border: '2px solid var(--color-divider)',
+              border: '1px solid var(--color-divider)',
               padding: 13,
               cursor: 'pointer',
             }}
@@ -131,7 +131,7 @@ export function Rules({
                 height: 20,
                 flex: 'none',
                 marginTop: 1,
-                border: agreed ? '2px solid var(--color-accent)' : '2px solid var(--color-divider)',
+                border: agreed ? '1.5px solid var(--color-accent)' : '1.5px solid var(--color-divider)',
                 background: agreed ? 'var(--color-accent)' : 'transparent',
                 color: 'var(--color-bg)',
                 display: 'flex',
@@ -150,7 +150,7 @@ export function Rules({
       </div>
 
       {accepting && (
-        <div style={{ borderTop: '2px solid var(--color-divider)', padding: '12px 16px 40px', background: 'var(--color-bg)' }}>
+        <div style={{ borderTop: '1px solid var(--color-divider)', padding: '12px 16px 40px', background: 'var(--color-bg)' }}>
           <button
             onClick={onAccept}
             disabled={!agreed || busy}

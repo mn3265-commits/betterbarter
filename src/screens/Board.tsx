@@ -32,7 +32,7 @@ export function Board({ h }: { h: Handoff }) {
       <div
         style={{
           padding: '60px 16px 10px',
-          borderBottom: '2px solid var(--color-divider)',
+          borderBottom: '1px solid var(--color-divider)',
           display: 'flex',
           alignItems: 'flex-end',
           gap: 10,
@@ -106,7 +106,7 @@ export function Board({ h }: { h: Handoff }) {
           <div
             style={{
               margin: '12px 16px 0',
-              border: '2px solid var(--color-text)',
+              border: '1px solid var(--color-divider)', borderRadius: 'var(--radius-lg)',
               padding: '12px 13px',
               display: 'flex',
               flexDirection: 'column',

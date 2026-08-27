@@ -87,7 +87,7 @@
     height: 100dvh;
     padding: 30px 22px 26px;
     background: var(--color-bg);
-    border-right: 2px solid var(--color-divider);
+    border-right: 1px solid var(--color-divider);
     box-shadow: 0 0 0 1px var(--color-divider), 0 20px 60px rgba(0, 0, 0, 0.12);
   }
   .app-rail__mark {
@@ -102,6 +102,7 @@
     text-decoration: none;
   }
   .app-rail__post {
+    border-radius: var(--radius-md);
     display: flex;
     align-items: center;
     gap: 9px;
@@ -110,8 +111,8 @@
     cursor: pointer;
     background: var(--color-accent);
     color: var(--color-bg);
-    font-family: var(--font-heading);
-    font-weight: 800;
+    font-family: var(--font-body);
+    font-weight: 700;
     font-size: 14.5px;
     padding: 13px 14px;
     text-align: left;
@@ -127,8 +128,8 @@
     border-top: 1px solid var(--color-divider);
     background: transparent;
     cursor: pointer;
-    font-family: var(--font-heading);
-    font-weight: 600;
+    font-family: var(--font-body);
+    font-weight: 500;
     font-size: 14.5px;
     color: color-mix(in srgb, var(--color-text) 62%, transparent);
     padding: 13px 2px;
@@ -189,7 +190,7 @@
   grid-template-columns: 1fr 1fr;
   gap: 2px;
   background: var(--color-divider);
-  border: 2px solid var(--color-divider);
+  border: 1px solid var(--color-divider);
 }
 .notes__cell { background: var(--color-bg); padding: 12px 13px; }
 .notes__cell b { font-weight: 600; font-size: 13px; display: block; }

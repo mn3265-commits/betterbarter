@@ -23,7 +23,7 @@ export function Claim({ h }: { h: Handoff }) {
 
   return (
     <div className="screen">
-      <div style={{ padding: '58px 16px 10px', borderBottom: '2px solid var(--color-divider)', display: 'flex', alignItems: 'center' }}>
+      <div style={{ padding: '58px 16px 10px', borderBottom: '1px solid var(--color-divider)', display: 'flex', alignItems: 'center' }}>
         <button
           onClick={h.back}
           style={{
@@ -51,7 +51,7 @@ export function Claim({ h }: { h: Handoff }) {
           public, and never a room number.
         </p>
 
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 2, background: 'var(--color-divider)', border: '2px solid var(--color-divider)' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 2, background: 'var(--color-divider)', border: '1px solid var(--color-divider)' }}>
           {SPOTS.map((s) => (
             <label
               key={s.name}
@@ -119,7 +119,7 @@ export function Claim({ h }: { h: Handoff }) {
         </p>
       </div>
 
-      <div style={{ borderTop: '2px solid var(--color-divider)', padding: '12px 16px 40px', background: 'var(--color-bg)' }}>
+      <div style={{ borderTop: '1px solid var(--color-divider)', padding: '12px 16px 40px', background: 'var(--color-bg)' }}>
         <button
           onClick={h.confirmClaim}
           disabled={!canSend}

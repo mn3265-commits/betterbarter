@@ -19,7 +19,7 @@ export function Chat({ h }: { h: Handoff }) {
       <div
         style={{
           padding: '58px 16px 10px',
-          borderBottom: '2px solid var(--color-divider)',
+          borderBottom: '1px solid var(--color-divider)',
           display: 'flex',
           alignItems: 'center',
           gap: 11,
@@ -46,7 +46,7 @@ export function Chat({ h }: { h: Handoff }) {
 
       <div style={{ flex: 1, overflowY: 'auto', padding: 16, display: 'flex', flexDirection: 'column', gap: 12 }}>
         {/* pinned handoff card — the meetup, then the confirmation loop */}
-        <div style={{ border: '2px solid var(--color-text)', padding: '11px 12px' }}>
+        <div style={{ border: '1px solid var(--color-divider)', borderRadius: 'var(--radius-lg)', padding: '11px 12px' }}>
           <div style={{ fontSize: 10, letterSpacing: '.14em', textTransform: 'uppercase', color: 'var(--color-accent-700)' }}>
             {completed ? 'Handed off' : 'Handoff scheduled'}
           </div>
@@ -139,7 +139,7 @@ export function Chat({ h }: { h: Handoff }) {
       </div>
 
       {/* quick-reply chips */}
-      <div style={{ borderTop: '2px solid var(--color-divider)', padding: '10px 16px 0', display: 'flex', gap: 7, overflowX: 'auto' }}>
+      <div style={{ borderTop: '1px solid var(--color-divider)', padding: '10px 16px 0', display: 'flex', gap: 7, overflowX: 'auto' }}>
         {CHIPS.map((c) => (
           <button key={c} onClick={() => h.sendText(c)} className="btn btn-secondary" style={{ flex: 'none', fontSize: 12.5, fontWeight: 500 }}>
             {c}

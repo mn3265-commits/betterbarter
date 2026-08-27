@@ -29,7 +29,7 @@ export function Chats({ h }: { h: Handoff }) {
       <div
         style={{
           padding: '60px 16px 10px',
-          borderBottom: '2px solid var(--color-divider)',
+          borderBottom: '1px solid var(--color-divider)',
           fontFamily: 'var(--font-heading)',
           fontWeight: 800,
           fontSize: 19,
@@ -109,7 +109,7 @@ export function Chats({ h }: { h: Handoff }) {
         )}
       </div>
 
-      <div style={{ borderTop: '2px solid var(--color-divider)', padding: '14px 16px 8px', fontSize: 11.5, opacity: 0.6 }}>
+      <div style={{ borderTop: '1px solid var(--color-divider)', padding: '14px 16px 8px', fontSize: 11.5, opacity: 0.6 }}>
         Messages stay in the app so there is a record if a handoff goes wrong.
       </div>
       <TabBar h={h} />

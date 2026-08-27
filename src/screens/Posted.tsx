@@ -23,6 +23,7 @@ export function Posted({ h }: { h: Handoff }) {
             border: 0,
             background: 'var(--color-bg)',
             color: 'var(--color-accent-700)',
+            borderRadius: 'var(--radius-md)',
             fontFamily: 'var(--font-heading)',
             fontWeight: 800,
             fontSize: 15,
@@ -37,7 +38,7 @@ export function Posted({ h }: { h: Handoff }) {
         <button
           onClick={h.startPost}
           style={{
-            border: '2px solid var(--color-bg)',
+            border: '1.5px solid var(--color-bg)', borderRadius: 'var(--radius-md)',
             background: 'transparent',
             color: 'var(--color-bg)',
             fontFamily: 'var(--font-heading)',

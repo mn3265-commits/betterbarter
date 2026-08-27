@@ -14,7 +14,7 @@ export function Post1({ h }: { h: Handoff }) {
 
   return (
     <div className="screen">
-      <div style={{ padding: '58px 16px 10px', borderBottom: '2px solid var(--color-divider)', display: 'flex', alignItems: 'center' }}>
+      <div style={{ padding: '58px 16px 10px', borderBottom: '1px solid var(--color-divider)', display: 'flex', alignItems: 'center' }}>
         <button
           onClick={h.jumpBrowse}
           style={{
@@ -120,7 +120,7 @@ export function Post1({ h }: { h: Handoff }) {
         )}
       </div>
 
-      <div style={{ borderTop: '2px solid var(--color-divider)', padding: '12px 16px 40px', background: 'var(--color-bg)' }}>
+      <div style={{ borderTop: '1px solid var(--color-divider)', padding: '12px 16px 40px', background: 'var(--color-bg)' }}>
         <button
           onClick={h.toStep2}
           disabled={!h.photo}

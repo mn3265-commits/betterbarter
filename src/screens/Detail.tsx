@@ -33,7 +33,7 @@ export function Detail({ h }: { h: Handoff }) {
       <div
         style={{
           padding: '58px 16px 10px',
-          borderBottom: '2px solid var(--color-divider)',
+          borderBottom: '1px solid var(--color-divider)',
           display: 'flex',
           alignItems: 'center',
           gap: 10,
@@ -77,7 +77,7 @@ export function Detail({ h }: { h: Handoff }) {
           hatch="hatch-lg"
           border="0"
         />
-        <div style={{ borderBottom: '2px solid var(--color-divider)' }} />
+        <div style={{ borderBottom: '1px solid var(--color-divider)' }} />
         <div style={{ padding: 16 }}>
           <div style={{ display: 'flex', alignItems: 'baseline', gap: 10 }}>
             <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 800, fontSize: 30, letterSpacing: '-.02em', color: 'var(--color-accent-700)' }}>
@@ -128,7 +128,7 @@ export function Detail({ h }: { h: Handoff }) {
           </div>
           <hr className="hr" />
           {d0.desc && <p style={{ fontSize: 14.5, lineHeight: 1.5, margin: 0, textWrap: 'pretty' }}>{d0.desc}</p>}
-          <div style={{ marginTop: 18, border: '2px solid var(--color-divider)', padding: '12px 13px' }}>
+          <div style={{ marginTop: 18, border: '1px solid var(--color-divider)', padding: '12px 13px' }}>
             <div style={{ fontSize: 10, letterSpacing: '.14em', textTransform: 'uppercase', opacity: 0.6 }}>Hands off at</div>
             <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 800, fontSize: 16, marginTop: 4 }}>{d0.spot}</div>
             <div style={{ fontSize: 11.5, opacity: 0.65, marginTop: 2 }}>
@@ -143,7 +143,7 @@ export function Detail({ h }: { h: Handoff }) {
 
       <div
         style={{
-          borderTop: '2px solid var(--color-divider)',
+          borderTop: '1px solid var(--color-divider)',
           padding: '12px 16px 40px',
           display: 'flex',
           gap: 10,

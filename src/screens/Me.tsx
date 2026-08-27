@@ -30,7 +30,7 @@ export function Me({ h }: { h: Handoff }) {
 
   return (
     <div className="screen">
-      <div style={{ padding: '60px 16px 10px', borderBottom: '2px solid var(--color-divider)', display: 'flex', alignItems: 'center' }}>
+      <div style={{ padding: '60px 16px 10px', borderBottom: '1px solid var(--color-divider)', display: 'flex', alignItems: 'center' }}>
         <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 800, fontSize: 19 }}>Me</div>
         <button onClick={h.jumpBrowse} className="btn btn-ghost" style={{ marginLeft: 'auto', fontSize: 12 }}>
           Board
@@ -39,7 +39,7 @@ export function Me({ h }: { h: Handoff }) {
 
       <div style={{ flex: 1, overflowY: 'auto', paddingBottom: 30 }}>
         {/* identity */}
-        <div style={{ padding: 16, display: 'flex', gap: 13, alignItems: 'flex-start', borderBottom: '2px solid var(--color-divider)' }}>
+        <div style={{ padding: 16, display: 'flex', gap: 13, alignItems: 'flex-start', borderBottom: '1px solid var(--color-divider)' }}>
           <div
             style={{
               width: 54,
@@ -78,7 +78,7 @@ export function Me({ h }: { h: Handoff }) {
 
         {/* What those handoffs add up to. The count is measured; the two numbers
             beside it are estimates from the published model, and say so. */}
-        <div style={{ padding: 16, borderBottom: '2px solid var(--color-divider)' }}>
+        <div style={{ padding: 16, borderBottom: '1px solid var(--color-divider)' }}>
           <h6 style={{ margin: '0 0 10px' }}>What you have kept in use</h6>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 1, background: 'var(--color-divider)', border: '1px solid var(--color-divider)' }}>
             {[
@@ -101,7 +101,7 @@ export function Me({ h }: { h: Handoff }) {
 
         {/* first-run: which hall are you in */}
         {(needsBuilding || editing) && (
-          <div style={{ padding: 16, borderBottom: '2px solid var(--color-divider)' }}>
+          <div style={{ padding: 16, borderBottom: '1px solid var(--color-divider)' }}>
             <h6 style={{ margin: '0 0 10px', color: needsBuilding ? 'var(--color-accent-700)' : undefined }}>
               {needsBuilding ? 'One thing first' : 'Your details'}
             </h6>
@@ -135,13 +135,13 @@ export function Me({ h }: { h: Handoff }) {
 
         {/* needs a decision (day-7) */}
         {staleMine.length > 0 && (
-          <div style={{ padding: 16, borderBottom: '2px solid var(--color-divider)' }}>
+          <div style={{ padding: 16, borderBottom: '1px solid var(--color-divider)' }}>
             <h6 style={{ margin: '0 0 10px', color: 'var(--color-accent-700)' }}>Needs a decision</h6>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
               {staleMine.map((it) => {
                 const showFree = !h.isFree(it)
                 return (
-                  <div key={it.id} style={{ border: '2px solid var(--color-text)', padding: '12px 13px' }}>
+                  <div key={it.id} style={{ border: '1px solid var(--color-divider)', borderRadius: 'var(--radius-lg)', padding: '12px 13px' }}>
                     <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 800, fontSize: 16, lineHeight: 1.15 }}>{it.title}</div>
                     <div style={{ fontSize: 10, letterSpacing: '.12em', textTransform: 'uppercase', color: 'var(--color-accent-700)', marginTop: 5 }}>
                       {h.daysOf(it)} days on the board · {h.isFree(it) ? 'free' : h.priceOf(it)}
@@ -177,7 +177,7 @@ export function Me({ h }: { h: Handoff }) {
 
         {/* paused */}
         {paused.length > 0 && (
-          <div style={{ padding: 16, borderBottom: '2px solid var(--color-divider)' }}>
+          <div style={{ padding: 16, borderBottom: '1px solid var(--color-divider)' }}>
             <h6 style={{ margin: '0 0 10px' }}>Paused</h6>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 2, background: 'var(--color-divider)' }}>
               {paused.map((it) => (
@@ -235,7 +235,7 @@ export function Me({ h }: { h: Handoff }) {
         {/* saved searches */}
         <div style={{ padding: '0 16px 16px' }}>
           <h6 style={{ margin: '0 0 10px' }}>Saved searches</h6>
-          <div style={{ border: '2px solid var(--color-divider)', padding: '12px 13px', display: 'flex', alignItems: 'center', gap: 12 }}>
+          <div style={{ border: '1px solid var(--color-divider)', padding: '12px 13px', display: 'flex', alignItems: 'center', gap: 12 }}>
             <div style={{ flex: 1 }}>
               <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 800, fontSize: 15 }}>Ping me on new posts</div>
               <div style={{ fontSize: 11.5, opacity: 0.62, marginTop: 2 }}>
@@ -249,7 +249,7 @@ export function Me({ h }: { h: Handoff }) {
         {/* move-out mode */}
         <div style={{ padding: '0 16px 16px' }}>
           <h6 style={{ margin: '0 0 10px' }}>Move-out mode</h6>
-          <div style={{ border: '2px solid var(--color-divider)', padding: '12px 13px', display: 'flex', alignItems: 'center', gap: 12 }}>
+          <div style={{ border: '1px solid var(--color-divider)', padding: '12px 13px', display: 'flex', alignItems: 'center', gap: 12 }}>
             <div style={{ flex: 1 }}>
               <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 800, fontSize: 15 }}>Move-out week</div>
               <div style={{ fontSize: 11.5, opacity: 0.62, marginTop: 2 }}>
@@ -283,7 +283,7 @@ export function Me({ h }: { h: Handoff }) {
 
         {/* account */}
         <div style={{ padding: '0 16px' }}>
-          <div style={{ borderTop: '2px solid var(--color-divider)', paddingTop: 14, fontSize: 11.5, opacity: 0.6, textWrap: 'pretty' }}>
+          <div style={{ borderTop: '1px solid var(--color-divider)', paddingTop: 14, fontSize: 11.5, opacity: 0.6, textWrap: 'pretty' }}>
             We cannot tell who has graduated — only whether your school email still logs in. If the login stops working
             the account goes read-only, and your handoff count is waiting if you come back for grad school.
           </div>

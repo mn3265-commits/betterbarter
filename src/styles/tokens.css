@@ -15,7 +15,7 @@
      white type, which a bright "sustainability green" never does. */
   --color-accent: #1c7a4f;
   --color-accent-2: #2f9463;
-  --color-divider: color-mix(in srgb, #16201a 40%, transparent);
+  --color-divider: color-mix(in srgb, #16201a 22%, transparent);
 
   /* Tonal ramps — generated in OKLCH on one shared lightness scale, so the
      same step of any role matches the others in visual value. */
@@ -39,9 +39,13 @@
   --color-accent-800: #0d422c;
   --color-accent-900: #0a3022;
 
-  --font-heading: "Archivo", system-ui, sans-serif;
-  --font-heading-weight: 800;
-  --font-body: "Archivo", system-ui, sans-serif;
+  /* Fraunces carries the warmth — a soft, slightly wonky serif that reads as a
+     person wrote it, against Plus Jakarta Sans for everything you actually have
+     to read. The old single-grotesque setting was correct for a notice board
+     and too severe for a product about neighbours giving each other things. */
+  --font-heading: "Fraunces", Georgia, "Times New Roman", serif;
+  --font-heading-weight: 600;
+  --font-body: "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
 
   --space-1: 4px;
   --space-2: 8px;
@@ -50,12 +54,13 @@
   --space-6: 24px;
   --space-8: 32px;
 
-  --radius-sm: 0px;
-  --radius-md: 0px;
-  --radius-lg: 0px;
+  /* Corners exist now. Not pills — just enough that nothing has a knife edge. */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
 
   /* Elevation exists but the app deliberately uses rules + alignment, not shadow. */
-  --shadow-sm: 0 1px 2px color-mix(in srgb, #2a2f29 14%, transparent);
+  --shadow-sm: 0 1px 2px color-mix(in srgb, #2a2f29 12%, transparent);
   --shadow-md: 0 3px 10px color-mix(in srgb, #2a2f29 16%, transparent);
   --shadow-lg: 0 12px 32px color-mix(in srgb, #2a2f29 22%, transparent);
 }
@@ -68,7 +73,7 @@ body {
   color: var(--color-text);
   font-family: var(--font-body);
   font-size: 15px;
-  line-height: 1.55;
+  line-height: 1.6;
   font-weight: 400;
   -webkit-font-smoothing: antialiased;
 }
@@ -76,8 +81,8 @@ body {
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-heading);
   font-weight: var(--font-heading-weight);
-  line-height: 1.12;
-  letter-spacing: -0.015em;
+  line-height: 1.16;
+  letter-spacing: -0.005em;
   margin: 0 0 var(--space-2);
 }
 h1 { font-size: 42px; }
@@ -85,7 +90,7 @@ h2 { font-size: 32px; }
 h3 { font-size: 25px; }
 h4 { font-size: 20px; }
 h5 { font-size: 16px; }
-h6 { font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; }
+h6 { font-size: 13px; letter-spacing: 0.06em; text-transform: uppercase; font-family: var(--font-body); font-weight: 600; }
 
 p { margin: 0 0 var(--space-3); }
 a { color: var(--color-accent); text-underline-offset: 3px; }
@@ -100,7 +105,7 @@ img { display: block; max-width: 100%; }
 
 /* ── rules ── */
 .hr {
-  height: 2px;
+  height: 1px;
   border: 0;
   margin: var(--space-4) 0;
   background: var(--color-divider);
@@ -114,14 +119,15 @@ img { display: block; max-width: 100%; }
   gap: 6px;
   cursor: pointer;
   text-decoration: none;
-  font-family: var(--font-heading);
-  font-weight: var(--font-heading-weight);
+  font-family: var(--font-body);
+  font-weight: 600;
   font-size: 14px;
+  transition: background 0.14s ease, color 0.14s ease, border-color 0.14s ease;
   line-height: 1.2;
   color: var(--color-text);
   background: transparent;
   border: 1px solid transparent;
-  padding: var(--space-2) calc(var(--space-3) * 1.2);
+  padding: calc(var(--space-2) * 1.15) calc(var(--space-3) * 1.35);
   border-radius: var(--radius-md);
 }
 .btn svg { display: block; }
@@ -188,8 +194,12 @@ textarea.input { min-height: 90px; resize: vertical; }
   display: inline-flex;
   overflow: hidden;
   border: 1px solid var(--color-divider);
-  border-radius: var(--radius-md);
+  border-radius: 999px;
+  padding: 3px;
+  gap: 2px;
 }
+.seg-opt { border-radius: 999px; }
+.seg-opt + .seg-opt { border-left: 0; }
 .seg-opt {
   display: inline-flex;
   align-items: center;
@@ -208,9 +218,10 @@ textarea.input { min-height: 90px; resize: vertical; }
   display: inline-flex;
   align-items: center;
   font-size: 11px;
+  font-weight: 500;
   letter-spacing: 0.02em;
-  padding: 3px 10px;
-  border-radius: 0;
+  padding: 4px 11px;
+  border-radius: 999px;
 }
 .tag-accent { background: var(--color-accent-100); color: var(--color-accent-800); }
 .tag-neutral { background: var(--color-neutral-100); color: var(--color-neutral-800); }
