@@ -21,7 +21,7 @@ export function AppRail({ h }: { h: Handoff }) {
     <nav className="app-rail">
       <a className="app-rail__mark" href="/">
         <LoopMark size={20} />
-        HANDOFF
+        Handoff
       </a>
 
       <button className="app-rail__post" onClick={h.startPost}>

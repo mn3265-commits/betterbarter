@@ -64,7 +64,7 @@ export function About() {
         <div className="site__wrap site__bar-in">
           <a className="site__mark" href="/" style={{ textDecoration: 'none' }}>
             <LoopMark size={19} />
-            HANDOFF
+            Handoff
           </a>
           <span className="tag tag-outline">Circular economy · Columbia</span>
           <a className="site__bar-link" href="/#how">

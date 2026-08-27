@@ -31,7 +31,7 @@ export function Me({ h }: { h: Handoff }) {
   return (
     <div className="screen">
       <div style={{ padding: '60px 16px 10px', borderBottom: '1px solid var(--color-divider)', display: 'flex', alignItems: 'center' }}>
-        <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 800, fontSize: 19 }}>Me</div>
+        <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 600, fontSize: 19 }}>Me</div>
         <button onClick={h.jumpBrowse} className="btn btn-ghost" style={{ marginLeft: 'auto', fontSize: 12 }}>
           Board
         </button>
@@ -50,7 +50,7 @@ export function Me({ h }: { h: Handoff }) {
               alignItems: 'center',
               justifyContent: 'center',
               fontFamily: 'var(--font-heading)',
-              fontWeight: 800,
+              fontWeight: 600,
               fontSize: 19,
               color: 'var(--color-neutral-800)',
             }}
@@ -58,7 +58,7 @@ export function Me({ h }: { h: Handoff }) {
             {h.me.initials}
           </div>
           <div style={{ flex: 1, minWidth: 0 }}>
-            <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 800, fontSize: 19 }}>{h.me.name}</div>
+            <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 600, fontSize: 19 }}>{h.me.name}</div>
             <div style={{ fontSize: 12, opacity: 0.65, marginTop: 2, wordBreak: 'break-all' }}>
               {h.me.email}
               {h.me.since ? ` · joined ${h.me.since}` : ''}
@@ -87,7 +87,7 @@ export function Me({ h }: { h: Handoff }) {
               [co2eLabel(averageItem().co2e * h.me.handoffs), 'avoided', 'estimated'],
             ].map(([big, label, kind]) => (
               <div key={label} style={{ background: 'var(--color-bg)', padding: '10px 11px' }}>
-                <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 800, fontSize: 18, letterSpacing: '-.02em' }}>{big}</div>
+                <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 600, fontSize: 18, letterSpacing: '-.02em' }}>{big}</div>
                 <div style={{ fontSize: 11.5, opacity: 0.7, marginTop: 2 }}>{label}</div>
                 <div style={{ fontSize: 9.5, letterSpacing: '.1em', textTransform: 'uppercase', opacity: 0.45, marginTop: 3 }}>{kind}</div>
               </div>
@@ -142,7 +142,7 @@ export function Me({ h }: { h: Handoff }) {
                 const showFree = !h.isFree(it)
                 return (
                   <div key={it.id} style={{ border: '1px solid var(--color-divider)', borderRadius: 'var(--radius-lg)', padding: '12px 13px' }}>
-                    <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 800, fontSize: 16, lineHeight: 1.15 }}>{it.title}</div>
+                    <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 600, fontSize: 16, lineHeight: 1.15 }}>{it.title}</div>
                     <div style={{ fontSize: 10, letterSpacing: '.12em', textTransform: 'uppercase', color: 'var(--color-accent-700)', marginTop: 5 }}>
                       {h.daysOf(it)} days on the board · {h.isFree(it) ? 'free' : h.priceOf(it)}
                     </div>
@@ -237,7 +237,7 @@ export function Me({ h }: { h: Handoff }) {
           <h6 style={{ margin: '0 0 10px' }}>Saved searches</h6>
           <div style={{ border: '1px solid var(--color-divider)', padding: '12px 13px', display: 'flex', alignItems: 'center', gap: 12 }}>
             <div style={{ flex: 1 }}>
-              <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 800, fontSize: 15 }}>Ping me on new posts</div>
+              <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 600, fontSize: 15 }}>Ping me on new posts</div>
               <div style={{ fontSize: 11.5, opacity: 0.62, marginTop: 2 }}>
                 Tells you the second something matching lands on the board.
               </div>
@@ -251,7 +251,7 @@ export function Me({ h }: { h: Handoff }) {
           <h6 style={{ margin: '0 0 10px' }}>Move-out mode</h6>
           <div style={{ border: '1px solid var(--color-divider)', padding: '12px 13px', display: 'flex', alignItems: 'center', gap: 12 }}>
             <div style={{ flex: 1 }}>
-              <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 800, fontSize: 15 }}>Move-out week</div>
+              <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 600, fontSize: 15 }}>Move-out week</div>
               <div style={{ fontSize: 11.5, opacity: 0.62, marginTop: 2 }}>
                 Puts the move-out banner on the board so the hall empties fast.
               </div>
@@ -268,14 +268,14 @@ export function Me({ h }: { h: Handoff }) {
               onClick={() => h.go('how')}
               style={{ background: 'var(--color-bg)', border: 0, padding: '13px 0', textAlign: 'left', cursor: 'pointer', font: 'inherit' }}
             >
-              <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 800, fontSize: 14 }}>How Handoff works</div>
+              <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 600, fontSize: 14 }}>How Handoff works</div>
               <div style={{ fontSize: 11.5, opacity: 0.6 }}>Posting, claiming, and meeting up — in four screens.</div>
             </button>
             <button
               onClick={() => h.go('rules')}
               style={{ background: 'var(--color-bg)', border: 0, padding: '13px 0', textAlign: 'left', cursor: 'pointer', font: 'inherit' }}
             >
-              <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 800, fontSize: 14 }}>Community rules</div>
+              <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 600, fontSize: 14 }}>Community rules</div>
               <div style={{ fontSize: 11.5, opacity: 0.6 }}>What may not be listed, and how to meet safely. You agreed to these.</div>
             </button>
           </div>

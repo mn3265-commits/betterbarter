@@ -25,7 +25,7 @@ export function Notes({ h }: { h: Handoff }) {
   return (
     <div className="notes">
       <div className="notes__kicker">Scope · v1 · Columbia trial</div>
-      <h1>HANDOFF</h1>
+      <h1>Handoff</h1>
       <p className="notes__lede">
         A handoff board for one campus. You post what you are done with, someone else on campus takes it — nearest
         first. Verified by school email — that is the whole product. Every campus is its own board, and the first one is

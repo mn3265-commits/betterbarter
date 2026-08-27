@@ -23,7 +23,7 @@ export function Post1({ h }: { h: Handoff }) {
             cursor: 'pointer',
             padding: 0,
             fontFamily: 'var(--font-heading)',
-            fontWeight: 800,
+            fontWeight: 600,
             fontSize: 13,
             color: 'var(--color-text)',
           }}
@@ -64,7 +64,7 @@ export function Post1({ h }: { h: Handoff }) {
             }}
           >
             <Camera size={30} strokeWidth={1.7} />
-            <span style={{ fontFamily: 'var(--font-heading)', fontWeight: 800, fontSize: 20 }}>Shoot it where it stands</span>
+            <span style={{ fontFamily: 'var(--font-heading)', fontWeight: 600, fontSize: 20 }}>Shoot it where it stands</span>
             <span style={{ fontSize: 12.5, opacity: 0.65 }}>One photo is enough. Median post takes 21 seconds.</span>
           </button>
         ) : (
@@ -130,7 +130,7 @@ export function Post1({ h }: { h: Handoff }) {
             background: 'var(--color-accent)',
             color: 'var(--color-bg)',
             fontFamily: 'var(--font-heading)',
-            fontWeight: 800,
+            fontWeight: 600,
             fontSize: 15,
             padding: '15px 16px',
             textAlign: 'left',

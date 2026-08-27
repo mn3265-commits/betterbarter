@@ -32,7 +32,7 @@ export function Claim({ h }: { h: Handoff }) {
             cursor: 'pointer',
             padding: 0,
             fontFamily: 'var(--font-heading)',
-            fontWeight: 800,
+            fontWeight: 600,
             fontSize: 13,
             color: 'var(--color-text)',
           }}
@@ -61,7 +61,7 @@ export function Claim({ h }: { h: Handoff }) {
               <input type="radio" name="hf-spot" checked={h.spot === s.name} onChange={() => h.setSpot(s.name)} />
               <span className="dot" style={{ marginTop: 3 }} />
               <span style={{ display: 'block' }}>
-                <span style={{ display: 'block', fontFamily: 'var(--font-heading)', fontWeight: 800, fontSize: 15 }}>{s.name}</span>
+                <span style={{ display: 'block', fontFamily: 'var(--font-heading)', fontWeight: 600, fontSize: 15 }}>{s.name}</span>
                 <span style={{ display: 'block', fontSize: 11.5, opacity: 0.62, marginTop: 2 }}>{s.why}</span>
               </span>
             </label>
@@ -129,7 +129,7 @@ export function Claim({ h }: { h: Handoff }) {
             background: 'var(--color-accent)',
             color: 'var(--color-bg)',
             fontFamily: 'var(--font-heading)',
-            fontWeight: 800,
+            fontWeight: 600,
             fontSize: 15,
             padding: '15px 16px',
             textAlign: 'left',

@@ -62,10 +62,8 @@ export function Gate({ h, auth }: { h: Handoff; auth?: Auth }) {
         </a>
       </div>
       <div style={{ height: 2, background: 'var(--color-bg)', opacity: 0.5, margin: '14px 0 22px' }} />
-      <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 800, fontSize: 62, lineHeight: 0.94, letterSpacing: '-.025em' }}>
-        HAND
-        <br />
-        OFF
+      <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 600, fontSize: 60, lineHeight: 1.02, letterSpacing: '-.015em' }}>
+        Handoff
       </div>
       <p style={{ fontSize: 17, lineHeight: 1.35, margin: '20px 0 0', maxWidth: '24ch' }}>
         Give away or resell what you are done with — to someone in your own building.
@@ -80,7 +78,7 @@ export function Gate({ h, auth }: { h: Handoff; auth?: Auth }) {
           ['Both sides confirm it', 'That tap is what counts the object as kept in use.'],
         ].map(([title, line]) => (
           <div key={title} style={{ borderTop: '1px solid color-mix(in srgb, var(--color-bg) 45%, transparent)', padding: '11px 0' }}>
-            <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 800, fontSize: 14 }}>{title}</div>
+            <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 600, fontSize: 14 }}>{title}</div>
             <div style={{ fontSize: 12.5, opacity: 0.85, lineHeight: 1.4, marginTop: 2 }}>{line}</div>
           </div>
         ))}
@@ -105,7 +103,7 @@ export function Gate({ h, auth }: { h: Handoff; auth?: Auth }) {
                 color: 'var(--color-accent-700)',
                 borderRadius: 'var(--radius-md)',
                 fontFamily: 'var(--font-heading)',
-                fontWeight: 800,
+                fontWeight: 600,
                 fontSize: 16,
                 padding: '16px 18px',
                 textAlign: 'left',
@@ -152,7 +150,7 @@ export function Gate({ h, auth }: { h: Handoff; auth?: Auth }) {
                 background: 'transparent',
                 color: 'var(--color-bg)',
                 fontFamily: 'var(--font-heading)',
-                fontWeight: 800,
+                fontWeight: 600,
                 fontSize: 14,
                 padding: '12px 16px',
                 textAlign: 'left',
@@ -184,7 +182,7 @@ export function Gate({ h, auth }: { h: Handoff; auth?: Auth }) {
                 background: 'transparent',
                 color: 'var(--color-bg)',
                 fontFamily: 'var(--font-heading)',
-                fontWeight: 800,
+                fontWeight: 600,
                 fontSize: 14,
                 padding: '11px 16px',
                 textAlign: 'left',
@@ -205,7 +203,7 @@ export function Gate({ h, auth }: { h: Handoff; auth?: Auth }) {
                 color: 'var(--color-accent-700)',
                 borderRadius: 'var(--radius-md)',
                 fontFamily: 'var(--font-heading)',
-                fontWeight: 800,
+                fontWeight: 600,
                 fontSize: 16,
                 padding: '16px 18px',
                 textAlign: 'left',

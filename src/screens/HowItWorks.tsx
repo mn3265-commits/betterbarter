@@ -55,7 +55,7 @@ export function HowItWorks({ onDone, doneLabel = 'Go to the board' }: { onDone: 
           alignItems: 'center',
         }}
       >
-        <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 800, fontSize: 19 }}>How Handoff works</div>
+        <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 600, fontSize: 19 }}>How Handoff works</div>
         <button onClick={onDone} className="btn btn-ghost" style={{ marginLeft: 'auto', fontSize: 12 }}>
           Skip
         </button>
@@ -100,7 +100,7 @@ export function HowItWorks({ onDone, doneLabel = 'Go to the board' }: { onDone: 
             background: 'var(--color-accent)',
             color: 'var(--color-bg)',
             fontFamily: 'var(--font-heading)',
-            fontWeight: 800,
+            fontWeight: 600,
             fontSize: 15,
             padding: '15px 16px',
             textAlign: 'left',

@@ -9,7 +9,7 @@ export function Posted({ h }: { h: Handoff }) {
     >
       <div style={{ fontSize: 10, letterSpacing: '.16em', textTransform: 'uppercase', opacity: 0.85 }}>{`Live at ${h.campusName || 'your campus'}`}</div>
       <div style={{ height: 2, background: 'var(--color-bg)', opacity: 0.5, margin: '14px 0 22px' }} />
-      <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 800, fontSize: 44, lineHeight: 0.98, letterSpacing: '-.025em' }}>
+      <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 600, fontSize: 44, lineHeight: 0.98, letterSpacing: '-.025em' }}>
         {h.postedTitle}
       </div>
       <p style={{ fontSize: 17, lineHeight: 1.35, margin: '20px 0 0', maxWidth: '24ch' }}>{h.postedNote}</p>
@@ -25,7 +25,7 @@ export function Posted({ h }: { h: Handoff }) {
             color: 'var(--color-accent-700)',
             borderRadius: 'var(--radius-md)',
             fontFamily: 'var(--font-heading)',
-            fontWeight: 800,
+            fontWeight: 600,
             fontSize: 15,
             padding: '15px 16px',
             textAlign: 'left',
@@ -42,7 +42,7 @@ export function Posted({ h }: { h: Handoff }) {
             background: 'transparent',
             color: 'var(--color-bg)',
             fontFamily: 'var(--font-heading)',
-            fontWeight: 800,
+            fontWeight: 600,
             fontSize: 15,
             padding: '13px 16px',
             textAlign: 'left',

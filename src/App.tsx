@@ -58,10 +58,8 @@ function Splash() {
       className="screen"
       style={{ background: 'var(--color-accent)', color: 'var(--color-bg)', padding: '74px 26px 46px' }}
     >
-      <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 800, fontSize: 62, lineHeight: 0.94, letterSpacing: '-.025em' }}>
-        HAND
-        <br />
-        OFF
+      <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 600, fontSize: 60, lineHeight: 1.02, letterSpacing: '-.015em' }}>
+        Handoff
       </div>
     </div>
   )
@@ -78,7 +76,7 @@ function NotEnrolled({ email, onSignOut }: { email: string | null; onSignOut: ()
         School email required
       </div>
       <div style={{ height: 2, background: 'var(--color-bg)', opacity: 0.5, margin: '14px 0 22px' }} />
-      <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 800, fontSize: 34, lineHeight: 1.05 }}>
+      <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 600, fontSize: 34, lineHeight: 1.05 }}>
         That account is not on a campus we run yet.
       </div>
       <p style={{ fontSize: 15, lineHeight: 1.4, margin: '18px 0 0', maxWidth: '28ch' }}>
@@ -93,7 +91,7 @@ function NotEnrolled({ email, onSignOut }: { email: string | null; onSignOut: ()
             background: 'var(--color-bg)',
             color: 'var(--color-accent-700)',
             fontFamily: 'var(--font-heading)',
-            fontWeight: 800,
+            fontWeight: 600,
             fontSize: 16,
             padding: '16px 18px',
             textAlign: 'left',

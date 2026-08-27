@@ -50,7 +50,7 @@ export function Detail({ h }: { h: Handoff }) {
             alignItems: 'center',
             gap: 6,
             fontFamily: 'var(--font-heading)',
-            fontWeight: 800,
+            fontWeight: 600,
             fontSize: 13,
             color: 'var(--color-text)',
           }}
@@ -80,7 +80,7 @@ export function Detail({ h }: { h: Handoff }) {
         <div style={{ borderBottom: '1px solid var(--color-divider)' }} />
         <div style={{ padding: 16 }}>
           <div style={{ display: 'flex', alignItems: 'baseline', gap: 10 }}>
-            <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 800, fontSize: 30, letterSpacing: '-.02em', color: 'var(--color-accent-700)' }}>
+            <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 600, fontSize: 30, letterSpacing: '-.02em', color: 'var(--color-accent-700)' }}>
               {h.priceOf(d0)}
             </div>
             <div style={{ fontSize: 11, opacity: 0.55, marginLeft: 'auto' }}>
@@ -106,7 +106,7 @@ export function Detail({ h }: { h: Handoff }) {
                 alignItems: 'center',
                 justifyContent: 'center',
                 fontFamily: 'var(--font-heading)',
-                fontWeight: 800,
+                fontWeight: 600,
                 fontSize: 16,
                 color: 'var(--color-neutral-800)',
               }}
@@ -114,7 +114,7 @@ export function Detail({ h }: { h: Handoff }) {
               {initials}
             </div>
             <div style={{ flex: 1 }}>
-              <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 800, fontSize: 15 }}>
+              <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 600, fontSize: 15 }}>
                 {mine ? 'You' : d0.seller}
               </div>
               <div style={{ fontSize: 11.5, opacity: 0.65, marginTop: 1 }}>
@@ -130,7 +130,7 @@ export function Detail({ h }: { h: Handoff }) {
           {d0.desc && <p style={{ fontSize: 14.5, lineHeight: 1.5, margin: 0, textWrap: 'pretty' }}>{d0.desc}</p>}
           <div style={{ marginTop: 18, border: '1px solid var(--color-divider)', padding: '12px 13px' }}>
             <div style={{ fontSize: 10, letterSpacing: '.14em', textTransform: 'uppercase', opacity: 0.6 }}>Hands off at</div>
-            <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 800, fontSize: 16, marginTop: 4 }}>{d0.spot}</div>
+            <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 600, fontSize: 16, marginTop: 4 }}>{d0.spot}</div>
             <div style={{ fontSize: 11.5, opacity: 0.65, marginTop: 2 }}>
               Named by the seller, public, and never a room number.
             </div>
@@ -151,12 +151,12 @@ export function Detail({ h }: { h: Handoff }) {
         }}
       >
         {isGone ? (
-          <div style={{ flex: 1, padding: '14px 0', fontFamily: 'var(--font-heading)', fontWeight: 800, fontSize: 14, opacity: 0.5 }}>
+          <div style={{ flex: 1, padding: '14px 0', fontFamily: 'var(--font-heading)', fontWeight: 600, fontSize: 14, opacity: 0.5 }}>
             Already gone — try a saved search
           </div>
         ) : mine ? (
           <>
-            <div style={{ flex: 1, padding: '14px 0', fontFamily: 'var(--font-heading)', fontWeight: 800, fontSize: 14, opacity: 0.55 }}>
+            <div style={{ flex: 1, padding: '14px 0', fontFamily: 'var(--font-heading)', fontWeight: 600, fontSize: 14, opacity: 0.55 }}>
               Your listing
             </div>
             <button onClick={h.jumpMe} className="btn btn-secondary" style={{ flex: 'none', padding: '15px 14px' }}>
@@ -174,7 +174,7 @@ export function Detail({ h }: { h: Handoff }) {
                 background: 'var(--color-accent)',
                 color: 'var(--color-bg)',
                 fontFamily: 'var(--font-heading)',
-                fontWeight: 800,
+                fontWeight: 600,
                 fontSize: 15,
                 padding: '15px 16px',
                 textAlign: 'left',

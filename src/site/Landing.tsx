@@ -231,7 +231,7 @@ export function Landing() {
         <div className="site__wrap site__bar-in">
           <div className="site__mark">
             <LoopMark size={19} />
-            HANDOFF
+            Handoff
           </div>
           <span className="tag tag-outline">Circular economy · Columbia</span>
           <a className="site__bar-link" href="#how">
@@ -255,11 +255,7 @@ export function Landing() {
       <section className="site__hero">
         <div className="site__wrap">
           <div className="site__kicker">Campus circular economy · V1 trialing at Columbia</div>
-          <h1>
-            HAND
-            <br />
-            OFF
-          </h1>
+          <h1>Handoff</h1>
           <p className="site__lede">
             Keep the things a campus already owns in use — and count every object that stayed out of the landfill.
           </p>

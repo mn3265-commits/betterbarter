@@ -34,7 +34,7 @@ export function Rules({
           gap: 10,
         }}
       >
-        <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 800, fontSize: 19 }}>
+        <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 600, fontSize: 19 }}>
           {accepting ? 'Before you start' : 'Community rules'}
         </div>
         {!accepting && onClose && (
@@ -79,7 +79,7 @@ export function Rules({
           </div>
           {RULES.map((s) => (
             <div key={s.title} style={{ padding: '13px 12px', borderTop: '1px solid var(--color-divider)' }}>
-              <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 800, fontSize: 15, lineHeight: 1.2 }}>
+              <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 600, fontSize: 15, lineHeight: 1.2 }}>
                 {s.title}
               </div>
               <p style={{ fontSize: 12.5, opacity: 0.75, margin: '6px 0 0', lineHeight: 1.45, textWrap: 'pretty' }}>
@@ -160,7 +160,7 @@ export function Rules({
               background: 'var(--color-accent)',
               color: 'var(--color-bg)',
               fontFamily: 'var(--font-heading)',
-              fontWeight: 800,
+              fontWeight: 600,
               fontSize: 15,
               padding: '15px 16px',
               textAlign: 'left',

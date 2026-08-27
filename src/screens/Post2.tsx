@@ -64,7 +64,7 @@ export function Post2({ h }: { h: Handoff }) {
             cursor: 'pointer',
             padding: 0,
             fontFamily: 'var(--font-heading)',
-            fontWeight: 800,
+            fontWeight: 600,
             fontSize: 13,
             color: 'var(--color-text)',
           }}
@@ -135,7 +135,7 @@ export function Post2({ h }: { h: Handoff }) {
                     <div style={{ width: 96, flex: 'none', fontSize: 11, letterSpacing: '.06em', textTransform: 'uppercase', opacity: 0.55 }}>
                       {r.label}
                     </div>
-                    <div style={{ flex: 1, fontFamily: 'var(--font-heading)', fontWeight: 800, fontSize: 14.5, lineHeight: 1.25 }}>
+                    <div style={{ flex: 1, fontFamily: 'var(--font-heading)', fontWeight: 600, fontSize: 14.5, lineHeight: 1.25 }}>
                       {r.value}
                     </div>
                     {r.fixable && (
@@ -176,7 +176,7 @@ export function Post2({ h }: { h: Handoff }) {
           <div style={{ fontSize: 10, letterSpacing: '.14em', textTransform: 'uppercase', color: 'var(--color-accent-800)' }}>
             {h.ruleHits[0].level === 'blocked' ? 'Not allowed on the board' : 'Check this before you post'}
           </div>
-          <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 800, fontSize: 15, marginTop: 5, color: 'var(--color-accent-800)' }}>
+          <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 600, fontSize: 15, marginTop: 5, color: 'var(--color-accent-800)' }}>
             This reads like {h.ruleHits.map((x) => x.label).join(', ')}.
           </div>
           {h.ruleHits.map((x) => (
@@ -207,7 +207,7 @@ export function Post2({ h }: { h: Handoff }) {
             background: 'var(--color-accent)',
             color: 'var(--color-bg)',
             fontFamily: 'var(--font-heading)',
-            fontWeight: 800,
+            fontWeight: 600,
             fontSize: 15,
             padding: '15px 16px',
             textAlign: 'left',

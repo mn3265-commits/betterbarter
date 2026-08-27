@@ -31,7 +31,7 @@ export function Chats({ h }: { h: Handoff }) {
           padding: '60px 16px 10px',
           borderBottom: '1px solid var(--color-divider)',
           fontFamily: 'var(--font-heading)',
-          fontWeight: 800,
+          fontWeight: 600,
           fontSize: 19,
         }}
       >
@@ -77,7 +77,7 @@ export function Chats({ h }: { h: Handoff }) {
                   {initials}
                 </div>
                 <div style={{ flex: 1, minWidth: 0 }}>
-                  <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 800, fontSize: 15 }}>{t.otherName}</div>
+                  <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 600, fontSize: 15 }}>{t.otherName}</div>
                   <div style={{ fontSize: 12, opacity: 0.6, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                     {t.lastMessage || t.spotName}
                   </div>
@@ -98,7 +98,7 @@ export function Chats({ h }: { h: Handoff }) {
           })
         ) : (
           <div style={{ padding: '40px 22px', textAlign: 'left' }}>
-            <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 800, fontSize: 20, lineHeight: 1.15 }}>Nothing yet.</div>
+            <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 600, fontSize: 20, lineHeight: 1.15 }}>Nothing yet.</div>
             <p style={{ fontSize: 13.5, opacity: 0.65, margin: '8px 0 16px', textWrap: 'pretty' }}>
               Claim something on the board and the conversation starts itself, with the meetup spot already in it.
             </p>

@@ -32,7 +32,7 @@ export function Chat({ h }: { h: Handoff }) {
           <ArrowLeft size={19} strokeWidth={2.2} />
         </button>
         <div style={{ flex: 1, minWidth: 0 }}>
-          <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 800, fontSize: 15 }}>{name}</div>
+          <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 600, fontSize: 15 }}>{name}</div>
           <div style={{ fontSize: 11, opacity: 0.6 }}>{handoffs} handoffs · verified school email</div>
         </div>
         <button
@@ -50,7 +50,7 @@ export function Chat({ h }: { h: Handoff }) {
           <div style={{ fontSize: 10, letterSpacing: '.14em', textTransform: 'uppercase', color: 'var(--color-accent-700)' }}>
             {completed ? 'Handed off' : 'Handoff scheduled'}
           </div>
-          <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 800, fontSize: 15, marginTop: 4 }}>{spot}</div>
+          <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 600, fontSize: 15, marginTop: 4 }}>{spot}</div>
           <div style={{ fontSize: 11.5, opacity: 0.65, marginTop: 2 }}>
             {completed ? window_ : `${window_} · held for 3 hours`}
             {t?.listingTitle ? ` · ${t.listingTitle}` : ''}

@@ -41,13 +41,13 @@ export function Board({ h }: { h: Handoff }) {
         <div
           style={{
             fontFamily: 'var(--font-heading)',
-            fontWeight: 800,
+            fontWeight: 600,
             fontSize: 19,
             letterSpacing: '-.02em',
             marginRight: 'auto',
           }}
         >
-          HANDOFF
+          Handoff
         </div>
         <div
           style={{
@@ -68,7 +68,7 @@ export function Board({ h }: { h: Handoff }) {
       <div style={{ flex: 1, overflowY: 'auto', paddingBottom: 14 }}>
         {/* count line */}
         <div style={{ padding: '12px 16px 0', display: 'flex', alignItems: 'baseline', gap: 8 }}>
-          <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 800, fontSize: 26, letterSpacing: '-.02em' }}>
+          <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 600, fontSize: 26, letterSpacing: '-.02em' }}>
             {h.loadingBoard ? '—' : h.liveCount} live
           </div>
           <div style={{ fontSize: 12, opacity: 0.6 }}>across campus · closest to you first</div>
@@ -90,7 +90,7 @@ export function Board({ h }: { h: Handoff }) {
             }}
           >
             <div style={{ flex: 1 }}>
-              <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 800, fontSize: 13.5, color: 'var(--color-accent-800)' }}>
+              <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 600, fontSize: 13.5, color: 'var(--color-accent-800)' }}>
                 {staleMine.length} of your listings passed a week
               </div>
               <div style={{ fontSize: 11.5, color: 'var(--color-accent-800)', opacity: 0.8 }}>
@@ -116,7 +116,7 @@ export function Board({ h }: { h: Handoff }) {
             <div style={{ fontSize: 10, letterSpacing: '.14em', textTransform: 'uppercase', color: 'var(--color-accent-700)' }}>
               Move-out week · May 12–19
             </div>
-            <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 800, fontSize: 17, lineHeight: 1.15 }}>
+            <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 600, fontSize: 17, lineHeight: 1.15 }}>
               Everything left in the hall on Friday gets thrown out.
             </div>
             <button
@@ -127,7 +127,7 @@ export function Board({ h }: { h: Handoff }) {
                 background: 'var(--color-text)',
                 color: 'var(--color-bg)',
                 fontFamily: 'var(--font-heading)',
-                fontWeight: 800,
+                fontWeight: 600,
                 fontSize: 13,
                 padding: '9px 13px',
                 cursor: 'pointer',
@@ -184,7 +184,7 @@ export function Board({ h }: { h: Handoff }) {
                     style={{ background: 'var(--color-bg)', padding: '12px 0', display: 'flex', alignItems: 'center', gap: 12 }}
                   >
                     <div style={{ flex: 1 }}>
-                      <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 800, fontSize: 15 }}>{w.title}</div>
+                      <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 600, fontSize: 15 }}>{w.title}</div>
                       <div style={{ fontSize: 11, opacity: 0.6, marginTop: 2 }}>
                         {w.who} · {w.handoffs} handoffs · {w.ago}
                       </div>
@@ -252,7 +252,7 @@ function EmptyBoard({ h }: { h: Handoff }) {
   const searching = h.q.trim().length > 0
   return (
     <div style={{ padding: '32px 16px 0' }}>
-      <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 800, fontSize: 20, lineHeight: 1.15 }}>
+      <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 600, fontSize: 20, lineHeight: 1.15 }}>
         {searching
           ? 'Nothing matches that.'
           : h.tab === 'free'
@@ -293,7 +293,7 @@ function ItemCard({ it, h, walk }: { it: Item; h: Handoff; walk: string }) {
               justifyContent: 'center',
               color: 'var(--color-bg)',
               fontFamily: 'var(--font-heading)',
-              fontWeight: 800,
+              fontWeight: 600,
               fontSize: 13,
               letterSpacing: '.1em',
             }}
@@ -303,7 +303,7 @@ function ItemCard({ it, h, walk }: { it: Item; h: Handoff; walk: string }) {
         )}
       </Photo>
       <div style={{ display: 'flex', alignItems: 'baseline', gap: 6 }}>
-        <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 800, fontSize: 13, color: 'var(--color-accent-700)' }}>
+        <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 600, fontSize: 13, color: 'var(--color-accent-700)' }}>
           {h.priceOf(it)}
         </div>
         <div style={{ fontSize: 10, opacity: 0.55, marginLeft: 'auto' }}>{it.ago}</div>
