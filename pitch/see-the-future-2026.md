@@ -17,20 +17,23 @@ need something only you can answer.
 - **Phone:** `[FILL]`
 - **Country / Region:** United States
 - **Organization / University:** Columbia University, School of Professional Studies
-- **Team size:** `[FILL — 1 if you apply solo; see the note under Team Background]`
+- **Team size:** 2
 
 ## Team members & roles
 
-> Mohammad Agung Nugroho — founder. Product, growth and the build. Designs the
-> board, writes the code, runs the Columbia pilot, and owns the impact model.
-> Background in customer-lifecycle and CRM marketing (telecommunications,
-> multi-million-subscriber base), currently a graduate student and Graduate
-> Assistant at Columbia SPS.
+> **Agung Nugroho — product and build.** Designs the board, writes the code,
+> owns the impact model and runs the Columbia pilot. Background in
+> customer-lifecycle and CRM marketing at telecommunications scale, currently a
+> graduate student and Graduate Assistant at Columbia SPS.
+>
+> **Tessa Wong — `[FILL: role]`.** `[FILL: one or two sentences — what she owns
+> on the project, plus the background that makes her the right person for it.]`
 
-`[FILL — add anyone else. If you want a second name, the two useful profiles are
-(a) a Columbia sustainability or EcoReps contact who can speak to move-out
-operations, and (b) an SEAS student who can co-own the codebase. Judges read a
-solo founder as a risk; a named advisor reduces it without diluting anything.]`
+`[FILL — the roles need to be complementary on paper, not just two names. The
+split judges find most credible for a venture like this is one person on
+product/engineering and one on campus operations and partnerships (housing,
+sustainability office, EcoReps, student groups) — if that matches how you two
+actually work, say it in those words.]`
 
 ## Startup / Project name
 
@@ -38,9 +41,9 @@ solo founder as a risk; a named advisor reduces it without diluting anything.]`
 
 ## One-sentence project description (max 30 words)
 
-> Handoff is a verified campus reuse board that keeps dorm objects in use:
-> students give away or resell what they no longer need, and every confirmed
-> handoff is measured. *(29 words)*
+> Handoff is a verified campus reuse board where students give, sell, lend or
+> swap what they already own — and every confirmed handoff is measured.
+> *(24 words)*
 
 ## Focus areas
 
@@ -82,6 +85,11 @@ building.
   meetup spot out of the sentence — no form — and any of it can be corrected in
   one tap. Friction is the thing that sends objects to the dumpster, so removing
   it *is* the intervention.
+- **Four ways to keep an object in use.** Give it away, sell it cheap, lend it
+  by the week, or swap it for something you need. Ownership is only one way to
+  have a thing: a drill borrowed by six people is five drills that were never
+  manufactured. What we deliberately do *not* add back is deposits, escrow or
+  damage adjudication — a loan here is two verified students and a promise.
 - **Only your campus can see it.** One verified school email per account,
   enforced in the database, not in the interface. Every campus is an isolated
   board. That removes the stranger problem which stops students listing.
@@ -127,9 +135,12 @@ May 2027 move-out peak.
    trustworthy, so the incentive to record impact is intrinsic.
 3. **An honest impact model, published in the open.** We refuse to state an
    estimate as a measurement: three separated levels, low-end factors, a
-   displacement rate of 0.5, an assumed category mix weighted toward small
-   things rather than an average quietly carried by bikes and laptops. That is
-   rare enough in reuse claims to be a differentiator with institutional buyers.
+   displacement rate of 0.5, and an assumed category mix weighted toward small
+   things rather than an average quietly carried by bikes and laptops. We also
+   give away the assumption most likely to be challenged before anyone asks:
+   **a borrowed object earns no carbon credit at all**, because it comes back.
+   That is rare enough in reuse claims to be a differentiator with institutional
+   buyers.
 4. **Zero-logistics circularity.** Collect, sort, store, resell is four touches
    and a vehicle. Floor to floor is one walk. The model works precisely because
    it refuses the logistics that make most reuse ventures unprofitable.
@@ -140,9 +151,10 @@ May 2027 move-out peak.
 ## Traction
 
 - **Live product** at https://handoff-bay-two.vercel.app — deployed, on a real
-  backend, not a prototype video.
+  backend, not a prototype video. Public site, `/about` for the vision, and the
+  board itself behind Columbia sign-in.
 - **Ten screens shipped end to end:** verification gate, board with Free / For
-  sale / Wanted, listing detail, claim with a three-hour hold, realtime chat,
+  sale / Borrow / Swap / Wanted, listing detail, claim with a three-hour hold, realtime chat,
   paragraph-based posting, day-7 lifecycle, profile, community-rules agreement,
   first-run walkthrough.
 - **Backend hardened:** row-level security migrations, RLS-hardening pass after
@@ -163,18 +175,23 @@ named office is worth more to these judges than three more shipped screens.]`
 
 `[FILL — expand with your own words; the frame below is accurate and short.]`
 
-> Mohammad Agung Nugroho is a graduate student at Columbia University's School
-> of Professional Studies and a Graduate Assistant. His professional background
-> is customer lifecycle and CRM marketing at telecommunications scale, where the
-> daily problem is the same one Handoff solves: getting a very large number of
-> ordinary people to complete one specific action, and measuring honestly
-> whether they did. He designed and built Handoff himself — product, interface,
-> parser, database schema and row-level security, impact model — which is why
-> the venture can move at the speed of one decision.
+> Handoff is built by **Agung Nugroho** and **Tessa Wong** at Columbia
+> University. Agung is a graduate student at the School of Professional Studies
+> and a Graduate Assistant; his professional background is customer lifecycle
+> and CRM marketing at telecommunications scale, where the daily problem is the
+> same one Handoff has — getting a very large number of ordinary people to
+> complete one specific action, and measuring honestly whether they did. He
+> designed and built the product: interface, parser, database schema and
+> row-level security, and the impact model.
 >
-> That combination matters here: campus reuse does not fail on technology, it
-> fails on adoption and on trust, and those are marketing and product problems
-> before they are engineering ones.
+> `[FILL: two or three sentences on Tessa — what she owns and the experience
+> behind it.]`
+>
+> The combination matters here: campus reuse does not fail on technology, it
+> fails on adoption and on trust, and those are behaviour and product problems
+> before they are engineering ones. Both of us are also the users — we have each
+> carried something working down a stairwell in May because there was no better
+> option by Friday.
 
 ## What impact do you expect your project to create?
 

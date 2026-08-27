@@ -518,8 +518,8 @@ export function Landing() {
 
       <footer className="site__wrap site__foot">
         <span>
-          Handoff — campus reuse, counted · v1, trialing at Columbia · impact model v{MODEL_VERSION}, displacement{' '}
-          {DISPLACEMENT}.
+          Handoff — campus reuse, counted · Built by Agung Nugroho and Tessa Wong · impact model v{MODEL_VERSION},
+          displacement {DISPLACEMENT}.
         </span>
         <a href="/about">About</a>
         <a href={APP}>Open the board</a>

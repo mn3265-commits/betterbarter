@@ -158,18 +158,24 @@ export function About() {
       <section className="site__section">
         <div className="site__wrap">
           <div className="site__kicker">Who is building it</div>
-          <h2>One person, in the open.</h2>
+          <h2>Two people, in the open.</h2>
           <div className="site__prose">
             <p>
-              Handoff is built by <b>Mohammad Agung Nugroho</b>, a graduate student at Columbia University's School of
-              Professional Studies, working in customer lifecycle and growth. The product, the interface, the database
-              and the impact model are all one pair of hands — which is why it can move at the speed of one decision,
-              and why the code and the factor table are public rather than described.
+              Handoff is built by <b>Agung Nugroho</b> and <b>Tessa Wong</b> at Columbia University — the product, the
+              interface, the database and the impact model. Small enough to move at the speed of one conversation, and
+              close enough to the problem to be its own first users: both of us have carried something down a stairwell
+              in May knowing it still worked.
+            </p>
+            <p>
+              Agung comes from customer lifecycle and growth, where the daily problem is the same one this product has:
+              getting a very large number of ordinary people to complete one specific action, and measuring honestly
+              whether they did.
             </p>
             <p>
               Campus reuse does not fail on technology. It fails on adoption and on trust, which are product and
               behaviour problems before they are engineering ones — and those are the problems this project was started
-              to work on.
+              to work on. The code and the factor table are public rather than described, so the claims can be checked
+              by anyone who cares to.
             </p>
             <p>
               If you run housing, sustainability or a student group at a school where this should exist, or you want to
@@ -196,7 +202,7 @@ export function About() {
       </section>
 
       <footer className="site__wrap site__foot">
-        <span>Handoff — campus reuse, counted · v1, trialing at Columbia.</span>
+        <span>Handoff — campus reuse, counted · Built by Agung Nugroho and Tessa Wong · v1, trialing at Columbia.</span>
         <a href="/">Home</a>
         <a href={APP}>Open the board</a>
         <a href="https://github.com/mn3265-commits/handoff">Source &amp; model</a>
