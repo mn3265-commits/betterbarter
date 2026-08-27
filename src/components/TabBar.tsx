@@ -35,15 +35,7 @@ export function TabBar({ h }: { h: Handoff }) {
   const cMe = h.screen === 'me' ? accent : dim
 
   return (
-    <div
-      className="tabbar"
-      style={{
-        borderTop: '1px solid var(--color-divider)',
-        display: 'flex',
-        padding: '9px 6px 38px',
-        background: 'var(--color-bg)',
-      }}
-    >
+    <div className="tabbar">
       {tabButton(h.jumpBrowse, cBrowse, <Search size={21} strokeWidth={1.8} />, 'Board')}
       {tabButton(h.jumpWanted, cWanted, <List size={21} strokeWidth={1.8} />, 'Wanted')}
       <button

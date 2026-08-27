@@ -156,6 +156,9 @@
 
   /* The bottom bar is the phone's navigation; the rail replaces it here. */
   .app-frame.has-rail .tabbar { display: none; }
+  /* The rail already offers the board; a second button for it in the header is
+     noise on the one screen that had one. */
+  .app-frame.has-rail .app-hd__action .btn-ghost[data-rail-dupe='1'] { display: none; }
 
   /* Room for more than two cards, and no phone-status-bar padding to allow for. */
   .board-grid { grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); }
@@ -304,6 +307,16 @@
   font-weight: 600;
 }
 .app-cta--ghost:hover { background: color-mix(in srgb, var(--color-text) 6%, transparent); }
+
+/* The phone's navigation. Its layout lives here rather than inline, so the
+   desktop rail can actually replace it — an inline display beats a class. */
+.tabbar {
+  flex: none;
+  display: flex;
+  border-top: 1px solid var(--color-divider);
+  padding: 9px 6px 38px;
+  background: var(--color-bg);
+}
 
 /* A quiet line of guidance directly above the tab bar. */
 .app-note {

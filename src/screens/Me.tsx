@@ -34,7 +34,7 @@ export function Me({ h }: { h: Handoff }) {
       <AppHeader
         title="Me"
         action={
-          <button onClick={h.jumpBrowse} className="btn btn-ghost" style={{ fontSize: 12 }}>
+          <button onClick={h.jumpBrowse} className="btn btn-ghost" data-rail-dupe="1" style={{ fontSize: 12 }}>
             Board
           </button>
         }

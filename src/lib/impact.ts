@@ -41,6 +41,27 @@ export const MODEL_VERSION = '1.1'
  */
 export const TRANSFER_KINDS = ['free', 'sale', 'trade'] as const
 
+/**
+ * The transport term, and why ours is zero.
+ *
+ * Reuse is only a saving net of moving the object. A collection round — the van
+ * that visits a hall at move-out, the trip to a warehouse, the trip back out to
+ * a resale shop — burns fuel per item, and an honest reuse figure has to
+ * subtract it. A handoff between two people who both already walk across the
+ * same campus has no vehicle in it at all, so there is nothing to subtract.
+ *
+ * The factor below is the EPA's *passenger car* average, not a van's. A
+ * donation van is heavier and emits more per kilometre, so using a car here
+ * understates the transport a drive-based alternative actually costs — which is
+ * the direction an assumption should err when it is being used to argue for us.
+ */
+export const CAR_KG_CO2E_PER_KM = 0.25 // EPA: ~400 g CO2 per mile
+
+/** What a modest collection trip costs, for one object. */
+export function transportCost(km: number): number {
+  return Math.max(0, km) * CAR_KG_CO2E_PER_KM
+}
+
 /** Share of reuses assumed to displace the manufacture of a new item.
  *  Reuse literature spans roughly 0.3–1.0 depending on product and market; we
  *  hold it at the low-middle of that range and state it everywhere. */
@@ -180,6 +201,11 @@ export const SOURCES: { claim: string; source: string; url: string }[] = [
     claim: 'US textiles: 17 million tons generated in 2018; 11.3 million tons landfilled.',
     source: 'EPA, Textiles: Material-Specific Data',
     url: 'https://www.epa.gov/facts-and-figures-about-materials-waste-and-recycling/textiles-material-specific-data',
+  },
+  {
+    claim: 'A typical passenger vehicle emits about 400 g of CO₂ per mile — the transport term a collection round carries and a walked handoff does not.',
+    source: 'EPA, Greenhouse Gas Emissions from a Typical Passenger Vehicle',
+    url: 'https://www.epa.gov/greenvehicles/greenhouse-gas-emissions-typical-passenger-vehicle',
   },
   {
     claim: 'Re-use benefits depend on displacement: a re-used item only avoids production if it replaces a purchase.',

@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { ArrowRight, Check } from 'lucide-react'
 import { RULES, RULES_SUMMARY } from '../lib/rules'
 import {
+  CAR_KG_CO2E_PER_KM,
   DISPLACEMENT,
   FACTORS,
   MIX,
@@ -59,8 +60,8 @@ const STEPS: [string, string, string][] = [
   ],
   [
     '03',
-    'You meet in a lobby, not a loading dock',
-    'The exchange is two students and a doorway — no shipping, no packaging, no van, no warehouse. The lowest-carbon second life an object can have is the one that never leaves the building.',
+    'You meet somewhere on campus',
+    'A library entrance, a dining hall door, a student centre, a department lobby — wherever you both already are on an ordinary day. You do not have to live on campus, and nobody goes to anyone’s home: the exchange is two students and a doorway, with no shipping, no packaging, no van and no warehouse.',
   ],
   [
     '04',
@@ -76,7 +77,11 @@ const WHY: [string, string][] = [
   ],
   [
     'Peer-to-peer, so nothing is handled twice',
-    'Collect, sort, store, resell is four touches and a vehicle. Floor to floor is one walk. Reuse loses its advantage the moment logistics get involved.',
+    'Collect, sort, store, resell is four touches and a vehicle. Building to building is one walk. Reuse loses its advantage the moment logistics get involved.',
+  ],
+  [
+    'No transport term to subtract',
+    `A van doing a collection round burns fuel per item, and an honest reuse figure has to subtract it — a 10 km round trip is about ${(10 * CAR_KG_CO2E_PER_KM).toFixed(1)} kg CO₂e for that one object, using a car factor, which flatters the van. Two people crossing a campus they were crossing anyway emit nothing extra, so our transport term is zero rather than small.`,
   ],
   [
     'Counted at the object, not the truck',
@@ -97,7 +102,7 @@ const WHY: [string, string][] = [
 ]
 
 const NOT: [string, string][] = [
-  ['Not a payments platform', 'No checkout, no escrow, no fee per deal. Money moves between two students the way it already does; we cannot see it, so we do not charge it.'],
+  ['Not a fee on the handoff', 'No listing fee, no cut of a give-away, no charge for lending. Money between two students moves the way it already does — see how this pays for itself, above.'],
   ['Not a deposit holder', 'Lending is a promise between two people on the same campus, not a contract we underwrite. We hold nothing and adjudicate nothing.'],
   ['Not a shipping or storage service', 'Nothing is collected, warehoused or driven anywhere. Logistics is exactly what makes reuse cost more than it saves.'],
   ['Not one board for everyone', 'Every school gets its own isolated board. A national marketplace is exactly the stranger problem we removed.'],
@@ -132,7 +137,7 @@ const FAQ: [string, string][] = [
   ],
   [
     'Where do we actually meet?',
-    'Somewhere public with other people around — a lobby, a front desk, a dining entrance, a library door. The app will not let a room number stand in for a meetup spot, and it does not publish where you live.',
+    'Somewhere public on campus, with other people around — a library entrance, a dining hall door, a student centre, a department lobby, a campus gate. Commuters are not at a disadvantage: nothing here assumes you live in a hall, and nobody ever goes to anyone’s home. The app will not let a room number stand in for a meetup spot, and it does not publish where you live.',
   ],
   [
     'What if someone does not show up?',
@@ -532,6 +537,54 @@ export function Landing() {
                 Anything illegal is a matter for Public Safety or the police, not for us — and Handoff keeps the
                 conversation so there is a record of what was agreed.
               </p>
+            </div>
+          </div>
+        </div>
+        </Reveal>
+      </section>
+
+      <section className="site__section" id="money">
+        <Reveal>
+        <div className="site__wrap">
+          <div className="site__kicker">How this pays for itself</div>
+          <h2>Charged before a deal exists, never on the object.</h2>
+          <p className="site__section-lede">
+            A board that takes a cut of a give-away is not a reuse product, it is a tax on generosity. So the money
+            never sits on the handoff itself — it sits on the two things that are worth paying for once a campus board
+            is busy.
+          </p>
+          <div className="site__grid">
+            <div className="site__cell">
+              <b>Campus licence — the main line</b>
+              <span>
+                Housing and sustainability offices already pay to haul this material away and already have to report
+                circularity. A licensed campus gets the admin tools, the move-out programme and an audited,
+                object-level number they cannot produce today. That is a budget that exists, spent against a cost that
+                exists.
+              </span>
+            </div>
+            <div className="site__cell">
+              <b>Verified-audience placements</b>
+              <span>
+                Movers, storage, print shops, student services — businesses that want to reach one specific campus at
+                one specific fortnight of the year. Paid up front, clearly marked, and never mixed into the board’s
+                ranking.
+              </span>
+            </div>
+            <div className="site__cell">
+              <b>What stays free, permanently</b>
+              <span>
+                Posting, claiming, giving away, lending and swapping. No listing fee, no fee per handoff, no cut of a
+                sale settled between two students, and no charge to a student for anything on the object path.
+              </span>
+            </div>
+            <div className="site__cell">
+              <b>If payments are ever added</b>
+              <span>
+                Only as an option on paid items, for people who want the receipt — and a fee only on that path. A
+                give-away with a transaction fee attached would defeat the entire product, so that line is not one we
+                will cross.
+              </span>
             </div>
           </div>
         </div>
