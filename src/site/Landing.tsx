@@ -14,6 +14,8 @@ import {
   kgLabel,
 } from '../lib/impact'
 import { BarChart, type Row } from './BarChart'
+import { CountUp } from './CountUp'
+import { Hierarchy } from './Hierarchy'
 import { LoopMark } from './LoopMark'
 import { Reveal } from './Reveal'
 import '../styles/site.css'
@@ -230,6 +232,31 @@ function HundredHandoffs() {
   )
 }
 
+/**
+ * The same forecast at four scales. Nothing new is assumed — it is the model
+ * multiplied — but seeing a floor, a building, a campus and ten campuses in one
+ * column is what makes the shape of the opportunity legible.
+ */
+const SCALES: [string, number, string][] = [
+  ['One floor', 120, '120 students'],
+  ['One building', 600, '600 students'],
+  ['One campus', 8000, '8,000 students'],
+  ['Ten campuses', 80000, '80,000 students'],
+]
+
+function ScaleLadder() {
+  const rows: Row[] = SCALES.map(([label, students, note]) => {
+    const out = forecast(students, 3)
+    return {
+      label,
+      value: out.co2e,
+      display: `${kgLabel(out.kg)} · ${co2eLabel(out.co2e)}`,
+      note: `${note} × 3 items = ${out.items.toLocaleString()} objects`,
+    }
+  })
+  return <BarChart rows={rows} unit="Mass kept in use and production avoided, at three items per participating student" />
+}
+
 /** The forecast tool: what one floor, one building or one class year moves. */
 function Estimator() {
   const [students, setStudents] = useState(120)
@@ -264,15 +291,21 @@ function Estimator() {
       </div>
       <div className="site__calc-out">
         <div>
-          <b>{out.items.toLocaleString()}</b>
+          <b>
+            <CountUp value={out.items} format={(n) => Math.round(n).toLocaleString()} />
+          </b>
           <span>objects kept in use</span>
         </div>
         <div>
-          <b>{kgLabel(out.kg)}</b>
+          <b>
+            <CountUp value={out.kg} format={kgLabel} />
+          </b>
           <span>kept out of the landfill</span>
         </div>
         <div>
-          <b>{co2eLabel(out.co2e)}</b>
+          <b>
+            <CountUp value={out.co2e} format={co2eLabel} />
+          </b>
           <span>production avoided</span>
         </div>
       </div>
@@ -403,6 +436,14 @@ export function Landing() {
             the open, at the low end of its range.
           </p>
 
+          <h3 className="site__sub" style={{ marginTop: 0 }}>Where this sits in the hierarchy</h3>
+          <p className="site__fine" style={{ marginBottom: 4 }}>
+            Campus sustainability work mostly happens two rungs down — bins, audits, hauling contracts. Reuse is the top
+            rung because nothing is reprocessed and nothing is driven anywhere; the object simply keeps being the object.
+          </p>
+          <Hierarchy />
+
+          <h3 className="site__sub">How the number is built</h3>
           <div className="site__levels">
             <div className="site__level">
               <div className="site__level-tag">Level 1 · Measured</div>
@@ -475,6 +516,14 @@ export function Landing() {
 
           <h3 className="site__sub">What a floor, a building or a class year moves</h3>
           <Estimator />
+
+          <h3 className="site__sub">And at the scale above that</h3>
+          <p className="site__fine" style={{ marginBottom: 16 }}>
+            The same arithmetic, multiplied. There are <b>15.4 million undergraduates</b> in the United States, and every
+            one of them moves in and out of somewhere — so the ceiling on this is not demand, it is how many campuses
+            have a board dense enough to be worth opening.
+          </p>
+          <ScaleLadder />
 
           <h3 className="site__sub">Sources</h3>
           <ul className="site__sources">

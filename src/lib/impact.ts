@@ -173,16 +173,19 @@ export function forecast(students: number, perStudent: number): Impact {
 
 // ── formatting ────────────────────────────────────────────────────────────────
 
+/** Thousands separators, because 1729 and 1,729 are not equally readable. */
+const fmt = (n: string) => Number(n).toLocaleString('en-US', { maximumFractionDigits: 1 })
+
 /** Mass, in the unit a person would actually say out loud. */
 export function kgLabel(kg: number): string {
-  if (kg >= 1000) return (kg / 1000).toFixed(kg >= 10_000 ? 0 : 1) + ' t'
+  if (kg >= 1000) return fmt((kg / 1000).toFixed(kg >= 10_000 ? 0 : 1)) + ' t'
   if (kg >= 100) return Math.round(kg) + ' kg'
   if (kg >= 10) return kg.toFixed(0) + ' kg'
   return kg.toFixed(1) + ' kg'
 }
 
 export function co2eLabel(kg: number): string {
-  if (kg >= 1000) return (kg / 1000).toFixed(kg >= 10_000 ? 0 : 1) + ' t CO₂e'
+  if (kg >= 1000) return fmt((kg / 1000).toFixed(kg >= 10_000 ? 0 : 1)) + ' t CO₂e'
   if (kg >= 10) return Math.round(kg) + ' kg CO₂e'
   return kg.toFixed(1) + ' kg CO₂e'
 }
@@ -206,6 +209,16 @@ export const SOURCES: { claim: string; source: string; url: string }[] = [
     claim: 'A typical passenger vehicle emits about 400 g of CO₂ per mile — the transport term a collection round carries and a walked handoff does not.',
     source: 'EPA, Greenhouse Gas Emissions from a Typical Passenger Vehicle',
     url: 'https://www.epa.gov/greenvehicles/greenhouse-gas-emissions-typical-passenger-vehicle',
+  },
+  {
+    claim: 'Source reduction and reuse sit at the top of the EPA’s non-hazardous materials management hierarchy — above recycling.',
+    source: 'EPA, Sustainable Materials Management: the waste management hierarchy',
+    url: 'https://www.epa.gov/smm/sustainable-materials-management-non-hazardous-materials-and-waste-management-hierarchy',
+  },
+  {
+    claim: '15.4 million undergraduates were enrolled in US degree-granting institutions in autumn 2021, projected to reach 16.8 million by 2031.',
+    source: 'NCES, Undergraduate Enrollment (Condition of Education)',
+    url: 'https://nces.ed.gov/programs/coe/indicator/cha',
   },
   {
     claim: 'Re-use benefits depend on displacement: a re-used item only avoids production if it replaces a purchase.',
