@@ -44,6 +44,40 @@
   .app-frame { max-width: 1180px; }
   .app-frame.has-rail .app-viewport { max-width: none; flex: 1; }
 
+  /* Before sign-in there is nothing to navigate, so there is no rail — but this
+     is still a desktop browser, and a 440px strip pinned to one side reads as an
+     unfinished phone mockup. Centre it and let it breathe. */
+  .app-frame:not(.has-rail) { max-width: none; justify-content: center; }
+  .app-frame:not(.has-rail) .app-viewport { max-width: 620px; }
+  .app-frame:not(.has-rail) .screen { padding-inline: 24px; }
+  .app-frame:not(.has-rail) .screen > * { max-width: 560px; width: 100%; margin-inline: auto; }
+
+  /* The sign-in screen is the first thing anyone arriving from the site sees,
+     so on a laptop it stops being a tall phone column: what this is on the
+     left, the way in on the right, both halves of one green field. */
+  .app-frame:not(.has-rail) .app-viewport[data-screen='gate'] { max-width: none; }
+  .app-frame:not(.has-rail) .app-viewport[data-screen='gate'] { background: var(--color-accent); }
+  .app-frame:not(.has-rail) .app-viewport[data-screen='gate'] .gate {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 56px;
+    align-content: center;
+    max-width: 1120px;
+    margin-inline: auto;
+    padding: 7vh 48px;
+    overflow-y: auto;
+  }
+  .app-frame:not(.has-rail) .app-viewport[data-screen='gate'] .gate > * {
+    max-width: 480px;
+    margin-inline: 0;
+  }
+  .app-frame:not(.has-rail) .app-viewport[data-screen='gate'] .gate__signin {
+    margin-top: 0;
+    align-self: center;
+    justify-self: end;
+    width: 100%;
+  }
+
   .app-rail {
     display: flex;
     flex-direction: column;

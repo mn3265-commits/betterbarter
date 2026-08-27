@@ -43,9 +43,12 @@ export function Gate({ h, auth }: { h: Handoff; auth?: Auth }) {
 
   return (
     <div
-      className="screen"
+      className="screen gate"
       style={{ background: 'var(--color-accent)', color: 'var(--color-bg)', padding: '74px 26px 46px' }}
     >
+      {/* One column on a phone; on a laptop these two halves sit side by side
+          (see app.css) — what this is on the left, the way in on the right. */}
+      <div className="gate__intro">
       <div style={{ display: 'flex', alignItems: 'baseline', gap: 10 }}>
         <div style={{ fontSize: 10, letterSpacing: '.16em', textTransform: 'uppercase', opacity: 0.85 }}>
           Campus reuse, counted · Columbia
@@ -83,7 +86,9 @@ export function Gate({ h, auth }: { h: Handoff; auth?: Auth }) {
         ))}
       </div>
 
-      <div style={{ marginTop: 'auto', display: 'flex', flexDirection: 'column', gap: 12 }}>
+      </div>
+
+      <div className="gate__signin" style={{ marginTop: 'auto', display: 'flex', flexDirection: 'column', gap: 12 }}>
         <div style={{ fontSize: 12, opacity: 0.9, letterSpacing: '.02em' }}>
           Columbia only, for now. Sign in with the address you already have.
         </div>
