@@ -146,6 +146,14 @@
   }
   .app-rail__foot a { color: inherit; }
 
+  /* Belt and braces: if any pre-account screen is ever shown beside the rail,
+     it stays a readable column instead of a wall of colour. */
+  .app-frame.has-rail .app-viewport[data-screen='gate'] .screen,
+  .app-frame.has-rail .app-viewport[data-screen='rules'] .screen,
+  .app-frame.has-rail .app-viewport[data-screen='how'] .screen {
+    max-width: 620px;
+  }
+
   /* The bottom bar is the phone's navigation; the rail replaces it here. */
   .app-frame.has-rail .tabbar { display: none; }
 

@@ -55,6 +55,10 @@ const EMPTY_ITEM: Item = {
 export function useHandoff(config: HandoffConfig, live?: LiveContext) {
   const isLive = Boolean(live)
 
+  // The profile arrives after the first render, so this initial value is very
+  // often 'gate' for someone who is in fact signed in. The effect below is what
+  // actually decides — without it a signed-in person lands on a sign-in screen
+  // they have no business seeing, with the navigation rail beside it.
   const [screen, setScreen] = useState<Screen>(isLive ? 'browse' : 'gate')
   const [tab, setTab] = useState<Tab | null>(null)
   const [q, setQ] = useState('')
@@ -125,6 +129,13 @@ export function useHandoff(config: HandoffConfig, live?: LiveContext) {
       clearTimeout(replyTimer.current)
     }
   }, [])
+
+  // Session resolved: leave the gate for the board, and never strand someone on
+  // it again. Anything else the person has navigated to is left alone.
+  useEffect(() => {
+    if (!isLive) return
+    setScreen((prev) => (prev === 'gate' ? 'browse' : prev))
+  }, [isLive])
 
   const flash = useCallback((text: string) => {
     clearTimeout(toastTimer.current)
