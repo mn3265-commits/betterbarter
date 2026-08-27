@@ -6,9 +6,9 @@ import type { CampusSpot, Item, SpotType, Wanted } from './types'
  */
 
 export const SPOTS: SpotType[] = [
-  { name: 'A dorm lobby or front desk', why: 'Staffed, indoor, and someone else is always there' },
+  { name: 'A library entrance', why: 'Everyone on campus knows where it is, and it is open late' },
   { name: 'A dining hall entrance', why: 'Busy until closing, easy to describe' },
-  { name: 'A library entrance', why: 'Everyone on campus knows where it is' },
+  { name: 'A student centre or department lobby', why: 'Indoor, staffed, and on everyone’s way somewhere' },
   { name: 'A main gate or quad', why: 'Open air, and wide enough for furniture' },
 ]
 
@@ -58,6 +58,7 @@ export const ME = {
   handoffs: 12,
   noShows: 0,
   building: 'Carman 6',
+  preferredSpot: 'Butler steps',
 }
 
 export const CAMPUS = 'Columbia'

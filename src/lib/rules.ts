@@ -8,7 +8,9 @@
  * and where people meet (public, never a room).
  */
 
-export const RULES_VERSION = 2
+import { findContactInfo } from './contact'
+
+export const RULES_VERSION = 3
 
 export interface RuleSection {
   title: string
@@ -37,9 +39,14 @@ export const RULES: RuleSection[] = [
       'Post the thing in front of you, photograph it as it is, and name the flaws. "Works, one dent" is a better listing than "like new". If it is gone, mark it gone — a board full of things that already left is a dead board.',
   },
   {
-    title: 'Meet in public, never in a room',
+    title: 'Keep the conversation in Handoff',
     body:
-      'Hand things off at a lobby, a front desk, a dining entrance, a library door, a gate. Do not give out your room number, and do not go to anyone else’s. If a meeting feels wrong, leave — no item is worth it.',
+      'Do not swap phone numbers, email addresses, social handles or room numbers, and do not move the arrangement to another app. The thread here is the only record of what the two of you agreed, and both accounts behind it are verified — that is the entire reason this is safer than meeting someone from a public marketplace. Messages containing contact details will not send.',
+  },
+  {
+    title: 'Meet somewhere public on campus, never in a room',
+    body:
+      'Hand things off at a library entrance, a dining hall door, a student centre, a department lobby, a campus gate — somewhere other people are, and somewhere you were going anyway. Nothing here assumes you live on campus. Do not give out your room number, do not go to anyone’s home, and if a meeting feels wrong, leave: no item is worth it.',
   },
   {
     title: 'Lending and swapping are between you two',
@@ -64,7 +71,7 @@ export const RULES: RuleSection[] = [
 ]
 
 export const RULES_SUMMARY =
-  'Nothing dangerous or illegal, describe things honestly, meet in public, bring back what you borrow, and show up.'
+  'Nothing dangerous or illegal, describe things honestly, keep it in the app, meet in public on campus, bring back what you borrow, and show up.'
 
 // ── the pre-post check ────────────────────────────────────────────────────────
 
@@ -144,6 +151,13 @@ export function checkListing(text: string): RuleHit[] {
   const t = text.trim()
   if (!t) return []
   const hits: RuleHit[] = []
+
+  // A listing is public to the whole campus, so contact details in one are
+  // worse than in a message, not better.
+  for (const c of findContactInfo(t)) {
+    hits.push({ level: 'blocked', label: 'contact details', why: c.why })
+  }
+
   for (const b of BLOCKED) {
     if (b.re.test(t)) hits.push({ level: 'blocked', label: b.label, why: b.why })
   }

@@ -5,16 +5,6 @@ import type { Item } from '../data/types'
 import type { Handoff } from '../lib/useHandoff'
 
 /** Walk time from the viewer's own hall. Same building = same door. */
-function walkTime(loc: string, myBuilding: string): string {
-  if (!loc) return 'on campus'
-  const hall = (s: string) => s.split(' ')[0].toLowerCase()
-  if (myBuilding && hall(loc) === hall(myBuilding)) return '1 min'
-  if (loc.startsWith('Carman')) return '1 min'
-  if (loc.startsWith('John Jay')) return '4 min'
-  if (loc.startsWith('Wallach')) return '6 min'
-  return '9 min'
-}
-
 /** Board (the board) — tab 1. Scan what is available on campus right now. */
 export function Board({ h }: { h: Handoff }) {
   const q = h.q.trim().toLowerCase()
@@ -22,6 +12,19 @@ export function Board({ h }: { h: Handoff }) {
     .all()
     .filter((it) => (h.live ? it.status === 'active' : !h.isPaused(it)))
     .filter((it) => h.kindOf(it) === h.tab)
+    // Radius, not a map: everything on this campus is already close, so the
+    // filter is "how far am I willing to walk", in three coarse steps.
+    .filter((it) => {
+      if (!h.radiusKm) return true
+      const km = h.distanceOf(it)
+      return km == null || km <= h.radiusKm
+    })
+    .sort((a, b) => {
+      const da = h.distanceOf(a)
+      const db = h.distanceOf(b)
+      if (da == null || db == null) return 0
+      return da - db
+    })
   const cards = pool.filter((it) => !q || (it.title + ' ' + it.cat).toLowerCase().includes(q))
   const staleMine = h.staleListings
   const campus = h.campusName || 'campus'
@@ -154,6 +157,37 @@ export function Board({ h }: { h: Handoff }) {
           />
         </div>
 
+        {/* how far you are willing to walk, when a location has been shared */}
+        {h.live && (
+          <div style={{ padding: '10px 16px 0', display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
+            {h.hasLocation ? (
+              <>
+                <span style={{ fontSize: 11, color: 'var(--color-accent-700)', letterSpacing: '.08em', textTransform: 'uppercase' }}>
+                  Within
+                </span>
+                {([
+                  [0.4, '5 min'],
+                  [1, '15 min'],
+                  [null, 'All campus'],
+                ] as const).map(([km, label]) => (
+                  <button
+                    key={label}
+                    onClick={() => h.setRadiusKm(km)}
+                    className={'btn ' + (h.radiusKm === km ? 'btn-primary' : 'btn-secondary')}
+                    style={{ fontSize: 12 }}
+                  >
+                    {label}
+                  </button>
+                ))}
+              </>
+            ) : (
+              <button onClick={h.shareLocation} className="btn btn-secondary" style={{ fontSize: 12 }}>
+                {h.locating ? 'Asking…' : 'Sort by how close it is'}
+              </button>
+            )}
+          </div>
+        )}
+
         {/* segmented control — five ways an object can move, scrollable on a phone */}
         <div style={{ padding: '12px 16px 0', overflowX: 'auto' }}>
           <div className="seg" style={{ minWidth: '100%', width: 'max-content' }}>
@@ -241,7 +275,7 @@ export function Board({ h }: { h: Handoff }) {
             ) : (
               <div className="board-grid" style={{ padding: '16px 16px 0', display: 'grid', gap: 14 }}>
                 {cards.map((it) => (
-                  <ItemCard key={it.id} it={it} h={h} walk={walkTime(it.loc, h.me.building)} />
+                  <ItemCard key={it.id} it={it} h={h} />
                 ))}
               </div>
             )}
@@ -283,7 +317,7 @@ function EmptyBoard({ h }: { h: Handoff }) {
   )
 }
 
-function ItemCard({ it, h, walk }: { it: Item; h: Handoff; walk: string }) {
+function ItemCard({ it, h }: { it: Item; h: Handoff }) {
   const isGone = h.gone.includes(it.id)
   return (
     <div onClick={() => h.openDetail(it.id)} style={{ cursor: 'pointer', display: 'flex', flexDirection: 'column', gap: 7 }}>
@@ -315,7 +349,15 @@ function ItemCard({ it, h, walk }: { it: Item; h: Handoff; walk: string }) {
         <div style={{ fontSize: 10, opacity: 0.55, marginLeft: 'auto' }}>{it.ago}</div>
       </div>
       <div style={{ fontSize: 13, lineHeight: 1.25 }}>{it.title}</div>
-      <div style={{ fontSize: 10.5, opacity: 0.55 }}>{it.loc ? `${it.loc} · ${walk} walk` : 'On campus'}</div>
+      <div style={{ fontSize: 10.5, opacity: 0.55 }}>
+        {(() => {
+          const km = h.distanceOf(it)
+          if (km == null) return it.spot || 'On campus'
+          if (km < 0.15) return 'A couple of minutes away'
+          if (km < 1) return `About ${Math.round(km * 1000)} m away`
+          return `About ${km.toFixed(1)} km away`
+        })()}
+      </div>
     </div>
   )
 }

@@ -252,6 +252,8 @@ export async function uploadPhoto(file: File, userId: string): Promise<string | 
 export interface NewListing {
   campusId: string
   sellerId: string
+  lat: number | null
+  lng: number | null
   title: string
   kind: ListingKind
   free: boolean
@@ -272,6 +274,8 @@ export async function createListing(input: NewListing): Promise<void> {
   const { error } = await db().from('listings').insert({
     campus_id: input.campusId,
     seller_id: input.sellerId,
+    approx_lat: input.lat,
+    approx_lng: input.lng,
     title: input.title,
     description: input.description,
     kind: input.kind,
@@ -489,8 +493,46 @@ export async function makeListingFree(uuid: string): Promise<void> {
 
 // ── profile ───────────────────────────────────────────────────────────────────
 
-export async function updateBuilding(userId: string, building: string): Promise<void> {
-  const { error } = await db().from('profiles').update({ building: building.trim() || null }).eq('id', userId)
+/**
+ * Where this person prefers to hand things over.
+ *
+ * This replaced the residence-hall field: a hall says where someone sleeps,
+ * which is exactly what the product should never know or show, and it wrote
+ * commuters out of their own campus. A preferred spot says where they are
+ * happy to meet — public, on campus, and useful as the default in every claim.
+ */
+/**
+ * Share an approximate location, or stop sharing one.
+ *
+ * The browser gives a precise fix; we round it to three decimal places
+ * (~100 m) before it leaves the page, and the database rounds it again. It is
+ * never returned to another user — the only thing anyone else can learn from it
+ * is a distance in tenths of a kilometre, computed server-side.
+ */
+export async function setMyLocation(lat: number, lng: number): Promise<boolean> {
+  const round = (n: number) => Math.round(n * 1000) / 1000
+  const { data, error } = await db().rpc('set_my_location', { p_lat: round(lat), p_lng: round(lng) })
+  if (error) return false
+  return Boolean(data)
+}
+
+export async function clearMyLocation(): Promise<boolean> {
+  const { data, error } = await db().rpc('clear_my_location')
+  if (error) return false
+  return Boolean(data)
+}
+
+/** listing id → distance in km, for listings the viewer can already see. */
+export async function fetchDistances(): Promise<Map<string, number>> {
+  const out = new Map<string, number>()
+  const { data, error } = await db().rpc('listing_distances')
+  if (error || !data) return out
+  for (const row of data as { listing_id: string; km: number }[]) out.set(row.listing_id, Number(row.km))
+  return out
+}
+
+export async function updatePreferredSpot(userId: string, spot: string): Promise<void> {
+  const { error } = await db().from('profiles').update({ preferred_spot: spot.trim() || null }).eq('id', userId)
   if (error) throw error
 }
 

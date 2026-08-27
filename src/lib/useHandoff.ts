@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { AGE_DAYS, AUTO_PAUSED, CAMPUS_SPOTS, ITEMS, ME, WANTED } from '../data/seed'
+import { AGE_DAYS, AUTO_PAUSED, CAMPUS_SPOTS, ITEMS, ME, SPOTS, WANTED } from '../data/seed'
 import type {
   CampusSpot,
   EditField,
@@ -14,6 +14,7 @@ import type {
 } from '../data/types'
 import * as api from './api'
 import { parseListing } from './parse'
+import { contactWarning, findContactInfo } from './contact'
 import { checkListing, RULES_VERSION, type RuleHit } from './rules'
 
 export interface HandoffConfig {
@@ -29,6 +30,9 @@ export interface LiveContext {
   name: string
   email: string
   building: string | null
+  preferredSpot: string | null
+  lat: number | null
+  lng: number | null
   handoffs: number
   noShows: number
   joinedAt: string | null
@@ -76,6 +80,12 @@ export function useHandoff(config: HandoffConfig, live?: LiveContext) {
   const [wanted, setWanted] = useState<Wanted[]>(isLive ? [] : WANTED)
   const [threads, setThreads] = useState<ThreadSummary[]>([])
   const [spots, setSpots] = useState<CampusSpot[]>(isLive ? [] : CAMPUS_SPOTS)
+  // Distance is a band, not a position: the database returns tenths of a
+  // kilometre per listing and never a coordinate.
+  const [distances, setDistances] = useState<Map<string, number>>(new Map())
+  const [radiusKm, setRadiusKm] = useState<number | null>(null)
+  const [locating, setLocating] = useState(false)
+
   const [campusName, setCampusName] = useState(isLive ? '' : 'Columbia University')
   const [campusLogo, setCampusLogo] = useState<string | null>(
     isLive ? null : 'https://www.google.com/s2/favicons?domain=columbia.edu&sz=128',
@@ -83,8 +93,8 @@ export function useHandoff(config: HandoffConfig, live?: LiveContext) {
   const [loadingBoard, setLoadingBoard] = useState(isLive)
   const [error, setError] = useState<string | null>(null)
 
-  const [spot, setSpot] = useState('A dorm lobby or front desk')
-  const [spotName, setSpotName] = useState('')
+  const [spot, setSpot] = useState(SPOTS[0].name)
+  const [spotName, setSpotName] = useState(live?.preferredSpot ?? '')
   const [win, setWin] = useState('Today 6–8pm')
 
   const [msgs, setMsgs] = useState<Message[]>([])
@@ -166,12 +176,13 @@ export function useHandoff(config: HandoffConfig, live?: LiveContext) {
       const next = await api.fetchListings(userId)
       setItems(next)
       setError(null)
+      if (live?.lat != null) api.fetchDistances().then(setDistances).catch(() => {})
     } catch (e) {
       fail(e, 'Could not load the board.')
     } finally {
       setLoadingBoard(false)
     }
-  }, [isLive, userId, fail])
+  }, [isLive, userId, live?.lat, fail])
 
   const refreshThreads = useCallback(async () => {
     if (!isLive || !userId) return
@@ -326,6 +337,7 @@ export function useHandoff(config: HandoffConfig, live?: LiveContext) {
       handoffs: live.handoffs,
       noShows: live.noShows,
       building: live.building ?? '',
+      preferredSpot: live.preferredSpot ?? '',
     }
   }, [live])
 
@@ -465,6 +477,15 @@ export function useHandoff(config: HandoffConfig, live?: LiveContext) {
   const sendText = useCallback(
     (text: string) => {
       if (!text.trim()) return
+
+      // Personal contact details are not discouraged here, they are refused.
+      // The thread is the only record either person has if a handoff goes
+      // wrong, and it stops being one the moment it moves to a phone number.
+      const contact = findContactInfo(text)
+      if (contact.length) {
+        flash(contactWarning(contact))
+        return
+      }
       if (isLive) {
         if (!activeThreadId || !userId) return
         const body = text.trim()
@@ -492,7 +513,7 @@ export function useHandoff(config: HandoffConfig, live?: LiveContext) {
         )
       }, 1100)
     },
-    [isLive, activeThreadId, userId, loadMessages, refreshThreads, fail, spotLabel],
+    [isLive, activeThreadId, userId, loadMessages, refreshThreads, fail, flash, spotLabel],
   )
 
   // ── navigation ─────────────────────────────────────────────────────────────
@@ -661,6 +682,8 @@ export function useHandoff(config: HandoffConfig, live?: LiveContext) {
         await api.createListing({
           campusId: live.campusId,
           sellerId: live.userId,
+          lat: live.lat,
+          lng: live.lng,
           title: p.title,
           kind: p.kind,
           free: p.free,
@@ -894,20 +917,71 @@ export function useHandoff(config: HandoffConfig, live?: LiveContext) {
   }, [wantedDraft, isLive, live, refreshWanted, flash, fail])
 
   // ── profile ────────────────────────────────────────────────────────────────
-  const setBuilding = useCallback(
+  /** Where this person prefers to hand things over — public, on campus, and the
+   *  default the claim and post flows start from. */
+  const setPreferredSpot = useCallback(
     (value: string) => {
       if (!live) return
       void (async () => {
         try {
-          await api.updateBuilding(live.userId, value)
+          await api.updatePreferredSpot(live.userId, value)
           live.refreshProfile()
-          flash('Saved. People in your hall see your listings first.')
+          setSpotName(value)
+          flash('Saved. Your claims and listings start here.')
         } catch (e) {
           fail(e, 'Could not save that.')
         }
       })()
     },
     [live, flash, fail],
+  )
+
+  /**
+   * Ask the browser once, round hard, and store it. Declining is a normal
+   * answer: without a location the board simply stops sorting by distance.
+   */
+  const shareLocation = useCallback(() => {
+    if (!live || !navigator.geolocation) {
+      flash('This browser cannot share a location.')
+      return
+    }
+    setLocating(true)
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        void (async () => {
+          const ok = await api.setMyLocation(pos.coords.latitude, pos.coords.longitude)
+          setLocating(false)
+          if (!ok) {
+            flash('Could not save that.')
+            return
+          }
+          live.refreshProfile()
+          api.fetchDistances().then(setDistances).catch(() => {})
+          flash('Saved to about 100 metres. Nobody sees where you are — only how far away a thing is.')
+        })()
+      },
+      () => {
+        setLocating(false)
+        flash('No location shared. The board still works, it just will not sort by distance.')
+      },
+      { enableHighAccuracy: false, timeout: 8000, maximumAge: 600_000 },
+    )
+  }, [live, flash])
+
+  const forgetLocation = useCallback(() => {
+    if (!live) return
+    void (async () => {
+      await api.clearMyLocation()
+      setDistances(new Map())
+      live.refreshProfile()
+      flash('Forgotten. Distances are off.')
+    })()
+  }, [live, flash])
+
+  /** Distance to a listing in km, when both sides have shared a coarse point. */
+  const distanceOf = useCallback(
+    (it: Item): number | null => (it.uuid ? (distances.get(it.uuid) ?? null) : null),
+    [distances],
   )
 
   const setDisplayName = useCallback(
@@ -982,6 +1056,9 @@ export function useHandoff(config: HandoffConfig, live?: LiveContext) {
     error,
     campusName,
     campusLogo,
+    radiusKm,
+    locating,
+    hasLocation: Boolean(live?.lat != null),
     campusSpots: spots,
     wanted,
     wantedDraft,
@@ -1050,7 +1127,11 @@ export function useHandoff(config: HandoffConfig, live?: LiveContext) {
     toggleGone,
     offerWanted,
     postWanted,
-    setBuilding,
+    setPreferredSpot,
+    shareLocation,
+    forgetLocation,
+    distanceOf,
+    setRadiusKm,
     setDisplayName,
     acceptRules,
     postAnyway,

@@ -8,13 +8,17 @@ export interface Profile {
   email: string
   campus_id: string
   building: string | null
+  preferred_spot: string | null
+  approx_lat: number | null
+  approx_lng: number | null
   handoffs: number
   no_shows: number
   read_only: boolean
   joined_at: string | null
 }
 
-const PROFILE_COLS = 'id, name, email, campus_id, building, handoffs, no_shows, read_only, joined_at'
+const PROFILE_COLS =
+  'id, name, email, campus_id, building, preferred_spot, approx_lat, approx_lng, handoffs, no_shows, read_only, joined_at'
 
 /**
  * Supabase auth session + the signed-in user's profile (which carries their

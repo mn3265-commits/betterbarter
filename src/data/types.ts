@@ -103,6 +103,8 @@ export interface MeProfile {
   handoffs: number
   noShows: number
   building: string
+  /** Where they prefer to hand things over — public, on campus. */
+  preferredSpot: string
 }
 
 /** The three fields the parse produces that a user can override in one tap. */

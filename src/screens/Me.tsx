@@ -13,19 +13,21 @@ export function Me({ h }: { h: Handoff }) {
   const mine = h.myListings
 
   const [name, setName] = useState(h.me.name)
-  const [building, setBuilding] = useState(h.me.building)
+  const [spot, setSpot] = useState(h.me.preferredSpot)
   const [editing, setEditing] = useState(false)
 
   useEffect(() => {
     setName(h.me.name)
-    setBuilding(h.me.building)
-  }, [h.me.name, h.me.building])
+    setSpot(h.me.preferredSpot)
+  }, [h.me.name, h.me.preferredSpot])
 
-  const needsBuilding = h.live && !h.me.building
+  // The one thing a new account is asked for. Not where they live — where they
+  // are happy to meet.
+  const needsSpot = h.live && !h.me.preferredSpot
 
   function saveProfile() {
     if (name.trim() && name.trim() !== h.me.name) h.setDisplayName(name)
-    if (building.trim() !== h.me.building) h.setBuilding(building)
+    if (spot.trim() !== h.me.preferredSpot) h.setPreferredSpot(spot)
     setEditing(false)
   }
 
@@ -86,7 +88,7 @@ export function Me({ h }: { h: Handoff }) {
             <div style={{ display: 'flex', gap: 6, marginTop: 8, flexWrap: 'wrap' }}>
               <span className="tag tag-accent">{h.me.handoffs} handoffs</span>
               <span className="tag tag-neutral">{h.me.noShows} no-shows</span>
-              {h.me.building && <span className="tag tag-outline">{h.me.building}</span>}
+              {h.me.preferredSpot && <span className="tag tag-outline">Meets at {h.me.preferredSpot}</span>}
             </div>
             {h.live && (
               <button onClick={() => setEditing((v) => !v)} className="btn btn-ghost" style={{ fontSize: 12, marginTop: 8, paddingInline: 0 }}>
@@ -119,16 +121,38 @@ export function Me({ h }: { h: Handoff }) {
           </p>
         </div>
 
-        {/* first-run: which hall are you in */}
-        {(needsBuilding || editing) && (
+        {/* location: opt-in, coarse, and reversible */}
+        {h.live && (
           <div style={{ padding: 16, borderBottom: '1px solid var(--color-divider)' }}>
-            <h6 style={{ margin: '0 0 10px', color: needsBuilding ? 'var(--color-accent-700)' : undefined }}>
-              {needsBuilding ? 'One thing first' : 'Your details'}
+            <h6 style={{ margin: '0 0 8px' }}>Distance</h6>
+            <p style={{ fontSize: 12.5, opacity: 0.72, margin: '0 0 12px', textWrap: 'pretty' }}>
+              {h.hasLocation
+                ? 'The board sorts by how close things are. Your position is stored to about 100 metres and is never shown to anyone — other people only ever see a distance.'
+                : 'Share an approximate location and the board sorts by how close things are. It is rounded to about 100 metres before it leaves this device, nobody else ever sees it, and you can forget it at any time.'}
+            </p>
+            {h.hasLocation ? (
+              <button onClick={h.forgetLocation} className="btn btn-secondary" style={{ fontSize: 13 }}>
+                Forget my location
+              </button>
+            ) : (
+              <button onClick={h.shareLocation} className="btn btn-primary" style={{ fontSize: 13 }}>
+                {h.locating ? 'Asking…' : 'Share approximate location'}
+              </button>
+            )}
+          </div>
+        )}
+
+        {/* first-run: where you like to meet */}
+        {(needsSpot || editing) && (
+          <div style={{ padding: 16, borderBottom: '1px solid var(--color-divider)' }}>
+            <h6 style={{ margin: '0 0 10px', color: needsSpot ? 'var(--color-accent-700)' : undefined }}>
+              {needsSpot ? 'One thing first' : 'Your details'}
             </h6>
-            {needsBuilding && (
+            {needsSpot && (
               <p style={{ fontSize: 12.5, opacity: 0.7, margin: '0 0 12px', textWrap: 'pretty' }}>
-                Which hall are you in? It sorts the board by walking distance and shows on your listings. Never a room
-                number — just the building.
+                Where do you like to hand things over? A library entrance, a dining hall door, a student centre — any
+                public place on campus you already pass. It becomes the default on everything you post or claim, and it
+                is never where you live.
               </p>
             )}
             <div className="field">
@@ -136,17 +160,23 @@ export function Me({ h }: { h: Handoff }) {
               <input className="input" value={name} onChange={(e) => setName(e.target.value)} placeholder="Alex M." />
             </div>
             <div className="field" style={{ marginTop: 10 }}>
-              <label>Your hall</label>
+              <label>Where you usually meet</label>
               <input
                 className="input"
-                value={building}
-                onChange={(e) => setBuilding(e.target.value)}
-                placeholder="Carman"
+                value={spot}
+                onChange={(e) => setSpot(e.target.value)}
+                list="hf-spots"
+                placeholder="Butler Library entrance"
                 onKeyDown={(e) => {
                   if (e.key === 'Enter') saveProfile()
                 }}
               />
             </div>
+            <datalist id="hf-spots">
+              {h.campusSpots.map((s) => (
+                <option key={s.name} value={s.name} />
+              ))}
+            </datalist>
             <button onClick={saveProfile} className="btn btn-primary" style={{ marginTop: 12 }}>
               Save
             </button>
