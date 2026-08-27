@@ -1,6 +1,7 @@
-import { useCallback, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { About } from './site/About'
 import { Landing } from './site/Landing'
+import { AppRail } from './components/AppRail'
 import { IOSDevice } from './components/IOSDevice'
 import { Toast } from './components/Toast'
 import { Notes } from './Notes'
@@ -132,6 +133,16 @@ function LiveApp() {
 
   const h = useHandoff(CONFIG, live)
 
+  // The installed app's "Post something" shortcut opens on /app?post=1.
+  const wantsPost = typeof window !== 'undefined' && new URLSearchParams(window.location.search).has('post')
+  const [tookShortcut, setTookShortcut] = useState(false)
+  useEffect(() => {
+    if (!wantsPost || tookShortcut || !p) return
+    setTookShortcut(true)
+    h.startPost()
+    window.history.replaceState(null, '', '/app')
+  }, [wantsPost, tookShortcut, p, h])
+
   // The walkthrough is a first-run courtesy, not a record — local is the right
   // place for it. The rules agreement is not: that lives on the account.
   const howKey = p ? `handoff:how:${p.id}` : null
@@ -153,11 +164,20 @@ function LiveApp() {
   else if (!seenHow) body = <HowItWorks onDone={markHowSeen} />
   else body = <CurrentScreen h={h} />
 
+  // The rail is navigation, so it appears only once there is something to
+  // navigate: not on the splash, the sign-in gate, the rules or the walkthrough.
+  const inApp = Boolean(!auth.loading && auth.session && p && !h.rulesLoading && h.rulesAccepted && seenHow)
+
   return (
-    <>
-      {body}
-      <Toast text={h.toast} />
-    </>
+    <div className={'app-frame' + (inApp ? ' has-rail' : '')}>
+      {inApp && <AppRail h={h} />}
+      {/* The screen name reaches CSS so the desktop layout can let the board
+          spread while keeping reading and typing screens at a column width. */}
+      <div className="app-viewport" data-screen={h.screen}>
+        {body}
+        <Toast text={h.toast} />
+      </div>
+    </div>
   )
 }
 
@@ -205,9 +225,7 @@ export default function App() {
 
   return (
     <div className="app-shell">
-      <div className="app-viewport">
-        <LiveApp />
-      </div>
+      <LiveApp />
     </div>
   )
 }

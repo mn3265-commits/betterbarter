@@ -36,6 +36,7 @@ export function TabBar({ h }: { h: Handoff }) {
 
   return (
     <div
+      className="tabbar"
       style={{
         borderTop: '2px solid var(--color-divider)',
         display: 'flex',

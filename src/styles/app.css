@@ -1,12 +1,23 @@
 /* App shell: the presentation scaffold (rationale column + iPhone frame). None
  * of this ships inside the product — the app is only what sits inside the bezel. */
 
-/* ── App mode (default): the product itself, full-screen and mobile-first ── */
+/* ── App mode (default): the product itself ──────────────────────────────────
+ * Mobile-first, and installable — on a phone this is the whole screen and the
+ * bottom tab bar is the navigation. From 1000px up it becomes a real desktop
+ * layout: the tab bar stands up into a left rail and the board spreads into
+ * however many columns fit. Same screens, same code; the space is what changes.
+ */
 .app-shell {
   min-height: 100dvh;
   display: flex;
   justify-content: center;
   background: var(--color-neutral-200);
+}
+.app-frame {
+  display: flex;
+  width: 100%;
+  max-width: 440px;
+  height: 100dvh;
 }
 .app-viewport {
   width: 100%;
@@ -22,6 +33,99 @@
   .app-viewport {
     box-shadow: 0 0 0 1px var(--color-divider), 0 20px 60px rgba(0, 0, 0, 0.12);
   }
+}
+
+.board-grid { grid-template-columns: 1fr 1fr; }
+
+/* ── the desktop rail ── */
+.app-rail { display: none; }
+
+@media (min-width: 1000px) {
+  .app-frame { max-width: 1180px; }
+  .app-frame.has-rail .app-viewport { max-width: none; flex: 1; }
+
+  .app-rail {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    width: 248px;
+    flex: none;
+    height: 100dvh;
+    padding: 30px 22px 26px;
+    background: var(--color-bg);
+    border-right: 2px solid var(--color-divider);
+    box-shadow: 0 0 0 1px var(--color-divider), 0 20px 60px rgba(0, 0, 0, 0.12);
+  }
+  .app-rail__mark {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    font-family: var(--font-heading);
+    font-weight: 800;
+    font-size: 18px;
+    letter-spacing: -0.02em;
+    color: var(--color-accent);
+    text-decoration: none;
+  }
+  .app-rail__post {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    width: 100%;
+    border: 0;
+    cursor: pointer;
+    background: var(--color-accent);
+    color: var(--color-bg);
+    font-family: var(--font-heading);
+    font-weight: 800;
+    font-size: 14.5px;
+    padding: 13px 14px;
+    text-align: left;
+  }
+  .app-rail__post:hover { background: var(--color-accent-600); }
+  .app-rail__nav { display: flex; flex-direction: column; }
+  .app-rail__item {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    width: 100%;
+    border: 0;
+    border-top: 1px solid var(--color-divider);
+    background: transparent;
+    cursor: pointer;
+    font-family: var(--font-heading);
+    font-weight: 600;
+    font-size: 14.5px;
+    color: color-mix(in srgb, var(--color-text) 62%, transparent);
+    padding: 13px 2px;
+    text-align: left;
+  }
+  .app-rail__nav .app-rail__item:last-child { border-bottom: 1px solid var(--color-divider); }
+  .app-rail__item:hover { color: var(--color-text); }
+  .app-rail__item.is-active { color: var(--color-accent); }
+  .app-rail__foot {
+    margin-top: auto;
+    font-size: 11.5px;
+    line-height: 1.6;
+    color: color-mix(in srgb, var(--color-text) 55%, transparent);
+  }
+  .app-rail__foot a { color: inherit; }
+
+  /* The bottom bar is the phone's navigation; the rail replaces it here. */
+  .app-frame.has-rail .tabbar { display: none; }
+
+  /* Room for more than two cards, and no phone-status-bar padding to allow for. */
+  .board-grid { grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); }
+  .app-frame.has-rail .screen > div:first-child { padding-top: 26px; }
+
+  /* The board earns the full pane. Everything else is reading or typing, and a
+     900px-wide chat bubble is nobody's idea of a chat — those stay a column,
+     with the empty half left honestly empty rather than padded out. */
+  .app-frame.has-rail .app-viewport:not([data-screen='browse']) .screen {
+    max-width: 640px;
+    border-right: 1px solid var(--color-divider);
+  }
+  .app-frame.has-rail .app-viewport { background: var(--color-neutral-100); }
 }
 
 /* ── Showcase mode (?showcase): the design-reference presentation ── */

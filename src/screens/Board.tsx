@@ -233,7 +233,7 @@ export function Board({ h }: { h: Handoff }) {
             ) : cards.length === 0 ? (
               <EmptyBoard h={h} />
             ) : (
-              <div style={{ padding: '16px 16px 0', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
+              <div className="board-grid" style={{ padding: '16px 16px 0', display: 'grid', gap: 14 }}>
                 {cards.map((it) => (
                   <ItemCard key={it.id} it={it} h={h} walk={walkTime(it.loc, h.me.building)} />
                 ))}

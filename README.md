@@ -58,6 +58,14 @@ The site and the app are one Vite bundle with a path switch in `App.tsx`, so
 there is no router dependency and no second deploy. `vercel.json` rewrites every
 path to `index.html` so `/app` survives a hard refresh.
 
+`/app` is both a **desktop web app and an installable PWA**. Below 1000px it is
+the phone layout with the bottom tab bar; above it the tab bar stands up into a
+left rail, the board spreads into as many columns as fit, and reading screens
+stay at a column width instead of stretching. `public/manifest.webmanifest` plus
+`public/sw.js` make it installable: navigations are network-first with the shell
+as fallback, hashed assets are cache-first, and **nothing from Supabase is ever
+cached** — a stale board would be a lie about what is still available.
+
 ## Running it
 
 ```bash
