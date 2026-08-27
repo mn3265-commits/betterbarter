@@ -1,5 +1,6 @@
 import { useRef } from 'react'
 import { Camera } from 'lucide-react'
+import { AppBody, AppFooter, AppHeader } from '../components/Shell'
 import type { Handoff } from '../lib/useHandoff'
 
 /** Post, step 1 — photo. Get the photo in one tap: on a phone this opens the
@@ -14,26 +15,7 @@ export function Post1({ h }: { h: Handoff }) {
 
   return (
     <div className="screen">
-      <div style={{ padding: '58px 16px 10px', borderBottom: '1px solid var(--color-divider)', display: 'flex', alignItems: 'center' }}>
-        <button
-          onClick={h.jumpBrowse}
-          style={{
-            border: 0,
-            background: 'transparent',
-            cursor: 'pointer',
-            padding: 0,
-            fontFamily: 'var(--font-heading)',
-            fontWeight: 600,
-            fontSize: 13,
-            color: 'var(--color-text)',
-          }}
-        >
-          Cancel
-        </button>
-        <div style={{ marginLeft: 'auto', fontSize: 10, letterSpacing: '.14em', textTransform: 'uppercase', opacity: 0.6 }}>
-          Photo first · step 1 of 2
-        </div>
-      </div>
+      <AppHeader kicker="Step 1 of 2" title="Photo first" onBack={h.jumpBrowse} />
 
       <input
         ref={fileRef}
@@ -44,7 +26,7 @@ export function Post1({ h }: { h: Handoff }) {
         onChange={(e) => h.pickPhoto(e.target.files?.[0] ?? null)}
       />
 
-      <div style={{ flex: 1, overflowY: 'auto', padding: '18px 16px' }}>
+      <AppBody>
         {!h.photo ? (
           <button
             onClick={openPicker}
@@ -118,29 +100,13 @@ export function Post1({ h }: { h: Handoff }) {
             </div>
           </>
         )}
-      </div>
+      </AppBody>
 
-      <div style={{ borderTop: '1px solid var(--color-divider)', padding: '12px 16px 40px', background: 'var(--color-bg)' }}>
-        <button
-          onClick={h.toStep2}
-          disabled={!h.photo}
-          style={{
-            width: '100%',
-            border: 0,
-            background: 'var(--color-accent)',
-            color: 'var(--color-bg)',
-            fontFamily: 'var(--font-heading)',
-            fontWeight: 600,
-            fontSize: 15,
-            padding: '15px 16px',
-            textAlign: 'left',
-            cursor: h.photo ? 'pointer' : 'not-allowed',
-            opacity: h.photo ? 1 : 0.45,
-          }}
-        >
+      <AppFooter>
+        <button onClick={h.toStep2} disabled={!h.photo} className="app-cta">
           Next — say what it is
         </button>
-      </div>
+      </AppFooter>
     </div>
   )
 }

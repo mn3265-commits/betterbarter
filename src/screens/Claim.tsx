@@ -1,5 +1,6 @@
 import { ArrowRight } from 'lucide-react'
 import { SPOTS, WINDOWS } from '../data/seed'
+import { AppBody, AppFooter, AppHeader } from '../components/Shell'
 import type { Handoff } from '../lib/useHandoff'
 
 /**
@@ -23,28 +24,13 @@ export function Claim({ h }: { h: Handoff }) {
 
   return (
     <div className="screen">
-      <div style={{ padding: '58px 16px 10px', borderBottom: '1px solid var(--color-divider)', display: 'flex', alignItems: 'center' }}>
-        <button
-          onClick={h.back}
-          style={{
-            border: 0,
-            background: 'transparent',
-            cursor: 'pointer',
-            padding: 0,
-            fontFamily: 'var(--font-heading)',
-            fontWeight: 600,
-            fontSize: 13,
-            color: 'var(--color-text)',
-          }}
-        >
-          Cancel
-        </button>
-        <div style={{ marginLeft: 'auto', fontSize: 10, letterSpacing: '.14em', textTransform: 'uppercase', opacity: 0.6 }}>
-          Step 1 of 1
-        </div>
-      </div>
+      <AppHeader
+        kicker="Agree the meetup"
+        title={kind === 'rent' ? 'Borrow it' : kind === 'trade' ? 'Offer a swap' : 'Claim it'}
+        onBack={h.back}
+      />
 
-      <div style={{ flex: 1, overflowY: 'auto', padding: '18px 16px 20px' }}>
+      <AppBody>
         <h3 style={{ fontSize: 26, margin: '0 0 8px', lineHeight: 1.1 }}>Where will you meet?</h3>
         <p style={{ fontSize: 13, opacity: 0.7, margin: '0 0 18px', textWrap: 'pretty' }}>
           We do not know your campus — you do. Pick the kind of place, then name it. The rule is the same everywhere:
@@ -117,33 +103,14 @@ export function Claim({ h }: { h: Handoff }) {
         <p style={{ fontSize: 11.5, opacity: 0.6, margin: '18px 0 0', textWrap: 'pretty' }}>
           Claiming holds the item for 3 hours. Two no-shows and you lose the ability to claim for a week.
         </p>
-      </div>
+      </AppBody>
 
-      <div style={{ borderTop: '1px solid var(--color-divider)', padding: '12px 16px 40px', background: 'var(--color-bg)' }}>
-        <button
-          onClick={h.confirmClaim}
-          disabled={!canSend}
-          style={{
-            width: '100%',
-            border: 0,
-            background: 'var(--color-accent)',
-            color: 'var(--color-bg)',
-            fontFamily: 'var(--font-heading)',
-            fontWeight: 600,
-            fontSize: 15,
-            padding: '15px 16px',
-            textAlign: 'left',
-            cursor: canSend ? 'pointer' : 'default',
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            opacity: canSend ? 1 : 0.6,
-          }}
-        >
+      <AppFooter>
+        <button onClick={h.confirmClaim} disabled={!canSend} className="app-cta">
           <span>{h.busy ? 'Holding it…' : cta}</span>
           <ArrowRight size={20} strokeWidth={2} />
         </button>
-      </div>
+      </AppFooter>
     </div>
   )
 }

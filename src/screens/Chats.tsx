@@ -1,4 +1,5 @@
 import { Check } from 'lucide-react'
+import { AppBody, AppHeader } from '../components/Shell'
 import { TabBar } from '../components/TabBar'
 import type { Handoff } from '../lib/useHandoff'
 
@@ -26,19 +27,9 @@ export function Chats({ h }: { h: Handoff }) {
 
   return (
     <div className="screen">
-      <div
-        style={{
-          padding: '60px 16px 10px',
-          borderBottom: '1px solid var(--color-divider)',
-          fontFamily: 'var(--font-heading)',
-          fontWeight: 600,
-          fontSize: 19,
-        }}
-      >
-        Chats
-      </div>
+      <AppHeader title="Chats" />
 
-      <div style={{ flex: 1, overflowY: 'auto' }}>
+      <AppBody pad={false}>
         {rows.length > 0 ? (
           rows.map((t) => {
             const initials = t.otherName
@@ -107,11 +98,9 @@ export function Chats({ h }: { h: Handoff }) {
             </button>
           </div>
         )}
-      </div>
+      </AppBody>
 
-      <div style={{ borderTop: '1px solid var(--color-divider)', padding: '14px 16px 8px', fontSize: 11.5, opacity: 0.6 }}>
-        Messages stay in the app so there is a record if a handoff goes wrong.
-      </div>
+      <div className="app-note">Messages stay in the app so there is a record if a handoff goes wrong.</div>
       <TabBar h={h} />
     </div>
   )

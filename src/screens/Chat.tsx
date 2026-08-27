@@ -1,4 +1,5 @@
-import { ArrowLeft, ArrowRight, Check } from 'lucide-react'
+import { ArrowRight, Check } from 'lucide-react'
+import { AppBody, AppFooter, AppHeader } from '../components/Shell'
 import type { Handoff } from '../lib/useHandoff'
 
 const CHIPS = ['On my way', 'Can I come at 7?', 'Still available?']
@@ -16,35 +17,22 @@ export function Chat({ h }: { h: Handoff }) {
 
   return (
     <div className="screen">
-      <div
-        style={{
-          padding: '58px 16px 10px',
-          borderBottom: '1px solid var(--color-divider)',
-          display: 'flex',
-          alignItems: 'center',
-          gap: 11,
-        }}
-      >
-        <button
-          onClick={h.jumpChats}
-          style={{ border: 0, background: 'transparent', cursor: 'pointer', padding: 0, display: 'flex', color: 'var(--color-text)' }}
-        >
-          <ArrowLeft size={19} strokeWidth={2.2} />
-        </button>
-        <div style={{ flex: 1, minWidth: 0 }}>
-          <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 600, fontSize: 15 }}>{name}</div>
-          <div style={{ fontSize: 11, opacity: 0.6 }}>{handoffs} handoffs · verified school email</div>
-        </div>
-        <button
-          onClick={() => h.flash('Reported. This account is hidden from you and flagged for review.')}
-          className="btn btn-ghost"
-          style={{ fontSize: 12 }}
-        >
-          Block
-        </button>
-      </div>
+      <AppHeader
+        title={name}
+        kicker={`${handoffs} handoffs · verified email`}
+        onBack={h.jumpChats}
+        action={
+          <button
+            onClick={() => h.flash('Reported. This account is hidden from you and flagged for review.')}
+            className="btn btn-ghost"
+            style={{ fontSize: 12 }}
+          >
+            Block
+          </button>
+        }
+      />
 
-      <div style={{ flex: 1, overflowY: 'auto', padding: 16, display: 'flex', flexDirection: 'column', gap: 12 }}>
+      <AppBody>
         {/* pinned handoff card — the meetup, then the confirmation loop */}
         <div style={{ border: '1px solid var(--color-divider)', borderRadius: 'var(--radius-lg)', padding: '11px 12px' }}>
           <div style={{ fontSize: 10, letterSpacing: '.14em', textTransform: 'uppercase', color: 'var(--color-accent-700)' }}>
@@ -136,10 +124,11 @@ export function Chat({ h }: { h: Handoff }) {
             {name.split(' ')[0]} gets this on their board. Replies show up here the moment they send one.
           </div>
         )}
-      </div>
+      </AppBody>
 
+      <AppFooter>
       {/* quick-reply chips */}
-      <div style={{ borderTop: '1px solid var(--color-divider)', padding: '10px 16px 0', display: 'flex', gap: 7, overflowX: 'auto' }}>
+      <div style={{ display: 'flex', gap: 7, overflowX: 'auto' }}>
         {CHIPS.map((c) => (
           <button key={c} onClick={() => h.sendText(c)} className="btn btn-secondary" style={{ flex: 'none', fontSize: 12.5, fontWeight: 500 }}>
             {c}
@@ -148,7 +137,7 @@ export function Chat({ h }: { h: Handoff }) {
       </div>
 
       {/* composer */}
-      <div style={{ padding: '10px 16px 40px', display: 'flex', gap: 9, alignItems: 'center' }}>
+      <div style={{ display: 'flex', gap: 9, alignItems: 'center' }}>
         <input
           className="input"
           placeholder="Message"
@@ -176,6 +165,7 @@ export function Chat({ h }: { h: Handoff }) {
           <ArrowRight size={19} strokeWidth={2} />
         </button>
       </div>
+      </AppFooter>
     </div>
   )
 }

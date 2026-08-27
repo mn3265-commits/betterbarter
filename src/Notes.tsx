@@ -4,7 +4,7 @@ const CUT = [
   ['Payments', 'The handoff happens in a lobby, on Venmo. You cannot see it, so you cannot charge it.'],
   ['Deposits', 'Lending is a promise between two verified students. We hold nothing and adjudicate nothing.'],
   ['Logistics', 'No collection, no storage, no van. That is what makes reuse cost more than it saves.'],
-  ['Many campuses', 'One school at a time. All of Columbia first, dense before wide.'],
+  ['Many campuses at once', 'A school joins by someone signing in. Our attention goes to one campus at a time — dense before wide.'],
 ]
 
 const EARNS = [

@@ -28,15 +28,11 @@ export function Board({ h }: { h: Handoff }) {
 
   return (
     <div className="screen">
-      {/* header */}
+      {/* header — the board keeps its own, because it carries the campus mark
+          and the live count, but it uses the same metrics as every other. */}
       <div
-        style={{
-          padding: '60px 16px 10px',
-          borderBottom: '1px solid var(--color-divider)',
-          display: 'flex',
-          alignItems: 'flex-end',
-          gap: 10,
-        }}
+        className="app-hd"
+        style={{ alignItems: 'flex-end', gap: 10 }}
       >
         <div
           style={{

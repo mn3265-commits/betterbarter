@@ -1,5 +1,6 @@
-import { ArrowLeft, Check } from 'lucide-react'
+import { Check } from 'lucide-react'
 import { Photo } from '../components/Photo'
+import { AppBody, AppHeader } from '../components/Shell'
 import type { Handoff } from '../lib/useHandoff'
 
 /** Detail (a listing): decide whether to claim/ask, and see who you would meet. */
@@ -30,46 +31,23 @@ export function Detail({ h }: { h: Handoff }) {
 
   return (
     <div className="screen">
-      <div
-        style={{
-          padding: '58px 16px 10px',
-          borderBottom: '1px solid var(--color-divider)',
-          display: 'flex',
-          alignItems: 'center',
-          gap: 10,
-        }}
-      >
-        <button
-          onClick={h.back}
-          style={{
-            border: 0,
-            background: 'transparent',
-            cursor: 'pointer',
-            padding: 0,
-            display: 'flex',
-            alignItems: 'center',
-            gap: 6,
-            fontFamily: 'var(--font-heading)',
-            fontWeight: 600,
-            fontSize: 13,
-            color: 'var(--color-text)',
-          }}
-        >
-          <ArrowLeft size={18} strokeWidth={2.2} />
-          <span>Board</span>
-        </button>
-        {!mine && (
-          <button
-            onClick={() => h.flash('Reported. This account is hidden from you and flagged for review.')}
-            className="btn btn-ghost"
-            style={{ marginLeft: 'auto', fontSize: 12 }}
-          >
-            Report
-          </button>
-        )}
-      </div>
+      <AppHeader
+        title={mine ? 'Your listing' : 'Listing'}
+        onBack={h.back}
+        action={
+          !mine ? (
+            <button
+              onClick={() => h.flash('Reported. This account is hidden from you and flagged for review.')}
+              className="btn btn-ghost"
+              style={{ fontSize: 12 }}
+            >
+              Report
+            </button>
+          ) : undefined
+        }
+      />
 
-      <div style={{ flex: 1, overflowY: 'auto', paddingBottom: 20 }}>
+      <AppBody pad={false}>
         <Photo
           url={d0.photoUrl}
           caption={[d0.cat, d0.loc && `shot in ${d0.loc}`].filter(Boolean).join(' · ')}
@@ -139,17 +117,9 @@ export function Detail({ h }: { h: Handoff }) {
             </div>
           </div>
         </div>
-      </div>
+      </AppBody>
 
-      <div
-        style={{
-          borderTop: '1px solid var(--color-divider)',
-          padding: '12px 16px 40px',
-          display: 'flex',
-          gap: 10,
-          background: 'var(--color-bg)',
-        }}
-      >
+      <div className="app-ft" style={{ flexDirection: 'row', gap: 10 }}>
         {isGone ? (
           <div style={{ flex: 1, padding: '14px 0', fontFamily: 'var(--font-heading)', fontWeight: 600, fontSize: 14, opacity: 0.5 }}>
             Already gone — try a saved search
@@ -165,23 +135,7 @@ export function Detail({ h }: { h: Handoff }) {
           </>
         ) : (
           <>
-            <button
-              onClick={() => h.go('claim')}
-              disabled={h.busy}
-              style={{
-                flex: 1,
-                border: 0,
-                background: 'var(--color-accent)',
-                color: 'var(--color-bg)',
-                fontFamily: 'var(--font-heading)',
-                fontWeight: 600,
-                fontSize: 15,
-                padding: '15px 16px',
-                textAlign: 'left',
-                cursor: 'pointer',
-                opacity: h.busy ? 0.6 : 1,
-              }}
-            >
+            <button onClick={() => h.go('claim')} disabled={h.busy} className="app-cta" style={{ flex: 1 }}>
               {cta}
             </button>
             <button

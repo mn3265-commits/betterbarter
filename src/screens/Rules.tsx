@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { ArrowRight, Check } from 'lucide-react'
+import { AppBody, AppFooter, AppHeader } from '../components/Shell'
 import { RULES, RULES_SUMMARY } from '../lib/rules'
 
 /**
@@ -25,26 +26,18 @@ export function Rules({
 
   return (
     <div className="screen">
-      <div
-        style={{
-          padding: '58px 16px 10px',
-          borderBottom: '1px solid var(--color-divider)',
-          display: 'flex',
-          alignItems: 'center',
-          gap: 10,
-        }}
-      >
-        <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 600, fontSize: 19 }}>
-          {accepting ? 'Before you start' : 'Community rules'}
-        </div>
-        {!accepting && onClose && (
-          <button onClick={onClose} className="btn btn-ghost" style={{ marginLeft: 'auto', fontSize: 12 }}>
-            Done
-          </button>
-        )}
-      </div>
+      <AppHeader
+        title={accepting ? 'Before you start' : 'Community rules'}
+        action={
+          !accepting && onClose ? (
+            <button onClick={onClose} className="btn btn-ghost" style={{ fontSize: 12 }}>
+              Done
+            </button>
+          ) : undefined
+        }
+      />
 
-      <div style={{ flex: 1, overflowY: 'auto', padding: '18px 16px 24px' }}>
+      <AppBody>
         {accepting && (
           <>
             <h3 style={{ fontSize: 24, margin: '0 0 8px', lineHeight: 1.12 }}>
@@ -147,34 +140,15 @@ export function Rules({
             </span>
           </label>
         )}
-      </div>
+      </AppBody>
 
       {accepting && (
-        <div style={{ borderTop: '1px solid var(--color-divider)', padding: '12px 16px 40px', background: 'var(--color-bg)' }}>
-          <button
-            onClick={onAccept}
-            disabled={!agreed || busy}
-            style={{
-              width: '100%',
-              border: 0,
-              background: 'var(--color-accent)',
-              color: 'var(--color-bg)',
-              fontFamily: 'var(--font-heading)',
-              fontWeight: 600,
-              fontSize: 15,
-              padding: '15px 16px',
-              textAlign: 'left',
-              cursor: agreed && !busy ? 'pointer' : 'default',
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              opacity: agreed && !busy ? 1 : 0.45,
-            }}
-          >
+        <AppFooter>
+          <button onClick={onAccept} disabled={!agreed || busy} className="app-cta">
             <span>{busy ? 'One moment…' : 'Agree and continue'}</span>
             <ArrowRight size={20} strokeWidth={2} />
           </button>
-        </div>
+        </AppFooter>
       )}
     </div>
   )

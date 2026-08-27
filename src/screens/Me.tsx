@@ -3,6 +3,7 @@ import { Photo } from '../components/Photo'
 import { Switch } from '../components/Switch'
 import { TabBar } from '../components/TabBar'
 import { averageItem, co2eLabel, kgLabel } from '../lib/impact'
+import { AppBody, AppHeader } from '../components/Shell'
 import type { Handoff } from '../lib/useHandoff'
 
 /** Me — tab 5. Identity, the day-7 decisions, paused items, listings, toggles. */
@@ -30,14 +31,16 @@ export function Me({ h }: { h: Handoff }) {
 
   return (
     <div className="screen">
-      <div style={{ padding: '60px 16px 10px', borderBottom: '1px solid var(--color-divider)', display: 'flex', alignItems: 'center' }}>
-        <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 600, fontSize: 19 }}>Me</div>
-        <button onClick={h.jumpBrowse} className="btn btn-ghost" style={{ marginLeft: 'auto', fontSize: 12 }}>
-          Board
-        </button>
-      </div>
+      <AppHeader
+        title="Me"
+        action={
+          <button onClick={h.jumpBrowse} className="btn btn-ghost" style={{ fontSize: 12 }}>
+            Board
+          </button>
+        }
+      />
 
-      <div style={{ flex: 1, overflowY: 'auto', paddingBottom: 30 }}>
+      <AppBody pad={false}>
         {/* identity */}
         <div style={{ padding: 16, display: 'flex', gap: 13, alignItems: 'flex-start', borderBottom: '1px solid var(--color-divider)' }}>
           <div
@@ -310,7 +313,7 @@ export function Me({ h }: { h: Handoff }) {
             </button>
           )}
         </div>
-      </div>
+      </AppBody>
 
       <TabBar h={h} />
     </div>

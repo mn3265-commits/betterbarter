@@ -1,4 +1,5 @@
 import type { EditField } from '../data/types'
+import { AppBody, AppFooter, AppHeader } from '../components/Shell'
 import type { Handoff } from '../lib/useHandoff'
 
 /**
@@ -48,35 +49,9 @@ export function Post2({ h }: { h: Handoff }) {
 
   return (
     <div className="screen">
-      <div
-        style={{
-          padding: '58px 16px 10px',
-          borderBottom: '1px solid var(--color-divider)',
-          display: 'flex',
-          alignItems: 'center',
-        }}
-      >
-        <button
-          onClick={h.toStep1}
-          style={{
-            border: 0,
-            background: 'transparent',
-            cursor: 'pointer',
-            padding: 0,
-            fontFamily: 'var(--font-heading)',
-            fontWeight: 600,
-            fontSize: 13,
-            color: 'var(--color-text)',
-          }}
-        >
-          Back
-        </button>
-        <div style={{ marginLeft: 'auto', fontSize: 10, letterSpacing: '.14em', textTransform: 'uppercase', opacity: 0.6 }}>
-          Step 2 of 2
-        </div>
-      </div>
+      <AppHeader kicker="Step 2 of 2" title="Say what it is" onBack={h.toStep1} />
 
-      <div style={{ flex: 1, overflowY: 'auto', padding: '18px 16px' }}>
+      <AppBody>
         <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
           <div
             className={h.photoPreview ? undefined : 'hatch-sm'}
@@ -169,7 +144,7 @@ export function Post2({ h }: { h: Handoff }) {
             Write a line or two and the price, category, condition and meetup spot fill themselves in below. No form.
           </p>
         )}
-      </div>
+      </AppBody>
 
       {h.ruleHits.length > 0 && (
         <div style={{ borderTop: '1px solid var(--color-accent)', background: 'var(--color-accent-100)', padding: '13px 16px' }}>
@@ -197,27 +172,11 @@ export function Post2({ h }: { h: Handoff }) {
         </div>
       )}
 
-      <div style={{ borderTop: '1px solid var(--color-divider)', padding: '12px 16px 40px', background: 'var(--color-bg)' }}>
-        <button
-          onClick={h.publish}
-          disabled={h.busy || blocked}
-          style={{
-            width: '100%',
-            border: 0,
-            background: 'var(--color-accent)',
-            color: 'var(--color-bg)',
-            fontFamily: 'var(--font-heading)',
-            fontWeight: 600,
-            fontSize: 15,
-            padding: '15px 16px',
-            textAlign: 'left',
-            cursor: blocked ? 'not-allowed' : 'pointer',
-            opacity: blocked ? 0.45 : 1,
-          }}
-        >
+      <AppFooter>
+        <button onClick={h.publish} disabled={h.busy || blocked} className="app-cta">
           {h.busy ? 'Posting…' : blocked ? 'Cannot post this' : `Post to ${h.campusName || 'campus'}`}
         </button>
-      </div>
+      </AppFooter>
     </div>
   )
 }

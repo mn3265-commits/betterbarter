@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { AppBody, AppFooter, AppHeader } from '../components/Shell'
 import { ArrowRight, Camera, MessageSquare, Search, ShieldCheck } from 'lucide-react'
 
 interface Card {
@@ -47,21 +48,16 @@ export function HowItWorks({ onDone, doneLabel = 'Go to the board' }: { onDone: 
 
   return (
     <div className="screen">
-      <div
-        style={{
-          padding: '58px 16px 10px',
-          borderBottom: '1px solid var(--color-divider)',
-          display: 'flex',
-          alignItems: 'center',
-        }}
-      >
-        <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 600, fontSize: 19 }}>How Handoff works</div>
-        <button onClick={onDone} className="btn btn-ghost" style={{ marginLeft: 'auto', fontSize: 12 }}>
-          Skip
-        </button>
-      </div>
+      <AppHeader
+        title="How Handoff works"
+        action={
+          <button onClick={onDone} className="btn btn-ghost" style={{ fontSize: 12 }}>
+            Skip
+          </button>
+        }
+      />
 
-      <div style={{ flex: 1, overflowY: 'auto', padding: '22px 16px' }}>
+      <AppBody>
         <div style={{ color: 'var(--color-accent-700)', display: 'flex' }}>{card.icon}</div>
         <div
           style={{
@@ -76,11 +72,11 @@ export function HowItWorks({ onDone, doneLabel = 'Go to the board' }: { onDone: 
         </div>
         <h3 style={{ fontSize: 26, margin: '6px 0 10px', lineHeight: 1.12 }}>{card.title}</h3>
         <p style={{ fontSize: 14.5, lineHeight: 1.5, opacity: 0.8, margin: 0, textWrap: 'pretty' }}>{card.body}</p>
-      </div>
+      </AppBody>
 
-      <div style={{ borderTop: '1px solid var(--color-divider)', padding: '12px 16px 40px', background: 'var(--color-bg)' }}>
+      <AppFooter>
         {/* progress: one flush-left bar per card */}
-        <div style={{ display: 'flex', gap: 4, marginBottom: 12 }}>
+        <div style={{ display: 'flex', gap: 4 }}>
           {CARDS.map((c, n) => (
             <div
               key={c.title}
@@ -92,28 +88,11 @@ export function HowItWorks({ onDone, doneLabel = 'Go to the board' }: { onDone: 
             />
           ))}
         </div>
-        <button
-          onClick={() => (last ? onDone() : setI(i + 1))}
-          style={{
-            width: '100%',
-            border: 0,
-            background: 'var(--color-accent)',
-            color: 'var(--color-bg)',
-            fontFamily: 'var(--font-heading)',
-            fontWeight: 600,
-            fontSize: 15,
-            padding: '15px 16px',
-            textAlign: 'left',
-            cursor: 'pointer',
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-          }}
-        >
+        <button onClick={() => (last ? onDone() : setI(i + 1))} className="app-cta">
           <span>{last ? doneLabel : 'Next'}</span>
           <ArrowRight size={20} strokeWidth={2} />
         </button>
-      </div>
+      </AppFooter>
     </div>
   )
 }
