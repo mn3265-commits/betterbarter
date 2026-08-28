@@ -141,6 +141,72 @@ export function Me({ h }: { h: Barter }) {
           </p>
         </div>
 
+        {/* carrying: the owner's decision, and the carrier's own jobs */}
+        {h.live && (h.offersOnMine.length > 0 || h.myCarryOffers.length > 0) && (
+          <div style={{ padding: 16, borderBottom: '1px solid var(--color-divider)' }}>
+            <h6 style={{ margin: '0 0 10px' }}>Carrying</h6>
+
+            {h.offersOnMine.map((o) => (
+              <div
+                key={o.id}
+                style={{
+                  border: '1px solid var(--color-signal)',
+                  background: 'var(--color-signal-100)',
+                  borderRadius: 'var(--radius-md)',
+                  padding: '12px 13px',
+                  marginBottom: 8,
+                }}
+              >
+                <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 600, fontSize: 15 }}>
+                  {o.helperName} can carry {o.listingTitle.toLowerCase()}
+                </div>
+                <div style={{ fontSize: 12.5, opacity: 0.75, marginTop: 3, lineHeight: 1.45 }}>
+                  {o.fee ? `$${o.fee} · ` : ''}
+                  {o.helperCarries} carries
+                  {o.note ? ` · ${o.note}` : ''}
+                </div>
+                <button onClick={() => h.acceptCarry(o.id)} className="btn btn-primary" style={{ marginTop: 10 }}>
+                  Book {o.helperName.split(' ')[0]}
+                </button>
+              </div>
+            ))}
+
+            {h.myCarryOffers.map((o) => (
+              <div
+                key={o.id}
+                style={{
+                  border: '1px solid var(--color-divider)',
+                  borderRadius: 'var(--radius-md)',
+                  padding: '11px 13px',
+                  marginBottom: 8,
+                  display: 'flex',
+                  gap: 10,
+                  alignItems: 'baseline',
+                }}
+              >
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <div style={{ fontSize: 14, fontWeight: 600 }}>{o.listingTitle}</div>
+                  <div style={{ fontSize: 12, opacity: 0.65 }}>{o.fee ? `You asked $${o.fee}` : 'You offered to help'}</div>
+                </div>
+                <span
+                  className="tag"
+                  style={
+                    o.status === 'accepted'
+                      ? { background: 'var(--color-accent-100)', color: 'var(--color-accent-700)' }
+                      : { background: 'var(--color-surface)', color: 'var(--color-text)' }
+                  }
+                >
+                  {o.status === 'accepted' ? 'Booked' : o.status === 'pending' ? 'Waiting' : o.status}
+                </span>
+              </div>
+            ))}
+
+            <p style={{ fontSize: 11.5, opacity: 0.6, margin: '4px 0 0', textWrap: 'pretty' }}>
+              Paid directly between the two of you. BetterBarter holds nothing and takes nothing.
+            </p>
+          </div>
+        )}
+
         {/* location: opt-in, coarse, and reversible */}
         {h.live && (
           <div style={{ padding: 16, borderBottom: '1px solid var(--color-divider)' }}>

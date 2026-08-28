@@ -1,5 +1,6 @@
 import { Check } from 'lucide-react'
 import { Photo } from '../components/Photo'
+import { useState } from 'react'
 import { CategoryIcon } from '../components/CategoryIcon'
 import { AppBody, AppHeader } from '../components/Shell'
 import type { Barter } from '../lib/useBarter'
@@ -21,6 +22,9 @@ export function Detail({ h }: { h: Barter }) {
       ? 'Listed ' + days + ' days ago · the seller has not confirmed it this week'
       : 'Listed ' + d0.ago + (d0.ago === 'just now' ? '' : ' ago')
   const kind = h.kindOf(d0)
+  const [offering, setOffering] = useState(false)
+  const [fee, setFee] = useState(d0.helpFee ?? 8)
+  const [note, setNote] = useState('')
   const cta =
     kind === 'rent'
       ? 'Ask to borrow it — ' + h.priceOf(d0)
@@ -142,12 +146,42 @@ export function Detail({ h }: { h: Barter }) {
               Have an hour and a trolley? Offer to carry it — paid directly, no company in the middle.
             </div>
           </div>
+          <button onClick={() => setOffering((v) => !v)} className="btn btn-secondary" style={{ flex: 'none', fontSize: 12.5 }}>
+            {offering ? 'Cancel' : 'Offer to carry'}
+          </button>
+        </div>
+      )}
+
+      {offering && !mine && (
+        <div style={{ background: 'var(--color-signal-100)', padding: '0 16px 14px', display: 'flex', gap: 9, alignItems: 'center' }}>
+          <div className="field" style={{ flex: 'none', width: 96 }}>
+            <label>Your price</label>
+            <input
+              className="input"
+              type="number"
+              min={0}
+              value={fee}
+              onChange={(e) => setFee(Number(e.target.value))}
+            />
+          </div>
+          <div className="field" style={{ flex: 1 }}>
+            <label>When you are free</label>
+            <input
+              className="input"
+              value={note}
+              onChange={(e) => setNote(e.target.value)}
+              placeholder="Free after 4pm, I have a trolley"
+            />
+          </div>
           <button
-            onClick={() => h.flash('Offer sent. They will message you if they want the help.')}
-            className="btn btn-secondary"
-            style={{ flex: 'none', fontSize: 12.5 }}
+            onClick={() => {
+              h.offerCarry(d0, fee, note)
+              setOffering(false)
+            }}
+            className="btn btn-primary"
+            style={{ flex: 'none' }}
           >
-            Offer to carry
+            Send
           </button>
         </div>
       )}

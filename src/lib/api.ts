@@ -472,6 +472,82 @@ export async function setHandoffDone(threadId: string, done: boolean): Promise<H
   return { buyerDone: r.buyerDone ?? false, sellerDone: r.sellerDone ?? false, completed: r.completed ?? false }
 }
 
+// ── carrying ──────────────────────────────────────────────────────────────────
+
+export interface CarryOffer {
+  id: string
+  listingId: string
+  listingTitle: string
+  helperId: string
+  helperName: string
+  helperCarries: number
+  fee: number | null
+  note: string
+  status: 'pending' | 'accepted' | 'declined' | 'withdrawn'
+}
+
+/** Offer to carry something. The fee is what you are asking, paid directly. */
+export async function offerCarry(listingUuid: string, helperId: string, fee: number, note: string): Promise<void> {
+  const { error } = await db().from('carry_offers').insert({
+    listing_id: listingUuid,
+    helper_id: helperId,
+    fee: fee > 0 ? Math.round(fee) : null,
+    note: note.trim() || null,
+  })
+  if (error) throw error
+}
+
+/** Offers the viewer can see: their own, plus any on their own listings. */
+export async function fetchCarryOffers(): Promise<CarryOffer[]> {
+  const { data } = await db()
+    .from('carry_offers')
+    .select('id, listing_id, helper_id, fee, note, status')
+    .order('created_at', { ascending: false })
+  const rows = (data ?? []) as {
+    id: string
+    listing_id: string
+    helper_id: string
+    fee: number | null
+    note: string | null
+    status: CarryOffer['status']
+  }[]
+  if (!rows.length) return []
+
+  const profiles = await db()
+    .from('profiles')
+    .select('id, name, carries')
+    .in('id', rows.map((r) => r.helper_id))
+  const byId = new Map(
+    ((profiles.data ?? []) as { id: string; name: string; carries: number }[]).map((p) => [p.id, p]),
+  )
+
+  const titles = new Map<string, string>()
+  const { data: ls } = await db()
+    .from('listings')
+    .select('id, title')
+    .in('id', rows.map((r) => r.listing_id))
+  for (const l of (ls ?? []) as { id: string; title: string }[]) titles.set(l.id, l.title)
+
+  return rows.map((r) => ({
+    id: r.id,
+    listingId: r.listing_id,
+    listingTitle: titles.get(r.listing_id) ?? 'A listing',
+    helperId: r.helper_id,
+    helperName: byId.get(r.helper_id)?.name ?? 'Someone on campus',
+    helperCarries: byId.get(r.helper_id)?.carries ?? 0,
+    fee: r.fee,
+    note: r.note ?? '',
+    status: r.status,
+  }))
+}
+
+/** The owner picks one. That person becomes the handoff's helper. */
+export async function acceptCarry(offerId: string): Promise<boolean> {
+  const { data, error } = await db().rpc('accept_carry', { p_offer: offerId })
+  if (error) return false
+  return Boolean(data)
+}
+
 // ── lifecycle ─────────────────────────────────────────────────────────────────
 
 export async function setListingStatus(uuid: string, status: ListingStatus): Promise<void> {

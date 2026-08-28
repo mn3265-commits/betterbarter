@@ -94,6 +94,9 @@ export function useBarter(config: BarterConfig, live?: LiveContext) {
   // between the two people who exchanged them.
   const [rating, setRating] = useState<{ average: number | null; total: number }>({ average: null, total: 0 })
 
+  // Carrying: offers this person made, and offers made on their listings.
+  const [carryOffers, setCarryOffers] = useState<api.CarryOffer[]>([])
+
   const [campusName, setCampusName] = useState(isLive ? '' : 'Columbia University')
   const [campusLogo, setCampusLogo] = useState<string | null>(
     isLive ? null : 'https://www.google.com/s2/favicons?domain=columbia.edu&sz=128',
@@ -266,6 +269,7 @@ export function useBarter(config: BarterConfig, live?: LiveContext) {
     void refreshWanted()
     api.fetchSpots().then(setSpots).catch(() => {})
     if (userId) api.fetchRatingSummary(userId).then(setRating).catch(() => {})
+    if (userId) api.fetchCarryOffers().then(setCarryOffers).catch(() => {})
     void (async () => {
       try {
         const campus = await api.fetchCampus()
@@ -1113,6 +1117,47 @@ export function useBarter(config: BarterConfig, live?: LiveContext) {
     [live, activeThread, refreshThreads, flash],
   )
 
+  /** Offer to carry something heavy, at your own price. */
+  const offerCarry = useCallback(
+    (it: Item, fee: number, note: string) => {
+      if (!live || !it.uuid) return
+      void (async () => {
+        try {
+          await api.offerCarry(it.uuid!, live.userId, fee, note)
+          setCarryOffers(await api.fetchCarryOffers())
+          flash('Offer sent. They pick one, and you get paid directly.')
+        } catch {
+          flash('You have already offered on this one.')
+        }
+      })()
+    },
+    [live, flash],
+  )
+
+  /** The owner picks a carrier; that person joins the handoff as its helper. */
+  const acceptCarry = useCallback(
+    (offerId: string) => {
+      void (async () => {
+        const ok = await api.acceptCarry(offerId)
+        setCarryOffers(await api.fetchCarryOffers())
+        flash(ok ? 'Booked. They are on the thread now.' : 'Could not book that one.')
+      })()
+    },
+    [flash],
+  )
+
+  /** Offers on my own listings, waiting for an answer. */
+  const offersOnMine = useMemo(
+    () => carryOffers.filter((o) => o.helperId !== userId && o.status === 'pending'),
+    [carryOffers, userId],
+  )
+
+  /** What I offered to carry, and where it stands. */
+  const myCarryOffers = useMemo(
+    () => carryOffers.filter((o) => o.helperId === userId),
+    [carryOffers, userId],
+  )
+
   const setDisplayName = useCallback(
     (value: string) => {
       if (!live) return
@@ -1265,6 +1310,10 @@ export function useBarter(config: BarterConfig, live?: LiveContext) {
     setPreferredSpot,
     saveProfileDetails,
     rateThread,
+    offerCarry,
+    acceptCarry,
+    offersOnMine,
+    myCarryOffers,
     shareLocation,
     forgetLocation,
     distanceOf,
