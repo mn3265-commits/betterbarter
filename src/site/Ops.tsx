@@ -1,6 +1,12 @@
 import { useEffect, useState } from 'react'
 import { categoryColor } from '../components/CategoryIcon'
-import { fetchFounderMetrics, type FounderMetrics } from '../lib/api'
+import {
+  fetchFounderMetrics,
+  fetchModerationQueue,
+  setReportStatus,
+  type FounderMetrics,
+  type ModerationRow,
+} from '../lib/api'
 import { impactOf, co2eLabel, kgLabel } from '../lib/impact'
 import { useAuth } from '../lib/useAuth'
 import { SiteFooter } from './SiteChrome'
@@ -20,6 +26,7 @@ export function Ops() {
   const auth = useAuth()
   const [m, setM] = useState<FounderMetrics | null>(null)
   const [state, setState] = useState<'loading' | 'ok' | 'denied'>('loading')
+  const [queue, setQueue] = useState<ModerationRow[]>([])
 
   useEffect(() => {
     if (auth.loading) return
@@ -35,6 +42,7 @@ export function Ops() {
         else {
           setM(data)
           setState('ok')
+          fetchModerationQueue().then(setQueue).catch(() => {})
         }
       })
       .catch(() => !cancelled && setState('denied'))
@@ -178,6 +186,53 @@ export function Ops() {
           </section>
         </div>
 
+        {/* moderation: the one place a founder sees a person rather than a count */}
+        <section className="ops__block">
+          <h2>
+            Reports{' '}
+            {m.reportsOpen > 0 && <span className="ops__badge">{m.reportsOpen} open</span>}
+          </h2>
+          {queue.length === 0 ? (
+            <p className="ops__empty">
+              Nothing reported. {m.blocks > 0 ? `${m.blocks} block${m.blocks === 1 ? '' : 's'} in place.` : ''}
+            </p>
+          ) : (
+            <div className="ops__reports">
+              {queue.map((r) => (
+                <div key={r.id} className={'report report--' + r.status}>
+                  <div className="report__head">
+                    <b>{r.subject_name}</b>
+                    <span className="report__reason">{r.reason.replace(/_/g, ' ')}</span>
+                    <span className="report__meta">
+                      {r.campus} · reported by {r.reporter_name} · {new Date(r.created_at).toLocaleDateString()}
+                    </span>
+                  </div>
+                  {r.note && <p className="report__note">“{r.note}”</p>}
+                  <div className="report__meta">
+                    {r.times_reported} report{r.times_reported === 1 ? '' : 's'} against this account ·{' '}
+                    {r.subject_listings} listing{r.subject_listings === 1 ? '' : 's'}
+                  </div>
+                  <div className="report__actions">
+                    {(['reviewed', 'actioned', 'dismissed'] as const).map((next) => (
+                      <button
+                        key={next}
+                        className={'btn ' + (r.status === next ? 'btn-primary' : 'btn-secondary')}
+                        onClick={() => {
+                          void setReportStatus(r.id, next).then(() =>
+                            fetchModerationQueue().then(setQueue).catch(() => {}),
+                          )
+                        }}
+                      >
+                        {next}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </section>
+
         <section className="ops__block">
           <h2>Impact, on the published model</h2>
           <div className="ops__kpis ops__kpis--small">
@@ -218,6 +273,7 @@ export function Ops() {
                 <tr><td>Ratings</td><td className="num">{m.ratingCount}{m.ratingAvg ? ` · ${m.ratingAvg} avg` : ''}</td></tr>
                 <tr><td>Wanted posts</td><td className="num">{m.wanted}</td></tr>
                 <tr><td>Threads opened</td><td className="num">{m.threads}</td></tr>
+                <tr><td>Reports · blocks</td><td className="num">{m.reportsTotal} · {m.blocks}</td></tr>
               </tbody>
             </table>
           </section>

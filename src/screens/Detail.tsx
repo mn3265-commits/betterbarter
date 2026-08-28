@@ -2,6 +2,7 @@ import { Check } from 'lucide-react'
 import { Photo } from '../components/Photo'
 import { useState } from 'react'
 import { CategoryIcon } from '../components/CategoryIcon'
+import { ReportSheet } from '../components/ReportSheet'
 import { AppBody, AppHeader } from '../components/Shell'
 import type { Barter } from '../lib/useBarter'
 
@@ -23,6 +24,7 @@ export function Detail({ h }: { h: Barter }) {
       : 'Listed ' + d0.ago + (d0.ago === 'just now' ? '' : ' ago')
   const kind = h.kindOf(d0)
   const [offering, setOffering] = useState(false)
+  const [reporting, setReporting] = useState(false)
   const [fee, setFee] = useState(d0.helpFee ?? 8)
   const [note, setNote] = useState('')
   const cta =
@@ -41,16 +43,23 @@ export function Detail({ h }: { h: Barter }) {
         onBack={h.back}
         action={
           !mine ? (
-            <button
-              onClick={() => h.flash('Reported. This account is hidden from you and flagged for review.')}
-              className="btn btn-ghost"
-              style={{ fontSize: 12 }}
-            >
+            <button onClick={() => setReporting(true)} className="btn btn-ghost" style={{ fontSize: 12 }}>
               Report
             </button>
           ) : undefined
         }
       />
+
+      {reporting && d0.sellerId && (
+        <ReportSheet
+          who={d0.seller.split(' ')[0]}
+          onCancel={() => setReporting(false)}
+          onSend={(reason, note) => {
+            setReporting(false)
+            h.reportAccount(d0.sellerId!, reason, note, d0.uuid ?? null, null)
+          }}
+        />
+      )}
 
       <AppBody pad={false}>
         <Photo

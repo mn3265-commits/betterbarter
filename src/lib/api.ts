@@ -479,6 +479,67 @@ export async function setHandoffDone(threadId: string, done: boolean): Promise<H
 
 // ── founders ──────────────────────────────────────────────────────────────────
 
+export const REPORT_REASONS: [string, string][] = [
+  ['not_as_described', 'Not as described'],
+  ['never_showed', 'They never showed up'],
+  ['rule_break', 'Broke the community rules'],
+  ['harassment', 'Harassment or pressure'],
+  ['unsafe', 'Felt unsafe'],
+  ['spam', 'Spam or a scam'],
+  ['other', 'Something else'],
+]
+
+/**
+ * Report an account — which also blocks it, in one step.
+ *
+ * The rules promise both: the account disappears from your board immediately,
+ * and it is flagged for review. The block is enforced by the listings policy,
+ * so a blocked person's things stop appearing whatever the client does.
+ */
+export async function reportAccount(
+  subjectId: string,
+  reason: string,
+  note: string,
+  listingUuid?: string | null,
+  threadId?: string | null,
+): Promise<boolean> {
+  const { data, error } = await db().rpc('report_account', {
+    p_subject: subjectId,
+    p_reason: reason,
+    p_note: note || null,
+    p_listing: listingUuid ?? null,
+    p_thread: threadId ?? null,
+  })
+  if (error) return false
+  return Boolean(data)
+}
+
+export interface ModerationRow {
+  id: string
+  reason: string
+  note: string | null
+  status: 'open' | 'reviewed' | 'actioned' | 'dismissed'
+  created_at: string
+  subject_name: string
+  subject_email: string
+  reporter_name: string
+  campus: string
+  times_reported: number
+  subject_listings: number
+}
+
+export async function fetchModerationQueue(): Promise<ModerationRow[]> {
+  const { data, error } = await db().rpc('moderation_queue')
+  if (error || !data) return []
+  return data as ModerationRow[]
+}
+
+export async function setReportStatus(id: string, status: string): Promise<boolean> {
+  const { data, error } = await db().rpc('set_report_status', { p_report: id, p_status: status })
+  if (error) return false
+  return Boolean(data)
+}
+
 export interface FounderMetrics {
   accounts: number
   campuses: number
@@ -495,6 +556,9 @@ export interface FounderMetrics {
   ratingCount: number
   photos: number
   withLocation: number
+  reportsOpen: number
+  reportsTotal: number
+  blocks: number
   byKind: Record<string, number>
   byCategory: Record<string, number>
   byCampus: { name: string; accounts: number; listings: number; handoffs: number }[]

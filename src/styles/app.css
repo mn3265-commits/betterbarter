@@ -386,6 +386,17 @@
 .app-soon__title { font-family: var(--font-heading); font-weight: 600; font-size: 19px; margin-top: 4px; }
 .app-soon p { font-size: 13.5px; line-height: 1.5; opacity: 0.78; margin: 8px 0 14px; text-wrap: pretty; }
 
+/* A sheet that drops under the header: reporting, and anything else that needs
+   a decision before the screen behind it can continue. */
+.app-sheet {
+  flex: none;
+  border-bottom: 1px solid var(--color-signal);
+  background: var(--color-signal-100);
+  padding: 14px 16px 16px;
+}
+.app-sheet__title { font-family: var(--font-heading); font-weight: 600; font-size: 17px; }
+.app-sheet__body { font-size: 13px; line-height: 1.45; opacity: 0.78; margin: 4px 0 12px; text-wrap: pretty; }
+
 /* A quiet line of guidance directly above the tab bar. */
 .app-note {
   flex: none;

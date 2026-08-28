@@ -1171,6 +1171,29 @@ export function useBarter(config: BarterConfig, live?: LiveContext) {
     [carryOffers, userId],
   )
 
+  /**
+   * Report someone, which also blocks them. The board stops showing their
+   * things immediately — enforced by the listings policy, not by the client —
+   * and a founder picks the report up in the moderation queue.
+   */
+  const reportAccount = useCallback(
+    (subjectId: string, reason: string, note: string, listingUuid?: string | null, threadId?: string | null) => {
+      if (!live || !subjectId) return
+      void (async () => {
+        const ok = await api.reportAccount(subjectId, reason, note, listingUuid, threadId)
+        if (!ok) {
+          flash('Could not send that report.')
+          return
+        }
+        await refreshBoard()
+        await refreshThreads()
+        flash('Reported. That account is hidden from your board and flagged for review.')
+        go('browse')
+      })()
+    },
+    [live, flash, refreshBoard, refreshThreads, go],
+  )
+
   const setDisplayName = useCallback(
     (value: string) => {
       if (!live) return
@@ -1323,6 +1346,7 @@ export function useBarter(config: BarterConfig, live?: LiveContext) {
     setPreferredSpot,
     saveProfileDetails,
     rateThread,
+    reportAccount,
     offerCarry,
     acceptCarry,
     offersOnMine,

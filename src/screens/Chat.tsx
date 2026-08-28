@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { ArrowRight, Check, Star } from 'lucide-react'
+import { ReportSheet } from '../components/ReportSheet'
 import { AppBody, AppFooter, AppHeader } from '../components/Shell'
 import type { Barter } from '../lib/useBarter'
 
@@ -18,6 +19,7 @@ export function Chat({ h }: { h: Barter }) {
   const [stars, setStars] = useState(0)
   const [note, setNote] = useState('')
   const [rated, setRated] = useState(false)
+  const [reporting, setReporting] = useState(false)
 
   return (
     <div className="screen">
@@ -26,15 +28,22 @@ export function Chat({ h }: { h: Barter }) {
         kicker={`${handoffs} handoffs · verified email`}
         onBack={h.jumpChats}
         action={
-          <button
-            onClick={() => h.flash('Reported. This account is hidden from you and flagged for review.')}
-            className="btn btn-ghost"
-            style={{ fontSize: 12 }}
-          >
-            Block
+          <button onClick={() => setReporting(true)} className="btn btn-ghost" style={{ fontSize: 12 }}>
+            Report
           </button>
         }
       />
+
+      {reporting && t?.otherId && (
+        <ReportSheet
+          who={first}
+          onCancel={() => setReporting(false)}
+          onSend={(reason, note) => {
+            setReporting(false)
+            h.reportAccount(t.otherId!, reason, note, null, t.id)
+          }}
+        />
+      )}
 
       <AppBody>
         {/* pinned handoff card — the meetup, then the confirmation loop */}
