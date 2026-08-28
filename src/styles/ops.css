@@ -1,0 +1,95 @@
+/* The founders' dashboard: scanned, not read. Summary first, detail under it,
+   and state carried by shape as well as by number. */
+.ops { min-height: 100dvh; background: var(--color-bg); color: var(--color-text); padding-bottom: 40px; }
+.ops__head { padding: 54px 0 30px; }
+.ops__head h1 {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: clamp(32px, 4.4vw, 50px);
+  letter-spacing: -0.02em;
+  margin: 10px 0 0;
+}
+.ops__lede { font-size: 16px; color: color-mix(in srgb, var(--color-text) 72%, transparent); max-width: 62ch; margin: 14px 0 0; }
+
+.ops__kpis { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+.ops__kpis--small .kpi b { font-size: clamp(26px, 3vw, 38px); }
+.kpi {
+  border: 1px solid var(--color-divider);
+  border-radius: var(--radius-lg);
+  padding: 18px 18px 20px;
+  background: var(--color-accent-100);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.kpi b {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: clamp(34px, 4.4vw, 54px);
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-accent-700);
+}
+.kpi span { font-size: 13.5px; margin-top: 8px; }
+.kpi i { font-style: normal; font-size: 11.5px; color: color-mix(in srgb, var(--color-text) 55%, transparent); }
+
+.ops__block { margin-top: 34px; }
+.ops__block h2 {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: 20px;
+  margin: 0 0 14px;
+}
+.ops__two { display: grid; grid-template-columns: 1fr 1fr; gap: 26px; }
+
+/* fourteen columns, three series each */
+.spark {
+  display: grid;
+  grid-template-columns: repeat(14, 1fr);
+  gap: 8px;
+  align-items: end;
+  border: 1px solid var(--color-divider);
+  border-radius: var(--radius-lg);
+  padding: 16px 14px 10px;
+  height: 190px;
+}
+.spark__day { display: flex; flex-direction: column; align-items: center; gap: 6px; height: 100%; justify-content: flex-end; }
+.spark__stack { display: flex; gap: 2px; align-items: flex-end; height: 100%; width: 100%; justify-content: center; }
+.spark__bar { width: 30%; min-height: 2px; border-radius: 3px 3px 0 0; }
+.spark__bar--handoff { background: var(--color-accent); }
+.spark__bar--listing { background: var(--color-accent-400); }
+.spark__bar--signup { background: var(--color-signal); }
+.spark__day span { font-size: 10.5px; color: color-mix(in srgb, var(--color-text) 50%, transparent); font-variant-numeric: tabular-nums; }
+
+.ops__key { display: flex; gap: 18px; margin-top: 10px; font-size: 12.5px; color: color-mix(in srgb, var(--color-text) 65%, transparent); }
+.ops__key span { display: inline-flex; align-items: center; gap: 7px; }
+.ops__key i { width: 11px; height: 11px; border-radius: 3px; display: block; }
+
+.ops__rows { display: flex; flex-direction: column; gap: 7px; }
+.row { display: grid; grid-template-columns: 150px 1fr 44px; gap: 12px; align-items: center; font-size: 13.5px; }
+.row__label { color: color-mix(in srgb, var(--color-text) 76%, transparent); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.row__track { background: var(--color-surface); border-radius: 6px; height: 15px; overflow: hidden; }
+.row__fill { display: block; height: 100%; background: var(--color-accent); border-radius: 0 6px 6px 0; min-width: 2px; }
+.row__val { font-variant-numeric: tabular-nums; text-align: right; font-size: 13px; }
+.ops__empty { font-size: 13.5px; color: color-mix(in srgb, var(--color-text) 55%, transparent); }
+
+.ops__table { width: 100%; border-collapse: collapse; font-size: 14px; }
+.ops__table th {
+  text-align: left;
+  font-size: 10.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--color-text) 55%, transparent);
+  padding: 0 10px 8px 0;
+  border-bottom: 1px solid var(--color-divider);
+}
+.ops__table td { padding: 10px 10px 10px 0; border-bottom: 1px solid var(--color-divider); }
+.ops__table td.num { text-align: right; font-variant-numeric: tabular-nums; }
+
+@media (max-width: 860px) {
+  .ops__kpis { grid-template-columns: 1fr 1fr; }
+  .ops__two { grid-template-columns: 1fr; gap: 18px; }
+  .spark { grid-template-columns: repeat(7, 1fr); height: 240px; }
+  .spark__day:nth-child(n + 8) { display: none; }
+  .row { grid-template-columns: 110px 1fr 40px; }
+}

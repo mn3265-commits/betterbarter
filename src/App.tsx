@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { About } from './site/About'
+import { Ops } from './site/Ops'
 import { Landing } from './site/Landing'
 import { AppRail } from './components/AppRail'
 import { IOSDevice } from './components/IOSDevice'
@@ -225,6 +226,9 @@ export default function App() {
   }
 
   if (pathname === '/about' || pathname === '/about/') return <About />
+  // The founders' dashboard. Gated in the database, not here — this route only
+  // decides which screen to draw.
+  if (pathname === '/ops' || pathname === '/ops/') return <Ops />
   if (!isAppPath(pathname)) return <Landing />
 
   return (

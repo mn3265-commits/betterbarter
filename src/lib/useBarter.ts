@@ -773,7 +773,15 @@ export function useBarter(config: BarterConfig, live?: LiveContext) {
     setBusy(true)
     void (async () => {
       try {
-        const path = photoFile ? await api.uploadPhoto(photoFile, live.userId) : null
+        let path: string | null = null
+        let photoFailed = false
+        if (photoFile) {
+          try {
+            path = await api.uploadPhoto(photoFile, live.userId)
+          } catch {
+            photoFailed = true
+          }
+        }
         await api.createListing({
           campusId: live.campusId,
           sellerId: live.userId,
@@ -802,9 +810,14 @@ export function useBarter(config: BarterConfig, live?: LiveContext) {
         setSpotName(p.spot)
         setWin(p.when)
         setPostedTitle(p.title.toUpperCase())
-        setPostedNote(note)
+        setPostedNote(
+          photoFailed
+            ? note + ' The photo did not upload — open the listing and try adding it again.'
+            : note,
+        )
         setScreen('posted')
-        setToast(null)
+        if (photoFailed) flash('Posted, but the photo did not upload.')
+        else setToast(null)
       } catch (e) {
         fail(e, 'Could not post that. Try again.')
       } finally {

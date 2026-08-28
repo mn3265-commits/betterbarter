@@ -238,6 +238,8 @@ export async function createWanted(campusId: string, authorId: string, title: st
 
 /** Upload a listing photo. Returns null (rather than throwing) if Storage is not
  *  set up yet, so a missing bucket can never block someone from posting. */
+export class PhotoUploadFailed extends Error {}
+
 export async function uploadPhoto(file: File, userId: string): Promise<string | null> {
   const ext = file.name.split('.').pop() || 'jpg'
   const path = `${userId}/${crypto.randomUUID()}.${ext}`
@@ -247,8 +249,11 @@ export async function uploadPhoto(file: File, userId: string): Promise<string | 
     contentType: file.type || 'image/jpeg',
   })
   if (error) {
-    console.warn('[handoff] photo upload skipped:', error.message)
-    return null
+    // Never block the post — but never fail silently either. For two weeks
+    // every listing arrived without its photo because the bucket did not
+    // exist, and nothing anywhere said so.
+    console.warn('[betterbarter] photo upload failed:', error.message)
+    throw new PhotoUploadFailed(error.message)
   }
   return path
 }
@@ -470,6 +475,43 @@ export async function setHandoffDone(threadId: string, done: boolean): Promise<H
   if (error) throw error
   const r = (data ?? {}) as Partial<HandoffState>
   return { buyerDone: r.buyerDone ?? false, sellerDone: r.sellerDone ?? false, completed: r.completed ?? false }
+}
+
+// ── founders ──────────────────────────────────────────────────────────────────
+
+export interface FounderMetrics {
+  accounts: number
+  campuses: number
+  listings: number
+  listingsLive: number
+  listingsGone: number
+  threads: number
+  handoffs: number
+  carries: number
+  carryOffers: number
+  wanted: number
+  messages: number
+  ratingAvg: number | null
+  ratingCount: number
+  photos: number
+  withLocation: number
+  byKind: Record<string, number>
+  byCategory: Record<string, number>
+  byCampus: { name: string; accounts: number; listings: number; handoffs: number }[]
+  daily: { day: string; signups: number; listings: number; handoffs: number }[]
+}
+
+/**
+ * Aggregates across every campus, for the founders only.
+ *
+ * Every other read here is walled to one campus. This is the single deliberate
+ * exception and it is narrow by construction: the database checks the flag, and
+ * returns counts — never a name, a listing or a message.
+ */
+export async function fetchFounderMetrics(): Promise<FounderMetrics | null> {
+  const { data, error } = await db().rpc('founder_metrics')
+  if (error || !data) return null
+  return data as FounderMetrics
 }
 
 // ── carrying ──────────────────────────────────────────────────────────────────
