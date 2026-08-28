@@ -111,3 +111,31 @@ count exactly once. `completed_at` makes it idempotent for good.
 screen already toggles alerts, but nothing yet watches new listings and tells
 the people waiting for them. After that: the day-7 cron (above) and no-show
 reporting, which is the only other input to reputation.
+
+## Security posture (audited 28 August 2026)
+
+Fixed in this pass, all verified against the live project:
+
+- **Every RPC was callable anonymously.** `revoke ... from public` does not remove
+  anonymous access on Supabase, because `anon` and `authenticated` are granted
+  EXECUTE directly. Each function did check `auth.uid()` and refuse a stranger,
+  so nothing leaked — but the only thing between an anonymous caller and
+  cross-campus aggregates was one `if` inside `founder_metrics()`. EXECUTE is now
+  revoked from `anon` on every function, internal helpers are revoked from both
+  client roles, and default privileges are altered so the next function does not
+  inherit a grant nobody asked for.
+- **Two functions had a mutable `search_path`** (`is_academic_domain`,
+  `campus_name_from_domain`) and are called from a SECURITY DEFINER trigger.
+  Both are now pinned to `public`.
+- **`listing-photos` did not exist.** Created public, 10 MB, images only, with
+  read-for-all and write-only-inside-your-own-folder policies.
+
+Known gaps, in the order they will matter:
+
+1. No rate limiting on posting or messaging — a signed-in account can insert as
+   fast as it likes. Wants a trigger counting recent rows per user.
+2. The report button flashes a toast; there is no moderation queue behind it.
+3. No per-account storage quota, and no scanning of what is uploaded.
+4. Free plan has no backups. The Pro plan's daily backups are the first thing to
+   buy when there is real data.
+5. No account-deletion flow.
