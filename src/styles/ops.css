@@ -133,3 +133,34 @@
 .report__note { font-size: 14px; margin: 0; line-height: 1.5; }
 .report__actions { display: flex; gap: 7px; flex-wrap: wrap; margin-top: 2px; }
 .report__actions .btn { font-size: 12px; text-transform: capitalize; }
+
+/* the lifecycle staircase */
+.ops__stair {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 2px;
+  background: var(--color-divider);
+  border: 1px solid var(--color-divider);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  margin-bottom: 14px;
+}
+.stair { background: var(--color-surface); padding: 14px 16px; }
+.stair__n {
+  font-family: var(--font-heading);
+  font-size: 26px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.1;
+}
+.stair__label { font-size: 13px; font-weight: 500; margin-top: 2px; }
+.stair__sub { font-size: 11.5px; color: color-mix(in srgb, var(--color-text) 50%, transparent); }
+.ops__hint { font-size: 11.5px; color: color-mix(in srgb, var(--color-text) 45%, transparent); }
+.ops__reclaim {
+  margin-top: 14px;
+  padding: 14px 16px;
+  border: 1px solid var(--color-divider);
+  border-left: 3px solid var(--color-accent);
+  border-radius: var(--radius-md);
+}
+.ops__reclaim p { margin: 0 0 10px; font-size: 13px; line-height: 1.5; }

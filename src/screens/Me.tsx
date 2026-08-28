@@ -10,6 +10,8 @@ import type { Barter } from '../lib/useBarter'
 export function Me({ h }: { h: Barter }) {
   const staleMine = h.staleListings
   const paused = h.pausedListings
+  const archived = h.archivedListings
+  const [leaving, setLeaving] = useState(false)
   const mine = h.myListings
 
   const [name, setName] = useState(h.me.name)
@@ -349,6 +351,30 @@ export function Me({ h }: { h: Barter }) {
           </div>
         )}
 
+        {/* archived — a month on the shelf with nothing happening */}
+        {archived.length > 0 && (
+          <div style={{ padding: 16, borderBottom: '1px solid var(--color-divider)' }}>
+            <h6 style={{ margin: '0 0 10px' }}>Archived</h6>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 2, background: 'var(--color-divider)' }}>
+              {archived.map((it) => (
+                <div key={it.id} style={{ background: 'var(--color-bg)', padding: '11px 0', display: 'flex', alignItems: 'center', gap: 11 }}>
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <div style={{ fontSize: 14, fontWeight: 500, opacity: 0.6 }}>{it.title}</div>
+                    <div style={{ fontSize: 11, opacity: 0.5 }}>Aged out after a month · photo released</div>
+                  </div>
+                  <button onClick={() => h.relist(it.id)} className="btn btn-secondary" style={{ flex: 'none', fontSize: 12 }}>
+                    Relist
+                  </button>
+                </div>
+              ))}
+            </div>
+            <p style={{ fontSize: 11.5, opacity: 0.6, margin: '12px 0 0', textWrap: 'pretty' }}>
+              Nothing here is deleted. A month with no answer takes a listing off your shelf and eventually releases its
+              photo — relisting brings the listing straight back, and you can add a new photo.
+            </p>
+          </div>
+        )}
+
         {/* my listings */}
         <div style={{ padding: 16 }}>
           <h6 style={{ margin: '0 0 10px' }}>My listings</h6>
@@ -442,9 +468,36 @@ export function Me({ h }: { h: Barter }) {
             the account goes read-only, and your handoff count is waiting if you come back for grad school.
           </div>
           {h.live && (
-            <button onClick={h.signOut} className="btn btn-secondary" style={{ marginTop: 14, fontSize: 13 }}>
-              Sign out
-            </button>
+            <div style={{ display: 'flex', gap: 8, marginTop: 14, flexWrap: 'wrap' }}>
+              <button onClick={h.signOut} className="btn btn-secondary" style={{ fontSize: 13 }}>
+                Sign out
+              </button>
+              <button onClick={() => setLeaving(true)} className="btn btn-secondary" style={{ fontSize: 13, opacity: 0.75 }}>
+                Take me off the board
+              </button>
+            </div>
+          )}
+
+          {leaving && (
+            <div className="app-sheet" style={{ marginTop: 14 }}>
+              <h6 style={{ margin: '0 0 6px' }}>Take me off the board</h6>
+              <p style={{ fontSize: 12.5, opacity: 0.75, margin: '0 0 4px', textWrap: 'pretty' }}>
+                Your listings come down and nobody can find you. Sign back in whenever you like and it is all still
+                here — this is a door, not a trapdoor.
+              </p>
+              <p style={{ fontSize: 12.5, opacity: 0.75, margin: '0 0 12px', textWrap: 'pretty' }}>
+                What stays either way: the handoffs you completed, the ratings you left, and the ones people left you.
+                Those are not only yours to erase — a rating you wrote is somebody else's reputation.
+              </p>
+              <div style={{ display: 'flex', gap: 8 }}>
+                <button onClick={h.deactivateAccount} className="btn btn-primary" style={{ fontSize: 13 }}>
+                  Take me off
+                </button>
+                <button onClick={() => setLeaving(false)} className="btn btn-secondary" style={{ fontSize: 13 }}>
+                  Stay
+                </button>
+              </div>
+            </div>
           )}
         </div>
       </AppBody>

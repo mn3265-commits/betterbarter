@@ -20,7 +20,7 @@ viewer's campus, so a query can never cross the campus wall.
 
 Project: `gkqyaynukcrrewspekmf` · campus seeded: **Columbia** (`columbia.edu`).
 
-The schema lives in `supabase/migrations/` — all of it, through 0018. Those files
+The schema lives in `supabase/migrations/` — all of it, through 0024. Those files
 were applied through the API rather than the CLI, so the numbering is local;
 `supabase/migrations/README.md` maps each one to the version the project recorded.
 
@@ -38,7 +38,7 @@ were applied through the API rather than the CLI, so the numbering is local;
 | Chat: real messages, realtime | ✅ |
 | Wanted posts: read, offer, create | ✅ |
 | Day-7 lifecycle buttons (still here / free / gone / relist) | ✅ |
-| Day-7 auto-pause on no answer | ⏳ needs pg_cron (below) |
+| Day-7 auto-pause on no answer | ✅ pg_cron installed, hourly, verified running |
 | Saved-search push notifications | ⏳ not built |
 | Handoff-count confirmation loop | ✅ (needs migration 0005) |
 
@@ -154,9 +154,68 @@ Known gaps, in the order they will matter:
 1. No per-account storage quota, and no scanning of what is uploaded.
 2. Free plan has no backups. The Pro plan's daily backups are the first thing to
    buy when there is real data.
-3. No account-deletion flow.
+3. Account removal is a deactivation, not a delete — deliberately. See below.
 4. A rate limit that counts surviving rows can be reset by deleting them. Fine
    against noise, not against someone determined; a real counter would be its own
    table. Revisit if it is ever actually abused.
 5. Nothing throttles sign-ups themselves — the campus wall (a verified academic
    address) is doing that job alone.
+
+
+## The lifecycle (added 28 August 2026)
+
+Nothing on the board is allowed to go stale, and nothing is deleted to achieve
+that. A listing walks down a staircase, and its owner can stop it at any step:
+
+| Day | What happens | Reversible? |
+| --- | --- | --- |
+| 7 | The owner is asked whether it is still here | — |
+| 9 | No answer: it pauses itself, off the board | Relist, one tap |
+| 30 | Still nothing: it comes off the owner's shelf into **Archived** | Relist, one tap |
+| 90 | Its photos are released into `storage_reclaim` | No — but it only costs the photo |
+
+A listing with a live conversation or a completed handoff never archives, however
+old it is. "Still here", "Make it free" and "Relist" all stamp `confirmed_at`,
+which puts it back at the top of the staircase.
+
+`run_lifecycle()` runs hourly under pg_cron as job `betterbarter-life`. Before
+28 August it did not run at all: `pg_cron` had never been installed, so the
+scheduling block in 0003 raised a notice and moved on, and the day-7 check had
+never fired once since the day it was written.
+
+### Why the photos and not the rows
+
+The whole database is **12 MB**. Ten thousand listings would add a handful more —
+a listing row is a few hundred bytes. A photo is a few MB, and there can be four
+to a listing, on a plan with **1 GB** of storage. That is four orders of
+magnitude between the two, so the photos are the only thing worth reclaiming,
+and the row (with its place in the impact ledger) is worth keeping forever.
+
+Postgres cannot delete out of object storage. The job queues orphaned paths in
+`storage_reclaim` and `/ops` empties the queue through the Storage API; anything
+that fails to delete stays queued rather than being marked done.
+
+### Why accounts are not on a timer
+
+This product is seasonal. Someone lists a desk at move-out in May, vanishes for
+the summer, and comes back at move-in in September. That is not a dormant user,
+that is *the* user — a 30-day rule would deactivate exactly the people the whole
+thing depends on. `/ops` shows a 90-day dormancy count so it is visible, and
+nothing acts on it.
+
+What accounts get instead is a door marked **"Take me off the board"**: listings
+come down, wanted posts go, the profile leaves the board, and signing back in
+undoes all of it.
+
+### Why there is no hard delete
+
+`threads.buyer_id`, `threads.seller_id`, `ratings.rater_id` and `ratings.ratee_id`
+are all `ON DELETE CASCADE`, and `profiles → auth.users` is too. Deleting one
+profile row would take every thread that person was ever in — including the other
+side's completed handoff — plus every rating they wrote about other people, which
+would silently reduce those students' rating counts.
+
+None of that history is only theirs. A rating you wrote is someone else's
+reputation; a handoff you completed is on someone else's record. So removal is a
+deactivation, and the row stays. If a real erasure request ever arrives, the
+right shape is to anonymise the profile row (name and email), not to delete it.

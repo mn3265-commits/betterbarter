@@ -3,9 +3,12 @@ import { categoryColor } from '../components/CategoryIcon'
 import {
   fetchFounderMetrics,
   fetchModerationQueue,
+  fetchReclaimQueue,
+  reclaimPhotos,
   setReportStatus,
   type FounderMetrics,
   type ModerationRow,
+  type ReclaimRow,
 } from '../lib/api'
 import { impactOf, co2eLabel, kgLabel } from '../lib/impact'
 import { useAuth } from '../lib/useAuth'
@@ -27,6 +30,8 @@ export function Ops() {
   const [m, setM] = useState<FounderMetrics | null>(null)
   const [state, setState] = useState<'loading' | 'ok' | 'denied'>('loading')
   const [queue, setQueue] = useState<ModerationRow[]>([])
+  const [orphans, setOrphans] = useState<ReclaimRow[]>([])
+  const [reclaiming, setReclaiming] = useState(false)
 
   useEffect(() => {
     if (auth.loading) return
@@ -43,6 +48,7 @@ export function Ops() {
           setM(data)
           setState('ok')
           fetchModerationQueue().then(setQueue).catch(() => {})
+          fetchReclaimQueue().then(setOrphans).catch(() => {})
         }
       })
       .catch(() => !cancelled && setState('denied'))
@@ -185,6 +191,67 @@ export function Ops() {
             </div>
           </section>
         </div>
+
+        {/* the lifecycle — and the only storage that actually costs anything */}
+        <section className="ops__block">
+          <h2>Lifecycle</h2>
+          <div className="ops__stair">
+            {([
+              ['On the board', m.listingsLive, 'active'],
+              ['Paused', m.listingsPaused, 'day 9, no answer'],
+              ['Archived', m.listingsArchived, 'day 30, off the shelf'],
+              ['Handed off', m.listingsGone, 'the point of all this'],
+            ] as const).map(([label, n, sub]) => (
+              <div key={label} className="stair">
+                <div className="stair__n">{n}</div>
+                <div className="stair__label">{label}</div>
+                <div className="stair__sub">{sub}</div>
+              </div>
+            ))}
+          </div>
+
+          <table className="ops__table">
+            <tbody>
+              <tr>
+                <td>Accounts off the board by choice</td>
+                <td className="num">{m.deactivated}</td>
+              </tr>
+              <tr>
+                <td>Not seen in 90 days <span className="ops__hint">(shown, never acted on — this product is seasonal)</span></td>
+                <td className="num">{m.dormant90}</td>
+              </tr>
+              <tr>
+                <td>Orphaned photos waiting to be released</td>
+                <td className="num">{m.photosQueued}</td>
+              </tr>
+            </tbody>
+          </table>
+
+          {orphans.length > 0 && (
+            <div className="ops__reclaim">
+              <p>
+                {orphans.length} photo{orphans.length === 1 ? '' : 's'} belong to listings that aged out. The database
+                cannot reach into object storage, so this is the one button that has to be pressed by a person.
+              </p>
+              <button
+                className="btn btn-primary"
+                disabled={reclaiming}
+                onClick={() => {
+                  setReclaiming(true)
+                  void reclaimPhotos(orphans)
+                    .then(() => Promise.all([fetchReclaimQueue(), fetchFounderMetrics()]))
+                    .then(([left, fresh]) => {
+                      setOrphans(left)
+                      if (fresh) setM(fresh)
+                    })
+                    .finally(() => setReclaiming(false))
+                }}
+              >
+                {reclaiming ? 'Releasing…' : `Release ${orphans.length} photo${orphans.length === 1 ? '' : 's'}`}
+              </button>
+            </div>
+          )}
+        </section>
 
         {/* moderation: the one place a founder sees a person rather than a count */}
         <section className="ops__block">

@@ -559,6 +559,11 @@ export interface FounderMetrics {
   reportsOpen: number
   reportsTotal: number
   blocks: number
+  listingsPaused: number
+  listingsArchived: number
+  deactivated: number
+  dormant90: number
+  photosQueued: number
   byKind: Record<string, number>
   byCategory: Record<string, number>
   byCampus: { name: string; accounts: number; listings: number; handoffs: number }[]
@@ -827,4 +832,76 @@ export async function acceptRules(userId: string, version: number): Promise<void
   } catch {
     /* pre-migration: the local record stands in until 0004 is applied */
   }
+}
+
+
+/* ── The lifecycle ───────────────────────────────────────────────────────────
+ *
+ * A listing that nobody has touched walks down a staircase — asked on day 7,
+ * paused on day 9, off the shelf on day 30, photos released on day 90 — and the
+ * owner can put it back at any step. The hourly job in the database does all of
+ * it; these are the two places the app has to take part.
+ */
+
+/** Stamped on load so dormancy is measurable at all. Cheap, and rate-limited to
+ *  once an hour inside the database, so calling it on every mount is fine. */
+export async function touchLastSeen(): Promise<void> {
+  const c = db()
+  if (!c) return
+  await c.rpc('touch_last_seen')
+}
+
+/** "Take me off the board." Not a delete — see the note in 0020. */
+export async function deactivateAccount(): Promise<{ listingsHidden: number } | null> {
+  const c = db()
+  if (!c) return null
+  const { data, error } = await c.rpc('deactivate_my_account')
+  if (error) return null
+  return data as { listingsHidden: number }
+}
+
+export async function reactivateAccount(): Promise<boolean> {
+  const c = db()
+  if (!c) return false
+  const { error } = await c.rpc('reactivate_my_account')
+  return !error
+}
+
+export interface ReclaimRow {
+  id: string
+  path: string
+  queued_at: string
+}
+
+/** Photos with nothing left pointing at them. Postgres cannot reach into object
+ *  storage, so the job queues the paths and a founder empties the queue. */
+export async function fetchReclaimQueue(): Promise<ReclaimRow[]> {
+  const c = db()
+  if (!c) return []
+  const { data, error } = await c
+    .from('storage_reclaim')
+    .select('id, path, queued_at')
+    .is('deleted_at', null)
+    .order('queued_at', { ascending: true })
+    .limit(200)
+  if (error || !data) return []
+  return data as ReclaimRow[]
+}
+
+/** Deletes the files, then marks each one done. Anything that fails to delete
+ *  stays queued rather than being marked — a queue that lies is worse than a
+ *  queue that is long. */
+export async function reclaimPhotos(rows: ReclaimRow[]): Promise<number> {
+  const c = db()
+  if (!c || !rows.length) return 0
+  const { data, error } = await c.storage.from('listing-photos').remove(rows.map((r) => r.path))
+  if (error) return 0
+  const removed = new Set((data ?? []).map((o: { name: string }) => o.name))
+  let done = 0
+  for (const r of rows) {
+    if (!removed.has(r.path)) continue
+    const { data: ok } = await c.rpc('mark_photo_reclaimed', { p_path: r.path })
+    if (ok) done += 1
+  }
+  return done
 }

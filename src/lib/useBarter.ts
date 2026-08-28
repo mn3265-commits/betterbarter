@@ -371,6 +371,14 @@ export function useBarter(config: BarterConfig, live?: LiveContext) {
     [isLive, myListings, isPaused],
   )
 
+  /* Aged out after a month on the shelf. Kept apart from Paused so a month of
+   * forgetting does not turn that list into a graveyard — and still relistable,
+   * because the only thing archiving actually takes is the photo. */
+  const archivedListings = useMemo(
+    () => (isLive ? myListings.filter((i) => i.status === 'archived') : []),
+    [isLive, myListings],
+  )
+
   const me: MeProfile = useMemo(() => {
     if (!live) return ME
     return {
@@ -935,6 +943,28 @@ export function useBarter(config: BarterConfig, live?: LiveContext) {
     [isLive, liveMutate, flash],
   )
 
+  /* Dormancy was not measurable before this: nothing recorded that anyone had
+   * been here. The database ignores the call if it already stamped within the
+   * hour, so mounting is a fine place for it. */
+  useEffect(() => {
+    if (!live) return
+    void api.touchLastSeen()
+  }, [live])
+
+  const deactivateAccount = useCallback(() => {
+    if (!live) return
+    void (async () => {
+      const res = await api.deactivateAccount()
+      if (!res) { flash('Could not do that just now.'); return }
+      flash(
+        res.listingsHidden > 0
+          ? `Taken off the board. ${res.listingsHidden} listing${res.listingsHidden === 1 ? '' : 's'} hidden — sign back in any time to bring them back.`
+          : 'Taken off the board. Sign back in any time.',
+      )
+      await live.signOut()
+    })()
+  }, [live, flash])
+
   const relist = useCallback(
     (id: number) => {
       if (isLive) {
@@ -1280,6 +1310,7 @@ export function useBarter(config: BarterConfig, live?: LiveContext) {
     myListings,
     staleListings,
     pausedListings,
+    archivedListings,
 
     // setters
     setQ,
@@ -1340,6 +1371,7 @@ export function useBarter(config: BarterConfig, live?: LiveContext) {
     markGoneStale,
     makeFree,
     relist,
+    deactivateAccount,
     toggleGone,
     offerWanted,
     postWanted,

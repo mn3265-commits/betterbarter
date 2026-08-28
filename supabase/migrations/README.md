@@ -26,6 +26,15 @@ history. This is the mapping, in case the two ever need to be reconciled:
 | 0016_rate_limits_and_reports | 20260828051434 rate_limits_and_reports |
 | 0017_founder_moderation_queue | 20260828051457 founder_moderation_queue |
 | 0018_rate_limit_message_and_actor | 20260828052045 rate_limit_message_and_actor |
+| 0019_listing_status_archived | 20260828053527 listing_status_archived |
+| 0020_lifecycle_and_dormancy | 20260828053601 lifecycle_and_dormancy |
+| 0021_storage_reclaim | 20260828053616 storage_reclaim |
+| 0022_fix_photo_reclaim_returning | 20260828053723 fix_photo_reclaim_returning |
+| 0023_enable_pg_cron_lifecycle | 20260828053622 enable_pg_cron_lifecycle |
+| 0024_founder_metrics_lifecycle | 20260828053857 founder_metrics_lifecycle |
+
+(0022 and 0023 were applied in the other order; the file numbering follows the
+order they should be replayed in, which is the same either way.)
 
 `0003_day7_check` is a local-only helper and was never applied as its own
 migration.

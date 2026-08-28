@@ -21,7 +21,9 @@ export type Tab = 'free' | 'sale' | 'rent' | 'trade' | 'wanted'
  */
 export type ListingKind = 'free' | 'sale' | 'trade' | 'rent'
 
-export type ListingStatus = 'active' | 'paused' | 'gone'
+/** active: on the board · paused: the owner's shelf · gone: handed over ·
+ *  archived: aged out, photos released, one tap from being back. */
+export type ListingStatus = 'active' | 'paused' | 'gone' | 'archived'
 
 /** A listing on the campus board. Live rows carry `uuid` (the DB id); the
  *  numeric `id` is a stable hash used as a React key and for local lookups. */
