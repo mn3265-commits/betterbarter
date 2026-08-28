@@ -1,5 +1,5 @@
 import { ArrowRight } from 'lucide-react'
-import { LoopMark } from './LoopMark'
+import { SiteFooter, SiteNav } from './SiteChrome'
 import '../styles/site.css'
 
 /**
@@ -65,31 +65,11 @@ const HORIZON: [string, string][] = [
 export function About() {
   return (
     <div className="site">
-      <header className="site__bar">
-        <div className="site__wrap site__bar-in">
-          <a className="site__mark" href="/" style={{ textDecoration: 'none' }}>
-            <LoopMark size={19} />
-            BetterBarter
-          </a>
-          <span className="tag tag-outline">Circular economy · For universities</span>
-          <a className="site__bar-link" href="/#how">
-            How it works
-          </a>
-          <a className="site__bar-link" href="/#impact">
-            Impact
-          </a>
-          <a className="site__bar-link" href="/deck">
-            Deck
-          </a>
-          <a className="btn btn-primary" href={APP}>
-            Open the board
-          </a>
-        </div>
-      </header>
+      <SiteNav current="about" />
 
       <section className="site__hero">
         <div className="site__wrap">
-          <div className="site__kicker">About Handoff</div>
+          <div className="site__kicker">About BetterBarter</div>
           <h1 className="site__about-h1">
             A self-sufficient
             <br />
@@ -209,13 +189,7 @@ export function About() {
         </div>
       </section>
 
-      <footer className="site__wrap site__foot">
-        <span>BetterBarter — campus reuse, counted · Any university, one board each · Built by Agung Nugroho and Tessa Wong.</span>
-        <a href="/">Home</a>
-        <a href="/deck">Pitch deck</a>
-        <a href={APP}>Open the board</a>
-        <a href="https://github.com/mn3265-commits/handoff">Source &amp; model</a>
-      </footer>
+      <SiteFooter />
     </div>
   )
 }

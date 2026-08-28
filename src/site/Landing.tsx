@@ -31,8 +31,8 @@ import { categoryColor } from '../components/CategoryIcon'
 import { CountUp } from './CountUp'
 import { Hierarchy } from './Hierarchy'
 import { Seasonality } from './Seasonality'
-import { LoopMark } from './LoopMark'
 import { Reveal } from './Reveal'
+import { SiteFooter, SiteNav } from './SiteChrome'
 import '../styles/site.css'
 
 /**
@@ -350,33 +350,7 @@ function Estimator() {
 export function Landing() {
   return (
     <div className="site">
-      <header className="site__bar">
-        <div className="site__wrap site__bar-in">
-          <div className="site__mark">
-            <LoopMark size={19} />
-            BetterBarter
-          </div>
-          <span className="tag tag-outline">Circular economy · For universities</span>
-          <a className="site__bar-link" href="#how">
-            How it works
-          </a>
-          <a className="site__bar-link" href="#impact">
-            Impact
-          </a>
-          <a className="site__bar-link" href="#safety">
-            Safety
-          </a>
-          <a className="site__bar-link" href="/about">
-            About
-          </a>
-          <a className="site__bar-link" href="/deck">
-            Deck
-          </a>
-          <a className="btn btn-primary" href={APP}>
-            Open the board
-          </a>
-        </div>
-      </header>
+      <SiteNav />
 
       <section className="site__hero">
         <div className="site__wrap">
@@ -742,17 +716,7 @@ export function Landing() {
         </div>
       </section>
 
-      <footer className="site__wrap site__foot">
-        <span>
-          BetterBarter — campus reuse, counted · Any university, one board each · Built by Agung Nugroho and Tessa Wong ·
-          impact model v{MODEL_VERSION}, displacement {DISPLACEMENT}.
-        </span>
-        <a href="/about">About</a>
-        <a href="/deck">Pitch deck</a>
-        <a href={APP}>Open the board</a>
-        <a href="/?showcase">Design walkthrough</a>
-        <a href="https://github.com/mn3265-commits/handoff">Source &amp; model</a>
-      </footer>
+      <SiteFooter />
     </div>
   )
 }
