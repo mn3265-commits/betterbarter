@@ -15,6 +15,16 @@
      white type, which a bright "sustainability green" never does. */
   --color-accent: #1c7a4f;
   --color-accent-2: #2f9463;
+
+  /* The second brand colour. Pine is the colour of action — post, claim,
+     confirm. Goldenrod is the colour of *attention without urgency*: the season
+     that is about to start, the feature that is announced but not open, the
+     rating someone left. It is deliberately not red: nothing on this board is an
+     emergency, and nothing here should feel like one. It is also not one of the
+     six category hues, so it can never be mistaken for a seventh category. */
+  --color-signal: #b8860b;
+  --color-signal-600: #9a7009;
+  --color-signal-100: #f7efd8;
   --color-divider: color-mix(in srgb, #16201a 22%, transparent);
 
   /* Tonal ramps — generated in OKLCH on one shared lightness scale, so the
@@ -38,6 +48,9 @@
   --color-accent-700: #115538;
   --color-accent-800: #0d422c;
   --color-accent-900: #0a3022;
+
+  --color-signal-200: #f0e2b8;
+  --color-signal-700: #7c5a07;
 
   /* Fraunces carries the warmth — a soft, slightly wonky serif that reads as a
      person wrote it, against Plus Jakarta Sans for everything you actually have

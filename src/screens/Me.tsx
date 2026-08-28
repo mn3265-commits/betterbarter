@@ -95,7 +95,10 @@ export function Me({ h }: { h: Barter }) {
               <span className="tag tag-accent">{h.me.handoffs} handoffs</span>
               {h.me.carries > 0 && <span className="tag tag-neutral">{h.me.carries} carries</span>}
               {h.me.rating != null && (
-                <span className="tag tag-accent">
+                <span
+                  className="tag"
+                  style={{ background: 'var(--color-signal-100)', color: 'var(--color-signal-700)' }}
+                >
                   {h.me.rating.toFixed(1)} ★ · {h.me.ratings}
                 </span>
               )}

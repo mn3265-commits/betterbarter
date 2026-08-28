@@ -1,0 +1,287 @@
+<title>BetterBarter Brand Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:SOFT,WONK,opsz,wght@0..100,0..1,9..144,500..700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --ground: #f1f3ef;
+    --surface: #e6eae2;
+    --tint: #eaf4ee;
+    --ink: #16201a;
+    --ink-2: rgba(22, 32, 26, 0.72);
+    --ink-3: rgba(22, 32, 26, 0.5);
+    --line: rgba(22, 32, 26, 0.15);
+    --pine: #1c7a4f;
+    --pine-700: #115538;
+    --pine-100: #eaf4ee;
+    --gold: #b8860b;
+    --gold-700: #7c5a07;
+    --gold-100: #f7efd8;
+    --on-dark: #f1f3ef;
+    --books: #1c7a4f;
+    --tech: #c2410c;
+    --furniture: #1f6f9c;
+    --fashion: #6b7a12;
+    --tickets: #a3197a;
+    --other: #5b53c9;
+    --serif: "Fraunces", Georgia, serif;
+    --sans: "Plus Jakarta Sans", system-ui, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ground: #0e1411; --surface: #16201b; --tint: #14241b;
+      --ink: #e9efea; --ink-2: rgba(233,239,234,.74); --ink-3: rgba(233,239,234,.5);
+      --line: rgba(233,239,234,.18);
+      --pine: #4aa87a; --pine-700: #7cc6a0; --pine-100: #16261d;
+      --gold: #e0b23a; --gold-700: #edcd7a; --gold-100: #2a2313;
+      --books: #4aa87a; --tech: #e2763f; --furniture: #58a5d0;
+      --fashion: #a8b53a; --tickets: #d861a8; --other: #8f89e0;
+    }
+  }
+  :root[data-theme="dark"] {
+    --ground: #0e1411; --surface: #16201b; --tint: #14241b;
+    --ink: #e9efea; --ink-2: rgba(233,239,234,.74); --ink-3: rgba(233,239,234,.5);
+    --line: rgba(233,239,234,.18);
+    --pine: #4aa87a; --pine-700: #7cc6a0; --pine-100: #16261d;
+    --gold: #e0b23a; --gold-700: #edcd7a; --gold-100: #2a2313;
+    --books: #4aa87a; --tech: #e2763f; --furniture: #58a5d0;
+    --fashion: #a8b53a; --tickets: #d861a8; --other: #8f89e0;
+  }
+
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--ground); color: var(--ink); font-family: var(--sans); font-size: 16px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+
+  .wrap { max-width: 940px; margin: 0 auto; padding: 0 24px; }
+  header.hero { background: var(--pine); color: var(--on-dark); padding: 68px 0 60px; }
+  header.hero .mark { display: flex; align-items: center; gap: 18px; }
+  header.hero h1 { font-family: var(--serif); font-weight: 600; font-size: clamp(44px, 7vw, 84px); letter-spacing: -.025em; margin: 0; font-variation-settings: 'SOFT' 90, 'WONK' 1, 'opsz' 144; }
+  header.hero p { max-width: 46ch; margin: 20px 0 0; font-size: 17px; opacity: .92; }
+
+  section { padding: 52px 0; border-top: 1px solid var(--line); }
+  h2 { font-family: var(--serif); font-weight: 600; font-size: clamp(26px, 3.4vw, 38px); margin: 10px 0 0; letter-spacing: -.015em; font-variation-settings: 'SOFT' 75, 'WONK' 1; text-wrap: balance; }
+  h3 { font-family: var(--serif); font-weight: 600; font-size: 18px; margin: 0 0 4px; font-variation-settings: 'SOFT' 60, 'WONK' 1; }
+  .eyebrow { font-size: 11px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--pine); }
+  p.lede { font-size: 17px; color: var(--ink-2); max-width: 62ch; margin: 14px 0 0; }
+  p.note { font-size: 13px; color: var(--ink-3); max-width: 68ch; }
+
+  .grid { display: grid; gap: 14px; margin-top: 26px; }
+  .g2 { grid-template-columns: repeat(2, minmax(0,1fr)); }
+  .g3 { grid-template-columns: repeat(3, minmax(0,1fr)); }
+  .g6 { grid-template-columns: repeat(6, minmax(0,1fr)); }
+
+  .swatch { border: 1px solid var(--line); border-radius: 14px; overflow: hidden; }
+  .swatch__chip { height: 92px; display: flex; align-items: flex-end; padding: 12px; color: var(--on-dark); font-size: 12px; font-weight: 600; }
+  .swatch__body { padding: 13px 14px 16px; display: flex; flex-direction: column; gap: 4px; }
+  .swatch__body b { font-family: var(--serif); font-weight: 600; font-size: 16px; }
+  .swatch__body code { font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 12px; color: var(--ink-3); }
+  .swatch__body span { font-size: 13px; color: var(--ink-2); line-height: 1.45; }
+
+  .cat { border: 1px solid var(--line); border-radius: 12px; padding: 12px; display: flex; flex-direction: column; gap: 8px; }
+  .cat i { display: block; height: 34px; border-radius: 8px; }
+  .cat b { font-size: 12.5px; font-weight: 600; line-height: 1.3; }
+  .cat code { font-family: ui-monospace, Menlo, monospace; font-size: 11px; color: var(--ink-3); }
+
+  .rules { display: flex; flex-direction: column; gap: 2px; margin-top: 24px; border: 1px solid var(--line); border-radius: 14px; overflow: hidden; }
+  .rule { display: grid; grid-template-columns: 108px 1fr; gap: 16px; padding: 15px 16px; background: var(--ground); border-bottom: 1px solid var(--line); }
+  .rule:last-child { border-bottom: 0; }
+  .rule .tag { font-size: 10.5px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; padding-top: 3px; }
+  .rule--do .tag { color: var(--pine); }
+  .rule--dont .tag { color: var(--ink-3); }
+  .rule p { margin: 0; font-size: 14.5px; line-height: 1.5; }
+
+  .type-sample { border: 1px solid var(--line); border-radius: 14px; padding: 22px; }
+  .type-sample .display { font-family: var(--serif); font-weight: 600; font-size: clamp(34px, 5vw, 58px); line-height: 1.05; letter-spacing: -.02em; font-variation-settings: 'SOFT' 85, 'WONK' 1, 'opsz' 144; }
+  .type-sample .body { font-size: 16px; color: var(--ink-2); max-width: 58ch; margin-top: 14px; }
+  .type-meta { display: flex; flex-wrap: wrap; gap: 10px 26px; margin-top: 18px; font-size: 13px; color: var(--ink-3); }
+
+  .voice { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; border: 1px solid var(--line); border-radius: 14px; overflow: hidden; margin-top: 24px; }
+  .voice > div { padding: 16px; background: var(--ground); }
+  .voice h4 { margin: 0 0 8px; font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); }
+  .voice p { margin: 0 0 10px; font-size: 14.5px; line-height: 1.5; }
+  .voice p:last-child { margin: 0; }
+  .voice--yes { box-shadow: inset 3px 0 0 var(--pine); }
+  .voice--no { box-shadow: inset 3px 0 0 var(--gold); }
+
+  footer { padding: 34px 0 60px; font-size: 13px; color: var(--ink-3); border-top: 1px solid var(--line); }
+
+  @media (max-width: 820px) {
+    .g2, .g3 { grid-template-columns: 1fr; }
+    .g6 { grid-template-columns: repeat(2, 1fr); }
+    .voice { grid-template-columns: 1fr; }
+    .rule { grid-template-columns: 1fr; gap: 6px; }
+  }
+</style>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="mark">
+      <svg width="74" height="74" viewBox="0 0 220 220" fill="none" aria-hidden="true">
+        <g stroke="currentColor" stroke-width="20" stroke-linecap="square">
+          <path d="M52 110a58 58 0 0 1 99-41"/><path d="M168 110a58 58 0 0 1-99 41"/>
+          <path d="M152 41v31h-31"/><path d="M68 179v-31h31"/>
+        </g>
+      </svg>
+      <h1>BetterBarter</h1>
+    </div>
+    <p>Brand guide — the colours, the type and the voice, and the reason each one is what it is. Two colours, two faces, and one rule that governs both.</p>
+  </div>
+</header>
+
+<section>
+  <div class="wrap">
+    <div class="eyebrow">The idea</div>
+    <h2>Pine acts. Goldenrod announces.</h2>
+    <p class="lede">
+      One colour was carrying the whole product, which made a busy board look like one long green sentence. The second
+      colour is not decoration — it has a job, and it is a different job from the first. Pine is what you press: post,
+      claim, confirm. Goldenrod is attention without urgency: a season starting, a feature announced but not open, a
+      rating someone left you.
+    </p>
+    <p class="note" style="margin-top:14px">
+      Deliberately not red. Nothing on this board is an emergency, and nothing here should feel like one.
+    </p>
+
+    <div class="grid g2">
+      <div class="swatch">
+        <div class="swatch__chip" style="background:var(--pine)">Primary action</div>
+        <div class="swatch__body">
+          <b>Pine</b><code>#1c7a4f · dark #4aa87a</code>
+          <span>Buttons, links, the active tab, the confirmed handoff, the top rung of the hierarchy. If pressing it does something, it is pine.</span>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch__chip" style="background:var(--gold)">Attention</div>
+        <div class="swatch__body">
+          <b>Goldenrod</b><code>#b8860b · dark #e0b23a</code>
+          <span>Move-out season, “opening soon”, ratings. Never a call to action, never an error, and never a seventh category.</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid g3">
+      <div class="swatch">
+        <div class="swatch__chip" style="background:var(--ground);color:var(--ink);border-bottom:1px solid var(--line)">Ground</div>
+        <div class="swatch__body"><b>Paper</b><code>#f1f3ef · dark #0e1411</code><span>An off-white with a trace of green in it, so the accent reads as material rather than as interface.</span></div>
+      </div>
+      <div class="swatch">
+        <div class="swatch__chip" style="background:var(--surface);color:var(--ink);border-bottom:1px solid var(--line)">Surface</div>
+        <div class="swatch__body"><b>Surface</b><code>#e6eae2 · dark #16201b</code><span>Cards, inputs, quiet panels.</span></div>
+      </div>
+      <div class="swatch">
+        <div class="swatch__chip" style="background:var(--ink);color:var(--ground)">Ink</div>
+        <div class="swatch__body"><b>Ink</b><code>#16201a · dark #e9efea</code><span>All text. Never pure black; it carries the same green cast as the ground.</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="eyebrow">Category colours</div>
+    <h2>Six hues that survive colourblindness.</h2>
+    <p class="lede">
+      Categories are a fixed vocabulary, so they carry fixed colours — that is what lets someone scan a board instead of
+      reading it. These six were run through a contrast-and-colourblindness validator, adjacent pair by adjacent pair,
+      in the order they appear, and re-picked until every check passed.
+    </p>
+    <div class="grid g6">
+      <div class="cat"><i style="background:var(--books)"></i><b>Textbooks &amp; Course Materials</b><code>#1c7a4f</code></div>
+      <div class="cat"><i style="background:var(--tech)"></i><b>Electronics</b><code>#c2410c</code></div>
+      <div class="cat"><i style="background:var(--furniture)"></i><b>Furniture &amp; Dorm</b><code>#1f6f9c</code></div>
+      <div class="cat"><i style="background:var(--fashion)"></i><b>Fashion &amp; Accessories</b><code>#6b7a12</code></div>
+      <div class="cat"><i style="background:var(--tickets)"></i><b>Tickets &amp; Events</b><code>#a3197a</code></div>
+      <div class="cat"><i style="background:var(--other)"></i><b>Others</b><code>#5b53c9</code></div>
+    </div>
+    <p class="note" style="margin-top:16px">
+      Colour is never the only carrier: every category appears with its icon and its name beside it, so the board still
+      works in greyscale, in print, and for anyone who cannot separate two of these hues.
+    </p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="eyebrow">Typography</div>
+    <h2>A serif that sounds like a person, a sans you can read at 12px.</h2>
+    <div class="type-sample" style="margin-top:24px">
+      <div class="display">Keep the things a campus already owns in use.</div>
+      <p class="body">
+        Fraunces carries the warmth — its SOFT and WONK axes are what stop a serif reading like a plaque on a building.
+        Plus Jakarta Sans carries everything a person has to read or click, so nothing important is set in a display
+        face.
+      </p>
+      <div class="type-meta">
+        <span><b>Display</b> · Fraunces 600 · SOFT 70–100 · WONK 1</span>
+        <span><b>Body &amp; UI</b> · Plus Jakarta Sans 400/500/600/700</span>
+        <span><b>Never</b> · the wordmark in all caps</span>
+      </div>
+    </div>
+    <div class="rules">
+      <div class="rule rule--do"><span class="tag">Do</span><p>Set the wordmark as <b>BetterBarter</b> — mixed case, one word, no space.</p></div>
+      <div class="rule rule--dont"><span class="tag">Not</span><p>BETTERBARTER, Better Barter, betterbarter, or the serif at weight 800 — Fraunces has no 800, so the browser fakes it and the letterforms thicken into mud.</p></div>
+      <div class="rule rule--do"><span class="tag">Do</span><p>Use the loop mark on its own where space is tight: a favicon, an app icon, a corner of a slide.</p></div>
+      <div class="rule rule--dont"><span class="tag">Not</span><p>Rotate, recolour or fill the mark. It is two arcs and two arrowheads in one colour, and it stays that way.</p></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="eyebrow">Voice</div>
+    <h2>Say the number, name the assumption, stop talking.</h2>
+    <p class="lede">
+      The product's whole claim is that it does not overstate things. The writing has to match, or the claim is just a
+      slogan.
+    </p>
+    <div class="voice">
+      <div class="voice--yes">
+        <h4>Like this</h4>
+        <p>“Both of you tap this. It ends the hold and adds +1 to each handoff count.”</p>
+        <p>“Estimated, at a displacement rate of 0.5 — the method is on the site.”</p>
+        <p>“No pilot users yet. Two verified accounts.”</p>
+      </div>
+      <div class="voice--no">
+        <h4>Not this</h4>
+        <p>“Revolutionise your campus sustainability journey.”</p>
+        <p>“Save the planet with every swap!”</p>
+        <p>“Trusted by students everywhere.”</p>
+      </div>
+    </div>
+    <div class="rules">
+      <div class="rule rule--do"><span class="tag">Do</span><p>Separate what is measured from what is estimated, every single time a number appears.</p></div>
+      <div class="rule rule--do"><span class="tag">Do</span><p>Name the thing a person recognises: a listing, a handoff, a campus. Not “transaction”, not “SKU”, not “user”.</p></div>
+      <div class="rule rule--dont"><span class="tag">Not</span><p>Exclamation marks, eco-clichés, or a claim we cannot show the arithmetic for.</p></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="eyebrow">In practice</div>
+    <h2>Where each colour is allowed.</h2>
+    <div class="grid g2">
+      <div class="swatch">
+        <div class="swatch__chip" style="background:var(--pine-100);color:var(--pine-700);border-bottom:1px solid var(--line)">Pine, at 100</div>
+        <div class="swatch__body"><b>Quiet green ground</b><code>#eaf4ee</code><span>The method section, the impact tiles, an active state that must not shout.</span></div>
+      </div>
+      <div class="swatch">
+        <div class="swatch__chip" style="background:var(--gold-100);color:var(--gold-700);border-bottom:1px solid var(--line)">Goldenrod, at 100</div>
+        <div class="swatch__body"><b>Announcement ground</b><code>#f7efd8</code><span>The move-out banner and the “not open yet” panel. Two places, both seasonal.</span></div>
+      </div>
+    </div>
+    <div class="rules">
+      <div class="rule rule--do"><span class="tag">Do</span><p>Let pine own every button, link and confirmed state.</p></div>
+      <div class="rule rule--do"><span class="tag">Do</span><p>Let goldenrod mark what is coming: the season, the announced feature, the rating that arrived.</p></div>
+      <div class="rule rule--dont"><span class="tag">Not</span><p>Two brand colours in one control. If a button needs attention, it is already pine — make it bigger, not gold.</p></div>
+      <div class="rule rule--dont"><span class="tag">Not</span><p>Goldenrod as a warning or an error. Nothing here is an emergency; a refusal is written in words, in ink.</p></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    BetterBarter — campus reuse, counted · Colours and type live in <code>src/styles/tokens.css</code>; this page is the
+    explanation, that file is the source of truth.
+  </div>
+</footer>

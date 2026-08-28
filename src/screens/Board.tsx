@@ -116,14 +116,16 @@ export function Board({ h }: { h: Barter }) {
           <div
             style={{
               margin: '12px 16px 0',
-              border: '1px solid var(--color-divider)', borderRadius: 'var(--radius-lg)',
+              border: '1px solid var(--color-signal)',
+              background: 'var(--color-signal-100)',
+              borderRadius: 'var(--radius-lg)',
               padding: '12px 13px',
               display: 'flex',
               flexDirection: 'column',
               gap: 8,
             }}
           >
-            <div style={{ fontSize: 10, letterSpacing: '.14em', textTransform: 'uppercase', color: 'var(--color-accent-700)' }}>
+            <div style={{ fontSize: 10, letterSpacing: '.14em', textTransform: 'uppercase', color: 'var(--color-signal-700)' }}>
               Move-out week · May 12–19
             </div>
             <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 600, fontSize: 17, lineHeight: 1.15 }}>

@@ -21,6 +21,8 @@
     --fashion: #6b7a12;
     --tickets: #a3197a;
     --other: #5b53c9;
+    --gold: #b8860b;
+    --gold-100: #f7efd8;
     --serif: "Fraunces", Georgia, serif;
     --sans: "Plus Jakarta Sans", system-ui, sans-serif;
     --pad: clamp(22px, 4.5vw, 76px);
@@ -33,6 +35,7 @@
       --line: rgba(233,239,234,.18); --accent: #4aa87a; --on-accent: #0e1411;
       --books: #4aa87a; --tech: #e2763f; --furniture: #58a5d0;
       --fashion: #a8b53a; --tickets: #d861a8; --other: #8f89e0;
+      --gold: #e0b23a; --gold-100: #2a2313;
     }
   }
   :root[data-theme="dark"] {
@@ -41,6 +44,7 @@
     --line: rgba(233,239,234,.18); --accent: #4aa87a; --on-accent: #0e1411;
     --books: #4aa87a; --tech: #e2763f; --furniture: #58a5d0;
     --fashion: #a8b53a; --tickets: #d861a8; --other: #8f89e0;
+    --gold: #e0b23a; --gold-100: #2a2313;
   }
 
   * { box-sizing: border-box; }
@@ -52,16 +56,52 @@
   .slide {
     scroll-snap-align: start;
     min-height: 100dvh;
-    padding: var(--pad) var(--pad) var(--pad) calc(var(--rail) + 10px);
-    display: flex; flex-direction: column; justify-content: center; gap: 26px;
+    padding: clamp(60px, 9vh, 104px) var(--pad) clamp(52px, 8vh, 88px) calc(var(--rail) + 10px);
+    display: flex; flex-direction: column; justify-content: flex-start; gap: clamp(20px, 3.2vh, 34px);
     position: relative; border-bottom: 1px solid var(--line);
+  }
+  /* The content block, not the slide, is what has a width. Anchoring it to the
+     top and letting it end where it ends beats centring a short slide in an
+     ocean of empty green. */
+  .slide > * { max-width: 1180px; width: 100%; }
+    /* The mark hangs off the corner on purpose; clip it rather than let it add
+     scroll height to the slide it decorates. */
+  .slide--cover { justify-content: flex-end; padding-bottom: clamp(52px, 8vh, 96px); overflow: hidden; }
+
+  /* the slide number, as structure rather than decoration */
+  .num {
+    position: absolute;
+    right: clamp(20px, 4vw, 64px);
+    top: clamp(40px, 6vh, 74px);
+    font-family: var(--serif);
+    font-weight: 600;
+    font-size: clamp(46px, 6vw, 92px);
+    line-height: 1;
+    color: var(--ink);
+    opacity: .12;
+    font-variation-settings: 'SOFT' 90, 'WONK' 1;
+    pointer-events: none;
+  }
+  .slide--accent .num { color: var(--on-accent); opacity: .22; }
+
+  /* the mark, drawn large and quiet behind the cover */
+  .cover-mark {
+    position: absolute;
+    right: clamp(-40px, -3vw, 0px);
+    bottom: clamp(-30px, -2vw, 0px);
+    width: clamp(260px, 34vw, 520px);
+    height: auto;
+    color: var(--on-accent);
+    opacity: .13;
+    pointer-events: none;
   }
   .slide--accent { background: var(--accent); color: var(--on-accent); }
   .slide--accent .eyebrow { color: var(--on-accent); opacity: .82; }
   .slide--tint { background: var(--tint); }
 
-  .rail { position: fixed; left: 0; top: 0; bottom: 0; width: var(--rail); padding: 0 0 0 20px; display: flex; flex-direction: column; gap: 2px; justify-content: center; z-index: 20; }
-  .rail a { font-size: 11.5px; color: var(--ink-3); text-decoration: none; padding: 3px 0; display: flex; gap: 9px; align-items: baseline; }
+  .rail { position: fixed; left: 0; top: 0; bottom: 0; width: var(--rail); padding: 0 0 0 26px; display: flex; flex-direction: column; gap: 1px; justify-content: center; z-index: 20; }
+  .rail a { font-size: 12.5px; color: var(--ink-3); text-decoration: none; padding: 5px 0 5px 10px; display: flex; gap: 10px; align-items: baseline; border-left: 2px solid transparent; }
+  .rail a.is-on { border-left-color: currentColor; }
   .rail a:hover, .rail a:focus-visible { color: var(--ink); }
   .rail a.is-on { color: var(--accent); font-weight: 600; }
   /* Over a full-bleed accent slide the rail would be dark green on green, so it
@@ -73,8 +113,8 @@
 
   .eyebrow { font-size: 11px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); }
   h1, h2 { font-family: var(--serif); font-weight: 600; font-variation-settings: 'SOFT' 85, 'WONK' 1, 'opsz' 120; letter-spacing: -.018em; line-height: 1.04; margin: 0; text-wrap: balance; }
-  h1 { font-size: clamp(50px, 9vw, 116px); }
-  h2 { font-size: clamp(30px, 4.6vw, 58px); max-width: 17ch; }
+  h1 { font-size: clamp(58px, 11vw, 168px); line-height: .92; }
+  h2 { font-size: clamp(30px, 4.2vw, 54px); max-width: 18ch; }
   h3 { font-family: var(--serif); font-weight: 600; font-size: 17.5px; margin: 0; font-variation-settings: 'SOFT' 60, 'WONK' 1; }
   .lede { font-size: clamp(16px, 1.6vw, 20px); color: var(--ink-2); max-width: 40ch; margin: 0; }
   .note { font-size: 12.5px; color: var(--ink-3); max-width: 60ch; }
@@ -85,8 +125,25 @@
   .g3 { grid-template-columns: repeat(3, minmax(0,1fr)); }
   .g4 { grid-template-columns: repeat(4, minmax(0,1fr)); }
 
-  .tile { border: 1px solid var(--line); border-radius: 14px; padding: 18px; display: flex; flex-direction: column; gap: 8px; }
-  .tile svg { color: var(--accent); }
+  .tile {
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 20px;
+    display: flex; flex-direction: column; gap: 9px;
+    background: color-mix(in srgb, var(--ground) 55%, transparent);
+  }
+  .slide--tint .tile { background: color-mix(in srgb, var(--ground) 62%, transparent); }
+  .slide--accent .tile { background: color-mix(in srgb, #000 8%, transparent); border-color: color-mix(in srgb, var(--on-accent) 26%, transparent); }
+  .slide--accent .tile span { color: color-mix(in srgb, var(--on-accent) 82%, transparent); }
+  .tile > svg:first-child {
+    color: var(--accent);
+    background: var(--tint);
+    border-radius: 10px;
+    padding: 7px;
+    width: 38px; height: 38px;
+    box-sizing: content-box;
+  }
+  .slide--accent .tile > svg:first-child { color: var(--on-accent); background: color-mix(in srgb, #000 12%, transparent); }
   .tile b { font-family: var(--serif); font-weight: 600; font-size: 17px; }
   .tile span { font-size: 13.5px; color: var(--ink-2); line-height: 1.45; }
 
@@ -112,7 +169,9 @@
   .chips { display: flex; flex-wrap: wrap; gap: 8px; }
   .chip { border: 1px solid currentColor; border-radius: 999px; padding: 6px 14px; font-size: 13.5px; display: inline-flex; gap: 8px; align-items: center; }
   .chip--soft { border-color: var(--line); }
-  .chip--soon { border-style: dashed; opacity: .7; }
+  .chip--soon { border-style: dashed; border-color: var(--gold); color: var(--gold); }
+  .slide--accent .chip--soon { border-color: color-mix(in srgb, var(--on-accent) 60%, transparent); color: color-mix(in srgb, var(--on-accent) 78%, transparent); }
+  .no svg { color: var(--gold); }
 
   .list { display: flex; flex-direction: column; gap: 10px; }
   .list div { display: flex; gap: 11px; align-items: flex-start; font-size: 14.5px; line-height: 1.45; }
@@ -212,7 +271,8 @@
 
 <main class="deck">
 
-  <section class="slide slide--accent" id="s1">
+  <section class="slide slide--accent slide--cover" id="s1">
+    <svg class="cover-mark" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="#i-loop"/></svg>
     <div class="eyebrow">Campus circular economy · August 2026</div>
     <h1>BetterBarter</h1>
     <p class="lede">Campus reuse, counted.</p>
@@ -226,6 +286,7 @@
   </section>
 
   <section class="slide" id="s2">
+    <div class="num">02</div>
     <div class="eyebrow">The problem</div>
     <h2>A campus bins a year in a week, then buys it back.</h2>
     <div class="grid g3">
@@ -242,6 +303,7 @@
   </section>
 
   <section class="slide slide--tint" id="s3">
+    <div class="num">03</div>
     <div class="eyebrow">The year</div>
     <h2>Discarding and buying are the same curve, eight weeks apart.</h2>
     <div class="season">
@@ -269,6 +331,7 @@
   </section>
 
   <section class="slide" id="s4">
+    <div class="num">04</div>
     <div class="eyebrow">Why it persists</div>
     <h2>Reuse fails on friction, not willingness.</h2>
     <div class="grid g3">
@@ -291,6 +354,7 @@
   </section>
 
   <section class="slide slide--tint" id="s5">
+    <div class="num">05</div>
     <div class="eyebrow">The product</div>
     <h2>Four ways to keep an object in use. One tap that counts it.</h2>
     <div class="grid g4">
@@ -302,6 +366,7 @@
   </section>
 
   <section class="slide" id="s6">
+    <div class="num">06</div>
     <div class="eyebrow">Measured</div>
     <h2>Three levels, never blurred.</h2>
     <div class="ladder">
@@ -317,6 +382,7 @@
   </section>
 
   <section class="slide slide--tint" id="s7">
+    <div class="num">07</div>
     <div class="eyebrow">Hierarchy</div>
     <h2>Reuse is the top rung. Campus programmes work two rungs down.</h2>
     <div class="ladder">
@@ -329,6 +395,7 @@
   </section>
 
   <section class="slide" id="s8">
+    <div class="num">08</div>
     <div class="eyebrow">Logistics</div>
     <h2>No van, so no transport to subtract.</h2>
     <div class="bars">
@@ -349,6 +416,7 @@
   </section>
 
   <section class="slide slide--tint" id="s9">
+    <div class="num">09</div>
     <div class="eyebrow">Scale</div>
     <h2>Same arithmetic, four sizes.</h2>
     <div class="bars">
@@ -361,6 +429,7 @@
   </section>
 
   <section class="slide" id="s10">
+    <div class="num">10</div>
     <div class="eyebrow">Market</div>
     <h2>TAM · SAM · SOM, counted two ways.</h2>
     <div class="grid g2">
@@ -385,6 +454,7 @@
   </section>
 
   <section class="slide slide--tint" id="s11">
+    <div class="num">11</div>
     <div class="eyebrow">Money</div>
     <h2>Charged before a deal exists, never on the object.</h2>
     <div class="grid g3">
@@ -395,6 +465,7 @@
   </section>
 
   <section class="slide" id="s12">
+    <div class="num">12</div>
     <div class="eyebrow">Where we are</div>
     <h2>Working product, pre-pilot — and we will not dress that up.</h2>
     <div class="grid g2">
@@ -415,6 +486,7 @@
   </section>
 
   <section class="slide slide--accent" id="s13">
+    <div class="num">13</div>
     <div class="eyebrow">Team &amp; ask</div>
     <h2>One campus, one term, and a number nobody takes on faith.</h2>
     <div class="grid g3">

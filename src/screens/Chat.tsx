@@ -149,7 +149,7 @@ export function Chat({ h }: { h: Barter }) {
                     background: 'transparent',
                     cursor: 'pointer',
                     padding: 2,
-                    color: n <= stars ? 'var(--color-accent)' : 'color-mix(in srgb, var(--color-text) 30%, transparent)',
+                    color: n <= stars ? 'var(--color-signal)' : 'color-mix(in srgb, var(--color-text) 30%, transparent)',
                   }}
                 >
                   <Star size={26} strokeWidth={1.9} fill={n <= stars ? 'currentColor' : 'none'} />
