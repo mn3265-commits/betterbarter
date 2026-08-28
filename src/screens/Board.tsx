@@ -198,7 +198,7 @@ export function Board({ h }: { h: SwapUp }) {
                 ['sale', 'For sale'],
                 ['trade', 'For swap'],
                 ['rent', 'For rent'],
-                ['wanted', 'Wanted'],
+                ['wanted', 'Looking for'],
               ] as const
             ).map(([key, label]) => (
               <label key={key} className="seg-opt" style={{ flex: 1, justifyContent: 'center', whiteSpace: 'nowrap' }}>
@@ -236,7 +236,7 @@ export function Board({ h }: { h: SwapUp }) {
         {h.tab === 'wanted' && (
           <div style={{ padding: '14px 16px 0' }}>
             <p style={{ fontSize: 12, opacity: 0.65, margin: '0 0 12px', textWrap: 'pretty' }}>
-              Wanted posts run the board in reverse: buyers say what they need, and the board stays full even when the
+              This is the board in reverse: say what you are looking for, and the board stays useful even when the
               shelves are empty.
             </p>
 

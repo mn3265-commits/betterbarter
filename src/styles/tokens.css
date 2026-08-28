@@ -212,6 +212,10 @@ textarea.input { min-height: 90px; resize: vertical; }
   font-size: 13px;
   cursor: pointer;
 }
+/* Inside the app the control carries five options in a phone-width column, so
+   it is sized to fit rather than to scroll. A media query cannot see that — the
+   column is narrow even when the window is not — so this is unconditional. */
+.screen .seg-opt { padding: 6px 9px; font-size: 12.25px; }
 .seg-opt + .seg-opt { border-left: 1px solid var(--color-divider); }
 .seg-opt:has(input:checked) { background: var(--color-accent); color: var(--color-bg); }
 .seg-opt:not(:has(input:checked)):hover { background: color-mix(in srgb, var(--color-text) 7%, transparent); }

@@ -55,7 +55,7 @@ const SEGMENTS: [string, string][] = [
   ['For sale', 'Cheap, and settled between the two of you. The app never touches the money.'],
   ['For rent — opening soon', 'One drill can serve a whole floor. Lending needs a second meeting to bring the thing back, so it is announced rather than live: on the board, marked, and switched on once returns are handled properly.'],
   ['For swap', 'Your heater for their fan. Two objects stay in use, and neither of you buys anything.'],
-  ['Wanted', 'The board in reverse: say what you need before you buy it new.'],
+  ['Looking for', 'The board in reverse: say what you need before you buy it new, and let the person holding it find you.'],
   ['Needs a hand', 'A fridge is not a one-person object. Students with an hour and a trolley carry it, paid directly — no van, no company.'],
 ]
 

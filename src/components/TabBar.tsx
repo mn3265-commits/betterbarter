@@ -37,7 +37,7 @@ export function TabBar({ h }: { h: SwapUp }) {
   return (
     <div className="tabbar">
       {tabButton(h.jumpBrowse, cBrowse, <Search size={21} strokeWidth={1.8} />, 'Board')}
-      {tabButton(h.jumpWanted, cWanted, <List size={21} strokeWidth={1.8} />, 'Wanted')}
+      {tabButton(h.jumpWanted, cWanted, <List size={21} strokeWidth={1.8} />, 'Looking')}
       <button
         onClick={h.startPost}
         style={{
