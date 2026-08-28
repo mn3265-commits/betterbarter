@@ -6,7 +6,7 @@ import { IOSDevice } from './components/IOSDevice'
 import { Toast } from './components/Toast'
 import { Notes } from './Notes'
 import { useAuth } from './lib/useAuth'
-import { useSwapUp, type SwapUp, type LiveContext } from './lib/useSwapUp'
+import { useBarter, type Barter, type LiveContext } from './lib/useBarter'
 import { Board } from './screens/Board'
 import { Chat } from './screens/Chat'
 import { Chats } from './screens/Chats'
@@ -22,7 +22,7 @@ import { HowItWorks } from './screens/HowItWorks'
 
 const CONFIG = { moveOutBanner: false, defaultTab: 'free' as const }
 
-function CurrentScreen({ h }: { h: SwapUp }) {
+function CurrentScreen({ h }: { h: Barter }) {
   switch (h.screen) {
     case 'rules':
       return <Rules mode="read" campus={h.campusName} onClose={h.jumpMe} />
@@ -59,7 +59,7 @@ function Splash() {
       style={{ background: 'var(--color-accent)', color: 'var(--color-bg)', padding: '74px 26px 46px' }}
     >
       <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 600, fontSize: 60, lineHeight: 1.02, letterSpacing: '-.015em' }}>
-        SwapUp
+        BetterBarter
       </div>
     </div>
   )
@@ -80,7 +80,7 @@ function NotEnrolled({ email, onSignOut }: { email: string | null; onSignOut: ()
         That account is not on a campus we run yet.
       </div>
       <p style={{ fontSize: 15, lineHeight: 1.4, margin: '18px 0 0', maxWidth: '28ch' }}>
-        {email ? <b>{email}</b> : 'That address'} is not a verified school email for an enrolled campus. SwapUp is
+        {email ? <b>{email}</b> : 'That address'} is not a verified school email for an enrolled campus. BetterBarter is
         trialing at Columbia — sign in with your <b>@columbia.edu</b> account.
       </p>
       <div style={{ marginTop: 'auto' }}>
@@ -135,7 +135,7 @@ function LiveApp() {
     [p, auth.refreshProfile, auth.signOut],
   )
 
-  const h = useSwapUp(CONFIG, live)
+  const h = useBarter(CONFIG, live)
 
   // The installed app's "Post something" shortcut opens on /app?post=1.
   const wantsPost = typeof window !== 'undefined' && new URLSearchParams(window.location.search).has('post')
@@ -188,7 +188,7 @@ function LiveApp() {
 /** The design-reference presentation: phone frame + rationale column, always on
  *  seed data so the whole flow is walkable without an account. */
 function Showcase() {
-  const h = useSwapUp({ moveOutBanner: true, defaultTab: 'free' })
+  const h = useBarter({ moveOutBanner: true, defaultTab: 'free' })
   return (
     <div className="stage">
       <Notes h={h} />

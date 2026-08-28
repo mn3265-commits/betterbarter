@@ -49,7 +49,7 @@ export function HowItWorks({ onDone, doneLabel = 'Go to the board' }: { onDone: 
   return (
     <div className="screen">
       <AppHeader
-        title="How SwapUp works"
+        title="How BetterBarter works"
         action={
           <button onClick={onDone} className="btn btn-ghost" style={{ fontSize: 12 }}>
             Skip

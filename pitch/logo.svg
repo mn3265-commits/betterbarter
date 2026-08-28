@@ -1,5 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 220" width="700" height="220">
-  <rect width="700" height="220" fill="none"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 220" width="980" height="220">
+  <rect width="980" height="220" fill="none"/>
   <g fill="none" stroke="#1c7a4f" stroke-width="16" stroke-linecap="square">
     <path d="M46 110a52 52 0 0 1 89-37"/>
     <path d="M150 110a52 52 0 0 1-89 37"/>
@@ -9,5 +9,5 @@
   <text x="196" y="146"
         font-family="Fraunces, Georgia, serif" font-size="104" font-weight="600"
         font-variation-settings="'SOFT' 80, 'WONK' 1, 'opsz' 120"
-        letter-spacing="-2" fill="#1c7a4f">SwapUp</text>
+        letter-spacing="-2" fill="#1c7a4f">BetterBarter</text>
 </svg>

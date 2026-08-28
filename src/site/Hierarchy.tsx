@@ -27,7 +27,7 @@ export function Hierarchy() {
           <div key={title} className={'hier__rung' + (ours ? ' is-ours' : '')} style={{ width: 100 - i * 12 + '%' }}>
             <div className="hier__title">
               {title}
-              {ours && <span className="hier__badge">SwapUp is here</span>}
+              {ours && <span className="hier__badge">BetterBarter is here</span>}
             </div>
             <div className="hier__body">{body}</div>
           </div>

@@ -1,12 +1,12 @@
 import { useState } from 'react'
 import { ArrowRight } from 'lucide-react'
 import type { Auth } from '../lib/useAuth'
-import type { SwapUp } from '../lib/useSwapUp'
+import type { Barter } from '../lib/useBarter'
 
 /** Gate (sign-in): states the one thing that makes the product different.
  *  With a live backend it offers Google (LionMail) sign-in plus a magic-link
  *  fallback; without one it's the demo. */
-export function Gate({ h, auth }: { h: SwapUp; auth?: Auth }) {
+export function Gate({ h, auth }: { h: Barter; auth?: Auth }) {
   const live = Boolean(auth?.configured)
   const [gBusy, setGBusy] = useState(false)
   const [err, setErr] = useState<string | null>(null)
@@ -46,7 +46,7 @@ export function Gate({ h, auth }: { h: SwapUp; auth?: Auth }) {
       </div>
       <div style={{ height: 2, background: 'var(--color-bg)', opacity: 0.5, margin: '14px 0 22px' }} />
       <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 600, fontSize: 60, lineHeight: 1.02, letterSpacing: '-.015em' }}>
-        SwapUp
+        BetterBarter
       </div>
       <p style={{ fontSize: 17, lineHeight: 1.35, margin: '20px 0 0', maxWidth: '24ch' }}>
         Give away, sell, lend or swap what you are done with — to someone in your own building.

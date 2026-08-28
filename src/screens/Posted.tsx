@@ -1,7 +1,7 @@
-import type { SwapUp } from '../lib/useSwapUp'
+import type { Barter } from '../lib/useBarter'
 
 /** Posted (confirmation). Full-bleed accent field, same construction as the Gate. */
-export function Posted({ h }: { h: SwapUp }) {
+export function Posted({ h }: { h: Barter }) {
   return (
     <div
       className="screen"

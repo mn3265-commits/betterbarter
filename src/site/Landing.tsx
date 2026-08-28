@@ -111,7 +111,7 @@ const WHY: [string, string][] = [
   ],
   [
     'Counted at the object, not the truck',
-    'Drives report weight after the fact, in aggregate. SwapUp records one confirmed event per object, with its category — so the number is auditable from the bottom up.',
+    'Drives report weight after the fact, in aggregate. BetterBarter records one confirmed event per object, with its category — so the number is auditable from the bottom up.',
   ],
   [
     'Verified people, so reuse is not risky',
@@ -159,11 +159,11 @@ const FAQ: [string, string][] = [
   ],
   [
     'Who is responsible if a borrowed thing breaks?',
-    'The two of you. SwapUp holds no deposit, no escrow and no insurance, and it will not decide who broke what — lend what you can afford to lose, agree the return date in the thread, and bring things back in the state you got them. That is in the community rules every account agrees to.',
+    'The two of you. BetterBarter holds no deposit, no escrow and no insurance, and it will not decide who broke what — lend what you can afford to lose, agree the return date in the thread, and bring things back in the state you got them. That is in the community rules every account agrees to.',
   ],
   [
     'Does it cost anything?',
-    'No. Free things are free, sold things are paid between the two of you however you already pay each other. SwapUp takes no cut and holds no money.',
+    'No. Free things are free, sold things are paid between the two of you however you already pay each other. BetterBarter takes no cut and holds no money.',
   ],
   [
     'Where do we actually meet?',
@@ -354,7 +354,7 @@ export function Landing() {
         <div className="site__wrap site__bar-in">
           <div className="site__mark">
             <LoopMark size={19} />
-            SwapUp
+            BetterBarter
           </div>
           <span className="tag tag-outline">Circular economy · For universities</span>
           <a className="site__bar-link" href="#how">
@@ -378,7 +378,7 @@ export function Landing() {
       <section className="site__hero">
         <div className="site__wrap">
           <div className="site__kicker">Campus circular economy · Any university, one board each</div>
-          <h1>SwapUp</h1>
+          <h1>BetterBarter</h1>
           <p className="site__lede">
             Keep the things your campus already owns in use — and count every object that stayed out of the landfill.
           </p>
@@ -631,7 +631,7 @@ export function Landing() {
                 the rules are removed; accounts that break them lose posting and claiming.
               </p>
               <p>
-                Anything illegal is a matter for Public Safety or the police, not for us — and SwapUp keeps the
+                Anything illegal is a matter for Public Safety or the police, not for us — and BetterBarter keeps the
                 conversation so there is a record of what was agreed.
               </p>
             </div>
@@ -691,7 +691,7 @@ export function Landing() {
       <section className="site__section">
         <Reveal>
         <div className="site__wrap">
-          <div className="site__kicker">What SwapUp is not</div>
+          <div className="site__kicker">What BetterBarter is not</div>
           <h2>The things left off the board, on purpose.</h2>
           <table className="site__not">
             <tbody>
@@ -741,7 +741,7 @@ export function Landing() {
 
       <footer className="site__wrap site__foot">
         <span>
-          SwapUp — campus reuse, counted · Any university, one board each · Built by Agung Nugroho and Tessa Wong ·
+          BetterBarter — campus reuse, counted · Any university, one board each · Built by Agung Nugroho and Tessa Wong ·
           impact model v{MODEL_VERSION}, displacement {DISPLACEMENT}.
         </span>
         <a href="/about">About</a>

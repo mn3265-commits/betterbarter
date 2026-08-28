@@ -1,5 +1,5 @@
 /**
- * The SwapUp impact model — how a confirmed handoff becomes a circularity
+ * The BetterBarter impact model — how a confirmed handoff becomes a circularity
  * number, and how much of that number is measured versus estimated.
  *
  * The rule this file exists to enforce: **never dress an estimate up as a

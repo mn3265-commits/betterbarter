@@ -7,18 +7,18 @@ Written to be pasted straight into the form. Nothing here claims a user, a
 partner or a number the project does not have — what is missing is stated as
 missing, which reads better to a judge than a figure they can puncture.
 
-> **Product name:** currently **SwapUp** everywhere (site, app, PDF, deck, logo).
-> Alternatives under discussion: BetterBarter, ButterBarter, BetterBanter. A
-> rename is one pass through the codebase plus a re-render of the PDF, deck and
-> logo — decide before submitting, not after.
+> **Product name: BetterBarter**, decided 27 August and applied everywhere —
+> site, app, manifest, PDF, deck and logo. `betterbarter.com` is taken;
+> `betterbarter.app` ($9.99/yr) and `betterbarter.co` ($29.99/yr) are available
+> if you want the URL to match the name before this is submitted.
 
 ## Files to upload
 
 | Form field | File | Status |
 | --- | --- | --- |
-| Project introduction document *(required)* | `pitch/SwapUp-SEE-THE-FUTURE-2026.pdf` | ✅ 3 pages |
+| Project introduction document *(required)* | `pitch/BetterBarter-SEE-THE-FUTURE-2026.pdf` | ✅ 3 pages |
 | Supporting upload *(the form takes 5)* | the published pitch deck, 12 slides | ✅ link below |
-| Company logo *(optional)* | `pitch/SwapUp-logo.png` (1000×270), `pitch/logo.svg`, `pitch/logomark.svg` | ✅ |
+| Company logo *(optional)* | `pitch/BetterBarter-logo.png` (1000×270), `pitch/logo.svg`, `pitch/logomark.svg` | ✅ |
 
 Still needed from you: **phone number**, **LinkedIn URL**, and **Tessa's role and
 background** — which appears in four places: this form, the PDF, the deck and the
@@ -54,11 +54,11 @@ groups. Use those words if that is how you actually work.*
 
 ## Startup / Project Name
 
-**SwapUp**
+**BetterBarter**
 
 ## One-Sentence Project Description (max 30 words)
 
-> SwapUp is a verified campus reuse board where students give, sell or swap what
+> BetterBarter is a verified campus reuse board where students give, sell or swap what
 > they already own — and every confirmed handoff is measured. *(24 words)*
 
 ## Focus areas
@@ -299,7 +299,7 @@ product.
 | Company / Project website | https://handoff-bay-two.vercel.app |
 | Repository | https://github.com/mn3265-commits/handoff |
 | LinkedIn Profile | `[FILL]` |
-| Company Logo | `pitch/SwapUp-logo.png` |
+| Company Logo | `pitch/BetterBarter-logo.png` |
 
 **One thing to decide:** the live URL still says `handoff-bay-two`, because the
 product was renamed after it was deployed. A judge who clicks it lands on a page

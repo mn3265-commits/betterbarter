@@ -1,7 +1,7 @@
 import { CategoryIcon } from '../components/CategoryIcon'
 import { AppBody, AppFooter, AppHeader } from '../components/Shell'
 import { CATEGORIES, CONDITIONS, KIND_STATUS } from '../lib/taxonomy'
-import type { SwapUp } from '../lib/useSwapUp'
+import type { Barter } from '../lib/useBarter'
 
 /**
  * Post, step 2 — the listing itself.
@@ -17,10 +17,10 @@ import type { SwapUp } from '../lib/useSwapUp'
  * the fast path stays about twenty seconds, and the slow path is a form that
  * knows what it wants.
  */
-export function Post2({ h }: { h: SwapUp }) {
+export function Post2({ h }: { h: Barter }) {
   const f = h.form
   const blocked = h.ruleHits.some((x) => x.level === 'blocked')
-  const kinds: [SwapUp['form']['kind'], string][] = [
+  const kinds: [Barter['form']['kind'], string][] = [
     ['free', 'Give it away'],
     ['sale', 'Sell it'],
     ['trade', 'Swap it'],

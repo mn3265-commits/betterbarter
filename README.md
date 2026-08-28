@@ -1,4 +1,4 @@
-# SwapUp
+# BetterBarter
 
 A campus give-away & resale board — v1, trialing at Columbia.
 
@@ -24,7 +24,7 @@ avoided-production credit, because nobody outside the two students can say a
 purchase was truly prevented.
 
 What stays cut is the part that made trade and rent dangerous in v1: deposits,
-escrow and damage adjudication. SwapUp still holds no money and settles no
+escrow and damage adjudication. BetterBarter still holds no money and settles no
 disputes — a rental is two students and a promise, like every other handoff
 here, and the community rules say so in the text every account agrees to.
 
@@ -49,7 +49,7 @@ whole factor table from this file, so the page and the model cannot drift.
 
 | Path | What it is |
 | --- | --- |
-| `/` | The public site — what SwapUp is, how a handoff works, the impact model, the rules, the FAQ. Sendable to someone who has never heard of it. |
+| `/` | The public site — what BetterBarter is, how a handoff works, the impact model, the rules, the FAQ. Sendable to someone who has never heard of it. |
 | `/about` | The vision: a self-sufficient community that cares about people and planet — where it came from, what it refuses to be talked out of, and who is building it. |
 | `/app` | The product. Sign-in gate, board, chat, posting, Me. |
 | `/?showcase` | The original design walkthrough: phone frame, scope notes, seed data, no account needed. |
@@ -83,7 +83,7 @@ the bezel ships — the app is only what is inside the frame.
 
 Screen state is a single enum (`gate | browse | detail | claim | chat | chats |
 post1 | post2 | posted | me`). All state and behavior live in one hook
-(`src/lib/useSwapUp.ts`), split from the screens the way a production app would
+(`src/lib/useBarter.ts`), split from the screens the way a production app would
 split by feature.
 
 - **Gate** — the one thing that makes the product different (school-email
@@ -114,7 +114,7 @@ tap, and never block posting on a field.**
 ```
 src/
   data/          seed listings, wanted posts, spots, the signed-in user, types
-  lib/           parse.ts (paragraph → listing) and useSwapUp.ts (all state)
+  lib/           parse.ts (paragraph → listing) and useBarter.ts (all state)
   components/    IOSDevice, TabBar, Switch, Toast — shared building blocks
   screens/       one file per screen
   styles/        tokens.css (the Modernist design system) + app.css (the shell)

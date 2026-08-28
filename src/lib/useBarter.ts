@@ -18,7 +18,7 @@ import { CATEGORIES, CONDITIONS, KINDS_ENABLED, MAX_PHOTOS, toCategory, toCondit
 import { contactWarning, findContactInfo } from './contact'
 import { checkListing, RULES_VERSION, type RuleHit } from './rules'
 
-export interface SwapUpConfig {
+export interface BarterConfig {
   moveOutBanner: boolean
   defaultTab: Tab
 }
@@ -60,7 +60,7 @@ const EMPTY_ITEM: Item = {
   desc: '',
 }
 
-export function useSwapUp(config: SwapUpConfig, live?: LiveContext) {
+export function useBarter(config: BarterConfig, live?: LiveContext) {
   const isLive = Boolean(live)
 
   // The profile arrives after the first render, so this initial value is very
@@ -109,7 +109,7 @@ export function useSwapUp(config: SwapUpConfig, live?: LiveContext) {
   const [draftMsg, setDraftMsg] = useState('')
   const [activeThreadId, setActiveThreadId] = useState<string | null>(null)
   // Demo-mode stand-in for the two confirmations (live mode reads the thread).
-  const [demoSwapUp, setDemoHandoff] = useState({ myDone: false, theirDone: false, completed: false })
+  const [demoBetterBarter, setDemoHandoff] = useState({ myDone: false, theirDone: false, completed: false })
   const [confirming, setConfirming] = useState(false)
 
   /**
@@ -469,13 +469,13 @@ export function useSwapUp(config: SwapUpConfig, live?: LiveContext) {
   // ── the handoff confirmation loop ──────────────────────────────────────────
   /** What the chat shows: my tap, their tap, and whether it has been counted. */
   const handoffState = useMemo(() => {
-    if (!isLive) return demoSwapUp
+    if (!isLive) return demoBetterBarter
     return {
       myDone: activeThread?.myDone ?? false,
       theirDone: activeThread?.theirDone ?? false,
       completed: activeThread?.completed ?? false,
     }
-  }, [isLive, demoSwapUp, activeThread])
+  }, [isLive, demoBetterBarter, activeThread])
 
   /**
    * Tap "handed off" (or undo it, while the other side has not answered). The
@@ -1277,4 +1277,4 @@ export function useSwapUp(config: SwapUpConfig, live?: LiveContext) {
   }
 }
 
-export type SwapUp = ReturnType<typeof useSwapUp>
+export type Barter = ReturnType<typeof useBarter>

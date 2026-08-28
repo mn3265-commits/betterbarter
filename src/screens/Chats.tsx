@@ -1,10 +1,10 @@
 import { Check } from 'lucide-react'
 import { AppBody, AppHeader } from '../components/Shell'
 import { TabBar } from '../components/TabBar'
-import type { SwapUp } from '../lib/useSwapUp'
+import type { Barter } from '../lib/useBarter'
 
 /** Chats list — tab 4. One row per thread, or an empty state. */
-export function Chats({ h }: { h: SwapUp }) {
+export function Chats({ h }: { h: Barter }) {
   // In demo mode there is one synthetic thread; live mode lists real ones.
   const rows = h.live
     ? h.threads

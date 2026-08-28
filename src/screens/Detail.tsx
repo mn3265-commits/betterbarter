@@ -2,10 +2,10 @@ import { Check } from 'lucide-react'
 import { Photo } from '../components/Photo'
 import { CategoryIcon } from '../components/CategoryIcon'
 import { AppBody, AppHeader } from '../components/Shell'
-import type { SwapUp } from '../lib/useSwapUp'
+import type { Barter } from '../lib/useBarter'
 
 /** Detail (a listing): decide whether to claim/ask, and see who you would meet. */
-export function Detail({ h }: { h: SwapUp }) {
+export function Detail({ h }: { h: Barter }) {
   const d0 = h.item(h.selId)
   const isGone = h.gone.includes(d0.id)
   const mine = Boolean(d0.mine)

@@ -1,5 +1,5 @@
 /**
- * Keeping the conversation inside SwapUp.
+ * Keeping the conversation inside BetterBarter.
  *
  * Two people who have never met arrange to hand something over. The only
  * protection either of them has is that the arrangement is on the record: if a
@@ -78,7 +78,7 @@ export function findContactInfo(text: string): ContactHit[] {
   if (!EMAIL.test(t) && HANDLE.test(t)) {
     hits.push({
       kind: 'handle',
-      why: 'Social handles are not allowed. Keep the arrangement in SwapUp, where both accounts are verified.',
+      why: 'Social handles are not allowed. Keep the arrangement in BetterBarter, where both accounts are verified.',
     })
   }
 

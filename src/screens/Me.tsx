@@ -4,10 +4,10 @@ import { Switch } from '../components/Switch'
 import { TabBar } from '../components/TabBar'
 import { averageItem, co2eLabel, kgLabel } from '../lib/impact'
 import { AppBody, AppHeader } from '../components/Shell'
-import type { SwapUp } from '../lib/useSwapUp'
+import type { Barter } from '../lib/useBarter'
 
 /** Me — tab 5. Identity, the day-7 decisions, paused items, listings, toggles. */
-export function Me({ h }: { h: SwapUp }) {
+export function Me({ h }: { h: Barter }) {
   const staleMine = h.staleListings
   const paused = h.pausedListings
   const mine = h.myListings
@@ -347,13 +347,13 @@ export function Me({ h }: { h: SwapUp }) {
 
         {/* help */}
         <div style={{ padding: '0 16px 16px' }}>
-          <h6 style={{ margin: '0 0 10px' }}>Using SwapUp</h6>
+          <h6 style={{ margin: '0 0 10px' }}>Using BetterBarter</h6>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 2, background: 'var(--color-divider)' }}>
             <button
               onClick={() => h.go('how')}
               style={{ background: 'var(--color-bg)', border: 0, padding: '13px 0', textAlign: 'left', cursor: 'pointer', font: 'inherit' }}
             >
-              <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 600, fontSize: 14 }}>How SwapUp works</div>
+              <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 600, fontSize: 14 }}>How BetterBarter works</div>
               <div style={{ fontSize: 11.5, opacity: 0.6 }}>Posting, claiming, and meeting up — in four screens.</div>
             </button>
             <button
