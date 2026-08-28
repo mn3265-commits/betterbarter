@@ -39,7 +39,7 @@ export const RULES: RuleSection[] = [
       'Post the thing in front of you, photograph it as it is, and name the flaws. "Works, one dent" is a better listing than "like new". If it is gone, mark it gone — a board full of things that already left is a dead board.',
   },
   {
-    title: 'Keep the conversation in Handoff',
+    title: 'Keep the conversation in SwapUp',
     body:
       'Do not swap phone numbers, email addresses, social handles or room numbers, and do not move the arrangement to another app. The thread here is the only record of what the two of you agreed, and both accounts behind it are verified — that is the entire reason this is safer than meeting someone from a public marketplace. Messages containing contact details will not send.',
   },
@@ -51,7 +51,7 @@ export const RULES: RuleSection[] = [
   {
     title: 'Lending and swapping are between you two',
     body:
-      'Handoff holds no deposit, no escrow and no insurance, and it will not decide who broke what. If you lend something, lend what you can afford to lose and agree the return date in the thread. If you borrow something, bring it back on time and in the state you got it. If you swap, both sides describe their thing honestly — a swap is two listings, not one.',
+      'SwapUp holds no deposit, no escrow and no insurance, and it will not decide who broke what. If you lend something, lend what you can afford to lose and agree the return date in the thread. If you borrow something, bring it back on time and in the state you got it. If you swap, both sides describe their thing honestly — a swap is two listings, not one.',
   },
   {
     title: 'Show up, or say you cannot',

@@ -1,14 +1,14 @@
 import { ArrowRight } from 'lucide-react'
 import { SPOTS, WINDOWS } from '../data/seed'
 import { AppBody, AppFooter, AppHeader } from '../components/Shell'
-import type { Handoff } from '../lib/useHandoff'
+import type { SwapUp } from '../lib/useSwapUp'
 
 /**
  * Claim / meetup (modal): agree on a public place without either person
  * revealing where they live. The app enforces a rule, not a curated list —
  * the named spots come from that campus's own accumulated handoffs.
  */
-export function Claim({ h }: { h: Handoff }) {
+export function Claim({ h }: { h: SwapUp }) {
   const d0 = h.item(h.selId)
   const first = (d0.seller || 'them').split(' ')[0]
   const kind = h.kindOf(d0)

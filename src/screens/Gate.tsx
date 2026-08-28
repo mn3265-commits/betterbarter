@@ -1,32 +1,15 @@
 import { useState } from 'react'
 import { ArrowRight } from 'lucide-react'
 import type { Auth } from '../lib/useAuth'
-import type { Handoff } from '../lib/useHandoff'
+import type { SwapUp } from '../lib/useSwapUp'
 
 /** Gate (sign-in): states the one thing that makes the product different.
  *  With a live backend it offers Google (LionMail) sign-in plus a magic-link
  *  fallback; without one it's the demo. */
-export function Gate({ h, auth }: { h: Handoff; auth?: Auth }) {
+export function Gate({ h, auth }: { h: SwapUp; auth?: Auth }) {
   const live = Boolean(auth?.configured)
-  const [email, setEmail] = useState('')
-  const [sent, setSent] = useState(false)
-  const [busy, setBusy] = useState(false)
   const [gBusy, setGBusy] = useState(false)
   const [err, setErr] = useState<string | null>(null)
-
-  async function send() {
-    if (!auth || !email.trim()) return
-    setBusy(true)
-    setErr(null)
-    try {
-      await auth.signIn(email)
-      setSent(true)
-    } catch (e) {
-      setErr(e instanceof Error ? e.message : 'Could not send the link. Try again.')
-    } finally {
-      setBusy(false)
-    }
-  }
 
   async function google() {
     if (!auth) return
@@ -63,7 +46,7 @@ export function Gate({ h, auth }: { h: Handoff; auth?: Auth }) {
       </div>
       <div style={{ height: 2, background: 'var(--color-bg)', opacity: 0.5, margin: '14px 0 22px' }} />
       <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 600, fontSize: 60, lineHeight: 1.02, letterSpacing: '-.015em' }}>
-        Handoff
+        SwapUp
       </div>
       <p style={{ fontSize: 17, lineHeight: 1.35, margin: '20px 0 0', maxWidth: '24ch' }}>
         Give away, sell, lend or swap what you are done with — to someone in your own building.
@@ -91,9 +74,11 @@ export function Gate({ h, auth }: { h: Handoff; auth?: Auth }) {
           Sign in with your university email. Your school gets its own board — if it has no board yet, yours opens it.
         </div>
 
-        {live && !sent ? (
+        {live ? (
           <>
-            {/* Primary: one-tap university Google sign-in. */}
+            {/* One way in: the university's own single sign-on. An email link
+                was a second door with weaker proof, and every account here is
+                only as trustworthy as the login behind it. */}
             <button
               onClick={() => void google()}
               disabled={gBusy}
@@ -102,8 +87,8 @@ export function Gate({ h, auth }: { h: Handoff; auth?: Auth }) {
                 background: 'var(--color-bg)',
                 color: 'var(--color-accent-700)',
                 borderRadius: 'var(--radius-md)',
-                fontFamily: 'var(--font-heading)',
-                fontWeight: 600,
+                fontFamily: 'var(--font-body)',
+                fontWeight: 700,
                 fontSize: 16,
                 padding: '16px 18px',
                 textAlign: 'left',
@@ -115,83 +100,14 @@ export function Gate({ h, auth }: { h: Handoff; auth?: Auth }) {
                 opacity: gBusy ? 0.6 : 1,
               }}
             >
-              <span>{gBusy ? 'Opening Google…' : 'Continue with Google'}</span>
+              <span>{gBusy ? 'Opening single sign-on…' : 'Sign in with your university account'}</span>
               <ArrowRight size={20} strokeWidth={2} />
             </button>
-
-            {/* Secondary: magic-link fallback. */}
-            <div style={{ fontSize: 11, opacity: 0.75, marginTop: 2 }}>or use your school email</div>
-            <input
-              className="input"
-              type="email"
-              inputMode="email"
-              autoCapitalize="none"
-              autoCorrect="off"
-              placeholder="you@your-university.edu"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter') void send()
-              }}
-              style={{
-                background: 'color-mix(in srgb, var(--color-bg) 16%, transparent)',
-                border: '1.5px solid color-mix(in srgb, var(--color-bg) 50%, transparent)', borderRadius: 'var(--radius-md)',
-                color: 'var(--color-bg)',
-                caretColor: 'var(--color-bg)',
-                minHeight: 46,
-                fontSize: 15,
-              }}
-            />
-            <button
-              onClick={() => void send()}
-              disabled={busy || !email.trim()}
-              style={{
-                border: '1.5px solid var(--color-bg)', borderRadius: 'var(--radius-md)',
-                background: 'transparent',
-                color: 'var(--color-bg)',
-                fontFamily: 'var(--font-heading)',
-                fontWeight: 600,
-                fontSize: 14,
-                padding: '12px 16px',
-                textAlign: 'left',
-                cursor: busy ? 'default' : 'pointer',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                width: '100%',
-                opacity: busy || !email.trim() ? 0.6 : 1,
-              }}
-            >
-              <span>{busy ? 'Sending…' : 'Email me a login link'}</span>
-              <ArrowRight size={18} strokeWidth={2} />
-            </button>
-            {err && <div style={{ fontSize: 12, opacity: 0.95 }}>{err}</div>}
-          </>
-        ) : live && sent ? (
-          <>
-            <div style={{ border: '1.5px solid var(--color-bg)', borderRadius: 'var(--radius-md)', padding: '14px 16px', fontSize: 15, lineHeight: 1.4 }}>
-              Check <b>{email}</b> for a login link. Open it on this device and you are in.
+            <div style={{ fontSize: 11.5, opacity: 0.8, lineHeight: 1.45 }}>
+              We never see a password: your university signs you in, and we only learn that the address is real and
+              which campus it belongs to.
             </div>
-            <button
-              onClick={() => {
-                setSent(false)
-                setErr(null)
-              }}
-              style={{
-                border: '1.5px solid var(--color-bg)', borderRadius: 'var(--radius-md)',
-                background: 'transparent',
-                color: 'var(--color-bg)',
-                fontFamily: 'var(--font-heading)',
-                fontWeight: 600,
-                fontSize: 14,
-                padding: '11px 16px',
-                textAlign: 'left',
-                cursor: 'pointer',
-                width: '100%',
-              }}
-            >
-              Back
-            </button>
+            {err && <div style={{ fontSize: 12, opacity: 0.95 }}>{err}</div>}
           </>
         ) : (
           <>

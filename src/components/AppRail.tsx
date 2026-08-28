@@ -1,6 +1,6 @@
 import { List, MessageSquare, Plus, Search, User } from 'lucide-react'
 import { LoopMark } from '../site/LoopMark'
-import type { Handoff } from '../lib/useHandoff'
+import type { SwapUp } from '../lib/useSwapUp'
 
 /**
  * The desktop navigation rail. It is the bottom tab bar, stood up: same five
@@ -8,7 +8,7 @@ import type { Handoff } from '../lib/useHandoff'
  * them beside the board instead of under it. Hidden below 1000px, where the tab
  * bar takes over.
  */
-export function AppRail({ h }: { h: Handoff }) {
+export function AppRail({ h }: { h: SwapUp }) {
   const isBoard = h.screen === 'browse'
   const items: [boolean, () => void, React.ReactNode, string][] = [
     [isBoard && h.tab !== 'wanted', h.jumpBrowse, <Search size={19} strokeWidth={1.9} />, 'Board'],
@@ -21,7 +21,7 @@ export function AppRail({ h }: { h: Handoff }) {
     <nav className="app-rail">
       <a className="app-rail__mark" href="/">
         <LoopMark size={20} />
-        Handoff
+        SwapUp
       </a>
 
       <button className="app-rail__post" onClick={h.startPost}>

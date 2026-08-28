@@ -14,10 +14,11 @@ import type {
 } from '../data/types'
 import * as api from './api'
 import { parseListing } from './parse'
+import { CATEGORIES, CONDITIONS, KINDS_ENABLED, MAX_PHOTOS, toCategory, toCondition } from './taxonomy'
 import { contactWarning, findContactInfo } from './contact'
 import { checkListing, RULES_VERSION, type RuleHit } from './rules'
 
-export interface HandoffConfig {
+export interface SwapUpConfig {
   moveOutBanner: boolean
   defaultTab: Tab
 }
@@ -57,7 +58,7 @@ const EMPTY_ITEM: Item = {
   desc: '',
 }
 
-export function useHandoff(config: HandoffConfig, live?: LiveContext) {
+export function useSwapUp(config: SwapUpConfig, live?: LiveContext) {
   const isLive = Boolean(live)
 
   // The profile arrives after the first render, so this initial value is very
@@ -102,8 +103,38 @@ export function useHandoff(config: HandoffConfig, live?: LiveContext) {
   const [draftMsg, setDraftMsg] = useState('')
   const [activeThreadId, setActiveThreadId] = useState<string | null>(null)
   // Demo-mode stand-in for the two confirmations (live mode reads the thread).
-  const [demoHandoff, setDemoHandoff] = useState({ myDone: false, theirDone: false, completed: false })
+  const [demoSwapUp, setDemoHandoff] = useState({ myDone: false, theirDone: false, completed: false })
   const [confirming, setConfirming] = useState(false)
+
+  /**
+   * The listing form.
+   *
+   * The paragraph still does the first pass — nobody should have to fill in
+   * eight fields to give away a lamp — but what gets posted is now the fields,
+   * because a board is only searchable if two people describing the same object
+   * land in the same category. Anything the person edits themselves is
+   * remembered as `touched` and never overwritten by a later parse.
+   */
+  const [form, setForm] = useState({
+    brand: '',
+    item: '',
+    category: 'Others' as (typeof CATEGORIES)[number],
+    condition: 'Lightly Used' as (typeof CONDITIONS)[number],
+    dimensions: '',
+    description: '',
+    kind: 'free' as Item['kind'],
+    price: 10,
+    tradeFor: '',
+    rentRate: 5,
+    rentPeriod: 'week',
+    spot: '',
+  })
+  const [touched, setTouched] = useState<Record<string, boolean>>({})
+
+  const setField = useCallback(<K extends keyof typeof form>(key: K, value: (typeof form)[K]) => {
+    setForm((prev) => ({ ...prev, [key]: value }))
+    setTouched((prev) => ({ ...prev, [key]: true }))
+  }, [])
 
   const [photo, setPhoto] = useState(false)
   const [photoFile, setPhotoFile] = useState<File | null>(null)
@@ -355,6 +386,25 @@ export function useHandoff(config: HandoffConfig, live?: LiveContext) {
     [postText, oTitle, oPrice, oFree, oSpot, spotName],
   )
 
+  // Every keystroke in the paragraph refills the fields the person has not
+  // edited. Fields they have edited are theirs.
+  useEffect(() => {
+    if (!postText.trim()) return
+    setForm((prev) => ({
+      ...prev,
+      item: touched.item ? prev.item : parse.title,
+      category: touched.category ? prev.category : toCategory(parse.cat),
+      condition: touched.condition ? prev.condition : toCondition(parse.cond),
+      kind: touched.kind ? prev.kind : KINDS_ENABLED[parse.kind] ? parse.kind : 'sale',
+      price: touched.price ? prev.price : parse.price,
+      tradeFor: touched.tradeFor ? prev.tradeFor : parse.tradeFor,
+      rentRate: touched.rentRate ? prev.rentRate : parse.rentRate,
+      rentPeriod: touched.rentPeriod ? prev.rentPeriod : parse.rentPeriod,
+      spot: touched.spot ? prev.spot : prev.spot || parse.spot,
+      description: touched.description ? prev.description : prev.description,
+    }))
+  }, [postText, parse, touched])
+
   const resetOverrides = useCallback(() => {
     setOTitle(null)
     setOPrice(null)
@@ -408,13 +458,13 @@ export function useHandoff(config: HandoffConfig, live?: LiveContext) {
   // ── the handoff confirmation loop ──────────────────────────────────────────
   /** What the chat shows: my tap, their tap, and whether it has been counted. */
   const handoffState = useMemo(() => {
-    if (!isLive) return demoHandoff
+    if (!isLive) return demoSwapUp
     return {
       myDone: activeThread?.myDone ?? false,
       theirDone: activeThread?.theirDone ?? false,
       completed: activeThread?.completed ?? false,
     }
-  }, [isLive, demoHandoff, activeThread])
+  }, [isLive, demoSwapUp, activeThread])
 
   /**
    * Tap "handed off" (or undo it, while the other side has not answered). The
@@ -582,8 +632,17 @@ export function useHandoff(config: HandoffConfig, live?: LiveContext) {
     setRuleHits([])
     setRuleOverride(false)
     setNeedsHelp(false)
+    setTouched({})
+    setForm((prev) => ({
+      ...prev,
+      brand: '',
+      item: '',
+      dimensions: '',
+      description: '',
+      spot: live?.preferredSpot ?? prev.spot,
+    }))
     setToast(null)
-  }, [resetOverrides])
+  }, [resetOverrides, live])
 
   /** Real camera/library pick. Demo mode still fakes it with one tap. */
   const pickPhoto = useCallback(
@@ -631,7 +690,21 @@ export function useHandoff(config: HandoffConfig, live?: LiveContext) {
   )
 
   const publish = useCallback(() => {
-    const p = parse
+    // What gets posted is the form. The paragraph was how it got filled in.
+    const title = [form.brand.trim(), form.item.trim()].filter(Boolean).join(' - ') || 'Untitled thing'
+    const p = {
+      ...parse,
+      title,
+      kind: form.kind,
+      price: form.price,
+      tradeFor: form.tradeFor,
+      rentRate: form.rentRate,
+      rentPeriod: form.rentPeriod,
+      cat: form.category,
+      cond: form.condition,
+      spot: form.spot || parse.spot,
+      free: form.kind === 'free',
+    }
 
     // Nothing dangerous or illegal goes on the board. Blocked matches cannot be
     // overridden; ambiguous ones can, once the person has read why.
@@ -703,7 +776,9 @@ export function useHandoff(config: HandoffConfig, live?: LiveContext) {
           condition: p.cond,
           spotName: p.spot,
           building: live.building ?? '',
-          description: postText.trim(),
+          description: [form.description.trim(), form.dimensions.trim() && `Size: ${form.dimensions.trim()}`]
+            .filter(Boolean)
+            .join('\n\n') || postText.trim(),
           photoPath: path,
         })
         await api.bumpSpot(live.campusId, p.spot)
@@ -721,7 +796,7 @@ export function useHandoff(config: HandoffConfig, live?: LiveContext) {
         setBusy(false)
       }
     })()
-  }, [parse, isLive, live, extra.length, postText, photoFile, ruleOverride, refreshBoard, fail])
+  }, [parse, form, needsHelp, isLive, live, extra.length, postText, photoFile, ruleOverride, refreshBoard, fail])
 
   // ── claim ──────────────────────────────────────────────────────────────────
   const confirmClaim = useCallback(() => {
@@ -1093,6 +1168,10 @@ export function useHandoff(config: HandoffConfig, live?: LiveContext) {
     setWantedDraft,
     needsHelp,
     setNeedsHelp,
+    form,
+    setField,
+    maxPhotos: MAX_PHOTOS,
+    kindsEnabled: KINDS_ENABLED,
 
     // helpers
     all,
@@ -1150,4 +1229,4 @@ export function useHandoff(config: HandoffConfig, live?: LiveContext) {
   }
 }
 
-export type Handoff = ReturnType<typeof useHandoff>
+export type SwapUp = ReturnType<typeof useSwapUp>

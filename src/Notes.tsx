@@ -1,4 +1,4 @@
-import type { Handoff } from './lib/useHandoff'
+import type { SwapUp } from './lib/useSwapUp'
 
 const CUT = [
   ['Payments', 'The handoff happens in a lobby, on Venmo. You cannot see it, so you cannot charge it.'],
@@ -10,7 +10,7 @@ const CUT = [
 const EARNS = [
   ['Photo, then a paragraph', 'No form — the app reads price and category out of your words'],
   ['Spot rules, not a spot list', 'Students name the place; never a room'],
-  ['Handoff count', 'Reputation as credit history'],
+  ['SwapUp count', 'Reputation as credit history'],
   ['Mark as gone', 'Dead listings kill a board'],
   ['Wanted posts', 'A full board with zero inventory'],
   ['Four ways to move it', 'Give, sell, lend, swap — one board, one confirmation'],
@@ -21,11 +21,11 @@ const EARNS = [
  * The left-hand design-rationale column. Not part of the product — presentation
  * only — but it carries the scope story and the "walk the flow" jump buttons.
  */
-export function Notes({ h }: { h: Handoff }) {
+export function Notes({ h }: { h: SwapUp }) {
   return (
     <div className="notes">
       <div className="notes__kicker">Scope · v1 · Columbia trial</div>
-      <h1>Handoff</h1>
+      <h1>SwapUp</h1>
       <p className="notes__lede">
         A handoff board for one campus. You post what you are done with, someone else on campus takes it — nearest
         first. Verified by school email — that is the whole product. Every campus is its own board, and the first one is

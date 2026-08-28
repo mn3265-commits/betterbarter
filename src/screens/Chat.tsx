@@ -1,11 +1,11 @@
 import { ArrowRight, Check } from 'lucide-react'
 import { AppBody, AppFooter, AppHeader } from '../components/Shell'
-import type { Handoff } from '../lib/useHandoff'
+import type { SwapUp } from '../lib/useSwapUp'
 
 const CHIPS = ['On my way', 'Can I come at 7?', 'Still available?']
 
 /** Chat (thread): finish the arrangement, with the meetup already written down. */
-export function Chat({ h }: { h: Handoff }) {
+export function Chat({ h }: { h: SwapUp }) {
   const t = h.activeThread
   const fallback = h.item(h.selId)
   const name = t?.otherName ?? fallback.seller
@@ -36,7 +36,7 @@ export function Chat({ h }: { h: Handoff }) {
         {/* pinned handoff card — the meetup, then the confirmation loop */}
         <div style={{ border: '1px solid var(--color-divider)', borderRadius: 'var(--radius-lg)', padding: '11px 12px' }}>
           <div style={{ fontSize: 10, letterSpacing: '.14em', textTransform: 'uppercase', color: 'var(--color-accent-700)' }}>
-            {completed ? 'Handed off' : 'Handoff scheduled'}
+            {completed ? 'Handed off' : 'SwapUp scheduled'}
           </div>
           <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 600, fontSize: 15, marginTop: 4 }}>{spot}</div>
           <div style={{ fontSize: 11.5, opacity: 0.65, marginTop: 2 }}>

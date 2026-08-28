@@ -2,11 +2,11 @@ import { ChevronRight } from 'lucide-react'
 import { Photo } from '../components/Photo'
 import { TabBar } from '../components/TabBar'
 import type { Item } from '../data/types'
-import type { Handoff } from '../lib/useHandoff'
+import type { SwapUp } from '../lib/useSwapUp'
 
 /** Walk time from the viewer's own hall. Same building = same door. */
 /** Board (the board) — tab 1. Scan what is available on campus right now. */
-export function Board({ h }: { h: Handoff }) {
+export function Board({ h }: { h: SwapUp }) {
   const q = h.q.trim().toLowerCase()
   const pool = h
     .all()
@@ -46,7 +46,7 @@ export function Board({ h }: { h: Handoff }) {
             marginRight: 'auto',
           }}
         >
-          Handoff
+          SwapUp
         </div>
         {h.campusLogo && (
           <img
@@ -193,13 +193,15 @@ export function Board({ h }: { h: Handoff }) {
           <div className="seg" style={{ minWidth: '100%', width: 'max-content' }}>
             {(
               [
-                ['free', 'Free'],
+                ['free', 'For free'],
                 ['sale', 'For sale'],
-                ['rent', 'Borrow'],
-                ['trade', 'Swap'],
+                ['trade', 'For trade'],
+                ['rent', 'For rent'],
                 ['wanted', 'Wanted'],
               ] as const
-            ).map(([key, label]) => (
+            )
+              .filter(([key]) => key === 'wanted' || key === 'free' || key === 'sale' || h.kindsEnabled[key as 'trade' | 'rent'])
+              .map(([key, label]) => (
               <label key={key} className="seg-opt" style={{ flex: 1, justifyContent: 'center', whiteSpace: 'nowrap' }}>
                 <input type="radio" name="hf-tab" checked={h.tab === key} onChange={() => h.setTab(key)} />
                 <span>{label}</span>
@@ -288,7 +290,7 @@ export function Board({ h }: { h: Handoff }) {
   )
 }
 
-function EmptyBoard({ h }: { h: Handoff }) {
+function EmptyBoard({ h }: { h: SwapUp }) {
   const searching = h.q.trim().length > 0
   return (
     <div style={{ padding: '32px 16px 0' }}>
@@ -317,7 +319,7 @@ function EmptyBoard({ h }: { h: Handoff }) {
   )
 }
 
-function ItemCard({ it, h }: { it: Item; h: Handoff }) {
+function ItemCard({ it, h }: { it: Item; h: SwapUp }) {
   const isGone = h.gone.includes(it.id)
   return (
     <div onClick={() => h.openDetail(it.id)} style={{ cursor: 'pointer', display: 'flex', flexDirection: 'column', gap: 7 }}>

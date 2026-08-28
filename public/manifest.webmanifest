@@ -1,6 +1,6 @@
 {
-  "name": "Handoff — campus reuse, counted",
-  "short_name": "Handoff",
+  "name": "SwapUp — campus reuse, counted",
+  "short_name": "SwapUp",
   "description": "Give, sell, lend or swap what you already own — to someone in your own building. Every confirmed handoff is counted.",
   "start_url": "/app",
   "scope": "/",

@@ -1,5 +1,5 @@
 import { List, MessageSquare, Plus, Search, User } from 'lucide-react'
-import type { Handoff } from '../lib/useHandoff'
+import type { SwapUp } from '../lib/useSwapUp'
 
 const accent = 'var(--color-accent)'
 const dim = 'color-mix(in srgb, var(--color-text) 45%, transparent)'
@@ -27,7 +27,7 @@ function tabButton(onClick: () => void, color: string, icon: React.ReactNode, la
 }
 
 /** The 5-item bottom tab bar. Post is a solid accent rectangle, not an icon+label. */
-export function TabBar({ h }: { h: Handoff }) {
+export function TabBar({ h }: { h: SwapUp }) {
   const isBoard = h.screen === 'browse'
   const cBrowse = isBoard && h.tab !== 'wanted' ? accent : dim
   const cWanted = isBoard && h.tab === 'wanted' ? accent : dim

@@ -1,7 +1,7 @@
-import type { Handoff } from '../lib/useHandoff'
+import type { SwapUp } from '../lib/useSwapUp'
 
 /** Posted (confirmation). Full-bleed accent field, same construction as the Gate. */
-export function Posted({ h }: { h: Handoff }) {
+export function Posted({ h }: { h: SwapUp }) {
   return (
     <div
       className="screen"

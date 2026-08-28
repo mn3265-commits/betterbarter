@@ -1,194 +1,219 @@
-import type { EditField } from '../data/types'
 import { AppBody, AppFooter, AppHeader } from '../components/Shell'
-import type { Handoff } from '../lib/useHandoff'
+import { CATEGORIES, CONDITIONS } from '../lib/taxonomy'
+import type { SwapUp } from '../lib/useSwapUp'
 
 /**
- * Post, step 2 — one paragraph, no form (modal). The core interaction: the user
- * writes one paragraph and the app fills in name, price, category, condition,
- * meetup spot and pickup time. There are no required fields.
+ * Post, step 2 — the listing itself.
+ *
+ * The team's call on 26 August was a real form: category, condition, size,
+ * a [Brand] - [Item] title, a price path and a meetup place. A board is only
+ * searchable if two people describing the same object land in the same
+ * category, and that cannot be left to free text.
+ *
+ * What survives from the old design is the sentence at the top. Type "giving
+ * away my ikea desk lamp, barely used, front desk tonight" and the fields fill
+ * themselves in — anything you then edit is yours and is never overwritten. So
+ * the fast path stays about twenty seconds, and the slow path is a form that
+ * knows what it wants.
  */
-export function Post2({ h }: { h: Handoff }) {
-  const p = h.parse
-  // A blocked match cannot be posted at all, so the button says so.
+export function Post2({ h }: { h: SwapUp }) {
+  const f = h.form
   const blocked = h.ruleHits.some((x) => x.level === 'blocked')
-  const rows: { key: string; label: string; value: string; fixable: boolean }[] = [
-    { key: 'title', label: 'What it is', value: p.title, fixable: true },
-    {
-      key: 'price',
-      // One row, four possible readings — the app says back what it understood,
-      // including which of the four ways this object is moving.
-      label: p.kind === 'rent' ? 'To borrow' : p.kind === 'trade' ? 'Swap' : 'Price',
-      value:
-        p.kind === 'rent'
-          ? '$' + p.rentRate + ' a ' + p.rentPeriod + ' · it comes back to you'
-          : p.kind === 'trade'
-            ? p.tradeFor
-              ? 'For ' + p.tradeFor
-              : 'Open to offers'
-            : p.free
-              ? 'Free'
-              : '$' + p.price,
-      fixable: true,
-    },
-    { key: 'cat', label: 'Category', value: p.cat + ' · ' + p.cond, fixable: false },
-    { key: 'spot', label: 'Hand it off at', value: p.spot, fixable: true },
-    { key: 'when', label: 'When', value: p.when, fixable: false },
+  const kinds: [SwapUp['form']['kind'], string][] = [
+    ['free', 'For free'],
+    ['sale', 'For sale'],
+    ['trade', 'For trade'],
+    ['rent', 'For rent'],
   ]
-
-  const editLabel =
-    h.edit === 'price'
-      ? p.kind === 'rent'
-        ? 'Rate — a number is per week'
-        : p.kind === 'trade'
-          ? 'What you want for it'
-          : 'Price — a number, or the word free'
-      : h.edit === 'spot'
-        ? 'Name the spot'
-        : 'What it is'
-  const editValue = h.edit === 'price' ? (p.free ? 'free' : String(p.price)) : h.edit === 'spot' ? p.spot : p.title
 
   return (
     <div className="screen">
       <AppHeader kicker="Step 2 of 2" title="Say what it is" onBack={h.toStep1} />
 
       <AppBody>
-        <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
-          <div
-            className={h.photoPreview ? undefined : 'hatch-sm'}
-            style={{ width: 66, height: 66, flex: 'none', border: '1px solid var(--color-divider)', overflow: 'hidden' }}
-          >
-            {h.photoPreview && (
-              <img src={h.photoPreview} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'grayscale(1) contrast(1.08)' }} />
-            )}
-          </div>
-          <div style={{ fontSize: 12, opacity: 0.65, textWrap: 'pretty' }}>
-            Goes to everyone at {h.campusName || 'campus'}.{h.me.building ? ` People in ${h.me.building.split(' ')[0]} see it at the top.` : ''}
-          </div>
-        </div>
-        <hr className="hr" />
+        {/* the sentence, still doing the first pass */}
         <div className="field">
-          <label>Say it how you would text a friend</label>
+          <label>Say it how you would text a friend — the fields fill themselves in</label>
           <textarea
             className="input"
-            placeholder="giving away my ikea desk lamp, barely used, bulb still in it. leaving friday so grab it tonight at the front desk"
             value={h.postText}
             onChange={(e) => h.setPostText(e.target.value)}
-            style={{ minHeight: 118, lineHeight: 1.45 }}
+            placeholder="giving away my ikea desk lamp, barely used, bulb still in it. leaving friday so grab it tonight at the front desk"
+            style={{ minHeight: 84 }}
+          />
+          {!h.postText.trim() && (
+            <button onClick={h.useExample} className="btn btn-ghost" style={{ fontSize: 12.5, paddingInline: 0 }}>
+              Not typing? Use an example →
+            </button>
+          )}
+        </div>
+
+        <div className="app-hr" />
+
+        <div className="field">
+          <label>Brand (optional)</label>
+          <input className="input" value={f.brand} onChange={(e) => h.setField('brand', e.target.value)} placeholder="IKEA" />
+        </div>
+
+        <div className="field">
+          <label>What it is</label>
+          <input
+            className="input"
+            value={f.item}
+            onChange={(e) => h.setField('item', e.target.value)}
+            placeholder="Desk lamp"
+          />
+          <div className="field__hint">
+            Shows as <b>{[f.brand.trim(), f.item.trim()].filter(Boolean).join(' - ') || 'Untitled thing'}</b>
+          </div>
+        </div>
+
+        <div className="field">
+          <label>Category</label>
+          <select className="input" value={f.category} onChange={(e) => h.setField('category', e.target.value as never)}>
+            {CATEGORIES.map((c) => (
+              <option key={c} value={c}>
+                {c}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div className="field">
+          <label>Condition</label>
+          <select className="input" value={f.condition} onChange={(e) => h.setField('condition', e.target.value as never)}>
+            {CONDITIONS.map((c) => (
+              <option key={c} value={c}>
+                {c}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div className="field">
+          <label>Size or dimensions (if it matters)</label>
+          <input
+            className="input"
+            value={f.dimensions}
+            onChange={(e) => h.setField('dimensions', e.target.value)}
+            placeholder="5 × 7 ft, or 3.2 cu ft"
           />
         </div>
-        <button onClick={h.useExample} className="btn btn-ghost" style={{ marginTop: 2, fontSize: 12 }}>
-          Not typing? Use an example →
-        </button>
 
-        {!p.empty ? (
-          <>
-            <div style={{ marginTop: 16, border: '1px solid var(--color-divider)', borderRadius: 'var(--radius-lg)' }}>
-              <div
-                style={{
-                  padding: '9px 12px',
-                  background: 'var(--color-text)',
-                  color: 'var(--color-bg)',
-                  fontSize: 10,
-                  letterSpacing: '.14em',
-                  textTransform: 'uppercase',
-                }}
-              >
-                Filled in from what you wrote
-              </div>
-              <div style={{ display: 'flex', flexDirection: 'column' }}>
-                {rows.map((r) => (
-                  <div
-                    key={r.key}
-                    style={{
-                      display: 'flex',
-                      alignItems: 'baseline',
-                      gap: 10,
-                      padding: '10px 12px',
-                      borderTop: '1px solid var(--color-divider)',
-                    }}
-                  >
-                    <div style={{ width: 96, flex: 'none', fontSize: 11, letterSpacing: '.06em', textTransform: 'uppercase', opacity: 0.55 }}>
-                      {r.label}
-                    </div>
-                    <div style={{ flex: 1, fontFamily: 'var(--font-heading)', fontWeight: 600, fontSize: 14.5, lineHeight: 1.25 }}>
-                      {r.value}
-                    </div>
-                    {r.fixable && (
-                      <button onClick={() => h.setEdit(r.key as EditField)} className="btn btn-ghost" style={{ flex: 'none', fontSize: 12, padding: 0 }}>
-                        Fix
-                      </button>
-                    )}
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {h.edit && (
-              <div style={{ marginTop: 12, border: '1px solid var(--color-accent)', borderRadius: 'var(--radius-md)', padding: 12 }}>
-                <div className="field" style={{ margin: 0 }}>
-                  <label>{editLabel}</label>
-                  <input className="input" value={editValue} onChange={(e) => h.onEditValue(e.target.value)} />
-                </div>
-                <button onClick={() => h.setEdit(null)} className="btn btn-primary" style={{ marginTop: 10 }}>
-                  Looks right
+        {/* how it moves */}
+        <div className="field">
+          <label>How you are listing it</label>
+          <div className="app-choice">
+            {kinds
+              .filter(([k]) => h.kindsEnabled[k])
+              .map(([k, label]) => (
+                <button
+                  key={k}
+                  onClick={() => h.setField('kind', k)}
+                  className={'app-choice__opt' + (f.kind === k ? ' is-on' : '')}
+                >
+                  {label}
                 </button>
-              </div>
-            )}
+              ))}
+          </div>
+        </div>
 
-            <label
-              style={{
-                display: 'flex',
-                gap: 11,
-                alignItems: 'flex-start',
-                marginTop: 14,
-                border: '1px solid var(--color-divider)',
-                borderRadius: 'var(--radius-md)',
-                padding: '12px 13px',
-                cursor: 'pointer',
-              }}
-            >
-              <input
-                type="checkbox"
-                checked={h.needsHelp}
-                onChange={(e) => h.setNeedsHelp(e.target.checked)}
-                style={{ marginTop: 2, accentColor: 'var(--color-accent)' }}
-              />
-              <span>
-                <span style={{ fontFamily: 'var(--font-heading)', fontWeight: 600, fontSize: 14.5, display: 'block' }}>
-                  This needs two people or a trolley
-                </span>
-                <span style={{ fontSize: 12.5, opacity: 0.7, lineHeight: 1.45 }}>
-                  Students who carry things for a few dollars see it. No van, no company — someone on your campus with
-                  an hour, paid directly by whoever needs the help.
-                </span>
-              </span>
-            </label>
-
-            <p style={{ fontSize: 11.5, opacity: 0.6, margin: '12px 0 0', textWrap: 'pretty' }}>
-              Nothing above is a required field. Your paragraph is the listing — this is only what the app read out of it.
-            </p>
-          </>
-        ) : (
-          <p style={{ fontSize: 12.5, opacity: 0.6, margin: '16px 0 0', textWrap: 'pretty' }}>
-            Write a line or two and the price, category, condition and meetup spot fill themselves in below. No form.
-          </p>
+        {f.kind === 'sale' && (
+          <div className="field">
+            <label>How much</label>
+            <input
+              className="input"
+              type="number"
+              min={0}
+              value={f.price}
+              onChange={(e) => h.setField('price', Number(e.target.value))}
+            />
+          </div>
         )}
+
+        {f.kind === 'trade' && (
+          <div className="field">
+            <label>What you are looking for</label>
+            <input
+              className="input"
+              value={f.tradeFor}
+              onChange={(e) => h.setField('tradeFor', e.target.value)}
+              placeholder="a desk fan, or a kettle"
+            />
+          </div>
+        )}
+
+        {f.kind === 'rent' && (
+          <div style={{ display: 'flex', gap: 10 }}>
+            <div className="field" style={{ flex: 1 }}>
+              <label>How much</label>
+              <input
+                className="input"
+                type="number"
+                min={0}
+                value={f.rentRate}
+                onChange={(e) => h.setField('rentRate', Number(e.target.value))}
+              />
+            </div>
+            <div className="field" style={{ flex: 1 }}>
+              <label>For how long</label>
+              <select className="input" value={f.rentPeriod} onChange={(e) => h.setField('rentPeriod', e.target.value)}>
+                {['day', 'week', 'month', 'term'].map((x) => (
+                  <option key={x} value={x}>
+                    per {x}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+        )}
+
+        <div className="field">
+          <label>Description (optional)</label>
+          <textarea
+            className="input"
+            value={f.description}
+            onChange={(e) => h.setField('description', e.target.value)}
+            placeholder="Anything the photo does not show — a scratch, a missing cable, why you are letting it go."
+          />
+        </div>
+
+        <div className="field">
+          <label>Where you want to hand it over</label>
+          <input
+            className="input"
+            value={f.spot}
+            onChange={(e) => h.setField('spot', e.target.value)}
+            list="hf-spots"
+            placeholder="Butler Library entrance"
+          />
+          <datalist id="hf-spots">
+            {h.campusSpots.map((s) => (
+              <option key={s.name} value={s.name} />
+            ))}
+          </datalist>
+          <div className="field__hint">Somewhere public on campus. Never a room number.</div>
+        </div>
+
+        <label className="app-check">
+          <input type="checkbox" checked={h.needsHelp} onChange={(e) => h.setNeedsHelp(e.target.checked)} />
+          <span>
+            <b>This needs two people or a trolley</b>
+            <span>
+              Students who carry things for a few dollars see it. No van, no company — someone on your campus with an
+              hour, paid directly by whoever needs the help.
+            </span>
+          </span>
+        </label>
       </AppBody>
 
       {h.ruleHits.length > 0 && (
         <div style={{ borderTop: '1px solid var(--color-accent)', background: 'var(--color-accent-100)', padding: '13px 16px' }}>
-          <div style={{ fontSize: 10, letterSpacing: '.14em', textTransform: 'uppercase', color: 'var(--color-accent-800)' }}>
-            {h.ruleHits[0].level === 'blocked' ? 'Not allowed on the board' : 'Check this before you post'}
+          <div style={{ fontSize: 10, letterSpacing: '.12em', textTransform: 'uppercase', color: 'var(--color-accent-800)' }}>
+            {blocked ? 'Not allowed on the board' : 'Check this before you post'}
           </div>
-          <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 600, fontSize: 15, marginTop: 5, color: 'var(--color-accent-800)' }}>
-            This reads like {h.ruleHits.map((x) => x.label).join(', ')}.
-          </div>
-          {h.ruleHits.map((x) => (
-            <div key={x.label} style={{ fontSize: 12.5, color: 'var(--color-accent-800)', opacity: 0.85, marginTop: 4, textWrap: 'pretty' }}>
-              {x.why}
-            </div>
-          ))}
-          <div style={{ display: 'flex', gap: 8, marginTop: 12, flexWrap: 'wrap' }}>
+          <div style={{ fontSize: 13.5, lineHeight: 1.45, marginTop: 6 }}>{h.ruleHits[0].why}</div>
+          <div style={{ display: 'flex', gap: 8, marginTop: 10, flexWrap: 'wrap' }}>
             <button onClick={h.editAfterFlag} className="btn btn-primary">
               Edit my post
             </button>

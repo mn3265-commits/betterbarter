@@ -1,10 +1,10 @@
 import { Check } from 'lucide-react'
 import { Photo } from '../components/Photo'
 import { AppBody, AppHeader } from '../components/Shell'
-import type { Handoff } from '../lib/useHandoff'
+import type { SwapUp } from '../lib/useSwapUp'
 
 /** Detail (a listing): decide whether to claim/ask, and see who you would meet. */
-export function Detail({ h }: { h: Handoff }) {
+export function Detail({ h }: { h: SwapUp }) {
   const d0 = h.item(h.selId)
   const isGone = h.gone.includes(d0.id)
   const mine = Boolean(d0.mine)

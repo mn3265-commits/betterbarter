@@ -1,11 +1,11 @@
 import { useRef } from 'react'
 import { Camera } from 'lucide-react'
 import { AppBody, AppFooter, AppHeader } from '../components/Shell'
-import type { Handoff } from '../lib/useHandoff'
+import type { SwapUp } from '../lib/useSwapUp'
 
 /** Post, step 1 — photo. Get the photo in one tap: on a phone this opens the
  *  camera directly. */
-export function Post1({ h }: { h: Handoff }) {
+export function Post1({ h }: { h: SwapUp }) {
   const fileRef = useRef<HTMLInputElement>(null)
 
   const openPicker = () => {

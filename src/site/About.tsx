@@ -3,7 +3,7 @@ import { LoopMark } from './LoopMark'
 import '../styles/site.css'
 
 /**
- * `/about` — who is behind Handoff and what it is ultimately for.
+ * `/about` — who is behind SwapUp and what it is ultimately for.
  *
  * The vision is a self-sufficient community that cares about people and planet,
  * and the page is written to earn that sentence rather than assert it: what
@@ -69,7 +69,7 @@ export function About() {
         <div className="site__wrap site__bar-in">
           <a className="site__mark" href="/" style={{ textDecoration: 'none' }}>
             <LoopMark size={19} />
-            Handoff
+            SwapUp
           </a>
           <span className="tag tag-outline">Circular economy · For universities</span>
           <a className="site__bar-link" href="/#how">
@@ -118,7 +118,7 @@ export function About() {
               right path are different paths.
             </p>
             <p>
-              Handoff exists to make them the same path. One photo and one sentence, someone in your own building, an
+              SwapUp exists to make them the same path. One photo and one sentence, someone in your own building, an
               exchange in a lobby, and both of you confirming it happened. Everything else in the product — the
               verification, the three-hour hold, the day-seven check, the impact model — is scaffolding around that one
               moment.
@@ -166,7 +166,7 @@ export function About() {
           <h2>Two people, in the open.</h2>
           <div className="site__prose">
             <p>
-              Handoff is built by <b>Agung Nugroho</b> and <b>Tessa Wong</b> at Columbia University — the product, the
+              SwapUp is built by <b>Agung Nugroho</b> and <b>Tessa Wong</b> at Columbia University — the product, the
               interface, the database and the impact model. Small enough to move at the speed of one conversation, and
               close enough to the problem to be its own first users: both of us have carried something down a stairwell
               in May knowing it still worked.
@@ -207,7 +207,7 @@ export function About() {
       </section>
 
       <footer className="site__wrap site__foot">
-        <span>Handoff — campus reuse, counted · Any university, one board each · Built by Agung Nugroho and Tessa Wong.</span>
+        <span>SwapUp — campus reuse, counted · Any university, one board each · Built by Agung Nugroho and Tessa Wong.</span>
         <a href="/">Home</a>
         <a href={APP}>Open the board</a>
         <a href="https://github.com/mn3265-commits/handoff">Source &amp; model</a>
