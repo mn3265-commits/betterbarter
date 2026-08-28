@@ -1,3 +1,4 @@
+import { CategoryIcon } from '../components/CategoryIcon'
 import { AppBody, AppFooter, AppHeader } from '../components/Shell'
 import { CATEGORIES, CONDITIONS } from '../lib/taxonomy'
 import type { SwapUp } from '../lib/useSwapUp'
@@ -70,6 +71,10 @@ export function Post2({ h }: { h: SwapUp }) {
 
         <div className="field">
           <label>Category</label>
+          <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
+            <span style={{ color: 'var(--color-accent)' }}>
+              <CategoryIcon category={f.category} size={20} />
+            </span>
           <select className="input" value={f.category} onChange={(e) => h.setField('category', e.target.value as never)}>
             {CATEGORIES.map((c) => (
               <option key={c} value={c}>
@@ -77,6 +82,7 @@ export function Post2({ h }: { h: SwapUp }) {
               </option>
             ))}
           </select>
+          </div>
         </div>
 
         <div className="field">

@@ -1,5 +1,6 @@
 import { Check } from 'lucide-react'
 import { Photo } from '../components/Photo'
+import { CategoryIcon } from '../components/CategoryIcon'
 import { AppBody, AppHeader } from '../components/Shell'
 import type { SwapUp } from '../lib/useSwapUp'
 
@@ -69,7 +70,10 @@ export function Detail({ h }: { h: SwapUp }) {
           <h3 style={{ fontSize: 23, margin: '6px 0 10px', lineHeight: 1.12 }}>{d0.title}</h3>
           <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
             <span className="tag tag-neutral">{d0.cond}</span>
-            <span className="tag tag-neutral">{d0.cat}</span>
+            <span className="tag tag-neutral" style={{ display: 'inline-flex', gap: 6, alignItems: 'center' }}>
+              <CategoryIcon category={d0.cat} size={13} />
+              {d0.cat}
+            </span>
             {d0.loc && <span className="tag tag-outline">{d0.loc}</span>}
           </div>
           <hr className="hr" />

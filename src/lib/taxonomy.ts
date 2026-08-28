@@ -71,3 +71,17 @@ export function toCondition(value: string | undefined | null): Condition {
   if (v.includes('well') || v.includes('worn') || v.includes('scuff') || v.includes('dent')) return 'Well Used'
   return 'Lightly Used'
 }
+
+/**
+ * The icon each category wears, by lucide name. Categories are a fixed
+ * vocabulary now, so they can carry a fixed mark — which is what makes a board
+ * scannable at a glance rather than a wall of titles.
+ */
+export const CATEGORY_ICON: Record<Category, string> = {
+  'Textbooks & Course Materials': 'BookOpen',
+  Electronics: 'Laptop',
+  'Furniture & Dorm Essentials': 'Lamp',
+  'Fashion & Accessories': 'Shirt',
+  'Tickets & Events': 'Ticket',
+  Others: 'Package',
+}

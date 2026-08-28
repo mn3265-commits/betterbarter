@@ -1,5 +1,6 @@
 import { ChevronRight } from 'lucide-react'
 import { Photo } from '../components/Photo'
+import { CategoryIcon } from '../components/CategoryIcon'
 import { TabBar } from '../components/TabBar'
 import type { Item } from '../data/types'
 import type { SwapUp } from '../lib/useSwapUp'
@@ -366,7 +367,12 @@ function ItemCard({ it, h }: { it: Item; h: SwapUp }) {
         </div>
         <div style={{ fontSize: 10, opacity: 0.55, marginLeft: 'auto' }}>{it.ago}</div>
       </div>
-      <div style={{ fontSize: 13, lineHeight: 1.25 }}>{it.title}</div>
+      <div style={{ display: 'flex', gap: 7, alignItems: 'flex-start' }}>
+        <span style={{ color: 'var(--color-accent-700)', marginTop: 1 }}>
+          <CategoryIcon category={it.cat} size={14} />
+        </span>
+        <div style={{ fontSize: 13, lineHeight: 1.25 }}>{it.title}</div>
+      </div>
       <div style={{ fontSize: 10.5, opacity: 0.55 }}>
         {(() => {
           const km = h.distanceOf(it)

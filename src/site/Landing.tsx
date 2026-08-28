@@ -1,5 +1,18 @@
 import { useState } from 'react'
-import { ArrowRight, Check } from 'lucide-react'
+import {
+  ArrowRight,
+  BadgeCheck,
+  CalendarClock,
+  Camera,
+  Check,
+  Footprints,
+  HandHeart,
+  MapPin,
+  Repeat2,
+  ScanLine,
+  Sparkles,
+  Truck,
+} from 'lucide-react'
 import { RULES, RULES_SUMMARY } from '../lib/rules'
 import {
   CAR_KG_CO2E_PER_KM,
@@ -16,6 +29,7 @@ import {
 import { BarChart, type Row } from './BarChart'
 import { CountUp } from './CountUp'
 import { Hierarchy } from './Hierarchy'
+import { Seasonality } from './Seasonality'
 import { LoopMark } from './LoopMark'
 import { Reveal } from './Reveal'
 import '../styles/site.css'
@@ -50,6 +64,8 @@ const PROBLEM: [string, string, string][] = [
   ['1 week', 'in May', 'is when a residential campus throws out most of its year — all at once, into the same dumpsters.'],
 ]
 
+const STEP_ICONS = [Camera, ScanLine, MapPin, Check]
+
 const STEPS: [string, string, string][] = [
   [
     '01',
@@ -72,6 +88,8 @@ const STEPS: [string, string, string][] = [
     'That second tap is what turns an intention into a measured reuse event: one object, verified as kept in use, by two people who both said so. Every number on this page is built out of that one event.',
   ],
 ]
+
+const WHY_ICONS = [CalendarClock, HandHeart, Footprints, Truck, BadgeCheck, Repeat2, Sparkles]
 
 const WHY: [string, string][] = [
   [
@@ -398,7 +416,14 @@ export function Landing() {
               </div>
             ))}
           </div>
-          <p className="site__fine">
+          <h3 className="site__sub">The shape of a university year</h3>
+          <p className="site__fine" style={{ marginBottom: 4 }}>
+            Disposal and buying are the same curve, eight weeks apart, twice a year. Schematic rather than measured —
+            nobody has per-week discard data for a campus, because the thing that would produce it is the board itself.
+          </p>
+          <Seasonality />
+
+          <p className="site__fine" style={{ marginTop: 22 }}>
             US figures for 2018 from the EPA, linked in full under the method below. A single move-out week compresses a
             year of that curve into seven days on one campus.
           </p>
@@ -412,15 +437,21 @@ export function Landing() {
           <div className="site__kicker">How a handoff happens</div>
           <h2>Four steps, and the last one is what makes it measurable.</h2>
           <div className="site__steps">
-            {STEPS.map(([n, title, body]) => (
+            {STEPS.map(([n, title, body], i) => {
+              const Icon = STEP_ICONS[i]
+              return (
               <div key={n} className="site__step">
-                <div className="site__step-n">{n}</div>
+                <div className="site__step-n">
+                  <Icon size={22} strokeWidth={1.9} />
+                  <span>{n}</span>
+                </div>
                 <div>
                   <h3>{title}</h3>
                   <p>{body}</p>
                 </div>
               </div>
-            ))}
+              )
+            })}
           </div>
           <div className="site__segs">
             {SEGMENTS.map(([name, line]) => (
@@ -555,12 +586,18 @@ export function Landing() {
           <div className="site__kicker">Why a board, and not another donation drive</div>
           <h2>Reuse dies on logistics. A campus does not need any.</h2>
           <div className="site__grid">
-            {WHY.map(([title, body]) => (
+            {WHY.map(([title, body], i) => {
+              const Icon = WHY_ICONS[i % WHY_ICONS.length]
+              return (
               <div key={title} className="site__cell">
-                <b>{title}</b>
+                <b>
+                  <Icon size={17} strokeWidth={1.9} />
+                  {title}
+                </b>
                 <span>{body}</span>
               </div>
-            ))}
+              )
+            })}
           </div>
         </div>
         </Reveal>
