@@ -369,6 +369,9 @@ export function Landing() {
           <a className="site__bar-link" href="/about">
             About
           </a>
+          <a className="site__bar-link" href="/deck">
+            Deck
+          </a>
           <a className="btn btn-primary" href={APP}>
             Open the board
           </a>
@@ -745,6 +748,7 @@ export function Landing() {
           impact model v{MODEL_VERSION}, displacement {DISPLACEMENT}.
         </span>
         <a href="/about">About</a>
+        <a href="/deck">Pitch deck</a>
         <a href={APP}>Open the board</a>
         <a href="/?showcase">Design walkthrough</a>
         <a href="https://github.com/mn3265-commits/handoff">Source &amp; model</a>

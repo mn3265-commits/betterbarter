@@ -78,6 +78,9 @@ export function About() {
           <a className="site__bar-link" href="/#impact">
             Impact
           </a>
+          <a className="site__bar-link" href="/deck">
+            Deck
+          </a>
           <a className="btn btn-primary" href={APP}>
             Open the board
           </a>
@@ -209,6 +212,7 @@ export function About() {
       <footer className="site__wrap site__foot">
         <span>BetterBarter — campus reuse, counted · Any university, one board each · Built by Agung Nugroho and Tessa Wong.</span>
         <a href="/">Home</a>
+        <a href="/deck">Pitch deck</a>
         <a href={APP}>Open the board</a>
         <a href="https://github.com/mn3265-commits/handoff">Source &amp; model</a>
       </footer>
