@@ -1,6 +1,6 @@
 import { CategoryIcon } from '../components/CategoryIcon'
 import { AppBody, AppFooter, AppHeader } from '../components/Shell'
-import { CATEGORIES, CONDITIONS } from '../lib/taxonomy'
+import { CATEGORIES, CONDITIONS, KIND_STATUS } from '../lib/taxonomy'
 import type { SwapUp } from '../lib/useSwapUp'
 
 /**
@@ -24,7 +24,7 @@ export function Post2({ h }: { h: SwapUp }) {
     ['free', 'Give it away'],
     ['sale', 'Sell it'],
     ['trade', 'Swap it'],
-    ['rent', 'Lend it'],
+    ['rent', 'Rent it out'],
   ]
 
   return (
@@ -110,17 +110,23 @@ export function Post2({ h }: { h: SwapUp }) {
         <div className="field">
           <label>How you are listing it</label>
           <div className="app-choice">
-            {kinds
-              .filter(([k]) => h.kindsEnabled[k])
-              .map(([k, label]) => (
+            {kinds.map(([k, label]) => {
+              const soon = KIND_STATUS[k] === 'soon'
+              return (
                 <button
                   key={k}
-                  onClick={() => h.setField('kind', k)}
-                  className={'app-choice__opt' + (f.kind === k ? ' is-on' : '')}
+                  onClick={() =>
+                    soon
+                      ? h.flash('Lending opens once returns are handled properly. Everything else is live now.')
+                      : h.setField('kind', k)
+                  }
+                  className={'app-choice__opt' + (f.kind === k ? ' is-on' : '') + (soon ? ' is-soon' : '')}
                 >
                   {label}
+                  {soon && <span className="app-choice__soon">soon</span>}
                 </button>
-              ))}
+              )
+            })}
           </div>
         </div>
 

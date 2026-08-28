@@ -197,19 +197,40 @@ export function Board({ h }: { h: SwapUp }) {
                 ['free', 'For free'],
                 ['sale', 'For sale'],
                 ['trade', 'For swap'],
-                ['rent', 'Borrow'],
+                ['rent', 'For rent'],
                 ['wanted', 'Wanted'],
               ] as const
-            )
-              .filter(([key]) => key === 'wanted' || key === 'free' || key === 'sale' || h.kindsEnabled[key as 'trade' | 'rent'])
-              .map(([key, label]) => (
+            ).map(([key, label]) => (
               <label key={key} className="seg-opt" style={{ flex: 1, justifyContent: 'center', whiteSpace: 'nowrap' }}>
                 <input type="radio" name="hf-tab" checked={h.tab === key} onChange={() => h.setTab(key)} />
-                <span>{label}</span>
+                <span>
+                  {label}
+                  {key === 'rent' && <sup className="seg-soon">soon</sup>}
+                </span>
               </label>
             ))}
           </div>
         </div>
+
+        {/* lending: announced, not open */}
+        {h.tab === 'rent' && (
+          <div style={{ padding: '18px 16px 0' }}>
+            <div className="app-soon">
+              <div className="app-soon__tag">Not open yet</div>
+              <div className="app-soon__title">Lending is coming</div>
+              <p>
+                One drill can serve a whole floor, and a fridge for a summer beats buying one. Lending needs a second
+                meeting to bring the thing back, so we are finishing that properly before switching it on.
+              </p>
+              <button
+                onClick={() => h.flash('Noted. You will be the first told when lending opens.')}
+                className="btn btn-primary"
+              >
+                Tell me when it opens
+              </button>
+            </div>
+          </div>
+        )}
 
         {/* wanted list */}
         {h.tab === 'wanted' && (

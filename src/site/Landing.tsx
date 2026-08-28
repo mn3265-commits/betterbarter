@@ -51,10 +51,10 @@ import '../styles/site.css'
 const APP = '/app'
 
 const SEGMENTS: [string, string][] = [
-  ['Free', 'The thing that would otherwise go in a hallway or a dumpster. Someone on your floor takes it today.'],
+  ['For free', 'The thing that would otherwise go in a hallway or a dumpster. Someone on your floor takes it today.'],
   ['For sale', 'Cheap, and settled between the two of you. The app never touches the money.'],
-  ['Borrow', 'One drill can serve a whole floor. Lend it by the day or the week — it comes back to you.'],
-  ['Swap', 'Your heater for their fan. Two objects stay in use, and neither of you buys anything.'],
+  ['For rent — opening soon', 'One drill can serve a whole floor. Lending needs a second meeting to bring the thing back, so it is announced rather than live: on the board, marked, and switched on once returns are handled properly.'],
+  ['For swap', 'Your heater for their fan. Two objects stay in use, and neither of you buys anything.'],
   ['Wanted', 'The board in reverse: say what you need before you buy it new.'],
   ['Needs a hand', 'A fridge is not a one-person object. Students with an hour and a trolley carry it, paid directly — no van, no company.'],
 ]

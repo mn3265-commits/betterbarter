@@ -32,14 +32,33 @@ export type Condition = (typeof CONDITIONS)[number]
 export const MAX_PHOTOS = 4
 
 /**
- * Which ways of listing are open right now.
+ * Which ways of listing are open, and which are announced.
  *
- * Renting is built end to end, but it needs a second meeting to bring the thing
- * back, and Tessa's call on 26 August was to leave that out of the first
- * release rather than explain it to a first-time user. Flip the flag when the
- * board is busy enough for lending to be worth the extra step.
+ * Lending is built end to end, but it needs a second meeting to bring the thing
+ * back, and the team's call on 26 August was to keep that out of the first
+ * release. Hiding it entirely was the wrong way to do that: it made the product
+ * look like it had three ideas when it has four. So renting stays on the board,
+ * visibly, marked as not open yet — which also tells us who wants it before we
+ * finish it.
  */
-export const KINDS_ENABLED = { free: true, sale: true, trade: true, rent: false }
+export type KindStatus = 'live' | 'soon'
+
+export const KIND_STATUS: Record<'free' | 'sale' | 'trade' | 'rent', KindStatus> = {
+  free: 'live',
+  sale: 'live',
+  trade: 'live',
+  rent: 'soon',
+}
+
+export const isLiveKind = (kind: string) => KIND_STATUS[kind as 'free'] !== 'soon'
+
+/** Kept as a compatibility shim for anything still asking the old question. */
+export const KINDS_ENABLED = {
+  free: true,
+  sale: true,
+  trade: true,
+  rent: KIND_STATUS.rent === 'live',
+}
 
 /** The category the old free-text values map onto, so nothing already posted
  *  falls off the board when the vocabulary changes under it. */
