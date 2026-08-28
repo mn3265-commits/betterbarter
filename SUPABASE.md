@@ -20,6 +20,10 @@ viewer's campus, so a query can never cross the campus wall.
 
 Project: `gkqyaynukcrrewspekmf` · campus seeded: **Columbia** (`columbia.edu`).
 
+The schema lives in `supabase/migrations/` — all of it, through 0018. Those files
+were applied through the API rather than the CLI, so the numbering is local;
+`supabase/migrations/README.md` maps each one to the version the project recorded.
+
 ## What is live
 
 | Capability | Status |
@@ -130,12 +134,29 @@ Fixed in this pass, all verified against the live project:
 - **`listing-photos` did not exist.** Created public, 10 MB, images only, with
   read-for-all and write-only-inside-your-own-folder policies.
 
+- **Nothing rate-limited anything.** A signed-in account could insert as fast as
+  it liked. A `before insert` trigger now counts that account's own recent rows:
+  15 listings an hour, 20 messages a minute, 10 posts and 10 reports an hour, 20
+  carry offers an hour — set well above what a student does in a day and well
+  below what a script does in a minute. Verified by running it: the 16th listing
+  and the 21st message are both refused, with a sentence a person can read.
+- **The report button showed a toast and did nothing else,** while the community
+  rules promised it hid the account and flagged it for review. There is now a
+  `reports` table, a `blocks` table, and a `report_account()` RPC that does both
+  in one step — and the block is enforced inside the `listings_read` and
+  `wanted_read` policies, so a blocked person's things stop appearing whatever
+  the client does. Founders work the queue at `/ops` via `moderation_queue()`,
+  which is a separate function from `founder_metrics()` so the aggregate view
+  stays anonymous.
+
 Known gaps, in the order they will matter:
 
-1. No rate limiting on posting or messaging — a signed-in account can insert as
-   fast as it likes. Wants a trigger counting recent rows per user.
-2. The report button flashes a toast; there is no moderation queue behind it.
-3. No per-account storage quota, and no scanning of what is uploaded.
-4. Free plan has no backups. The Pro plan's daily backups are the first thing to
+1. No per-account storage quota, and no scanning of what is uploaded.
+2. Free plan has no backups. The Pro plan's daily backups are the first thing to
    buy when there is real data.
-5. No account-deletion flow.
+3. No account-deletion flow.
+4. A rate limit that counts surviving rows can be reset by deleting them. Fine
+   against noise, not against someone determined; a real counter would be its own
+   table. Revisit if it is ever actually abused.
+5. Nothing throttles sign-ups themselves — the campus wall (a verified academic
+   address) is doing that job alone.
