@@ -27,6 +27,7 @@ import {
   kgLabel,
 } from '../lib/impact'
 import { BarChart, type Row } from './BarChart'
+import { categoryColor } from '../components/CategoryIcon'
 import { CountUp } from './CountUp'
 import { Hierarchy } from './Hierarchy'
 import { Seasonality } from './Seasonality'
@@ -185,23 +186,22 @@ const FAQ: [string, string][] = [
 /** The assumed category mix, drawn as the material flow it is. */
 function MixBar() {
   const rows = Object.entries(MIX).sort((a, b) => b[1] - a[1])
-  const shades = ['#0d422c', '#115538', '#176a44', '#1c7a4f', '#2f9463', '#4aa87a', '#6fb890', '#a9d3ba', '#cfe6d8']
   return (
     <div className="site__mix">
       <div className="site__mixbar">
-        {rows.map(([cat, share], i) => (
+        {rows.map(([cat, share]) => (
           <div
             key={cat}
             className="site__mixbar-seg"
-            style={{ width: share * 100 + '%', background: shades[i % shades.length] }}
+            style={{ width: share * 100 + '%', background: categoryColor(cat) }}
             title={cat + ' · ' + Math.round(share * 100) + '%'}
           />
         ))}
       </div>
       <div className="site__mixkey">
-        {rows.map(([cat, share], i) => (
+        {rows.map(([cat, share]) => (
           <div key={cat}>
-            <i style={{ background: shades[i % shades.length] }} />
+            <i style={{ background: categoryColor(cat) }} />
             {cat} <b>{Math.round(share * 100)}%</b>
           </div>
         ))}
@@ -227,6 +227,7 @@ function HundredHandoffs() {
         label: c,
         value: one.kg * n,
         display: kgLabel(one.kg * n),
+        color: categoryColor(c),
         note: `${Math.round(n)} items × ${FACTORS[c].kg} kg`,
       }
     })
@@ -240,6 +241,7 @@ function HundredHandoffs() {
         label: c,
         value: one.co2e * n,
         display: co2eLabel(one.co2e * n),
+        color: categoryColor(c),
         note: `${FACTORS[c].efPerKg} kg CO₂e per kg, halved for displacement`,
       }
     })

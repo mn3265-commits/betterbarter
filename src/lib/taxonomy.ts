@@ -77,6 +77,23 @@ export function toCondition(value: string | undefined | null): Condition {
  * vocabulary now, so they can carry a fixed mark — which is what makes a board
  * scannable at a glance rather than a wall of titles.
  */
+/**
+ * A colour per category, in this exact order.
+ *
+ * Six hues that a colourblind reader can still tell apart — checked with the
+ * palette validator rather than by eye, adjacent-pair by adjacent-pair, at the
+ * order they actually appear in. Every use also carries the icon and the name,
+ * so colour is never the only thing carrying the meaning.
+ */
+export const CATEGORY_COLOR: Record<Category, string> = {
+  'Textbooks & Course Materials': '#1c7a4f',
+  Electronics: '#c2410c',
+  'Furniture & Dorm Essentials': '#1f6f9c',
+  'Fashion & Accessories': '#6b7a12',
+  'Tickets & Events': '#a3197a',
+  Others: '#5b53c9',
+}
+
 export const CATEGORY_ICON: Record<Category, string> = {
   'Textbooks & Course Materials': 'BookOpen',
   Electronics: 'Laptop',

@@ -84,18 +84,39 @@ export interface CategoryFactor {
  * every other parsed field.
  */
 export const FACTORS: Record<string, CategoryFactor> = {
-  Furniture: { kg: 12, efPerKg: 2.0, basis: 'Particleboard/wood desk, chair, shelf or rug; wood-panel furniture LCAs' },
-  Kitchen: { kg: 4, efPerKg: 5.0, basis: 'Kettle, pan, mini appliance; mixed metal and plastic' },
-  Tech: { kg: 2.5, efPerKg: 20.0, basis: 'Monitor, laptop, printer; electronics are emissions-dense per kilogram' },
-  Bike: { kg: 12, efPerKg: 4.0, basis: 'Steel/aluminium frame bicycle' },
-  Lamp: { kg: 1.5, efPerKg: 4.0, basis: 'Desk lamp; metal and plastic with a small driver board' },
-  Clothes: { kg: 0.6, efPerKg: 12.0, basis: 'Coat, boots or sweater; garment production is emissions-dense per kilogram' },
-  Books: { kg: 1.0, efPerKg: 1.5, basis: 'Textbook; paper and print' },
-  Supplies: { kg: 1.0, efPerKg: 3.0, basis: 'Storage box, rack, hangers; mixed plastic' },
-  Other: { kg: 2.0, efPerKg: 3.0, basis: 'Unclassified item; deliberately the most cautious pair in the table' },
+  'Textbooks & Course Materials': {
+    kg: 1.2,
+    efPerKg: 1.5,
+    basis: 'A textbook or a course reader; paper and print',
+  },
+  Electronics: {
+    kg: 2.5,
+    efPerKg: 20.0,
+    basis: 'Monitor, laptop, printer, kettle-sized appliance; emissions-dense per kilogram',
+  },
+  'Furniture & Dorm Essentials': {
+    kg: 8.0,
+    efPerKg: 2.5,
+    basis: 'Desk, chair, shelf, rug, lamp, storage; mostly wood panel, some metal and plastic',
+  },
+  'Fashion & Accessories': {
+    kg: 0.6,
+    efPerKg: 12.0,
+    basis: 'Coat, boots, sweater; garment production is emissions-dense per kilogram',
+  },
+  'Tickets & Events': {
+    kg: 0.05,
+    efPerKg: 1.0,
+    basis: 'A ticket weighs nothing. It is counted as a handoff and claims almost no mass, which is correct.',
+  },
+  Others: {
+    kg: 2.0,
+    efPerKg: 3.0,
+    basis: 'Unclassified; deliberately the most cautious pair in the table',
+  },
 }
 
-const FALLBACK = FACTORS.Other
+const FALLBACK = FACTORS.Others
 
 export interface Impact {
   /** Items whose handoff was confirmed by both people. Measured. */
@@ -141,15 +162,12 @@ export function impactOf(counts: Record<string, number>): Impact {
  * gets replaced by measured shares the moment the board has them.
  */
 export const MIX: Record<string, number> = {
-  Clothes: 0.2,
-  Furniture: 0.15,
-  Kitchen: 0.15,
-  Supplies: 0.15,
-  Books: 0.12,
-  Lamp: 0.08,
-  Tech: 0.08,
-  Other: 0.05,
-  Bike: 0.02,
+  'Furniture & Dorm Essentials': 0.34,
+  'Fashion & Accessories': 0.22,
+  'Textbooks & Course Materials': 0.18,
+  Electronics: 0.1,
+  Others: 0.11,
+  'Tickets & Events': 0.05,
 }
 
 /** One item of unknown category, priced at the assumed mix above. */

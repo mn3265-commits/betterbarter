@@ -6,6 +6,10 @@ export interface Row {
   value: number
   display: string
   note?: string
+  /** The category's own colour, when the row is a category. Length still
+   *  carries the magnitude; the hue only says which category it is, and the
+   *  label beside it says the same thing in words. */
+  color?: string
 }
 
 /**
@@ -38,6 +42,7 @@ export function BarChart({ rows, unit }: { rows: Row[]; unit: string }) {
               style={{
                 width: seen ? (r.value / max) * 100 + '%' : '0%',
                 transitionDelay: 60 + i * 45 + 'ms',
+                background: r.color,
               }}
             />
             <div className="chart__value">{r.display}</div>
