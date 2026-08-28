@@ -60,6 +60,10 @@ export const ME = {
   building: 'Carman 6',
   preferredSpot: 'Butler steps',
   carries: 3,
+  pronouns: 'they/them',
+  about: 'Third year, moving out in May. Happy to meet anywhere near Butler.',
+  rating: 4.9,
+  ratings: 12,
 }
 
 export const CAMPUS = 'Columbia'

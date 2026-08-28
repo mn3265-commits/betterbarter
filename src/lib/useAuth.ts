@@ -13,13 +13,15 @@ export interface Profile {
   approx_lng: number | null
   handoffs: number
   carries: number
+  pronouns: string | null
+  about: string | null
   no_shows: number
   read_only: boolean
   joined_at: string | null
 }
 
 const PROFILE_COLS =
-  'id, name, email, campus_id, building, preferred_spot, approx_lat, approx_lng, handoffs, carries, no_shows, read_only, joined_at'
+  'id, name, email, campus_id, building, preferred_spot, approx_lat, approx_lng, handoffs, carries, pronouns, about, no_shows, read_only, joined_at'
 
 /**
  * Supabase auth session + the signed-in user's profile (which carries their

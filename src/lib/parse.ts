@@ -62,6 +62,9 @@ export function parseListing(rawText: string, o: ParseOverrides): ParseResult {
 
   // Title: strip greetings and lead-ins, cut at first punctuation, keep 6 words.
   let title = t
+    // The price belongs in the price field, not in the name of the thing.
+    .replace(/\bfor\s*\$?\s?\d{1,4}\s?(dollars|bucks|usd)?\b/i, '')
+    .replace(/\$\s?\d{1,4}\b/g, '')
     .replace(/^(hi|hey|so)[,! ]+/i, '')
     .replace(/^(i am|i'm|im)\s+(selling|giving away|getting rid of)\s+(my|a|an|the)?\s*/i, '')
     .replace(/^(selling|giving away|free|getting rid of|anyone want)\s+(my|a|an|the)?\s*/i, '')

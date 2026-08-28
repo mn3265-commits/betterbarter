@@ -1,4 +1,5 @@
-import { ArrowRight, Check } from 'lucide-react'
+import { useState } from 'react'
+import { ArrowRight, Check, Star } from 'lucide-react'
 import { AppBody, AppFooter, AppHeader } from '../components/Shell'
 import type { SwapUp } from '../lib/useSwapUp'
 
@@ -14,6 +15,9 @@ export function Chat({ h }: { h: SwapUp }) {
   const window_ = t?.pickupWindow ?? h.win
   const first = name.split(' ')[0]
   const { myDone, theirDone, completed } = h.handoffState
+  const [stars, setStars] = useState(0)
+  const [note, setNote] = useState('')
+  const [rated, setRated] = useState(false)
 
   return (
     <div className="screen">
@@ -122,6 +126,56 @@ export function Chat({ h }: { h: SwapUp }) {
         {h.live && h.msgs.length <= 1 && (
           <div style={{ fontSize: 11.5, opacity: 0.55, textWrap: 'pretty' }}>
             {name.split(' ')[0]} gets this on their board. Replies show up here the moment they send one.
+          </div>
+        )}
+        {/* the last step of the flow: rate the person you just met */}
+        {completed && !rated && (
+          <div style={{ border: '1px solid var(--color-divider)', borderRadius: 'var(--radius-lg)', padding: '13px 14px' }}>
+            <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 600, fontSize: 15 }}>
+              How was {first}?
+            </div>
+            <div style={{ fontSize: 12.5, opacity: 0.7, marginTop: 2, lineHeight: 1.45 }}>
+              Showed up, described it honestly, easy to deal with? One tap. It is the only thing the next person has to
+              go on.
+            </div>
+            <div style={{ display: 'flex', gap: 6, marginTop: 11 }}>
+              {[1, 2, 3, 4, 5].map((n) => (
+                <button
+                  key={n}
+                  onClick={() => setStars(n)}
+                  aria-label={n + ' stars'}
+                  style={{
+                    border: 0,
+                    background: 'transparent',
+                    cursor: 'pointer',
+                    padding: 2,
+                    color: n <= stars ? 'var(--color-accent)' : 'color-mix(in srgb, var(--color-text) 30%, transparent)',
+                  }}
+                >
+                  <Star size={26} strokeWidth={1.9} fill={n <= stars ? 'currentColor' : 'none'} />
+                </button>
+              ))}
+            </div>
+            {stars > 0 && (
+              <div style={{ display: 'flex', gap: 8, marginTop: 11, alignItems: 'center' }}>
+                <input
+                  className="input"
+                  value={note}
+                  onChange={(e) => setNote(e.target.value)}
+                  placeholder="Anything worth saying (optional)"
+                />
+                <button
+                  onClick={() => {
+                    h.rateThread(stars, note)
+                    setRated(true)
+                  }}
+                  className="btn btn-primary"
+                  style={{ flex: 'none' }}
+                >
+                  Send
+                </button>
+              </div>
+            )}
           </div>
         )}
       </AppBody>

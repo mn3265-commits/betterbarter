@@ -86,6 +86,7 @@ export interface Message {
 /** One row in the Chats list. */
 export interface ThreadSummary {
   id: string
+  otherId?: string
   otherName: string
   otherHandoffs: number
   listingTitle: string
@@ -106,6 +107,10 @@ export interface MeProfile {
   since: string
   handoffs: number
   carries: number
+  pronouns: string
+  about: string
+  rating: number | null
+  ratings: number
   noShows: number
   building: string
   /** Where they prefer to hand things over — public, on campus. */

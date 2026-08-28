@@ -14,12 +14,16 @@ export function Me({ h }: { h: SwapUp }) {
 
   const [name, setName] = useState(h.me.name)
   const [spot, setSpot] = useState(h.me.preferredSpot)
+  const [pronouns, setPronouns] = useState(h.me.pronouns)
+  const [about, setAbout] = useState(h.me.about)
   const [editing, setEditing] = useState(false)
 
   useEffect(() => {
     setName(h.me.name)
     setSpot(h.me.preferredSpot)
-  }, [h.me.name, h.me.preferredSpot])
+    setPronouns(h.me.pronouns)
+    setAbout(h.me.about)
+  }, [h.me.name, h.me.preferredSpot, h.me.pronouns, h.me.about])
 
   // The one thing a new account is asked for. Not where they live — where they
   // are happy to meet.
@@ -28,6 +32,7 @@ export function Me({ h }: { h: SwapUp }) {
   function saveProfile() {
     if (name.trim() && name.trim() !== h.me.name) h.setDisplayName(name)
     if (spot.trim() !== h.me.preferredSpot) h.setPreferredSpot(spot)
+    if (pronouns !== h.me.pronouns || about !== h.me.about) h.saveProfileDetails({ pronouns, about })
     setEditing(false)
   }
 
@@ -64,6 +69,7 @@ export function Me({ h }: { h: SwapUp }) {
           </div>
           <div style={{ flex: 1, minWidth: 0 }}>
             <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 600, fontSize: 19 }}>{h.me.name}</div>
+            {h.me.pronouns && <div style={{ fontSize: 12.5, opacity: 0.7, marginTop: 1 }}>{h.me.pronouns}</div>}
             <div style={{ fontSize: 12, opacity: 0.65, marginTop: 2, wordBreak: 'break-all' }}>
               {h.me.email}
               {h.me.since ? ` · joined ${h.me.since}` : ''}
@@ -88,9 +94,19 @@ export function Me({ h }: { h: SwapUp }) {
             <div style={{ display: 'flex', gap: 6, marginTop: 8, flexWrap: 'wrap' }}>
               <span className="tag tag-accent">{h.me.handoffs} handoffs</span>
               {h.me.carries > 0 && <span className="tag tag-neutral">{h.me.carries} carries</span>}
+              {h.me.rating != null && (
+                <span className="tag tag-accent">
+                  {h.me.rating.toFixed(1)} ★ · {h.me.ratings}
+                </span>
+              )}
               <span className="tag tag-neutral">{h.me.noShows} no-shows</span>
               {h.me.preferredSpot && <span className="tag tag-outline">Meets at {h.me.preferredSpot}</span>}
             </div>
+            {h.me.about && (
+              <p style={{ fontSize: 13, opacity: 0.78, margin: '9px 0 0', lineHeight: 1.45, textWrap: 'pretty' }}>
+                {h.me.about}
+              </p>
+            )}
             {h.live && (
               <button onClick={() => setEditing((v) => !v)} className="btn btn-ghost" style={{ fontSize: 12, marginTop: 8, paddingInline: 0 }}>
                 {editing ? 'Cancel' : 'Edit profile'}
@@ -159,6 +175,24 @@ export function Me({ h }: { h: SwapUp }) {
             <div className="field">
               <label>Your name, as people will see it</label>
               <input className="input" value={name} onChange={(e) => setName(e.target.value)} placeholder="Alex M." />
+            </div>
+            <div className="field" style={{ marginTop: 10 }}>
+              <label>Pronouns</label>
+              <input
+                className="input"
+                value={pronouns}
+                onChange={(e) => setPronouns(e.target.value)}
+                placeholder="she/her · he/him · they/them"
+              />
+            </div>
+            <div className="field" style={{ marginTop: 10 }}>
+              <label>About you</label>
+              <textarea
+                className="input"
+                value={about}
+                onChange={(e) => setAbout(e.target.value)}
+                placeholder="A line or two. What you study, what you are clearing out, anything that makes meeting you easy."
+              />
             </div>
             <div className="field" style={{ marginTop: 10 }}>
               <label>Where you usually meet</label>

@@ -195,8 +195,8 @@ export function Board({ h }: { h: SwapUp }) {
               [
                 ['free', 'For free'],
                 ['sale', 'For sale'],
-                ['trade', 'For trade'],
-                ['rent', 'For rent'],
+                ['trade', 'For swap'],
+                ['rent', 'Borrow'],
                 ['wanted', 'Wanted'],
               ] as const
             )

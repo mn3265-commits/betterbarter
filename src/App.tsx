@@ -124,6 +124,8 @@ function LiveApp() {
             lng: p.approx_lng,
             handoffs: p.handoffs,
             carries: p.carries,
+            pronouns: p.pronouns,
+            about: p.about,
             noShows: p.no_shows,
             joinedAt: p.joined_at,
             refreshProfile: auth.refreshProfile,

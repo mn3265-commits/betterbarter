@@ -383,6 +383,7 @@ export async function fetchThreads(meId: string): Promise<ThreadSummary[]> {
     const p = profiles.get(otherId)
     return {
       id: t.id,
+      otherId,
       otherName: p?.name ?? 'Someone on campus',
       otherHandoffs: p?.handoffs ?? 0,
       listingTitle: t.listing_id ? (titles.get(t.listing_id) ?? '') : '',
@@ -535,6 +536,62 @@ export async function fetchDistances(): Promise<Map<string, number>> {
   if (error || !data) return out
   for (const row of data as { listing_id: string; km: number }[]) out.set(row.listing_id, Number(row.km))
   return out
+}
+
+/** The profile fields the team asked for: pronouns, a short about, a picture. */
+export async function updateProfileDetails(
+  userId: string,
+  fields: { pronouns?: string; about?: string; avatarPath?: string | null },
+): Promise<void> {
+  const patch: Record<string, unknown> = {}
+  if (fields.pronouns !== undefined) patch.pronouns = fields.pronouns.trim() || null
+  if (fields.about !== undefined) patch.about = fields.about.trim().slice(0, 400) || null
+  if (fields.avatarPath !== undefined) patch.avatar_path = fields.avatarPath
+  if (!Object.keys(patch).length) return
+  const { error } = await db().from('profiles').update(patch).eq('id', userId)
+  if (error) throw error
+}
+
+/** Rate the other person after a completed handoff. One per thread per rater —
+ *  the database enforces both that and that you were actually in it. */
+export async function rateHandoff(
+  threadId: string,
+  raterId: string,
+  rateeId: string,
+  stars: number,
+  note: string,
+): Promise<void> {
+  const { error } = await db().from('ratings').insert({
+    thread_id: threadId,
+    rater_id: raterId,
+    ratee_id: rateeId,
+    stars: Math.max(1, Math.min(5, Math.round(stars))),
+    note: note.trim() || null,
+  })
+  if (error) throw error
+}
+
+export interface RatingSummary {
+  average: number | null
+  total: number
+}
+
+export async function fetchRatingSummary(userId: string): Promise<RatingSummary> {
+  const { data, error } = await db().rpc('rating_summary', { p_user: userId })
+  if (error || !data) return { average: null, total: 0 }
+  const row = (data as { average: number | null; total: number }[])[0]
+  return { average: row?.average ?? null, total: Number(row?.total ?? 0) }
+}
+
+/** Whether this person has already rated this thread. */
+export async function hasRated(threadId: string, raterId: string): Promise<boolean> {
+  const { data } = await db()
+    .from('ratings')
+    .select('id')
+    .eq('thread_id', threadId)
+    .eq('rater_id', raterId)
+    .maybeSingle()
+  return Boolean(data)
 }
 
 export async function updatePreferredSpot(userId: string, spot: string): Promise<void> {

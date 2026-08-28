@@ -32,6 +32,8 @@ export interface LiveContext {
   email: string
   building: string | null
   preferredSpot: string | null
+  pronouns: string | null
+  about: string | null
   lat: number | null
   lng: number | null
   handoffs: number
@@ -87,6 +89,10 @@ export function useSwapUp(config: SwapUpConfig, live?: LiveContext) {
   const [distances, setDistances] = useState<Map<string, number>>(new Map())
   const [radiusKm, setRadiusKm] = useState<number | null>(null)
   const [locating, setLocating] = useState(false)
+
+  // How the campus rated this person, in aggregate. Individual notes stay
+  // between the two people who exchanged them.
+  const [rating, setRating] = useState<{ average: number | null; total: number }>({ average: null, total: 0 })
 
   const [campusName, setCampusName] = useState(isLive ? '' : 'Columbia University')
   const [campusLogo, setCampusLogo] = useState<string | null>(
@@ -259,6 +265,7 @@ export function useSwapUp(config: SwapUpConfig, live?: LiveContext) {
     void refreshThreads()
     void refreshWanted()
     api.fetchSpots().then(setSpots).catch(() => {})
+    if (userId) api.fetchRatingSummary(userId).then(setRating).catch(() => {})
     void (async () => {
       try {
         const campus = await api.fetchCampus()
@@ -374,8 +381,12 @@ export function useSwapUp(config: SwapUpConfig, live?: LiveContext) {
       noShows: live.noShows,
       building: live.building ?? '',
       preferredSpot: live.preferredSpot ?? '',
+      pronouns: live.pronouns ?? '',
+      about: live.about ?? '',
+      rating: rating.average,
+      ratings: rating.total,
     }
-  }, [live])
+  }, [live, rating])
 
   const liveCount = isLive
     ? items.filter((i) => i.status === 'active').length
@@ -1067,6 +1078,41 @@ export function useSwapUp(config: SwapUpConfig, live?: LiveContext) {
     [distances],
   )
 
+  const saveProfileDetails = useCallback(
+    (fields: { pronouns?: string; about?: string }) => {
+      if (!live) return
+      void (async () => {
+        try {
+          await api.updateProfileDetails(live.userId, fields)
+          live.refreshProfile()
+          flash('Saved.')
+        } catch (e) {
+          fail(e, 'Could not save that.')
+        }
+      })()
+    },
+    [live, flash, fail],
+  )
+
+  /** Rate the person on the other side of a finished handoff, once. */
+  const rateThread = useCallback(
+    (stars: number, note: string) => {
+      const t = activeThread
+      if (!live || !t || !t.completed || !t.otherId) return
+      void (async () => {
+        try {
+          await api.rateHandoff(t.id, live.userId, t.otherId!, stars, note)
+          await refreshThreads()
+          api.fetchRatingSummary(live.userId).then(setRating).catch(() => {})
+          flash('Thanks — that helps the next person decide.')
+        } catch {
+          flash('You have already rated this one.')
+        }
+      })()
+    },
+    [live, activeThread, refreshThreads, flash],
+  )
+
   const setDisplayName = useCallback(
     (value: string) => {
       if (!live) return
@@ -1217,6 +1263,8 @@ export function useSwapUp(config: SwapUpConfig, live?: LiveContext) {
     offerWanted,
     postWanted,
     setPreferredSpot,
+    saveProfileDetails,
+    rateThread,
     shareLocation,
     forgetLocation,
     distanceOf,

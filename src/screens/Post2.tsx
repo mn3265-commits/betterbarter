@@ -20,10 +20,10 @@ export function Post2({ h }: { h: SwapUp }) {
   const f = h.form
   const blocked = h.ruleHits.some((x) => x.level === 'blocked')
   const kinds: [SwapUp['form']['kind'], string][] = [
-    ['free', 'For free'],
-    ['sale', 'For sale'],
-    ['trade', 'For trade'],
-    ['rent', 'For rent'],
+    ['free', 'Give it away'],
+    ['sale', 'Sell it'],
+    ['trade', 'Swap it'],
+    ['rent', 'Lend it'],
   ]
 
   return (
@@ -133,7 +133,7 @@ export function Post2({ h }: { h: SwapUp }) {
 
         {f.kind === 'trade' && (
           <div className="field">
-            <label>What you are looking for</label>
+            <label>What you want to swap it for</label>
             <input
               className="input"
               value={f.tradeFor}
