@@ -395,7 +395,7 @@ function ItemCard({ it, h }: { it: Item; h: Barter }) {
   const mark = KIND_MARK[kind] ?? KIND_MARK.sale
   return (
     <div onClick={() => h.openDetail(it.id)} style={{ cursor: 'pointer', display: 'flex', flexDirection: 'column', gap: 7 }}>
-      <Photo url={it.photoUrl} caption={[it.cat, it.loc].filter(Boolean).join(' · ')} height={118}>
+      <Photo url={it.photoUrl} category={it.cat} caption={[it.cat, it.loc].filter(Boolean).join(' · ')} height={118}>
         {isGone && (
           <div
             style={{
@@ -467,7 +467,11 @@ function ItemCard({ it, h }: { it: Item; h: Barter }) {
         {(() => {
           const km = h.distanceOf(it)
           const where = it.spot || it.loc || 'On campus'
-          if (km == null) return where
+          // Beyond a few km the viewer is not on campus at all — off-campus at
+          // the weekend, or a location shared from home. A distance then
+          // measures the wrong thing and reads as a bug, so drop it and let the
+          // meetup spot do the work.
+          if (km == null || km > 3) return where
           if (km < 0.15) return `${where} · a couple of minutes away`
           if (km < 1) return `${where} · about ${Math.round(km * 1000)} m`
           return `${where} · about ${km.toFixed(1)} km`

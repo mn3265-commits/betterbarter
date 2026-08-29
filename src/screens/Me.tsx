@@ -405,7 +405,7 @@ export function Me({ h }: { h: Barter }) {
                 return (
                   <div key={it.id} style={{ background: 'var(--color-bg)', padding: '11px 0', display: 'flex', alignItems: 'center', gap: 11 }}>
                     <div style={{ width: 40, height: 40, flex: 'none' }}>
-                      <Photo url={it.photoUrl} height={40} />
+                      <Photo url={it.photoUrl} category={it.cat} height={40} />
                     </div>
                     <div style={{ flex: 1, minWidth: 0 }}>
                       <div style={{ fontSize: 14, fontWeight: 500 }}>{it.title}</div>

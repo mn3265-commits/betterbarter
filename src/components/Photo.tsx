@@ -1,8 +1,18 @@
+import { CategoryIcon } from './CategoryIcon'
+
 /** A listing photo. Real photos print full-bleed grayscale, per the design
- *  system; without one we fall back to the 45° hatch placeholder. */
+ *  system; without one we fall back to the 45° hatch placeholder.
+ *
+ *  Posting requires a photo, so in normal use `url` is always set. It can still
+ *  be missing: an upload that failed after the listing was written, or a row
+ *  seeded straight into the database. Those used to render as a bare hatched
+ *  box, which reads as broken rather than as empty — so when the category is
+ *  known the placeholder carries its icon, and the card looks like a thing
+ *  rather than a hole. */
 export function Photo({
   url,
   caption,
+  category,
   height,
   hatch = 'hatch-sm',
   border = '1px solid var(--color-divider)',
@@ -10,6 +20,7 @@ export function Photo({
 }: {
   url?: string | null
   caption?: string
+  category?: string
   height: number | string
   hatch?: 'hatch-sm' | 'hatch-lg'
   border?: string
@@ -43,6 +54,22 @@ export function Photo({
             filter: 'grayscale(1) contrast(1.08)',
           }}
         />
+      )}
+      {!url && category && (
+        <span
+          aria-hidden="true"
+          style={{
+            position: 'absolute',
+            inset: 0,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            color: 'var(--color-accent)',
+            opacity: 0.28,
+          }}
+        >
+          <CategoryIcon category={category} size={38} />
+        </span>
       )}
       {caption && (
         <span

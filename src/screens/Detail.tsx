@@ -64,6 +64,7 @@ export function Detail({ h }: { h: Barter }) {
       <AppBody pad={false}>
         <Photo
           url={d0.photoUrl}
+          category={d0.cat}
           caption={[d0.cat, d0.loc && `shot in ${d0.loc}`].filter(Boolean).join(' · ')}
           height={238}
           hatch="hatch-lg"
