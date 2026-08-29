@@ -177,9 +177,12 @@ The pilot is scoped for the coming term, ahead of the May 2027 move-out peak.
    confirmed event per object, with category and timestamp, agreed by both
    parties — a bottom-up circularity metric a sustainability office can put in a
    report and defend line by line.
-2. **The measurement is the reputation.** The tap that counts the reuse is the
-   tap that raises both people's public handoff count, so the incentive to record
-   impact is intrinsic rather than bolted on for reporting.
+2. **The measurement is the reputation, and it has to be earned.** The act that
+   counts the reuse is the act that raises both people's public handoff count, so
+   the incentive to record impact is intrinsic rather than bolted on. And the act
+   is not a button: it is a six-digit code split across the two phones, half
+   each, which cannot be assembled without both people being present. A reuse
+   metric one person can raise alone is not a metric.
 3. **An honest model, published in the open.** Three separated levels, low-end
    factors, displacement held at 0.5, and a category mix weighted toward small
    things rather than an average carried by bikes and laptops. We also give away
@@ -190,7 +193,17 @@ The pilot is scoped for the coming term, ahead of the May 2027 move-out peak.
    passenger-car factor, which flatters a van. Two students crossing a campus
    they were crossing anyway emit nothing extra — and heavy objects still move,
    because another student carries them for a fee.
-5. **Self-serve campuses.** A university email domain maps to a campus
+5. **It feeds the programme Columbia already runs, rather than competing with
+   it.** Columbia has Give + Go Green at check-out, the Green Sale each autumn,
+   and Clean + Go Green bins — an award-winning, staffed operation that EcoReps
+   champions. None of it is the thing we are replacing. Those programmes collect
+   what is left at the end; a board moves things between students *before* the
+   pile forms, which is both cheaper and better placed on the EPA hierarchy.
+   What the board cannot rehome still belongs in Give + Go Green — the board's
+   job is to take the easy majority out of the pile so staffed collection can
+   deal with what actually needs handling. The natural first partner is the group
+   already doing this work, not a blank campus.
+6. **Self-serve campuses.** A university email domain maps to a campus
    server-side. A school with no board gets one the moment its first student
    signs in, named and marked from a registry of 7,328 academic domains. No
    waiting list, no launch, no code.
@@ -212,10 +225,10 @@ The pilot is scoped for the coming term, ahead of the May 2027 move-out peak.
 - **Not yet:** paying customers, an institutional partnership, or pilot users.
   Two verified Columbia accounts. We would rather say that than inflate it.
 
-`[FILL — if either of you has spoken to anyone in Columbia Housing, Facilities,
-EcoReps or Sustainable Columbia, even informally, name it here. One conversation
-with a named office is worth more to these judges than three more shipped
-screens.]`
+`[FILL — one named conversation goes here. Drafts ready to send in
+pitch/outreach.md: EcoReps (they run Give + Go Green), the Office of
+Sustainability office-hours form, and Columbia Housing. Only write what is
+actually true on the day; the honest "not yet" above beats a vague claim.]`
 
 ## Team Background
 
