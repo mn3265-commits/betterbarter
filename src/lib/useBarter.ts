@@ -495,6 +495,38 @@ export function useBarter(config: BarterConfig, live?: LiveContext) {
    * hold is released and both handoff counts go up — which is why it happens in
    * one server-side function rather than in the browser.
    */
+  /* ── The handoff code ──────────────────────────────────────────────────────
+   *
+   * Your three digits, fetched fresh for the open thread. The other three are
+   * not fetchable — the database will not give them to you — so the only way
+   * to hold all six is to be standing next to the person who has the rest.
+   */
+  const [myHalf, setMyHalf] = useState<api.HandoffHalf | null>(null)
+  const [codeError, setCodeError] = useState('')
+
+  useEffect(() => {
+    if (!live || !activeThreadId) { setMyHalf(null); return }
+    let alive = true
+    void api.fetchHandoffHalf(activeThreadId).then((r) => { if (alive) setMyHalf(r) })
+    return () => { alive = false }
+  }, [live, activeThreadId])
+
+  const confirmCode = useCallback(
+    (code: string) => {
+      if (!live || !activeThreadId || confirming) return
+      setCodeError('')
+      setConfirming(true)
+      void (async () => {
+        const r = await api.confirmHandoffCode(activeThreadId, code)
+        setConfirming(false)
+        if (!r.ok) { setCodeError(r.why ?? 'That did not work.'); return }
+        await Promise.all([refreshBoard(), refreshThreads()])
+        flash(r.alreadyDone ? 'Already counted.' : 'Handed off, confirmed in person. +1 for both of you.')
+      })()
+    },
+    [live, activeThreadId, confirming, refreshBoard, refreshThreads, flash],
+  )
+
   const markHandedOff = useCallback(
     (done = true) => {
       const first = (activeThread?.otherName ?? item(selId).seller ?? 'they').split(' ')[0]
@@ -1367,6 +1399,9 @@ export function useBarter(config: BarterConfig, live?: LiveContext) {
     confirmClaim,
     sendText,
     markHandedOff,
+    myHalf,
+    confirmCode,
+    codeError,
     confirmStill,
     markGoneStale,
     makeFree,

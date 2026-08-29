@@ -905,3 +905,65 @@ export async function reclaimPhotos(rows: ReclaimRow[]): Promise<number> {
   }
   return done
 }
+
+/* ── The handoff code ────────────────────────────────────────────────────────
+ *
+ * Six digits split down the middle: the buyer's app holds the first three, the
+ * seller's the last three, and the database refuses to hand either of them the
+ * other half — SELECT is revoked on the column, so this RPC is the only door.
+ * Putting them back together is something you can only do standing next to
+ * each other, which is the whole point: the handoff count is the carbon number,
+ * and a number one person can raise alone is not evidence.
+ */
+
+export interface HandoffHalf {
+  half: string
+  position: 'first' | 'last'
+  verified: boolean
+  attempts: number
+}
+
+export async function fetchHandoffHalf(threadId: string): Promise<HandoffHalf | null> {
+  const c = db()
+  if (!c) return null
+  const { data, error } = await c.rpc('my_handoff_half', { p_thread: threadId })
+  if (error || !data) return null
+  return data as HandoffHalf
+}
+
+export interface CodeResult {
+  ok: boolean
+  completed?: boolean
+  alreadyDone?: boolean
+  verified?: boolean
+  lockedOut?: boolean
+  attemptsLeft?: number
+  why?: string
+}
+
+export async function confirmHandoffCode(threadId: string, code: string): Promise<CodeResult> {
+  const c = db()
+  if (!c) return { ok: false, why: 'Not connected.' }
+  const { data, error } = await c.rpc('confirm_handoff_code', { p_thread: threadId, p_code: code })
+  if (error) return { ok: false, why: error.message }
+  return data as CodeResult
+}
+
+
+export interface HandoffIntegrity {
+  handoffs: number
+  verified: number
+  onTrust: number
+  openCodes: number
+  badTries: number
+  lockedOut: number
+}
+
+/** Verified in person versus taken on trust — the split behind the carbon number. */
+export async function fetchHandoffIntegrity(): Promise<HandoffIntegrity | null> {
+  const c = db()
+  if (!c) return null
+  const { data, error } = await c.rpc('handoff_integrity')
+  if (error || !data) return null
+  return data as HandoffIntegrity
+}

@@ -164,3 +164,10 @@
   border-radius: var(--radius-md);
 }
 .ops__reclaim p { margin: 0 0 10px; font-size: 13px; line-height: 1.5; }
+.ops__note {
+  font-size: 12.5px;
+  line-height: 1.55;
+  margin: 12px 0 0;
+  color: color-mix(in srgb, var(--color-text) 62%, transparent);
+  text-wrap: pretty;
+}

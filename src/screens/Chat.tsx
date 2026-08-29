@@ -65,6 +65,8 @@ export function Chat({ h }: { h: Barter }) {
                   Both of you confirmed. <strong>+1 handoff</strong> each, and the listing is off the board.
                 </div>
               </div>
+            ) : h.myHalf ? (
+              <HandoffCode h={h} first={first} />
             ) : myDone ? (
               <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
                 <div style={{ flex: 1, fontSize: 12.5, lineHeight: 1.4, opacity: 0.75 }}>
@@ -229,6 +231,70 @@ export function Chat({ h }: { h: Barter }) {
         </button>
       </div>
       </AppFooter>
+    </div>
+  )
+}
+
+/**
+ * Six digits, and neither of you has more than three.
+ *
+ * Your half is on your screen. Their half is on theirs, and the database will
+ * not give it to you — so the only place all six exist at once is between two
+ * people standing together. Read yours out, type what they read back, done.
+ *
+ * That is what makes the handoff count mean something: it is the number the
+ * carbon figure is built on, and it cannot be raised by one person alone.
+ */
+function HandoffCode({ h, first }: { h: Barter; first: string }) {
+  const half = h.myHalf
+  const [entry, setEntry] = useState('')
+  if (!half) return null
+
+  const digits = entry.replace(/\D/g, '').slice(0, 6)
+  const mine = half.position === 'first'
+
+  return (
+    <div>
+      <div style={{ fontSize: 11.5, opacity: 0.7, textWrap: 'pretty', marginBottom: 9 }}>
+        When you have the thing in your hands: read your three digits to {first}, and type all six in.
+      </div>
+
+      <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 11 }}>
+        <div className={'code-half' + (mine ? '' : ' code-half--ghost')}>{mine ? half.half : '• • •'}</div>
+        <div style={{ opacity: 0.4, fontSize: 15 }}>·</div>
+        <div className={'code-half' + (mine ? ' code-half--ghost' : '')}>{mine ? '• • •' : half.half}</div>
+        <div style={{ fontSize: 10.5, opacity: 0.55, marginLeft: 'auto', textAlign: 'right', lineHeight: 1.3 }}>
+          Yours is the
+          <br />
+          {half.position} three
+        </div>
+      </div>
+
+      <div style={{ display: 'flex', gap: 8 }}>
+        <input
+          className="input"
+          inputMode="numeric"
+          autoComplete="off"
+          value={digits}
+          onChange={(e) => setEntry(e.target.value)}
+          placeholder="000000"
+          style={{ flex: 1, fontFamily: 'var(--font-heading)', fontSize: 19, letterSpacing: '.22em', textAlign: 'center' }}
+        />
+        <button
+          onClick={() => h.confirmCode(digits)}
+          disabled={digits.length !== 6 || h.confirming}
+          className="btn btn-primary"
+          style={{ flex: 'none' }}
+        >
+          {h.confirming ? '…' : 'Confirm'}
+        </button>
+      </div>
+
+      {h.codeError && (
+        <div style={{ fontSize: 11.5, color: 'var(--color-signal-700)', marginTop: 7, textWrap: 'pretty' }}>
+          {h.codeError}
+        </div>
+      )}
     </div>
   )
 }

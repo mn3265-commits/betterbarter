@@ -3,10 +3,12 @@ import { categoryColor } from '../components/CategoryIcon'
 import {
   fetchFounderMetrics,
   fetchModerationQueue,
+  fetchHandoffIntegrity,
   fetchReclaimQueue,
   reclaimPhotos,
   setReportStatus,
   type FounderMetrics,
+  type HandoffIntegrity,
   type ModerationRow,
   type ReclaimRow,
 } from '../lib/api'
@@ -31,6 +33,7 @@ export function Ops() {
   const [state, setState] = useState<'loading' | 'ok' | 'denied'>('loading')
   const [queue, setQueue] = useState<ModerationRow[]>([])
   const [orphans, setOrphans] = useState<ReclaimRow[]>([])
+  const [integrity, setIntegrity] = useState<HandoffIntegrity | null>(null)
   const [reclaiming, setReclaiming] = useState(false)
 
   useEffect(() => {
@@ -49,6 +52,7 @@ export function Ops() {
           setState('ok')
           fetchModerationQueue().then(setQueue).catch(() => {})
           fetchReclaimQueue().then(setOrphans).catch(() => {})
+          fetchHandoffIntegrity().then(setIntegrity).catch(() => {})
         }
       })
       .catch(() => !cancelled && setState('denied'))
@@ -191,6 +195,42 @@ export function Ops() {
             </div>
           </section>
         </div>
+
+        {/* what the carbon number is actually built on */}
+        {integrity && (
+          <section className="ops__block">
+            <h2>Evidence</h2>
+            <div className="ops__stair">
+              <div className="stair">
+                <div className="stair__n">{integrity.verified}</div>
+                <div className="stair__label">Verified in person</div>
+                <div className="stair__sub">two halves of a code, joined</div>
+              </div>
+              <div className="stair">
+                <div className="stair__n">{integrity.onTrust}</div>
+                <div className="stair__label">On trust</div>
+                <div className="stair__sub">both tapped, nothing proved</div>
+              </div>
+              <div className="stair">
+                <div className="stair__n">{integrity.openCodes}</div>
+                <div className="stair__label">Codes waiting</div>
+                <div className="stair__sub">handoffs not yet made</div>
+              </div>
+              <div className="stair">
+                <div className="stair__n">{integrity.badTries}</div>
+                <div className="stair__label">Wrong tries</div>
+                <div className="stair__sub">
+                  {integrity.lockedOut > 0 ? `${integrity.lockedOut} locked out` : 'none locked out'}
+                </div>
+              </div>
+            </div>
+            <p className="ops__note">
+              Only the first column is evidence. Six digits split between two phones cannot be put together
+              without both people being there, so that count is the one to quote — and the one the impact
+              figure should be built on as soon as there is enough of it.
+            </p>
+          </section>
+        )}
 
         {/* the lifecycle — and the only storage that actually costs anything */}
         <section className="ops__block">

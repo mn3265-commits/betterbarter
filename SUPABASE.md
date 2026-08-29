@@ -219,3 +219,43 @@ None of that history is only theirs. A rating you wrote is someone else's
 reputation; a handoff you completed is on someone else's record. So removal is a
 deactivation, and the row stays. If a real erasure request ever arrives, the
 right shape is to anonymise the profile row (name and email), not to delete it.
+
+
+## Confirming a handoff (29 August 2026)
+
+A handoff used to complete because both people tapped a button, and a button can
+be tapped from bed. That was fine while the count was a nicety. It stopped being
+fine when the count became the carbon number on a competition form.
+
+**Six digits, split down the middle.** The buyer's app holds the first three,
+the seller's the last three. At the handover one reads their half out, the other
+types all six into `confirm_handoff_code()`, and it completes for both at once —
+no second tap, no waiting.
+
+What makes it mean anything is one line in `0026`: `threads` no longer carries a
+table-wide `GRANT SELECT`. The grant is per column, and `handoff_code` is not in
+the list, so neither party can read the other's half however they query. `0025`
+tried to do this with a column-level `revoke` and it silently did nothing — a
+whole-table grant covers every column, including ones added later. The test
+caught it; nothing else would have.
+
+Five wrong tries locks a thread. Guessing the three digits you do not have is
+one in a thousand, so five tries is far more than a person mistypes and far
+fewer than a person needs.
+
+**It is a speed bump, not a vault.** Two people who want to fake a handoff can
+read the digits to each other. But it cannot happen by accident, it cannot
+happen alone, and faking it takes a deliberate conversation inside a thread that
+is on the record. That is the honest claim.
+
+`handoff_integrity()` reports the two tiers apart — **verified in person** vs
+**on trust** — and `/ops` shows them side by side. Only the first is evidence,
+and it is the one to quote.
+
+### The old path still exists
+
+`set_handoff_done()` (two taps) is unchanged and still works, for a handoff that
+genuinely was not face to face — something left at a front desk. Those complete,
+and count for the two people, but `code_verified_at` stays null and they are
+reported separately. Two tiers, stated, rather than one number that quietly
+blends them.

@@ -32,6 +32,9 @@ history. This is the mapping, in case the two ever need to be reconciled:
 | 0022_fix_photo_reclaim_returning | 20260828053723 fix_photo_reclaim_returning |
 | 0023_enable_pg_cron_lifecycle | 20260828053622 enable_pg_cron_lifecycle |
 | 0024_founder_metrics_lifecycle | 20260828053857 founder_metrics_lifecycle |
+| 0025_handoff_code | 20260829071205 handoff_code |
+| 0026_hide_handoff_code_column | 20260829071245 hide_handoff_code_column |
+| 0027_handoff_integrity | 20260829071435 handoff_integrity |
 
 (0022 and 0023 were applied in the other order; the file numbering follows the
 order they should be replayed in, which is the same either way.)

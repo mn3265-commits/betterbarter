@@ -476,3 +476,23 @@
   opacity: 0.55;
 }
 .cat-chip.is-on .cat-chip__n { opacity: 0.75; }
+
+/* the handoff code — half of it is yours, half is theirs, and that is the point */
+.code-half {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: 22px;
+  letter-spacing: .18em;
+  font-variant-numeric: tabular-nums;
+  padding: 8px 12px;
+  border-radius: var(--radius-md);
+  background: var(--color-accent-100);
+  color: var(--color-accent-800);
+  border: 1px solid var(--color-accent-300);
+}
+.code-half--ghost {
+  background: transparent;
+  color: color-mix(in srgb, var(--color-text) 35%, transparent);
+  border: 1px dashed var(--color-divider);
+  letter-spacing: .06em;
+}
