@@ -29,7 +29,7 @@ export function Detail({ h }: { h: Barter }) {
   const [note, setNote] = useState('')
   const cta =
     kind === 'rent'
-      ? 'Ask to borrow it — ' + h.priceOf(d0)
+      ? 'Ask to rent it — ' + h.priceOf(d0)
       : kind === 'trade'
         ? 'Offer a swap'
         : h.isFree(d0)

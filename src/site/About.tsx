@@ -28,7 +28,7 @@ const PRINCIPLES: [string, string, string][] = [
   [
     '03',
     'Ownership is only one way to have a thing',
-    'Free, sale, swap and borrow are four answers to the same question — how do you get the use of an object without a new one being made. A drill borrowed by six people is five drills that were never manufactured, and the loan is over in a week.',
+    'Free, sale, swap and rent are four answers to the same question — how do you get the use of an object without a new one being made. A drill rented by six people is five drills that were never manufactured, and the rental is over in a week.',
   ],
   [
     '04',
@@ -54,7 +54,7 @@ const HORIZON: [string, string][] = [
   ],
   [
     'Next — the loop closes locally',
-    'When borrowing and swapping carry as much traffic as giving away, a floor starts behaving like a small library of things. That is when the count stops being a waste metric and starts being a measure of how much a community can supply itself.',
+    'When renting and swapping carry as much traffic as giving away, a floor starts behaving like a small library of things. That is when the count stops being a waste metric and starts being a measure of how much a community can supply itself.',
   ],
   [
     'Later — the same primitive, every campus',
@@ -178,7 +178,7 @@ export function About() {
         <div className="site__wrap">
           <h2>The greenest object on campus is the one already here.</h2>
           <p>
-            Give it, sell it, lend it, swap it — the only wrong answer is the dumpster. Sign in with the university
+            Give it, sell it, rent it, swap it — the only wrong answer is the dumpster. Sign in with the university
             address you already have.
           </p>
           <div className="site__cta-row">

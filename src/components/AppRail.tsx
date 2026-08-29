@@ -26,7 +26,7 @@ export function AppRail({ h }: { h: Barter }) {
 
       <button className="app-rail__post" onClick={h.startPost}>
         <Plus size={19} strokeWidth={2.4} />
-        Post something
+        List Item
       </button>
 
       <div className="app-rail__nav">

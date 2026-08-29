@@ -32,7 +32,7 @@ export const MODEL_VERSION = '1.1'
  * Which ways of moving an object earn an avoided-production credit.
  *
  * A give-away, a sale and a swap all transfer the object: someone now has a
- * thing they would otherwise have bought. A **rental comes back** — the borrower
+ * thing they would otherwise have bought. A **rental comes back** — the renter
  * avoided a purchase for a week, the owner still owns it, and nobody can say
  * from the outside whether a purchase was actually prevented. So a rental is
  * counted as a reuse event and reported as one, and earns no carbon credit at

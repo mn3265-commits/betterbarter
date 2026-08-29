@@ -14,7 +14,7 @@ export function Claim({ h }: { h: Barter }) {
   const kind = h.kindOf(d0)
   const cta =
     kind === 'rent'
-      ? 'Ask to borrow, and message ' + first
+      ? 'Ask to rent, and message ' + first
       : kind === 'trade'
         ? 'Offer a swap to ' + first
         : h.isFree(d0)
@@ -26,7 +26,7 @@ export function Claim({ h }: { h: Barter }) {
     <div className="screen">
       <AppHeader
         kicker="Agree the meetup"
-        title={kind === 'rent' ? 'Borrow it' : kind === 'trade' ? 'Offer a swap' : 'Claim it'}
+        title={kind === 'rent' ? 'Rent it' : kind === 'trade' ? 'Offer a swap' : 'Claim it'}
         onBack={h.back}
       />
 

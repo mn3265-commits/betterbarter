@@ -740,7 +740,7 @@ export function useBarter(config: BarterConfig, live?: LiveContext) {
     setRuleHits([])
     const note =
       p.kind === 'rent'
-        ? 'Listed to lend at $' + p.rentRate + ' a ' + p.rentPeriod + '. It comes back to you.'
+        ? 'Listed to rent at $' + p.rentRate + ' a ' + p.rentPeriod + '. It comes back to you.'
         : p.kind === 'trade'
           ? 'Listed as a swap' + (p.tradeFor ? ' for ' + p.tradeFor : '') + '. It is on the board now.'
           : p.kind === 'sale'
@@ -860,7 +860,7 @@ export function useBarter(config: BarterConfig, live?: LiveContext) {
         const what = d0.title.toLowerCase()
         const opening =
           d0.kind === 'rent'
-            ? `Could I borrow the ${what} at ${d0.rentRate ?? 0} a ${d0.rentPeriod ?? 'week'}? I can pick it up ${win} at ${spotLabel()}.`
+            ? `Could I rent the ${what} at ${d0.rentRate ?? 0} a ${d0.rentPeriod ?? 'week'}? I can pick it up ${win} at ${spotLabel()}.`
             : d0.kind === 'trade'
               ? `Would you swap the ${what}${d0.tradeFor ? ` — you are after ${d0.tradeFor}?` : '?'} I can meet ${win} at ${spotLabel()}.`
               : isFree(d0)

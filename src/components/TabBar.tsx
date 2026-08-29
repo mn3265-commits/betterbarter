@@ -36,7 +36,7 @@ export function TabBar({ h }: { h: Barter }) {
 
   return (
     <div className="tabbar">
-      {tabButton(h.jumpBrowse, cBrowse, <Search size={21} strokeWidth={1.8} />, 'Board')}
+      {tabButton(h.jumpBrowse, cBrowse, <Search size={21} strokeWidth={1.8} />, 'Marketplace')}
       {tabButton(h.jumpWanted, cWanted, <List size={21} strokeWidth={1.8} />, 'Looking')}
       <button
         onClick={h.startPost}
@@ -70,7 +70,7 @@ export function TabBar({ h }: { h: Barter }) {
         </span>
       </button>
       {tabButton(h.jumpChats, cChats, <MessageSquare size={21} strokeWidth={1.8} />, 'Chats')}
-      {tabButton(h.jumpMe, cMe, <User size={21} strokeWidth={1.8} />, 'Me')}
+      {tabButton(h.jumpMe, cMe, <User size={21} strokeWidth={1.8} />, 'Profile')}
     </div>
   )
 }

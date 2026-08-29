@@ -444,3 +444,35 @@
   .stage { flex-direction: column; align-items: center; gap: 32px; padding: 24px 16px; }
   .notes { width: 100%; max-width: 480px; }
 }
+
+/* a checkbox that states one thing, for when a full explainer block is too much */
+.app-check--slim { align-items: center; padding: 12px 0; }
+.app-check--slim > span { font-size: 12.5px; line-height: 1.4; opacity: 0.8; }
+
+/* browsing by category — the marketplace's first question */
+.cat-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+  font: inherit;
+  font-size: 12.5px;
+  padding: 7px 11px;
+  border: 1px solid var(--color-divider);
+  border-radius: 999px;
+  background: var(--color-bg);
+  color: var(--color-text);
+  cursor: pointer;
+}
+.cat-chip.is-on {
+  border-color: var(--color-accent);
+  background: var(--color-accent-100);
+  color: var(--color-accent-800);
+  font-weight: 600;
+}
+.cat-chip__n {
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+  opacity: 0.55;
+}
+.cat-chip.is-on .cat-chip__n { opacity: 0.75; }

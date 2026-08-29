@@ -53,7 +53,7 @@ const APP = '/app'
 const SEGMENTS: [string, string][] = [
   ['For free', 'The thing that would otherwise go in a hallway or a dumpster. Someone on your floor takes it today.'],
   ['For sale', 'Cheap, and settled between the two of you. The app never touches the money.'],
-  ['For rent — opening soon', 'One drill can serve a whole floor. Lending needs a second meeting to bring the thing back, so it is announced rather than live: on the board, marked, and switched on once returns are handled properly.'],
+  ['For rent — opening soon', 'One drill can serve a whole floor. Renting needs a second meeting to bring the thing back, so it is announced rather than live: on the board, marked, and switched on once returns are handled properly.'],
   ['For swap', 'Your heater for their fan. Two objects stay in use, and neither of you buys anything.'],
   ['Looking for', 'The board in reverse: say what you need before you buy it new, and let the person holding it find you.'],
   ['Needs a hand', 'A fridge is not a one-person object. Students with an hour and a trolley carry it, paid directly — no van, no company.'],
@@ -76,7 +76,7 @@ const STEPS: [string, string, string][] = [
   [
     '02',
     'Someone on your campus takes it on',
-    'The board only ever shows your school, closest halls first. They can take it free, buy it cheap, borrow it for a week, or offer you something of theirs for it. The item is held for three hours so two people are not walking to the same lobby.',
+    'The board only ever shows your school, closest halls first. They can take it free, buy it cheap, rent it for a week, or offer you something of theirs for it. The item is held for three hours so two people are not walking to the same lobby.',
   ],
   [
     '03',
@@ -128,8 +128,8 @@ const WHY: [string, string][] = [
 ]
 
 const NOT: [string, string][] = [
-  ['Not a fee on the handoff', 'No listing fee, no cut of a give-away, no charge for lending. Money between two students moves the way it already does — see how this pays for itself, above.'],
-  ['Not a deposit holder', 'Lending is a promise between two people on the same campus, not a contract we underwrite. We hold nothing and adjudicate nothing.'],
+  ['Not a fee on the handoff', 'No listing fee, no cut of a give-away, no charge for renting. Money between two students moves the way it already does — see how this pays for itself, above.'],
+  ['Not a deposit holder', 'Renting is a promise between two people on the same campus, not a contract we underwrite. We hold nothing and adjudicate nothing.'],
   ['Not a shipping or storage service', 'Nothing is collected, warehoused or driven anywhere. Logistics is exactly what makes reuse cost more than it saves.'],
   ['Not one board for everyone', 'Every school gets its own isolated board. A national marketplace is exactly the stranger problem we removed.'],
 ]
@@ -154,12 +154,12 @@ const FAQ: [string, string][] = [
     'Another student. A listing can be marked as needing two people or a trolley, which surfaces it to anyone on the same campus who wants an hour of work; the fee is suggested by the owner and paid directly between them, exactly like every other payment here. Completed carries show as their own public count. No van is dispatched, so nothing about this adds a transport term to the impact figures.',
   ],
   [
-    'Why does borrowing not count toward the carbon number?',
-    'Because the object comes back. A loan avoids a purchase for the person who borrowed it, but the owner still owns it, and nobody outside the two of them can say a purchase was truly prevented. So a rental is counted and reported as a reuse event, and earns no avoided-production credit at all — the assumption most likely to be challenged, given away before anyone asks.',
+    'Why does renting not count toward the carbon number?',
+    'Because the object comes back. Renting avoids a purchase for the person who rented it, but the owner still owns it, and nobody outside the two of them can say a purchase was truly prevented. So a rental is counted and reported as a reuse event, and earns no avoided-production credit at all — the assumption most likely to be challenged, given away before anyone asks.',
   ],
   [
-    'Who is responsible if a borrowed thing breaks?',
-    'The two of you. BetterBarter holds no deposit, no escrow and no insurance, and it will not decide who broke what — lend what you can afford to lose, agree the return date in the thread, and bring things back in the state you got them. That is in the community rules every account agrees to.',
+    'Who is responsible if a rented thing breaks?',
+    'The two of you. BetterBarter holds no deposit, no escrow and no insurance, and it will not decide who broke what — rent out only what you can afford to lose, agree the return date in the thread, and bring things back in the state you got them. That is in the community rules every account agrees to.',
   ],
   [
     'Does it cost anything?',
@@ -485,7 +485,7 @@ export function Landing() {
               <b>Production avoided</b>
               <span>
                 Mass × a low-end cradle-to-gate factor × a displacement rate of {DISPLACEMENT}, because a reused object
-                only avoids manufacturing if it stops a purchase. <b>Borrowing earns nothing here</b> — the object goes
+                only avoids manufacturing if it stops a purchase. <b>Renting earns nothing here</b> — the object goes
                 back, so we count the loan and claim no carbon for it.
               </span>
             </div>
@@ -648,7 +648,7 @@ export function Landing() {
             <div className="site__cell">
               <b>What stays free, permanently</b>
               <span>
-                Posting, claiming, giving away, lending and swapping. No listing fee, no fee per handoff, no cut of a
+                Posting, claiming, giving away, renting and swapping. No listing fee, no fee per handoff, no cut of a
                 sale settled between two students, and no charge to a student for anything on the object path.
               </span>
             </div>

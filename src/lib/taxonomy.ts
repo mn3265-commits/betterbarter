@@ -29,12 +29,12 @@ export type Condition = (typeof CONDITIONS)[number]
 
 /** Up to four photos per listing — the team's number, and the one a phone can
  *  shoot without the posting turning into a job. */
-export const MAX_PHOTOS = 4
+export const MAX_PHOTOS = 3
 
 /**
  * Which ways of listing are open, and which are announced.
  *
- * Lending is built end to end, but it needs a second meeting to bring the thing
+ * Renting is built end to end, but it needs a second meeting to bring the thing
  * back, and the team's call on 26 August was to keep that out of the first
  * release. Hiding it entirely was the wrong way to do that: it made the product
  * look like it had three ideas when it has four. So renting stays on the board,

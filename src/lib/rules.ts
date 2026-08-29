@@ -27,7 +27,7 @@ export const RULES: RuleSection[] = [
       'Drugs, prescription medication, and anything sold as a study aid',
       'Alcohol, vapes, and tobacco',
       'Fake IDs, keys, ID cards, or anything that opens a door that is not yours',
-      'Stolen, borrowed, or university-owned property',
+      'Stolen, rented, or university-owned property',
       'Recalled, damaged, or hazardous items — chemicals, fireworks, a charger that got hot',
       'Live animals',
       'Coursework, exam material, or anything meant to be handed in as someone else’s work',
@@ -49,9 +49,9 @@ export const RULES: RuleSection[] = [
       'Hand things off at a library entrance, a dining hall door, a student centre, a department lobby, a campus gate — somewhere other people are, and somewhere you were going anyway. Nothing here assumes you live on campus. Do not give out your room number, do not go to anyone’s home, and if a meeting feels wrong, leave: no item is worth it.',
   },
   {
-    title: 'Lending and swapping are between you two',
+    title: 'Renting and swapping are between you two',
     body:
-      'BetterBarter holds no deposit, no escrow and no insurance, and it will not decide who broke what. If you lend something, lend what you can afford to lose and agree the return date in the thread. If you borrow something, bring it back on time and in the state you got it. If you swap, both sides describe their thing honestly — a swap is two listings, not one.',
+      'BetterBarter holds no deposit, no escrow and no insurance, and it will not decide who broke what. If you rent something out, rent out only what you can afford to lose and agree the return date in the thread. If you rent something, bring it back on time and in the state you got it. If you swap, both sides describe their thing honestly — a swap is two listings, not one.',
   },
   {
     title: 'Show up, or say you cannot',
@@ -71,7 +71,7 @@ export const RULES: RuleSection[] = [
 ]
 
 export const RULES_SUMMARY =
-  'Nothing dangerous or illegal, describe things honestly, keep it in the app, meet in public on campus, bring back what you borrow, and show up.'
+  'Nothing dangerous or illegal, describe things honestly, keep it in the app, meet in public on campus, bring back what you rent, and show up.'
 
 // ── the pre-post check ────────────────────────────────────────────────────────
 

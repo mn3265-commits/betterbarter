@@ -1,18 +1,43 @@
+import { useState } from 'react'
 import { ChevronRight } from 'lucide-react'
 import { Photo } from '../components/Photo'
 import { CategoryIcon } from '../components/CategoryIcon'
 import { TabBar } from '../components/TabBar'
+import { CATEGORIES } from '../lib/taxonomy'
 import type { Item } from '../data/types'
 import type { Barter } from '../lib/useBarter'
+
+/**
+ * How an object is moving, as a colour rather than as a tab.
+ *
+ * Tessa's review of 28 August moved the board's first question from "how do you
+ * want to get it" to "what are you looking for" — which is the question people
+ * actually arrive with. Kind stops being the axis you browse along and becomes
+ * a mark on the card, so a category shows everything in it at once.
+ */
+const KIND_MARK: Record<string, { label: string; fg: string; bg: string }> = {
+  free:  { label: 'FREE',  fg: 'var(--color-accent-800)',  bg: 'var(--color-accent-100)' },
+  sale:  { label: 'SALE',  fg: 'var(--color-signal-700)',  bg: 'var(--color-signal-100)' },
+  trade: { label: 'SWAP',  fg: 'var(--color-neutral-800)', bg: 'var(--color-neutral-200)' },
+  rent:  { label: 'RENT',  fg: 'var(--color-neutral-700)', bg: 'var(--color-neutral-100)' },
+}
 
 /** Walk time from the viewer's own hall. Same building = same door. */
 /** Board (the board) — tab 1. Scan what is available on campus right now. */
 export function Board({ h }: { h: Barter }) {
   const q = h.q.trim().toLowerCase()
-  const pool = h
+  const [cat, setCat] = useState<string | null>(null)
+  const [kind, setKind] = useState<'all' | 'free' | 'sale' | 'trade' | 'rent'>('all')
+
+  /* Everything live on this campus, before either filter — the category counts
+     have to be counted against this or they lie about what is behind them. */
+  const live = h
     .all()
     .filter((it) => (h.live ? it.status === 'active' : !h.isPaused(it)))
-    .filter((it) => h.kindOf(it) === h.tab)
+
+  const pool = live
+    .filter((it) => (kind === 'all' ? h.kindOf(it) !== 'rent' : h.kindOf(it) === kind))
+    .filter((it) => !cat || it.cat === cat)
     // Radius, not a map: everything on this campus is already close, so the
     // filter is "how far am I willing to walk", in three coarse steps.
     .filter((it) => {
@@ -191,41 +216,70 @@ export function Board({ h }: { h: Barter }) {
           </div>
         )}
 
-        {/* segmented control — five ways an object can move, scrollable on a phone */}
-        <div style={{ padding: '12px 16px 0', overflowX: 'auto' }}>
-          <div className="seg" style={{ minWidth: '100%', width: 'max-content' }}>
-            {(
-              [
-                ['free', 'For free'],
-                ['sale', 'For sale'],
-                ['trade', 'For swap'],
-                ['rent', 'For rent'],
-                ['wanted', 'Looking for'],
-              ] as const
-            ).map(([key, label]) => (
-              <label key={key} className="seg-opt" style={{ flex: 1, justifyContent: 'center', whiteSpace: 'nowrap' }}>
-                <input type="radio" name="hf-tab" checked={h.tab === key} onChange={() => h.setTab(key)} />
-                <span>
-                  {label}
-                  {key === 'rent' && <sup className="seg-soon">soon</sup>}
-                </span>
-              </label>
+        {/* category first — the question people actually arrive with */}
+        {h.tab !== 'wanted' && (
+          <div style={{ padding: '14px 16px 0', overflowX: 'auto' }}>
+            <div style={{ display: 'flex', gap: 7, width: 'max-content', paddingBottom: 2 }}>
+              <button
+                onClick={() => setCat(null)}
+                className={'cat-chip' + (cat === null ? ' is-on' : '')}
+              >
+                All
+                <span className="cat-chip__n">{live.filter((it) => h.kindOf(it) !== 'rent').length}</span>
+              </button>
+              {CATEGORIES.map((c) => {
+                const n = live.filter((it) => it.cat === c && h.kindOf(it) !== 'rent').length
+                return (
+                  <button
+                    key={c}
+                    onClick={() => setCat(cat === c ? null : c)}
+                    className={'cat-chip' + (cat === c ? ' is-on' : '')}
+                  >
+                    <CategoryIcon category={c} size={14} />
+                    {c.split(' & ')[0]}
+                    <span className="cat-chip__n">{n}</span>
+                  </button>
+                )
+              })}
+            </div>
+          </div>
+        )}
+
+        {/* and how it moves, second — colour-coded on the cards either way */}
+        {h.tab !== 'wanted' && (
+          <div style={{ padding: '10px 16px 0', display: 'flex', gap: 7, flexWrap: 'wrap' }}>
+            {([
+              ['all', 'Everything'],
+              ['free', 'Free'],
+              ['sale', 'For sale'],
+              ['trade', 'Swap'],
+              ['rent', 'Rent'],
+            ] as const).map(([k, label]) => (
+              <button
+                key={k}
+                onClick={() => setKind(k)}
+                className={'btn ' + (kind === k ? 'btn-primary' : 'btn-secondary')}
+                style={{ fontSize: 12 }}
+              >
+                {label}
+                {k === 'rent' && <sup className="seg-soon">soon</sup>}
+              </button>
             ))}
           </div>
-        </div>
+        )}
 
-        {/* lending: announced, not open */}
-        {h.tab === 'rent' && (
+        {/* renting: announced, not open */}
+        {h.tab !== 'wanted' && kind === 'rent' && (
           <div style={{ padding: '18px 16px 0' }}>
             <div className="app-soon">
               <div className="app-soon__tag">Not open yet</div>
-              <div className="app-soon__title">Lending is coming</div>
+              <div className="app-soon__title">Renting is coming</div>
               <p>
-                One drill can serve a whole floor, and a fridge for a summer beats buying one. Lending needs a second
+                One drill can serve a whole floor, and a fridge for a summer beats buying one. Renting needs a second
                 meeting to bring the thing back, so we are finishing that properly before switching it on.
               </p>
               <button
-                onClick={() => h.flash('Noted. You will be the first told when lending opens.')}
+                onClick={() => h.flash('Noted. You will be the first told when renting opens.')}
                 className="btn btn-primary"
               >
                 Tell me when it opens
@@ -291,8 +345,8 @@ export function Board({ h }: { h: Barter }) {
           </div>
         )}
 
-        {/* item grid (Free / For sale) */}
-        {h.tab !== 'wanted' && (
+        {/* the items themselves */}
+        {h.tab !== 'wanted' && kind !== 'rent' && (
           <>
             {h.loadingBoard ? (
               <div style={{ padding: '24px 16px', fontSize: 13, opacity: 0.55 }}>Loading the board…</div>
@@ -319,24 +373,16 @@ function EmptyBoard({ h }: { h: Barter }) {
   return (
     <div style={{ padding: '32px 16px 0' }}>
       <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 600, fontSize: 20, lineHeight: 1.15 }}>
-        {searching
-          ? 'Nothing matches that.'
-          : h.tab === 'free'
-            ? 'Nothing free yet.'
-            : h.tab === 'rent'
-              ? 'Nothing to borrow yet.'
-              : h.tab === 'trade'
-                ? 'No swaps yet.'
-                : 'Nothing for sale yet.'}
+        {searching ? 'Nothing matches that.' : 'Nothing here yet.'}
       </div>
       <p style={{ fontSize: 13.5, opacity: 0.65, margin: '8px 0 16px', textWrap: 'pretty' }}>
         {searching
           ? 'Try a shorter word, or save it as a search and get pinged when one shows up.'
-          : 'The board fills up when someone posts. Be the first — a photo and one sentence is the whole thing.'}
+          : 'The Marketplace fills up when someone posts.'}
       </p>
       {!searching && (
         <button onClick={h.startPost} className="btn btn-primary">
-          Post the first thing
+          List the first item
         </button>
       )}
     </div>
@@ -345,6 +391,8 @@ function EmptyBoard({ h }: { h: Barter }) {
 
 function ItemCard({ it, h }: { it: Item; h: Barter }) {
   const isGone = h.gone.includes(it.id)
+  const kind = h.kindOf(it)
+  const mark = KIND_MARK[kind] ?? KIND_MARK.sale
   return (
     <div onClick={() => h.openDetail(it.id)} style={{ cursor: 'pointer', display: 'flex', flexDirection: 'column', gap: 7 }}>
       <Photo url={it.photoUrl} caption={[it.cat, it.loc].filter(Boolean).join(' · ')} height={118}>
@@ -384,11 +432,26 @@ function ItemCard({ it, h }: { it: Item; h: Barter }) {
           Needs a hand{it.helpFee ? ` · $${it.helpFee}` : ''}
         </div>
       )}
-      <div style={{ display: 'flex', alignItems: 'baseline', gap: 6 }}>
-        <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 600, fontSize: 13, color: 'var(--color-accent-700)' }}>
-          {h.priceOf(it)}
+      {/* Tessa's card, 28 Aug: how it moves, what it is, when and who, where.
+          The kind is a colour so a category can show every kind at once. */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+        <span
+          style={{
+            fontSize: 9.5,
+            fontWeight: 700,
+            letterSpacing: '.09em',
+            color: mark.fg,
+            background: mark.bg,
+            borderRadius: 3,
+            padding: '2px 6px',
+            flex: 'none',
+          }}
+        >
+          {mark.label}
+        </span>
+        <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 600, fontSize: 13, color: 'var(--color-accent-700)', minWidth: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+          {kind === 'free' ? '' : h.priceOf(it)}
         </div>
-        <div style={{ fontSize: 10, opacity: 0.55, marginLeft: 'auto' }}>{it.ago}</div>
       </div>
       <div style={{ display: 'flex', gap: 7, alignItems: 'flex-start' }}>
         <span style={{ color: 'var(--color-accent-700)', marginTop: 1 }}>
@@ -397,12 +460,17 @@ function ItemCard({ it, h }: { it: Item; h: Barter }) {
         <div style={{ fontSize: 13, lineHeight: 1.25 }}>{it.title}</div>
       </div>
       <div style={{ fontSize: 10.5, opacity: 0.55 }}>
+        {it.ago}
+        {it.seller ? ` by ${it.seller}` : ''}
+      </div>
+      <div style={{ fontSize: 10.5, opacity: 0.55 }}>
         {(() => {
           const km = h.distanceOf(it)
-          if (km == null) return it.spot || 'On campus'
-          if (km < 0.15) return 'A couple of minutes away'
-          if (km < 1) return `About ${Math.round(km * 1000)} m away`
-          return `About ${km.toFixed(1)} km away`
+          const where = it.spot || it.loc || 'On campus'
+          if (km == null) return where
+          if (km < 0.15) return `${where} · a couple of minutes away`
+          if (km < 1) return `${where} · about ${Math.round(km * 1000)} m`
+          return `${where} · about ${km.toFixed(1)} km`
         })()}
       </div>
     </div>

@@ -15,7 +15,7 @@ export function Post1({ h }: { h: Barter }) {
 
   return (
     <div className="screen">
-      <AppHeader kicker="Step 1 of 2" title="Photo first" onBack={h.jumpBrowse} />
+      <AppHeader kicker="Step 1 of 2" title="Photo" onBack={h.jumpBrowse} />
 
       <input
         ref={fileRef}
@@ -46,8 +46,8 @@ export function Post1({ h }: { h: Barter }) {
             }}
           >
             <Camera size={30} strokeWidth={1.7} />
-            <span style={{ fontFamily: 'var(--font-heading)', fontWeight: 600, fontSize: 20 }}>Shoot it where it stands</span>
-            <span style={{ fontSize: 12.5, opacity: 0.65 }}>One photo is enough. Median post takes 21 seconds.</span>
+            <span style={{ fontFamily: 'var(--font-heading)', fontWeight: 600, fontSize: 20 }}>Snap, snap, snap</span>
+            <span style={{ fontSize: 12.5, opacity: 0.65 }}>Maximum 3 photos.</span>
           </button>
         ) : (
           <>

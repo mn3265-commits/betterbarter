@@ -2,7 +2,7 @@ import type { Barter } from './lib/useBarter'
 
 const CUT = [
   ['Payments', 'The handoff happens in a lobby, on Venmo. You cannot see it, so you cannot charge it.'],
-  ['Deposits', 'Lending is a promise between two verified students. We hold nothing and adjudicate nothing.'],
+  ['Deposits', 'Renting is a promise between two verified students. We hold nothing and adjudicate nothing.'],
   ['Logistics', 'No collection, no storage, no van. That is what makes reuse cost more than it saves.'],
   ['Many campuses at once', 'A school joins by someone signing in. Our attention goes to one campus at a time — dense before wide.'],
 ]
@@ -13,7 +13,7 @@ const EARNS = [
   ['BetterBarter count', 'Reputation as credit history'],
   ['Mark as gone', 'Dead listings kill a board'],
   ['Wanted posts', 'A full board with zero inventory'],
-  ['Four ways to move it', 'Give, sell, lend, swap — one board, one confirmation'],
+  ['Four ways to move it', 'Give, sell, rent, swap — one board, one confirmation'],
   ['Move-out mode', 'May is the whole business'],
 ]
 

@@ -14,6 +14,14 @@ export function Me({ h }: { h: Barter }) {
   const [leaving, setLeaving] = useState(false)
   const mine = h.myListings
 
+  /* Tessa's Impact Dashboard, 28 Aug — split by what actually happened rather
+     than one blended "handoffs" number. The counts are measured; the emissions
+     figure is the published model and still says so. */
+  const done = mine.filter((it) => it.status === 'gone')
+  const givenFree = done.filter((it) => h.kindOf(it) === 'free').length
+  const sold = done.filter((it) => h.kindOf(it) === 'sale').length
+  const swapped = done.filter((it) => h.kindOf(it) === 'trade').length
+
   const [name, setName] = useState(h.me.name)
   const [spot, setSpot] = useState(h.me.preferredSpot)
   const [pronouns, setPronouns] = useState(h.me.pronouns)
@@ -41,7 +49,7 @@ export function Me({ h }: { h: Barter }) {
   return (
     <div className="screen">
       <AppHeader
-        title="Me"
+        title="Profile"
         action={
           <button onClick={h.jumpBrowse} className="btn btn-ghost" data-rail-dupe="1" style={{ fontSize: 12 }}>
             Board
@@ -123,12 +131,13 @@ export function Me({ h }: { h: Barter }) {
         {/* What those handoffs add up to. The count is measured; the two numbers
             beside it are estimates from the published model, and say so. */}
         <div style={{ padding: 16, borderBottom: '1px solid var(--color-divider)' }}>
-          <h6 style={{ margin: '0 0 10px' }}>What you have kept in use</h6>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 1, background: 'var(--color-divider)', border: '1px solid var(--color-divider)' }}>
+          <h6 style={{ margin: '0 0 10px' }}>Impact Dashboard</h6>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 1, background: 'var(--color-divider)', border: '1px solid var(--color-divider)' }}>
             {[
-              [String(h.me.handoffs), 'handoffs', 'measured'],
+              [String(givenFree), 'given away free', 'measured'],
+              [String(sold), swapped > 0 ? `sold · ${swapped} swapped` : 'sold', 'measured'],
               [kgLabel(averageItem().kg * h.me.handoffs), 'kept in use', 'estimated'],
-              [co2eLabel(averageItem().co2e * h.me.handoffs), 'avoided', 'estimated'],
+              [co2eLabel(averageItem().co2e * h.me.handoffs), 'emissions avoided', 'estimated'],
             ].map(([big, label, kind]) => (
               <div key={label} style={{ background: 'var(--color-bg)', padding: '10px 11px' }}>
                 <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 600, fontSize: 18, letterSpacing: '-.02em' }}>{big}</div>

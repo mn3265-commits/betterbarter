@@ -49,7 +49,7 @@ export function Gate({ h, auth }: { h: Barter; auth?: Auth }) {
         BetterBarter
       </div>
       <p style={{ fontSize: 17, lineHeight: 1.35, margin: '20px 0 0', maxWidth: '24ch' }}>
-        Give away, sell, lend or swap what you are done with — to someone in your own building.
+        Give away, sell, rent or swap what you are done with — to someone in your own building.
       </p>
 
       {/* The three promises, in the order they matter. They also stop the screen
