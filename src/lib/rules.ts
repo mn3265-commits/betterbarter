@@ -10,7 +10,22 @@
 
 import { findContactInfo } from './contact'
 
-export const RULES_VERSION = 3
+export const RULES_VERSION = 4
+
+/**
+ * A human, reachable.
+ *
+ * The rules promise that reports are reviewed, and they are — the queue is real
+ * and a founder works it. But a queue is not a person, and until now there was
+ * no address anywhere in the product. Someone frightened at eleven at night,
+ * someone whose swap went wrong, someone who needs an account gone: none of
+ * them had anywhere to go.
+ *
+ * For a board of fifty people on one campus, the right answer is a founder's
+ * own address, answered by a founder. Move it to a shared inbox when that stops
+ * being true.
+ */
+export const SUPPORT_EMAIL = 'mn3265@columbia.edu'
 
 export interface RuleSection {
   title: string
@@ -67,6 +82,11 @@ export const RULES: RuleSection[] = [
     title: 'What happens if you break this',
     body:
       'Listings that break these rules are removed. Accounts that break them can lose posting and claiming, or be suspended. Anything illegal is a matter for Public Safety or the police, not for us.',
+  },
+  {
+    title: 'If something goes wrong, write to us',
+    body:
+      `Reporting an account hides it from you straight away and puts it in front of us. If it is more urgent than that, or you would rather talk to a person, email ${SUPPORT_EMAIL} — a real person reads it. If you are in danger or something has been stolen, call Public Safety or the police first and us second.`,
   },
 ]
 

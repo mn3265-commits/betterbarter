@@ -3,6 +3,7 @@ import { Photo } from '../components/Photo'
 import { Switch } from '../components/Switch'
 import { TabBar } from '../components/TabBar'
 import { averageItem, co2eLabel, kgLabel } from '../lib/impact'
+import { SUPPORT_EMAIL } from '../lib/rules'
 import { AppBody, AppHeader } from '../components/Shell'
 import type { Barter } from '../lib/useBarter'
 
@@ -460,6 +461,13 @@ export function Me({ h }: { h: Barter }) {
               <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 600, fontSize: 14 }}>How BetterBarter works</div>
               <div style={{ fontSize: 11.5, opacity: 0.6 }}>Posting, claiming, and meeting up — in four screens.</div>
             </button>
+            <a
+              href={`mailto:${SUPPORT_EMAIL}?subject=BetterBarter`}
+              style={{ background: 'var(--color-bg)', border: 0, padding: '13px 0', textAlign: 'left', cursor: 'pointer', font: 'inherit', textDecoration: 'none', color: 'inherit', display: 'block' }}
+            >
+              <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 600, fontSize: 14 }}>Something went wrong</div>
+              <div style={{ fontSize: 11.5, opacity: 0.6 }}>Email a person. If you are in danger, call Public Safety first.</div>
+            </a>
             <button
               onClick={() => h.go('rules')}
               style={{ background: 'var(--color-bg)', border: 0, padding: '13px 0', textAlign: 'left', cursor: 'pointer', font: 'inherit' }}
