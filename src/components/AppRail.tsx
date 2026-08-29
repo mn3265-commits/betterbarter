@@ -1,5 +1,5 @@
 import { List, MessageSquare, Plus, Search, User } from 'lucide-react'
-import { LoopMark } from '../site/LoopMark'
+import { Mark } from '../site/Mark'
 import type { Barter } from '../lib/useBarter'
 
 /**
@@ -20,7 +20,7 @@ export function AppRail({ h }: { h: Barter }) {
   return (
     <nav className="app-rail">
       <a className="app-rail__mark" href="/">
-        <LoopMark size={20} />
+        <Mark size={20} />
         BetterBarter
       </a>
 

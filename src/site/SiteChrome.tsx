@@ -1,5 +1,5 @@
 import { DISPLACEMENT, MODEL_VERSION } from '../lib/impact'
-import { LoopMark } from './LoopMark'
+import { Mark } from './Mark'
 
 /**
  * The site's header and footer, in one place.
@@ -23,7 +23,7 @@ export function SiteNav({ current }: { current?: string }) {
     <header className="site__bar">
       <div className="site__wrap site__bar-in">
         <a className="site__mark" href="/" style={{ textDecoration: 'none' }}>
-          <LoopMark size={21} />
+          <Mark size={21} />
           BetterBarter
         </a>
         <span className="tag tag-outline">Circular economy · For universities</span>

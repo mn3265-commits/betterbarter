@@ -116,17 +116,68 @@
 <header class="hero">
   <div class="wrap">
     <div class="mark">
-      <svg width="78" height="78" viewBox="0 0 100 100" fill="none" aria-hidden="true">
-        <path d="M14 66c8-30 26-44 36-44s28 14 36 44" stroke="currentColor" stroke-width="9" stroke-linecap="round"/>
-        <circle cx="14" cy="66" r="10" fill="currentColor"/>
-        <circle cx="86" cy="66" r="10" fill="currentColor"/>
-        <circle cx="50" cy="26" r="12" fill="var(--gold)"/>
+      <svg width="78" height="78" viewBox="0 0 100 100" fill="none" stroke="currentColor"
+           stroke-width="8.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M50 16v68"/>
+        <path d="M50 22h13a14 14 0 0 1 0 28H50"/>
+        <path d="M50 50h15a14 14 0 0 1 0 28H50"/>
+        <path d="M50 22H37a14 14 0 0 0 0 28h13"/>
+        <path d="M50 50H35a14 14 0 0 0 0 28h15"/>
       </svg>
       <h1>BetterBarter</h1>
     </div>
     <p>Brand guide — the colours, the type and the voice, and the reason each one is what it is. Two colours, two faces, and one rule that governs both.</p>
   </div>
 </header>
+
+<section>
+  <div class="wrap">
+    <div class="eyebrow">The mark</div>
+    <h2>Two B&rsquo;s, one spine.</h2>
+    <p class="lede">
+      BetterBarter is two B&rsquo;s, and a barter is two sides of one exchange. The mark is a B and its mirror
+      image hung on a single stem — both facts in one shape, and a shape that belongs to nobody else.
+    </p>
+    <p class="lede">
+      It replaced two marks that were not the same mark as each other: an arch with three dots on the app icon,
+      and a pair of recycling arrows beside the wordmark. Whichever a person saw first, the other looked like a
+      different company. There is now one geometry, defined in <code>src/site/Mark.tsx</code>, and every other
+      file — favicon, PWA icons, the 512 app tile, the wordmark lockup, the 1000&times;270 PNG — is generated
+      from it by <code>scripts/build-logo.py</code>. Change a curve there and run the script; never redraw a
+      logo by hand, because that is exactly how the identity split in two the first time.
+    </p>
+
+    <div class="g3" style="margin-top: 26px">
+      <div class="swatch" style="background: var(--pine); color: var(--paper); display: flex; align-items: center; justify-content: center; aspect-ratio: 1; border-radius: 18px">
+        <svg width="108" height="108" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="9" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M50 16v68"/><path d="M50 22h13a14 14 0 0 1 0 28H50"/><path d="M50 50h15a14 14 0 0 1 0 28H50"/>
+          <path d="M50 22H37a14 14 0 0 0 0 28h13"/><path d="M50 50H35a14 14 0 0 0 0 28h15"/>
+        </svg>
+      </div>
+      <div class="swatch" style="display: flex; align-items: center; justify-content: center; aspect-ratio: 1; border: 1px solid var(--rule); border-radius: 18px; color: var(--pine)">
+        <svg width="108" height="108" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="8.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M50 16v68"/><path d="M50 22h13a14 14 0 0 1 0 28H50"/><path d="M50 50h15a14 14 0 0 1 0 28H50"/>
+          <path d="M50 22H37a14 14 0 0 0 0 28h13"/><path d="M50 50H35a14 14 0 0 0 0 28h15"/>
+        </svg>
+      </div>
+      <div class="swatch" style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 18px; aspect-ratio: 1; border: 1px solid var(--rule); border-radius: 18px; color: var(--pine)">
+        <svg width="16" height="16" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="10" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M50 16v68"/><path d="M50 22h13a14 14 0 0 1 0 28H50"/><path d="M50 50h15a14 14 0 0 1 0 28H50"/>
+          <path d="M50 22H37a14 14 0 0 0 0 28h13"/><path d="M50 50H35a14 14 0 0 0 0 28h15"/>
+        </svg>
+        <svg width="28" height="28" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="9" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M50 16v68"/><path d="M50 22h13a14 14 0 0 1 0 28H50"/><path d="M50 50h15a14 14 0 0 1 0 28H50"/>
+          <path d="M50 22H37a14 14 0 0 0 0 28h13"/><path d="M50 50H35a14 14 0 0 0 0 28h15"/>
+        </svg>
+      </div>
+    </div>
+    <p class="lede" style="margin-top: 18px">
+      <b>The stroke gets heavier as the mark gets smaller</b> — 8.5 at display size, 9 under 28&nbsp;px, 10 under
+      18&nbsp;px. Held at one weight the counters close up and the whole thing greys into a blob in a browser tab.
+      <code>Mark.tsx</code> does this for you; if you hand-write an SVG somewhere, do it there too.
+    </p>
+  </div>
+</section>
 
 <section>
   <div class="wrap">

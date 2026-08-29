@@ -18,7 +18,7 @@ missing, which reads better to a judge than a figure they can puncture.
 | --- | --- | --- |
 | Project introduction document *(required)* | `pitch/BetterBarter-SEE-THE-FUTURE-2026.pdf` | ✅ 3 pages |
 | Supporting upload *(the form takes 5)* | the published pitch deck, 12 slides | ✅ link below |
-| Company logo *(optional)* | `pitch/BetterBarter-logo.png` (1000×270), `pitch/logo.svg`, `pitch/logomark.svg` | ✅ |
+| Company logo *(optional)* | `pitch/BetterBarter-logo.png` (1000×270), `pitch/logo.svg`, `pitch/logomark.svg`, `pitch/BetterBarter-icon-512.png` | ✅ |
 
 Still needed: **Tessa's role and background**, which appears in four places —
 this form, the PDF, the deck and the site's About page — and an answer to the

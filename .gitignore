@@ -33,3 +33,9 @@ dist-ssr
 
 # Contact details that belong on a form, not in a public repo.
 pitch/contact.local.md
+
+# Seeded demo rows — ids to clean up, not for the repo.
+pitch/demo-data.local.md
+
+# Cached webfont for the logo build, fetched on demand.
+scripts/.fonts/
