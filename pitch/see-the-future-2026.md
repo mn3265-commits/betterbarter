@@ -20,9 +20,10 @@ missing, which reads better to a judge than a figure they can puncture.
 | Supporting upload *(the form takes 5)* | the published pitch deck, 12 slides | ✅ link below |
 | Company logo *(optional)* | `pitch/BetterBarter-logo.png` (1000×270), `pitch/logo.svg`, `pitch/logomark.svg` | ✅ |
 
-Still needed from you: **phone number**, **LinkedIn URL**, and **Tessa's role and
-background** — which appears in four places: this form, the PDF, the deck and the
-site's About page.
+Still needed: **Tessa's role and background**, which appears in four places —
+this form, the PDF, the deck and the site's About page — and an answer to the
+validation question at Section 4 if either of you has spoken to anyone in
+Columbia Housing, Facilities or Sustainability.
 
 ---
 
@@ -32,7 +33,7 @@ site's About page.
 | --- | --- |
 | Primary Contact Name | Mohammad Agung Nugroho |
 | Email | moh.agungnugroho@gmail.com |
-| Phone Number | `[FILL]` |
+| Phone Number | in `pitch/contact.local.md` — kept out of this public repo |
 | Country / Region | United States |
 | Organization / University | Columbia University, School of Professional Studies |
 | Team size | 2 |
@@ -123,6 +124,16 @@ use), and **estimated and displacement-adjusted** (avoided production, at 0.5).
 The factor table, the assumed category mix and every source are printed on the
 public site and live in one file in an open repository.
 
+The measured level has to be worth the name, so a handoff is confirmed by a
+**six-digit code split between the two phones** — the buyer's app holds three
+digits, the seller's the other three, and the database will not give either side
+the half it does not own. Those six digits do not exist in one place until two
+people are standing together. It is a speed bump rather than a vault, and we say
+so: two people set on faking a handoff can read the digits to each other. But it
+cannot happen by accident, it cannot happen alone, and the dashboard reports
+**verified in person** and **taken on trust** as two separate numbers rather than
+one that quietly blends them.
+
 ## Market size — TAM / SAM / SOM
 
 Two ways of counting, because a climate judge and an investor are asking
@@ -194,7 +205,8 @@ The pilot is scoped for the coming term, ahead of the May 2027 move-out peak.
   profile with impact dashboard, desktop layout and installable PWA.
 - **Backend hardened:** row-level security migrations, an RLS-hardening pass
   after the security advisor, server-side sign-up gating, and a SECURITY DEFINER
-  confirmation function that cannot double-count.
+  confirmation function that cannot double-count, and a split-code confirmation
+  that a single person cannot complete alone.
 - **Impact model v1.1 published** with its factor table, assumed mix and sources.
 - **Open source:** https://github.com/mn3265-commits/handoff
 - **Not yet:** paying customers, an institutional partnership, or pilot users.
@@ -298,7 +310,7 @@ product.
 | --- | --- |
 | Company / Project website | https://betterbarter.vercel.app |
 | Repository | https://github.com/mn3265-commits/handoff |
-| LinkedIn Profile | `[FILL]` |
+| LinkedIn Profile | https://www.linkedin.com/in/mohagungnugroho |
 | Company Logo | `pitch/BetterBarter-logo.png` |
 
 The live URL matches the name as of 29 August: **betterbarter.vercel.app**. A

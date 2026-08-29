@@ -30,3 +30,6 @@ dist-ssr
 .env
 .env.*
 !.env.example
+
+# Contact details that belong on a form, not in a public repo.
+pitch/contact.local.md
