@@ -186,7 +186,7 @@ The pilot is scoped for the coming term, ahead of the May 2027 move-out peak.
 
 ## Have you achieved any traction?
 
-- **Live product** at https://handoff-bay-two.vercel.app — a public site
+- **Live product** at https://betterbarter.vercel.app — a public site
   explaining the method, and the board itself behind university sign-in.
 - **Shipped end to end:** verification gate, board with For free / For sale / For
   swap / For rent (announced) / Looking for, structured listing form, claim with
@@ -296,16 +296,15 @@ product.
 
 | Field | Answer |
 | --- | --- |
-| Company / Project website | https://handoff-bay-two.vercel.app |
+| Company / Project website | https://betterbarter.vercel.app |
 | Repository | https://github.com/mn3265-commits/handoff |
 | LinkedIn Profile | `[FILL]` |
 | Company Logo | `pitch/BetterBarter-logo.png` |
 
-**One thing to decide:** the live URL still says `handoff-bay-two`, because the
-product was renamed after it was deployed. A judge who clicks it lands on a page
-that says the current name everywhere, so nothing breaks — but a domain that
-matches the name reads better on a form that becomes event materials. Domains in
-this shape cost about $12 a year.
+The live URL matches the name as of 29 August: **betterbarter.vercel.app**. A
+custom domain is still worth about $12 a year if these become event materials —
+`betterbarter.com` is taken, `betterbarter.app` and `betterbarter.co` are not —
+but nothing on the form depends on it now.
 
 ## Sources used in these answers
 

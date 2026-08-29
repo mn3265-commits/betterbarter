@@ -10,7 +10,7 @@ no accounts without a school email. Every campus is its own isolated board.
 This repository is the whole thing: a **React + Vite + TypeScript** app at
 `/app`, a public site at `/`, and the original design walkthrough — the 10-screen
 flow inside an iPhone frame — at `/?showcase`. It's deployed on Vercel:
-**https://handoff-bay-two.vercel.app**. The design language is a strict
+**https://betterbarter.vercel.app**. The design language is a strict
 flat/modernist system: **zero border radius anywhere**, everything **flush left**,
 2px rules instead of shadows, a single accent red on a light ground, Archivo
 throughout.

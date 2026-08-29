@@ -85,8 +85,8 @@ app needs no code change, and the two campuses cannot see each other.
   client whose redirect URI is
   `https://gkqyaynukcrrewspekmf.supabase.co/auth/v1/callback`. The app passes
   `hd=columbia.edu` to steer Google at the campus workspace.
-- **Site URL**: Authentication → URL Configuration → `https://handoff-bay-two.vercel.app`,
-  with `https://handoff-bay-two.vercel.app/**` in Redirect URLs. Both sign-in
+- **Site URL**: Authentication → URL Configuration → `https://betterbarter.vercel.app`,
+  with `https://betterbarter.vercel.app/**` in Redirect URLs. Both sign-in
   methods now ask to come back to **`/app`**, since `/` is the public site; a
   token that still lands on `/` is forwarded to `/app` with its hash intact.
 - The client uses the **implicit** flow so a magic link still completes when the
