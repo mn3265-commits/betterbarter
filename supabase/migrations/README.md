@@ -35,6 +35,7 @@ history. This is the mapping, in case the two ever need to be reconciled:
 | 0025_handoff_code | 20260829071205 handoff_code |
 | 0026_hide_handoff_code_column | 20260829071245 hide_handoff_code_column |
 | 0027_handoff_integrity | 20260829071435 handoff_integrity |
+| 0028_campus_teaser | 20260829... campus_teaser |
 
 (0022 and 0023 were applied in the other order; the file numbering follows the
 order they should be replayed in, which is the same either way.)

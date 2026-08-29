@@ -967,3 +967,26 @@ export async function fetchHandoffIntegrity(): Promise<HandoffIntegrity | null> 
   if (error || !data) return null
   return data as HandoffIntegrity
 }
+
+/* ── What a stranger may know ────────────────────────────────────────────────
+ *
+ * The only thing an anonymous visitor can ask this database. Counts and a
+ * campus name; never a row, never a person. It exists so a shared link can say
+ * what is waiting instead of showing a bare sign-in wall — during move-in week
+ * that difference is the whole invitation.
+ */
+export interface Teaser {
+  scope: 'all' | 'campus'
+  campus: string | null
+  live: number
+  free: number
+  campuses: number
+}
+
+export async function fetchTeaser(domain?: string | null): Promise<Teaser | null> {
+  const c = db()
+  if (!c) return null
+  const { data, error } = await c.rpc('campus_teaser', { p_domain: domain ?? null })
+  if (error || !data) return null
+  return data as Teaser
+}

@@ -1,5 +1,6 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { ArrowRight } from 'lucide-react'
+import { fetchTeaser, type Teaser } from '../lib/api'
 import type { Auth } from '../lib/useAuth'
 import type { Barter } from '../lib/useBarter'
 
@@ -7,6 +8,16 @@ import type { Barter } from '../lib/useBarter'
  *  With a live backend it offers Google (LionMail) sign-in plus a magic-link
  *  fallback; without one it's the demo. */
 export function Gate({ h, auth }: { h: Barter; auth?: Auth }) {
+  /* The campus can come in on the link — betterbarter.vercel.app/app?c=columbia.edu
+     — so an invitation says what is waiting on the board it is inviting you to. */
+  const [teaser, setTeaser] = useState<Teaser | null>(null)
+  useEffect(() => {
+    const domain = new URLSearchParams(window.location.search).get('c')
+    let alive = true
+    void fetchTeaser(domain).then((t) => { if (alive) setTeaser(t) })
+    return () => { alive = false }
+  }, [])
+
   const live = Boolean(auth?.configured)
   const [gBusy, setGBusy] = useState(false)
   const [err, setErr] = useState<string | null>(null)
@@ -51,6 +62,33 @@ export function Gate({ h, auth }: { h: Barter; auth?: Auth }) {
       <p style={{ fontSize: 17, lineHeight: 1.35, margin: '20px 0 0', maxWidth: '24ch' }}>
         Give away, sell, rent or swap what you are done with — to someone in your own building.
       </p>
+
+      {/* What is actually behind the sign-in button. A person handed this link
+          during orientation has no other way to know, and a number is the
+          difference between signing in and closing the tab. */}
+      {teaser && teaser.live > 0 && (
+        <div
+          style={{
+            marginTop: 18,
+            display: 'inline-flex',
+            alignItems: 'baseline',
+            gap: 8,
+            flexWrap: 'wrap',
+            border: '1px solid color-mix(in srgb, var(--color-bg) 45%, transparent)',
+            borderRadius: 999,
+            padding: '8px 14px',
+            alignSelf: 'flex-start',
+          }}
+        >
+          <b style={{ fontFamily: 'var(--font-heading)', fontWeight: 600, fontSize: 17 }}>
+            {teaser.live} things
+          </b>
+          <span style={{ fontSize: 13, opacity: 0.9 }}>
+            on the {teaser.campus ?? 'board'} right now
+            {teaser.free > 0 ? ` · ${teaser.free} free` : ''}
+          </span>
+        </div>
+      )}
 
       {/* The three promises, in the order they matter. They also stop the screen
           from being a wordmark floating in an empty red field on a laptop. */}
