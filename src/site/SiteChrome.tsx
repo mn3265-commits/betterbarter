@@ -52,7 +52,7 @@ export function SiteFooter() {
       <a href="/brand">Brand guide</a>
       <a href="/app">Open the board</a>
       <a href="/?showcase">Design walkthrough</a>
-      <a href="https://github.com/mn3265-commits/handoff">Source &amp; model</a>
+      <a href="https://github.com/mn3265-commits/betterbarter">Source &amp; model</a>
     </footer>
   )
 }

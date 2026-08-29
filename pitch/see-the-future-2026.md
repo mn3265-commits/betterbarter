@@ -221,7 +221,7 @@ The pilot is scoped for the coming term, ahead of the May 2027 move-out peak.
   confirmation function that cannot double-count, and a split-code confirmation
   that a single person cannot complete alone.
 - **Impact model v1.1 published** with its factor table, assumed mix and sources.
-- **Open source:** https://github.com/mn3265-commits/handoff
+- **Open source:** https://github.com/mn3265-commits/betterbarter
 - **Not yet:** paying customers, an institutional partnership, or pilot users.
   Two verified Columbia accounts. We would rather say that than inflate it.
 
@@ -322,7 +322,7 @@ product.
 | Field | Answer |
 | --- | --- |
 | Company / Project website | https://betterbarter.vercel.app |
-| Repository | https://github.com/mn3265-commits/handoff |
+| Repository | https://github.com/mn3265-commits/betterbarter |
 | LinkedIn Profile | https://www.linkedin.com/in/mohagungnugroho |
 | Company Logo | `pitch/BetterBarter-logo.png` |
 

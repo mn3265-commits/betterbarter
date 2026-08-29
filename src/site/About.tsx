@@ -168,7 +168,7 @@ export function About() {
             <p>
               If you run housing, sustainability or a student group at a school where this should exist, or you want to
               argue with a number in the model,{' '}
-              <a href="https://github.com/mn3265-commits/handoff">the repository</a> is the front door.
+              <a href="https://github.com/mn3265-commits/betterbarter">the repository</a> is the front door.
             </p>
           </div>
         </div>
