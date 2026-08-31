@@ -1,6 +1,6 @@
 # Photos
 
-Four photographs from Unsplash, used under the Unsplash Licence: free for
+Four photographs from Unsplash (three in use), used under the Unsplash Licence: free for
 commercial use, no permission needed, no attribution required.
 
 | File | Unsplash photo | Why this one |

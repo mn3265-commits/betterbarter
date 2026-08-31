@@ -53,6 +53,32 @@ that fits this venture is one person on product and engineering, one on campus
 operations and partnerships — housing, sustainability offices, EcoReps, student
 groups. Use those words if that is how you actually work.*
 
+### If this is a solo entry
+
+Tessa is building the investor deck and may not be entering this competition. If
+she is not, use the block below instead — **team size 1** — and credit her
+honestly rather than listing her as an entrant. A solo founder who names his
+collaborator reads better than one who quietly absorbs her work, and it is also
+just true.
+
+> **Agung Nugroho — sole founder.** Designs the board, writes the code, owns the
+> impact model and runs the Columbia pilot. Graduate student and Graduate
+> Assistant at Columbia SPS; background in customer-lifecycle and CRM marketing
+> at telecommunications scale.
+>
+> *Product review and the community guidelines were shaped with Tessa Wong
+> (Columbia), who is not part of this entry.*
+
+**What this costs, said plainly.** A solo entry is weaker on the "team" criterion
+at any competition — a second person is evidence somebody else believed it enough
+to spend their evenings on it. Do not pretend otherwise in the answer. What
+offsets it here is that the product is built, deployed and hardened by one
+person, which is itself a signal about execution speed.
+
+**What it saves.** The one thing blocking this submission for three days has been
+a `[FILL]` waiting on somebody else. A solo entry removes that dependency two
+days before the deadline, which is not nothing.
+
 ## Startup / Project Name
 
 **BetterBarter**
