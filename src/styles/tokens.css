@@ -77,9 +77,15 @@
   --space-8: 32px;
 
   /* Corners exist now. Not pills — just enough that nothing has a knife edge. */
-  --radius-sm: 6px;
-  --radius-md: 10px;
-  --radius-lg: 16px;
+  /* The deck's shapes: generously rounded, with a real ink outline instead of
+     a hairline. Tessa's slides are built from outlined cards on graph paper,
+     and a product that shares her palette but not her geometry still reads as a
+     different thing next to it. */
+  --radius-sm: 10px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --border-ink: 1.5px solid var(--color-text);
+  --border-soft: 1.5px solid color-mix(in srgb, var(--color-text) 24%, transparent);
 
   /* Elevation exists but the app deliberately uses rules + alignment, not shadow. */
   --shadow-sm: 0 1px 2px color-mix(in srgb, #2a2f29 12%, transparent);
@@ -153,19 +159,21 @@ img { display: block; max-width: 100%; }
   line-height: 1.2;
   color: var(--color-text);
   background: transparent;
-  border: 1px solid transparent;
+  /* The deck's pills: a real ink edge and a full round, so a button in the app
+     and a button on a slide are the same object. */
+  border: var(--border-ink);
   padding: calc(var(--space-2) * 1.15) calc(var(--space-3) * 1.35);
-  border-radius: var(--radius-md);
+  border-radius: 999px;
 }
 .btn svg { display: block; }
 .btn:disabled { opacity: 0.45; cursor: not-allowed; }
 .btn-primary { background: var(--color-accent); color: var(--color-on-accent); }
 .btn-primary:hover { background: var(--color-accent-600); }
 .btn-primary:active { background: var(--color-accent-700); }
-.btn-secondary { border-color: var(--color-divider); }
+.btn-secondary { border: var(--border-ink); background: var(--color-bg); }
 .btn-secondary:hover { background: color-mix(in srgb, var(--color-text) 7%, transparent); }
 .btn-secondary:active { background: color-mix(in srgb, var(--color-text) 14%, transparent); }
-.btn-ghost { color: var(--color-accent-700); padding-inline: var(--space-1); }
+.btn-ghost { color: var(--color-accent-800); border-color: transparent; padding-inline: var(--space-1); }
 .btn-ghost:hover { background: color-mix(in srgb, var(--color-accent) 10%, transparent); }
 .btn-ghost:active { background: color-mix(in srgb, var(--color-accent) 18%, transparent); }
 .btn-block { width: 100%; justify-content: flex-start; text-align: left; }

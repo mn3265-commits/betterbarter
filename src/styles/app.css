@@ -199,11 +199,14 @@
 .notes__grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 2px;
-  background: var(--color-divider);
-  border: 1px solid var(--color-divider);
+  gap: 10px;
 }
-.notes__cell { background: var(--color-bg); padding: 12px 13px; }
+.notes__cell {
+  background: var(--color-surface);
+  border: var(--border-ink);
+  border-radius: var(--radius-md);
+  padding: 12px 13px;
+}
 .notes__cell b { font-weight: 600; font-size: 13px; display: block; }
 .notes__cell span { font-size: 12px; opacity: 0.7; }
 .notes__jump { display: flex; flex-wrap: wrap; gap: 8px; }
@@ -286,6 +289,8 @@
   border-radius: var(--radius-md);
   background: var(--color-accent);
   color: var(--color-on-accent);
+  border: var(--border-ink);
+  border-radius: 999px;
   font-family: var(--font-body);
   font-weight: 700;
   font-size: 15px;

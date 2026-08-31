@@ -108,7 +108,14 @@
 .site__hero-note { font-size: 13px; opacity: 0.82; margin: 18px 0 0; max-width: 42ch; }
 
 /* ── section scaffold ── */
-.site__section { padding: 64px 0; border-top: 1px solid var(--color-divider); }
+.site__section {
+  padding: 64px 0;
+  border-top: 1px solid var(--color-divider);
+  /* the faint graph paper the deck sits on */
+  background-image: linear-gradient(color-mix(in srgb, var(--color-text) 5%, transparent) 1px, transparent 1px),
+                    linear-gradient(90deg, color-mix(in srgb, var(--color-text) 5%, transparent) 1px, transparent 1px);
+  background-size: 74px 74px;
+}
 /* The method section is the argument of the whole page, so it gets its own
    ground rather than another run of the same off-white. */
 #impact { background: var(--color-accent-100); }
@@ -131,15 +138,12 @@
 /* ── the three segments ── */
 .site__segs {
   display: grid;
-  border-radius: var(--radius-lg);
-  overflow: hidden;
+  
   grid-template-columns: repeat(3, 1fr);
-  gap: 2px;
-  background: var(--color-divider);
-  border: 1px solid var(--color-divider);
+  gap: 14px;
   margin-top: 34px;
 }
-.site__seg { background: var(--color-bg); padding: 22px 20px 24px; }
+.site__seg { background: var(--color-surface); border: var(--border-ink); border-radius: var(--radius-lg); padding: 22px 20px 24px; }
 .site__seg b {
   font-family: var(--font-heading);
   font-weight: 600;
@@ -175,15 +179,12 @@
 /* ── two-column feature grid ── */
 .site__grid {
   display: grid;
-  border-radius: var(--radius-lg);
-  overflow: hidden;
+  
   grid-template-columns: repeat(2, 1fr);
-  gap: 2px;
-  background: var(--color-divider);
-  border: 1px solid var(--color-divider);
+  gap: 14px;
   margin-top: 34px;
 }
-.site__cell { background: var(--color-bg); padding: 20px; }
+.site__cell { background: var(--color-surface); border: var(--border-ink); border-radius: var(--radius-lg); padding: 20px; }
 .site__cell b {
   font-family: var(--font-heading);
   font-weight: 600;
@@ -198,15 +199,12 @@
 /* ── stat row (the problem) ── */
 .site__stats {
   display: grid;
-  border-radius: var(--radius-lg);
-  overflow: hidden;
+  
   grid-template-columns: repeat(3, 1fr);
-  gap: 2px;
-  background: var(--color-divider);
-  border: 1px solid var(--color-divider);
+  gap: 14px;
   margin-top: 34px;
 }
-.site__stat { background: var(--color-bg); padding: 22px 20px 24px; }
+.site__stat { background: var(--color-surface); border: var(--border-ink); border-radius: var(--radius-lg); padding: 22px 20px 24px; }
 .site__stat b {
   display: block;
   font-family: var(--font-heading);
@@ -225,15 +223,12 @@
 /* ── the three levels of the impact model ── */
 .site__levels {
   display: grid;
-  border-radius: var(--radius-lg);
-  overflow: hidden;
+  
   grid-template-columns: repeat(3, 1fr);
-  gap: 2px;
-  background: var(--color-divider);
-  border: 1px solid var(--color-divider);
+  gap: 14px;
   margin-top: 34px;
 }
-.site__level { background: var(--color-bg); padding: 20px; }
+.site__level { background: var(--color-surface); border: var(--border-ink); border-radius: var(--radius-lg); padding: 20px; }
 .site__level-tag {
   font-size: 10.5px;
   letter-spacing: 0.09em;
