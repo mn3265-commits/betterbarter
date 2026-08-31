@@ -34,211 +34,219 @@ FONT_DIR = pathlib.Path(__file__).resolve().parent / ".fonts"
 PINE = (28, 122, 79)        # #1c7a4f
 PAPER = (241, 243, 239)     # #f1f3ef
 
-# ── The mark, on a 100x100 grid ──────────────────────────────────────────────
-# Kept identical to MARK_PATHS in src/site/Mark.tsx. Two B's, one spine.
-MARK_PATHS = [
-    "M50 16v68",
-    "M50 22h13a14 14 0 0 1 0 28H50",
-    "M50 50h15a14 14 0 0 1 0 28H50",
-    "M50 22H37a14 14 0 0 0 0 28h13",
-    "M50 50H35a14 14 0 0 0 0 28h15",
-]
-
-# The same shapes as primitives, for the rasteriser. Segments are either a
-# straight line or a semicircular arc; both are drawn as round-capped strokes so
-# they match the SVG exactly.
-#   ("line", x1, y1, x2, y2)
-#   ("arc", cx, cy, r, start_deg, end_deg)   angles clockwise from +x, y down
-MARK_PRIMS = [
-    ("line", 50, 16, 50, 84),                 # spine
-    ("line", 50, 22, 63, 22),                 # right upper bowl
-    ("arc", 63, 36, 14, -90, 90),
-    ("line", 63, 50, 50, 50),
-    ("line", 50, 50, 65, 50),                 # right lower bowl
-    ("arc", 65, 64, 14, -90, 90),
-    ("line", 65, 78, 50, 78),
-    ("line", 50, 22, 37, 22),                 # mirrored upper bowl
-    ("arc", 37, 36, 14, 90, 270),
-    ("line", 37, 50, 50, 50),
-    ("line", 50, 50, 35, 50),                 # mirrored lower bowl
-    ("arc", 35, 64, 14, 90, 270),
-    ("line", 35, 78, 50, 78),
-]
-
-
-def svg_mark(stroke: str, width: float = 8.5) -> str:
-    paths = "\n".join(f'    <path d="{d}"/>' for d in MARK_PATHS)
-    return (
-        f'  <g fill="none" stroke="{stroke}" stroke-width="{width}" '
-        f'stroke-linecap="round" stroke-linejoin="round">\n{paths}\n  </g>'
-    )
-
-
-# ── Rasteriser ───────────────────────────────────────────────────────────────
-# Drawn at 6x and downsampled, which is cheaper than antialiasing by hand and
-# gives cleaner joins than PIL's own arc drawing at final size.
-SS = 6
-
-
-def draw_mark(draw, ox, oy, scale, width, colour):
-    """Stroke the mark with round caps, by stamping discs along each segment."""
-    r = width * scale / 2.0
-
-    def dot(x, y):
-        draw.ellipse([x - r, y - r, x + r, y + r], fill=colour)
-
-    def to_px(x, y):
-        return ox + x * scale, oy + y * scale
-
-    for prim in MARK_PRIMS:
-        if prim[0] == "line":
-            _, x1, y1, x2, y2 = prim
-            ax, ay = to_px(x1, y1)
-            bx, by = to_px(x2, y2)
-            steps = max(2, int(math.hypot(bx - ax, by - ay) / max(1.0, r * 0.25)))
-            for i in range(steps + 1):
-                t = i / steps
-                dot(ax + (bx - ax) * t, ay + (by - ay) * t)
-        else:
-            _, cx, cy, rad, a0, a1 = prim
-            px, py = to_px(cx, cy)
-            rr = rad * scale
-            steps = max(8, int(abs(a1 - a0) / 1.2))
-            for i in range(steps + 1):
-                a = math.radians(a0 + (a1 - a0) * i / steps)
-                dot(px + rr * math.cos(a), py + rr * math.sin(a))
-
-
-def png_icon(path, size, fg, bg, corner=None, pad_ratio=0.22, width=9.0):
-    from PIL import Image, ImageDraw
-
-    big = size * SS
-    img = Image.new("RGBA", (big, big), (0, 0, 0, 0))
-    d = ImageDraw.Draw(img)
-    if bg is not None:
-        if corner:
-            d.rounded_rectangle([0, 0, big - 1, big - 1], radius=int(corner * SS), fill=bg)
-        else:
-            d.rectangle([0, 0, big, big], fill=bg)
-
-    inner = big * (1 - pad_ratio * 2)
-    draw_mark(d, big * pad_ratio, big * pad_ratio, inner / 100.0, width, fg)
-
-    img = img.resize((size, size), Image.LANCZOS)
-    img.save(path)
-    print(f"  wrote {path.relative_to(ROOT)}  ({size}x{size})")
-
-
-# ── Fraunces, for the wordmark ───────────────────────────────────────────────
-# The upstream repository ships the real variable TTF, which Pillow can read.
-# Google Fonts' CSS endpoint hands back a subset in a private format instead —
-# it downloads fine and then fails to parse, which is a confusing way to fail.
-FRAUNCES_URL = (
-    "https://raw.githubusercontent.com/googlefonts/fraunces/master/fonts/"
-    "Fraunces%5BSOFT%2CWONK%2Copsz%2Cwght%5D.ttf"
+# ── The mark ────────────────────────────────────────────────────────────────
+# Two B's facing each other, cut from Fredoka itself rather than drawn to look
+# like it. The wordmark is set in Fredoka, so a monogram approximating it was
+# always going to sit slightly wrong beside it — this is the same letter.
+#
+# The stem of Fredoka's B at weight 600 is exactly 152 units wide (38.5 to
+# 190.5, measured by scanline, constant up the letter). Mirroring about the
+# stem's centre makes the two B's share it — and that reads as one solid slab,
+# not as two letters. Mirroring at x=16 leaves a 45-unit gap instead, which is
+# tight enough to be one mark and open enough to still be two B's.
+FREDOKA_URL = (
+    "https://raw.githubusercontent.com/google/fonts/main/ofl/fredoka/"
+    "Fredoka%5Bwdth%2Cwght%5D.ttf"
 )
+MIRROR_AT = 16          # leaves a 45-unit gap between the two stems
+GLYPH_BOX = (2 * MIRROR_AT - 590, 590, -8.75, 690.75)   # x0, x1, y0, y1
+
+PINE = (28, 122, 79)        # kept for reference; the brand moved to lime
+LIME = (223, 233, 88)       # #dfe958
+INK = (20, 24, 10)          # #14180a
 
 
-def fraunces():
+def fredoka_b() -> str:
+    """The B outline as an SVG path, at weight 600."""
+    from fontTools.ttLib import TTFont
+    from fontTools.varLib.instancer import instantiateVariableFont
+    from fontTools.pens.svgPathPen import SVGPathPen
+
     FONT_DIR.mkdir(exist_ok=True)
-    dest = FONT_DIR / "Fraunces.ttf"
-    if dest.exists() and dest.stat().st_size > 200_000:
-        return dest
-    try:
-        req = urllib.request.Request(FRAUNCES_URL, headers={"User-Agent": "curl/8"})
+    dest = FONT_DIR / "Fredoka.ttf"
+    if not dest.exists() or dest.stat().st_size < 100_000:
+        req = urllib.request.Request(FREDOKA_URL, headers={"User-Agent": "curl/8"})
         with urllib.request.urlopen(req, timeout=60) as r:
             data = r.read()
         if data[:4] not in (b"\x00\x01\x00\x00", b"true", b"OTTO"):
             raise ValueError(f"not a TrueType file (magic {data[:4]!r})")
         dest.write_bytes(data)
-        print(f"  fetched Fraunces ({len(data) // 1024} KB)")
-        return dest
-    except Exception as exc:  # noqa: BLE001
-        print(f"  ! could not fetch Fraunces: {exc}")
-        return None
+        print(f"  fetched Fredoka ({len(data) // 1024} KB)")
+
+    font = TTFont(dest)
+    inst = instantiateVariableFont(font, {"wght": 600, "wdth": 100}, inplace=False)
+    gs = inst.getGlyphSet()
+    pen = SVGPathPen(gs)
+    gs[inst.getBestCmap()[ord("B")]].draw(pen)
+    return pen.getCommands()
 
 
-def png_lockup(path, w=1000, h=270):
-    from PIL import Image, ImageDraw, ImageFont
+def mark_transform(box: float = 100, pad: float = 8):
+    """Fit the pair into a square box, flipping y from font space to SVG space."""
+    x0, x1, y0, y1 = GLYPH_BOX
+    w, h = x1 - x0, y1 - y0
+    sc = (box - pad * 2) / max(w, h)
+    tx = pad + (box - pad * 2 - w * sc) / 2 - x0 * sc
+    ty = pad + (box - pad * 2 - h * sc) / 2 + y1 * sc
+    return tx, ty, sc
 
-    font_path = fraunces()
-    if font_path is None:
-        print("  ! skipping the PNG lockup — it would be in the wrong typeface")
-        return
 
-    big_w, big_h = w * 2, h * 2
-    img = Image.new("RGBA", (big_w, big_h), (0, 0, 0, 0))
-    d = ImageDraw.Draw(img)
+def svg_mark(fill: str, d: str, box: float = 100, pad: float = 8) -> str:
+    tx, ty, sc = mark_transform(box, pad)
+    return (
+        f'  <g transform="translate({tx:.3f} {ty:.3f}) scale({sc:.5f} -{sc:.5f})" fill="{fill}">\n'
+        f'    <path d="{d}"/>\n'
+        f'    <path d="{d}" transform="translate({2 * MIRROR_AT} 0) scale(-1 1)"/>\n'
+        f'  </g>'
+    )
 
-    mark_box = big_h * 0.66
-    mark_x = big_h * 0.17
-    mark_y = (big_h - mark_box) / 2
-    draw_mark(d, mark_x, mark_y, mark_box / 100.0, 8.5, PINE)
 
-    size = int(big_h * 0.46)
-    font = ImageFont.truetype(str(font_path), size)
+# ── Rasteriser ───────────────────────────────────────────────────────────────
+# The PNGs are rendered from the very SVG that ships, through the same browser
+# engine, so a PNG icon and an SVG favicon can never disagree about the shape.
 
-    # The axis order is the font's, not the filename's. Fraunces' filename reads
-    # [SOFT,WONK,opsz,wght]; the font actually orders them opsz, wght, SOFT,
-    # WONK. Passing the filename's order silently clamped wght to its minimum
-    # and rendered the wordmark hairline-thin — set them by name and let a
-    # mismatch raise, rather than swallowing it and shipping the wrong weight.
-    axes = {}
-    for i, a in enumerate(font.get_variation_axes()):
-        name = a["name"].decode() if isinstance(a["name"], bytes) else a["name"]
-        axes[name] = i
-    values = [a["default"] for a in font.get_variation_axes()]
-    for name, want in (("Optical Size", 120.0), ("Weight", 600.0),
-                       ("Softness", 80.0), ("Wonky", 1.0)):
-        values[axes[name]] = want          # KeyError here is the right failure
-    font.set_variation_by_axes(values)
 
-    text = "BetterBarter"
-    tx = mark_x + mark_box + big_h * 0.20
-    bbox = d.textbbox((0, 0), text, font=font)
-    ty = (big_h - (bbox[3] - bbox[1])) / 2 - bbox[1]
-    d.text((tx, ty), text, font=font, fill=PINE)
+async def _shoot(pairs):
+    from playwright.async_api import async_playwright
 
-    img.resize((w, h), Image.LANCZOS).save(path)
-    print(f"  wrote {path.relative_to(ROOT)}  ({w}x{h})")
+    async with async_playwright() as pw:
+        browser = await pw.chromium.launch()
+        for svg, out, size in pairs:
+            tmp = ROOT / "scripts" / ".fonts" / "_render.svg"
+            tmp.write_text(svg)
+            page = await browser.new_page(viewport={"width": size, "height": size},
+                                          device_scale_factor=1)
+            await page.goto(tmp.as_uri())
+            await page.screenshot(path=str(out), omit_background=True)
+            await page.close()
+            print(f"  wrote {out.relative_to(ROOT)}  ({size}x{size})")
+        await browser.close()
+    (ROOT / "scripts" / ".fonts" / "_render.svg").unlink(missing_ok=True)
+
+
+def png_icons(d):
+    import asyncio
+
+    def tile(size, radius):
+        return (
+            f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" '
+            f'width="{size}" height="{size}">\n'
+            f'  <rect width="100" height="100" rx="{radius}" fill="#dfe958"/>\n'
+            + svg_mark("#14180a", d, pad=14)
+            + "\n</svg>"
+        )
+
+    asyncio.run(_shoot([
+        (tile(192, 0), ROOT / "public/icon-192.png", 192),
+        (tile(512, 0), ROOT / "public/icon-512.png", 512),
+        (tile(512, 22), ROOT / "pitch/BetterBarter-icon-512.png", 512),
+    ]))
+
+
+def html_lockup(d, w=1000, h=270):
+    """The wordmark, set in the real Fredoka from Google Fonts."""
+    tx, ty, sc = mark_transform(100, 8)
+    return f"""<!doctype html><meta charset=utf-8>
+<link rel=stylesheet href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600&display=swap">
+<style>
+  html,body{{margin:0;padding:0}}
+  body{{width:{w}px;height:{h}px;display:flex;align-items:center;gap:34px;padding-left:34px;
+        box-sizing:border-box;background:transparent}}
+  .w{{font-family:Fredoka,sans-serif;font-weight:600;font-size:{int(h*0.44)}px;
+      letter-spacing:-0.028em;color:#14180a;line-height:1}}
+</style>
+<svg width="{int(h*0.62)}" height="{int(h*0.62)}" viewBox="0 0 100 100">
+  <g transform="translate({tx:.3f} {ty:.3f}) scale({sc:.5f} -{sc:.5f})" fill="#14180a">
+    <path d="{d}"/><path d="{d}" transform="translate({2*MIRROR_AT} 0) scale(-1 1)"/>
+  </g>
+</svg>
+<div class=w>BetterBarter</div>"""
+
+
+def png_lockup(d, w=1000, h=270):
+    import asyncio
+    from playwright.async_api import async_playwright
+
+    async def go():
+        async with async_playwright() as pw:
+            b = await pw.chromium.launch()
+            page = await b.new_page(viewport={"width": w, "height": h})
+            tmp = ROOT / "scripts" / ".fonts" / "_lockup.html"
+            tmp.write_text(html_lockup(d, w, h))
+            await page.goto(tmp.as_uri(), wait_until="networkidle")
+            await page.evaluate("document.fonts.ready")
+            out = ROOT / "pitch/BetterBarter-logo.png"
+            await page.screenshot(path=str(out), omit_background=True)
+            await b.close()
+            tmp.unlink(missing_ok=True)
+            print(f"  wrote {out.relative_to(ROOT)}  ({w}x{h})")
+
+    asyncio.run(go())
 
 
 def main():
-    print("Building every logo file from one geometry…")
+    print("Building every logo file from one glyph…")
+    d = fredoka_b()
 
     (ROOT / "public/icon.svg").write_text(
         '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">\n'
-        + svg_mark("#1c7a4f")
-        + "\n</svg>\n"
-    )
+        + svg_mark("#14180a", d) + "\n</svg>\n")
     print("  wrote public/icon.svg")
 
     (ROOT / "pitch/logomark.svg").write_text(
-        '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">\n'
-        '  <rect width="512" height="512" rx="112" fill="#1c7a4f"/>\n'
-        '  <g transform="translate(112 112) scale(2.88)">\n'
-        + svg_mark("#f1f3ef", 9)
-        + "\n  </g>\n</svg>\n"
-    )
+        '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">\n'
+        '  <rect width="100" height="100" rx="22" fill="#dfe958"/>\n'
+        + svg_mark("#14180a", d, pad=14) + "\n</svg>\n")
     print("  wrote pitch/logomark.svg")
 
+    tx, ty, sc = mark_transform(100, 8)
     (ROOT / "pitch/logo.svg").write_text(
         '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 220" width="980" height="220">\n'
-        '  <g transform="translate(36 44) scale(1.32)">\n'
-        + svg_mark("#1c7a4f")
-        + "\n  </g>\n"
-        '  <text x="216" y="146" font-family="Fraunces, Georgia, serif" font-size="104"\n'
-        "        font-weight=\"600\" font-variation-settings=\"'SOFT' 100, 'WONK' 1, 'opsz' 120\"\n"
-        '        letter-spacing="-3" fill="#1c7a4f">BetterBarter</text>\n'
-        "</svg>\n"
-    )
-    print("  wrote pitch/logo.svg  (text needs Fraunces — use the PNG where it may be missing)")
+        '  <g transform="translate(24 40) scale(1.4)">\n'
+        + svg_mark("#14180a", d) + "\n  </g>\n"
+        '  <text x="196" y="140" font-family="Fredoka, sans-serif" font-size="104"\n'
+        '        font-weight="600" letter-spacing="-3" fill="#14180a">BetterBarter</text>\n'
+        "</svg>\n")
+    print("  wrote pitch/logo.svg  (text needs Fredoka — use the PNG where it may be missing)")
 
-    png_icon(ROOT / "public/icon-192.png", 192, PAPER, PINE, corner=0, pad_ratio=0.20, width=9)
-    png_icon(ROOT / "public/icon-512.png", 512, PAPER, PINE, corner=0, pad_ratio=0.20, width=9)
-    png_icon(ROOT / "pitch/BetterBarter-icon-512.png", 512, PAPER, PINE, corner=112, pad_ratio=0.22, width=9)
-    png_lockup(ROOT / "pitch/BetterBarter-logo.png")
+    # the React component, from the same geometry
+    (ROOT / "src/site/Mark.tsx").write_text(f'''/**
+ * The mark: two B\'s, cut from Fredoka itself.
+ *
+ * The wordmark is set in Fredoka, so a monogram merely drawn to look like it
+ * always sat slightly wrong beside it. This is the same letter, mirrored, with
+ * a 45-unit gap between the stems — sharing the stem instead reads as one solid
+ * slab rather than as two letters.
+ *
+ * Generated by scripts/build-logo.py. Do not edit the path by hand; change the
+ * script and re-run it so the favicon, the PWA icons, the app tile and the
+ * 1000x270 lockup all move together.
+ */
+const D =
+  \'{d}\'
 
+export function Mark({{ size = 20 }}: {{ size?: number }}) {{
+  return (
+    <svg
+      width={{size}}
+      height={{size}}
+      viewBox="0 0 100 100"
+      fill="currentColor"
+      aria-hidden="true"
+      style={{{{ display: \'block\', flex: \'none\' }}}}
+    >
+      <g transform="translate({tx:.3f} {ty:.3f}) scale({sc:.5f} -{sc:.5f})">
+        <path d={{D}} />
+        <path d={{D}} transform="translate({2*MIRROR_AT} 0) scale(-1 1)" />
+      </g>
+    </svg>
+  )
+}}
+''')
+    print("  wrote src/site/Mark.tsx")
+
+    png_icons(d)
+    png_lockup(d)
     print("Done.")
 
 

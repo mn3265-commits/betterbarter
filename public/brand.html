@@ -12,14 +12,14 @@
     --ink-2: rgba(22, 32, 26, 0.72);
     --ink-3: rgba(22, 32, 26, 0.5);
     --line: rgba(22, 32, 26, 0.15);
-    --pine: #1c7a4f;
-    --pine-700: #115538;
-    --pine-100: #eaf4ee;
-    --gold: #b8860b;
-    --gold-700: #7c5a07;
-    --gold-100: #f7efd8;
+    --lime: #dfe958;
+    --lime-700: #115538;
+    --lime-100: #eaf4ee;
+    --peri: #bbbcf4;
+    --peri-700: #7c5a07;
+    --peri-100: #f7efd8;
     --on-dark: #f1f3ef;
-    --books: #1c7a4f;
+    --books: #dfe958;
     --tech: #c2410c;
     --furniture: #1f6f9c;
     --fashion: #6b7a12;
@@ -33,8 +33,8 @@
       --ground: #0e1411; --surface: #16201b; --tint: #14241b;
       --ink: #e9efea; --ink-2: rgba(233,239,234,.74); --ink-3: rgba(233,239,234,.5);
       --line: rgba(233,239,234,.18);
-      --pine: #4aa87a; --pine-700: #7cc6a0; --pine-100: #16261d;
-      --gold: #e0b23a; --gold-700: #edcd7a; --gold-100: #2a2313;
+      --lime: #dfe958; --lime-700: #c2ce3d; --lime-100: #2a2d10;
+      --peri: #bbbcf4; --peri-700: #9c9dee; --peri-100: #23234a;
       --books: #4aa87a; --tech: #e2763f; --furniture: #58a5d0;
       --fashion: #a8b53a; --tickets: #d861a8; --other: #8f89e0;
     }
@@ -43,8 +43,8 @@
     --ground: #0e1411; --surface: #16201b; --tint: #14241b;
     --ink: #e9efea; --ink-2: rgba(233,239,234,.74); --ink-3: rgba(233,239,234,.5);
     --line: rgba(233,239,234,.18);
-    --pine: #4aa87a; --pine-700: #7cc6a0; --pine-100: #16261d;
-    --gold: #e0b23a; --gold-700: #edcd7a; --gold-100: #2a2313;
+    --lime: #dfe958; --lime-700: #c2ce3d; --lime-100: #2a2d10;
+    --peri: #bbbcf4; --peri-700: #9c9dee; --peri-100: #23234a;
     --books: #4aa87a; --tech: #e2763f; --furniture: #58a5d0;
     --fashion: #a8b53a; --tickets: #d861a8; --other: #8f89e0;
   }
@@ -53,7 +53,7 @@
   body { margin: 0; background: var(--ground); color: var(--ink); font-family: var(--sans); font-size: 16px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
 
   .wrap { max-width: 940px; margin: 0 auto; padding: 0 24px; }
-  header.hero { background: var(--pine); color: var(--on-dark); padding: 68px 0 60px; }
+  header.hero { background: var(--lime); color: var(--on-dark); padding: 68px 0 60px; }
   header.hero .mark { display: flex; align-items: center; gap: 18px; }
   header.hero h1 { font-family: var(--serif); font-weight: 600; font-size: clamp(44px, 7vw, 84px); letter-spacing: -.025em; margin: 0; font-variation-settings: 'SOFT' 90, 'WONK' 1, 'opsz' 144; }
   header.hero p { max-width: 46ch; margin: 20px 0 0; font-size: 17px; opacity: .92; }
@@ -61,7 +61,7 @@
   section { padding: 52px 0; border-top: 1px solid var(--line); }
   h2 { font-family: var(--serif); font-weight: 600; font-size: clamp(26px, 3.4vw, 38px); margin: 10px 0 0; letter-spacing: -.015em; font-variation-settings: 'SOFT' 75, 'WONK' 1; text-wrap: balance; }
   h3 { font-family: var(--serif); font-weight: 600; font-size: 18px; margin: 0 0 4px; font-variation-settings: 'SOFT' 60, 'WONK' 1; }
-  .eyebrow { font-size: 11px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--pine); }
+  .eyebrow { font-size: 11px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--lime); }
   p.lede { font-size: 17px; color: var(--ink-2); max-width: 62ch; margin: 14px 0 0; }
   p.note { font-size: 13px; color: var(--ink-3); max-width: 68ch; }
 
@@ -86,7 +86,7 @@
   .rule { display: grid; grid-template-columns: 108px 1fr; gap: 16px; padding: 15px 16px; background: var(--ground); border-bottom: 1px solid var(--line); }
   .rule:last-child { border-bottom: 0; }
   .rule .tag { font-size: 10.5px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; padding-top: 3px; }
-  .rule--do .tag { color: var(--pine); }
+  .rule--do .tag { color: var(--lime); }
   .rule--dont .tag { color: var(--ink-3); }
   .rule p { margin: 0; font-size: 14.5px; line-height: 1.5; }
 
@@ -100,8 +100,8 @@
   .voice h4 { margin: 0 0 8px; font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); }
   .voice p { margin: 0 0 10px; font-size: 14.5px; line-height: 1.5; }
   .voice p:last-child { margin: 0; }
-  .voice--yes { box-shadow: inset 3px 0 0 var(--pine); }
-  .voice--no { box-shadow: inset 3px 0 0 var(--gold); }
+  .voice--yes { box-shadow: inset 3px 0 0 var(--lime); }
+  .voice--no { box-shadow: inset 3px 0 0 var(--peri); }
 
   footer { padding: 34px 0 60px; font-size: 13px; color: var(--ink-3); border-top: 1px solid var(--line); }
 
@@ -116,13 +116,8 @@
 <header class="hero">
   <div class="wrap">
     <div class="mark">
-      <svg width="78" height="78" viewBox="0 0 100 100" fill="none" stroke="currentColor"
-           stroke-width="8.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <path d="M50 16v68"/>
-        <path d="M50 22h13a14 14 0 0 1 0 28H50"/>
-        <path d="M50 50h15a14 14 0 0 1 0 28H50"/>
-        <path d="M50 22H37a14 14 0 0 0 0 28h13"/>
-        <path d="M50 50H35a14 14 0 0 0 0 28h15"/>
+      <svg width="78" height="78" viewBox="0 0 100 100" fill="currentColor" aria-hidden="true">
+        <use href="/icon.svg#m"/>
       </svg>
       <h1>BetterBarter</h1>
     </div>
@@ -148,19 +143,19 @@
     </p>
 
     <div class="g3" style="margin-top: 26px">
-      <div class="swatch" style="background: var(--pine); color: var(--paper); display: flex; align-items: center; justify-content: center; aspect-ratio: 1; border-radius: 18px">
+      <div class="swatch" style="background: var(--lime); color: var(--paper); display: flex; align-items: center; justify-content: center; aspect-ratio: 1; border-radius: 18px">
         <svg width="108" height="108" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="9" stroke-linecap="round" stroke-linejoin="round">
           <path d="M50 16v68"/><path d="M50 22h13a14 14 0 0 1 0 28H50"/><path d="M50 50h15a14 14 0 0 1 0 28H50"/>
           <path d="M50 22H37a14 14 0 0 0 0 28h13"/><path d="M50 50H35a14 14 0 0 0 0 28h15"/>
         </svg>
       </div>
-      <div class="swatch" style="display: flex; align-items: center; justify-content: center; aspect-ratio: 1; border: 1px solid var(--rule); border-radius: 18px; color: var(--pine)">
+      <div class="swatch" style="display: flex; align-items: center; justify-content: center; aspect-ratio: 1; border: 1px solid var(--rule); border-radius: 18px; color: var(--lime)">
         <svg width="108" height="108" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="8.5" stroke-linecap="round" stroke-linejoin="round">
           <path d="M50 16v68"/><path d="M50 22h13a14 14 0 0 1 0 28H50"/><path d="M50 50h15a14 14 0 0 1 0 28H50"/>
           <path d="M50 22H37a14 14 0 0 0 0 28h13"/><path d="M50 50H35a14 14 0 0 0 0 28h15"/>
         </svg>
       </div>
-      <div class="swatch" style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 18px; aspect-ratio: 1; border: 1px solid var(--rule); border-radius: 18px; color: var(--pine)">
+      <div class="swatch" style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 18px; aspect-ratio: 1; border: 1px solid var(--rule); border-radius: 18px; color: var(--lime)">
         <svg width="16" height="16" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="10" stroke-linecap="round" stroke-linejoin="round">
           <path d="M50 16v68"/><path d="M50 22h13a14 14 0 0 1 0 28H50"/><path d="M50 50h15a14 14 0 0 1 0 28H50"/>
           <path d="M50 22H37a14 14 0 0 0 0 28h13"/><path d="M50 50H35a14 14 0 0 0 0 28h15"/>
@@ -182,11 +177,11 @@
 <section>
   <div class="wrap">
     <div class="eyebrow">The idea</div>
-    <h2>Pine acts. Goldenrod announces.</h2>
+    <h2>Lime acts. Periwinkle announces.</h2>
     <p class="lede">
       One colour was carrying the whole product, which made a busy board look like one long green sentence. The second
-      colour is not decoration — it has a job, and it is a different job from the first. Pine is what you press: post,
-      claim, confirm. Goldenrod is attention without urgency: a season starting, a feature announced but not open, a
+      colour is not decoration — it has a job, and it is a different job from the first. Lime is what you press: post,
+      claim, confirm. Periwinkle is attention without urgency: a season starting, a feature announced but not open, a
       rating someone left you.
     </p>
     <p class="note" style="margin-top:14px">
@@ -195,16 +190,16 @@
 
     <div class="grid g2">
       <div class="swatch">
-        <div class="swatch__chip" style="background:var(--pine)">Primary action</div>
+        <div class="swatch__chip" style="background:var(--lime)">Primary action</div>
         <div class="swatch__body">
-          <b>Pine</b><code>#1c7a4f · dark #4aa87a</code>
-          <span>Buttons, links, the active tab, the confirmed handoff, the top rung of the hierarchy. If pressing it does something, it is pine.</span>
+          <b>Lime</b><code>#dfe958 · dark #4aa87a</code>
+          <span>Buttons, links, the active tab, the confirmed handoff, the top rung of the hierarchy. If pressing it does something, it is lime.</span>
         </div>
       </div>
       <div class="swatch">
-        <div class="swatch__chip" style="background:var(--gold)">Attention</div>
+        <div class="swatch__chip" style="background:var(--peri)">Attention</div>
         <div class="swatch__body">
-          <b>Goldenrod</b><code>#b8860b · dark #e0b23a</code>
+          <b>Periwinkle</b><code>#bbbcf4 · dark #e0b23a</code>
           <span>Move-out season, “opening soon”, ratings. Never a call to action, never an error, and never a seventh category.</span>
         </div>
       </div>
@@ -237,7 +232,7 @@
       in the order they appear, and re-picked until every check passed.
     </p>
     <div class="grid g6">
-      <div class="cat"><i style="background:var(--books)"></i><b>Textbooks &amp; Course Materials</b><code>#1c7a4f</code></div>
+      <div class="cat"><i style="background:var(--books)"></i><b>Textbooks &amp; Course Materials</b><code>#dfe958</code></div>
       <div class="cat"><i style="background:var(--tech)"></i><b>Electronics</b><code>#c2410c</code></div>
       <div class="cat"><i style="background:var(--furniture)"></i><b>Furniture &amp; Dorm</b><code>#1f6f9c</code></div>
       <div class="cat"><i style="background:var(--fashion)"></i><b>Fashion &amp; Accessories</b><code>#6b7a12</code></div>
@@ -272,7 +267,7 @@
       <div class="rule rule--do"><span class="tag">Do</span><p>Set the wordmark as <b>BetterBarter</b> — mixed case, one word, no space.</p></div>
       <div class="rule rule--dont"><span class="tag">Not</span><p>BETTERBARTER, Better Barter, or betterbarter. One word, two capitals, always.</p></div>
       <div class="rule rule--do"><span class="tag">Do</span><p>Use the loop mark on its own where space is tight: a favicon, an app icon, a corner of a slide.</p></div>
-      <div class="rule rule--dont"><span class="tag">Not</span><p>Recolour the object. The arc and the two people are one colour; the thing being handed over is goldenrod, and that is the only gold inside the mark.</p></div>
+      <div class="rule rule--dont"><span class="tag">Not</span><p>Recolour the object. The arc and the two people are one colour; the thing being handed over is periwinkle, and that is the only peri inside the mark.</p></div>
     </div>
   </div>
 </section>
@@ -313,19 +308,19 @@
     <h2>Where each colour is allowed.</h2>
     <div class="grid g2">
       <div class="swatch">
-        <div class="swatch__chip" style="background:var(--pine-100);color:var(--pine-700);border-bottom:1px solid var(--line)">Pine, at 100</div>
+        <div class="swatch__chip" style="background:var(--lime-100);color:var(--lime-700);border-bottom:1px solid var(--line)">Lime, at 100</div>
         <div class="swatch__body"><b>Quiet green ground</b><code>#eaf4ee</code><span>The method section, the impact tiles, an active state that must not shout.</span></div>
       </div>
       <div class="swatch">
-        <div class="swatch__chip" style="background:var(--gold-100);color:var(--gold-700);border-bottom:1px solid var(--line)">Goldenrod, at 100</div>
+        <div class="swatch__chip" style="background:var(--peri-100);color:var(--peri-700);border-bottom:1px solid var(--line)">Periwinkle, at 100</div>
         <div class="swatch__body"><b>Announcement ground</b><code>#f7efd8</code><span>The move-out banner and the “not open yet” panel. Two places, both seasonal.</span></div>
       </div>
     </div>
     <div class="rules">
-      <div class="rule rule--do"><span class="tag">Do</span><p>Let pine own every button, link and confirmed state.</p></div>
-      <div class="rule rule--do"><span class="tag">Do</span><p>Let goldenrod mark what is coming: the season, the announced feature, the rating that arrived.</p></div>
-      <div class="rule rule--dont"><span class="tag">Not</span><p>Two brand colours in one control. If a button needs attention, it is already pine — make it bigger, not gold.</p></div>
-      <div class="rule rule--dont"><span class="tag">Not</span><p>Goldenrod as a warning or an error. Nothing here is an emergency; a refusal is written in words, in ink.</p></div>
+      <div class="rule rule--do"><span class="tag">Do</span><p>Let lime own every button, link and confirmed state.</p></div>
+      <div class="rule rule--do"><span class="tag">Do</span><p>Let periwinkle mark what is coming: the season, the announced feature, the rating that arrived.</p></div>
+      <div class="rule rule--dont"><span class="tag">Not</span><p>Two brand colours in one control. If a button needs attention, it is already lime — make it bigger, not peri.</p></div>
+      <div class="rule rule--dont"><span class="tag">Not</span><p>Periwinkle as a warning or an error. Nothing here is an emergency; a refusal is written in words, in ink.</p></div>
     </div>
   </div>
 </section>
