@@ -665,6 +665,11 @@
 .site__photo--lime::before { background: var(--color-accent); }
 .site__photo img {
   width: 100%;
+  /* height:auto is load-bearing. The <img> carries width/height attributes so
+     the layout does not jump while it loads, and without this the attribute
+     height (1067px) wins over aspect-ratio — every photo rendered as a tall
+     sliver. */
+  height: auto;
   display: block;
   object-fit: cover;
   border: var(--border-ink);
@@ -683,6 +688,9 @@
   gap: 48px;
   align-items: center;
 }
+/* Without this a grid column refuses to shrink below its content, so the
+   headline pushed the photo down to 257px of a 954px row. */
+.site__hero-in > *, .site__withphoto > * { min-width: 0; }
 .site__photo--hero { padding: 20px 0 0 20px; }
 .site__photo--hero::before { background: var(--color-signal); inset: 0 20px 20px 0; }
 .site__photo--hero img { aspect-ratio: 4 / 5; }
