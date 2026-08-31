@@ -237,16 +237,19 @@ export function Board({ h }: { h: Barter }) {
             <div
               style={{
                 margin: '12px 16px 0',
-                border: '1px solid var(--color-divider)',
-                borderRadius: 'var(--radius-md)',
-                padding: '11px 13px',
+                // The campus number is the one thing on this screen that
+                // belongs to everybody, so it gets the community colour.
+                background: 'var(--color-signal-100)',
+                border: 'var(--border-ink)',
+                borderRadius: 'var(--radius-lg)',
+                padding: '13px 15px',
                 display: 'flex',
                 alignItems: 'baseline',
                 gap: 14,
                 flexWrap: 'wrap',
               }}
             >
-              <div style={{ fontSize: 10, letterSpacing: '.12em', textTransform: 'uppercase', color: 'var(--color-accent-700)', width: '100%' }}>
+              <div style={{ fontSize: 10, letterSpacing: '.12em', textTransform: 'uppercase', color: 'var(--color-signal-700)', width: '100%' }}>
                 {campus} together
               </div>
               {([

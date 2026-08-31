@@ -53,7 +53,7 @@
 
 /* ── hero ── */
 .site__hero {
-  background: var(--color-accent);
+  background: var(--color-accent-600);
   color: var(--color-on-accent);
   padding: 72px 0 64px;
   /* The deck's periwinkle blobs, which are the thing that stops a flat lime
@@ -353,7 +353,7 @@
 /* ── the year, in two curves ── */
 .season { margin-top: 18px; }
 .season svg { width: 100%; height: auto; display: block; overflow: visible; }
-.season__band { fill: var(--color-accent); opacity: 0.08; }
+.season__band { fill: var(--color-accent); opacity: 0.3; }
 .season__axis { stroke: var(--color-divider); stroke-width: 1; }
 .season__label { font-family: var(--font-body); font-size: 11px; fill: color-mix(in srgb, var(--color-text) 55%, transparent); }
 .season__line {
@@ -366,13 +366,17 @@
   transition: stroke-dashoffset 1.4s cubic-bezier(0.22, 1, 0.36, 1);
 }
 .season__line.is-in { stroke-dashoffset: 0; }
-.season__line--discard { stroke: var(--color-accent); }
-.season__line--buy { stroke: var(--color-accent-300); transition-delay: 0.15s; }
+/* Two series, and until now both were pale lime: 1.28:1 and 1.17:1 against the
+   page, and 1.09:1 against each other. Invisible, and identical. They are now
+   separated three ways — hue, lightness and weight — so the chart survives a
+   projector, a phone in daylight, and colour-vision deficiency. */
+.season__line--discard { stroke: var(--color-accent-900); stroke-width: 3; }
+.season__line--buy { stroke: var(--color-signal-600); stroke-width: 2.25; transition-delay: 0.15s; }
 .season__key { display: flex; gap: 20px; flex-wrap: wrap; margin-top: 12px; font-size: 12.5px; opacity: 0.8; }
 .season__key span { display: inline-flex; align-items: center; gap: 8px; }
 .season__swatch { width: 14px; height: 3px; border-radius: 999px; display: block; }
-.season__swatch--discard { background: var(--color-accent); }
-.season__swatch--buy { background: var(--color-accent-300); }
+.season__swatch--discard { background: var(--color-accent-900); height: 4px; }
+.season__swatch--buy { background: var(--color-signal-600); }
 
 @media (prefers-reduced-motion: reduce) {
   .season__line { stroke-dasharray: none; stroke-dashoffset: 0; transition: none; }
@@ -490,7 +494,7 @@
 .chart__track { display: flex; align-items: center; gap: 10px; min-width: 0; }
 .chart__bar {
   height: 15px;
-  background: var(--color-accent);
+  background: var(--color-accent-600);
   border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
   transition: width 0.85s cubic-bezier(0.22, 1, 0.36, 1);
   min-width: 2px;

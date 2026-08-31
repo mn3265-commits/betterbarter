@@ -377,7 +377,9 @@
   vertical-align: super;
 }
 .app-soon {
-  border: 1px dashed var(--color-signal);
+  background: var(--color-signal-100);
+  border: var(--border-ink);
+  border-style: dashed;
   border-radius: var(--radius-lg);
   padding: 18px 16px;
   background: var(--color-signal-100);
@@ -489,15 +491,20 @@
   font-size: 22px;
   letter-spacing: .18em;
   font-variant-numeric: tabular-nums;
-  padding: 8px 12px;
+  padding: 9px 13px;
   border-radius: var(--radius-md);
-  background: var(--color-accent-100);
-  color: var(--color-accent-800);
-  border: 1px solid var(--color-accent-300);
+  /* Yours is lime, theirs is periwinkle. Two halves belong to two people, so
+     they are two colours — at a glance you know which one you are reading out
+     and which one you are waiting to hear. */
+  background: var(--color-accent);
+  color: var(--color-on-accent);
+  border: var(--border-ink);
 }
 .code-half--ghost {
-  background: transparent;
-  color: color-mix(in srgb, var(--color-text) 35%, transparent);
-  border: 1px dashed var(--color-divider);
-  letter-spacing: .06em;
+  background: var(--color-signal);
+  color: var(--color-text);
+  border: var(--border-ink);
+  border-style: dashed;
+  letter-spacing: .1em;
+  opacity: 0.55;
 }

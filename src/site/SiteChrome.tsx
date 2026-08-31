@@ -15,7 +15,6 @@ const NAV: [string, string, string][] = [
   ['impact', '/#impact', 'Impact'],
   ['safety', '/#safety', 'Safety'],
   ['about', '/about', 'About'],
-  ['deck', '/deck', 'Deck'],
 ]
 
 export function SiteNav({ current }: { current?: string }) {
@@ -48,7 +47,6 @@ export function SiteFooter() {
         impact model v{MODEL_VERSION}, displacement {DISPLACEMENT}.
       </span>
       <a href="/about">About</a>
-      <a href="/deck">Pitch deck</a>
       <a href="/brand">Brand guide</a>
       <a href="/app">Open the board</a>
       <a href="/?showcase">Design walkthrough</a>
