@@ -156,6 +156,9 @@
   background: var(--color-signal);
   background-image: none;
 }
+/* The kicker is olive by default, which is 4.2:1 on lavender and muddy besides.
+   On a periwinkle field it takes the ink, like everything else does. */
+#safety .site__kicker { color: var(--color-text); opacity: 0.66; }
 #safety .site__cell, #safety .site__seg, #safety .site__stat { background: var(--color-bg); }
 
 /* Alternating fills inside a grid, so a row of cards is not one flat colour —
