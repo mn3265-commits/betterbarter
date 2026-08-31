@@ -194,7 +194,7 @@
   gap: 14px;
   margin-top: 34px;
 }
-.site__seg { background: var(--color-surface); border: var(--border-ink); border-radius: var(--radius-lg); padding: 22px 20px 24px; }
+.site__seg { background: #fff; border: var(--border-ink); border-radius: var(--radius-lg); padding: 22px 20px 24px; }
 .site__seg b {
   font-family: var(--font-heading);
   font-weight: 600;
@@ -235,7 +235,7 @@
   gap: 14px;
   margin-top: 34px;
 }
-.site__cell { background: var(--color-surface); border: var(--border-ink); border-radius: var(--radius-lg); padding: 20px; }
+.site__cell { background: #fff; border: var(--border-ink); border-radius: var(--radius-lg); padding: 20px; }
 .site__cell b {
   font-family: var(--font-heading);
   font-weight: 600;
@@ -255,7 +255,7 @@
   gap: 14px;
   margin-top: 34px;
 }
-.site__stat { background: var(--color-surface); border: var(--border-ink); border-radius: var(--radius-lg); padding: 22px 20px 24px; }
+.site__stat { background: #fff; border: var(--border-ink); border-radius: var(--radius-lg); padding: 22px 20px 24px; }
 .site__stat b {
   display: block;
   font-family: var(--font-heading);
@@ -279,7 +279,7 @@
   gap: 14px;
   margin-top: 34px;
 }
-.site__level { background: var(--color-surface); border: var(--border-ink); border-radius: var(--radius-lg); padding: 20px; }
+.site__level { background: #fff; border: var(--border-ink); border-radius: var(--radius-lg); padding: 20px; }
 .site__level-tag {
   font-size: 10.5px;
   letter-spacing: 0.09em;
