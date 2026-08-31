@@ -78,6 +78,8 @@ interface ListingRow {
   spot_name: string
   status: ListingStatus
   photo_path: string | null
+  photo_paths: string[] | null
+  gone_by: string | null
   created_at: string
   confirmed_at: string | null
 }
@@ -128,7 +130,11 @@ function toItem(r: ListingRow, seller: ProfileRow | undefined, meId: string | nu
     since: monthYear(seller?.joined_at ?? null),
     spot: r.spot_name,
     desc: r.description,
-    photoUrl: photoUrl(r.photo_path),
+    photoUrl: photoUrl(r.photo_paths?.[0] ?? r.photo_path),
+    photoUrls: (r.photo_paths?.length ? r.photo_paths : [r.photo_path])
+      .map(photoUrl)
+      .filter((u): u is string => !!u),
+    goneBy: r.gone_by ?? undefined,
     status: r.status,
     ageDays: daysSince(clock),
     mine: meId != null && r.seller_id === meId,
@@ -196,7 +202,7 @@ export async function bumpSpot(campusId: string, name: string): Promise<void> {
 // ── board ─────────────────────────────────────────────────────────────────────
 
 const LISTING_COLS =
-  'id, seller_id, title, description, kind, is_free, price, trade_for, rent_rate, rent_period, help_wanted, help_fee, category, condition, building, spot_name, status, photo_path, created_at, confirmed_at'
+  'id, seller_id, title, description, kind, is_free, price, trade_for, rent_rate, rent_period, help_wanted, help_fee, category, condition, building, spot_name, status, photo_path, photo_paths, gone_by, created_at, confirmed_at'
 
 /** Everything the viewer may see: active listings on their campus, plus their
  *  own paused/gone ones (RLS enforces both). */
@@ -276,7 +282,10 @@ export interface NewListing {
   spotName: string
   building: string
   description: string
-  photoPath: string | null
+  /** Up to MAX_PHOTOS, in the order they were taken. The first is the cover. */
+  photoPaths: string[]
+  /** "It has to be gone by Friday" — the whole reason a move-out board works. */
+  goneBy: string | null
 }
 
 export async function createListing(input: NewListing): Promise<void> {
@@ -299,7 +308,11 @@ export async function createListing(input: NewListing): Promise<void> {
     condition: input.condition,
     building: input.building || null,
     spot_name: input.spotName,
-    photo_path: input.photoPath,
+    // photo_path stays as the cover so older clients keep working; photo_paths
+    // is the real list.
+    photo_path: input.photoPaths[0] ?? null,
+    photo_paths: input.photoPaths,
+    gone_by: input.goneBy,
   })
   if (error) throw error
 }

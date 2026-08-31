@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { CategoryIcon } from '../components/CategoryIcon'
 import { AppBody, AppFooter, AppHeader } from '../components/Shell'
-import { CATEGORIES, CONDITIONS, KIND_STATUS } from '../lib/taxonomy'
+import { CAMPUS_SPOTS, CATEGORIES, CONDITIONS, KIND_STATUS } from '../lib/taxonomy'
 import type { Barter } from '../lib/useBarter'
 
 /**
@@ -31,7 +31,8 @@ export function Post2({ h }: { h: Barter }) {
     ['rent', 'Rent It Out'],
   ]
 
-  const spots = h.campusSpots.map((s) => s.name)
+  // Tessa's list first, then anywhere this campus has actually met before.
+  const spots = [...new Set([...CAMPUS_SPOTS, ...h.campusSpots.map((s) => s.name)])]
   const spotKnown = spots.includes(f.spot)
 
   return (
@@ -106,7 +107,11 @@ export function Post2({ h }: { h: Barter }) {
             placeholder="Desk lamp"
           />
           <div className="field__hint">
-            Shows as <b>{[f.brand.trim(), f.item.trim()].filter(Boolean).join(' - ') || 'Untitled thing'}</b>
+            {f.item.trim() || f.brand.trim() ? (
+              <>Shows on the board as <b>{[f.brand.trim(), f.item.trim()].filter(Boolean).join(' - ')}</b></>
+            ) : (
+              'Whatever you call it when you talk about it — "desk lamp", "mini fridge".'
+            )}
           </div>
         </div>
 
@@ -167,7 +172,7 @@ export function Post2({ h }: { h: Barter }) {
 
         {f.kind === 'sale' && (
           <div className="field">
-            <label>How much</label>
+            <label>How much (USD)</label>
             <input
               className="input"
               type="number"
@@ -193,7 +198,7 @@ export function Post2({ h }: { h: Barter }) {
         {f.kind === 'rent' && (
           <div style={{ display: 'flex', gap: 10 }}>
             <div className="field" style={{ flex: 1 }}>
-              <label>How much</label>
+              <label>How much (USD)</label>
               <input
                 className="input"
                 type="number"
@@ -214,6 +219,25 @@ export function Post2({ h }: { h: Barter }) {
             </div>
           </div>
         )}
+
+        {/* Tessa, 30 Aug: somewhere to say it has to go by a date. This is the
+            sentence the whole product is built around — a thing in a room
+            somebody has to empty by Friday is not the same as a thing for sale. */}
+        <div className="field">
+          <label>Gone by (optional)</label>
+          <input
+            className="input"
+            type="date"
+            value={f.goneBy}
+            min={new Date().toISOString().slice(0, 10)}
+            onChange={(e) => h.setField('goneBy', e.target.value)}
+          />
+          <div className="field__hint">
+            {f.goneBy
+              ? 'The board will say how long is left, and put it in front of people sooner.'
+              : 'Moving out, flying home, lease ending — say the day and people will treat it as real.'}
+          </div>
+        </div>
 
         {/* a list to pick from, because a place two people can both find is
             worth more than a place one person can describe */}

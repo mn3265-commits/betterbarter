@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { ArrowRight, Check } from 'lucide-react'
 import { AppBody, AppFooter, AppHeader } from '../components/Shell'
-import { RULES, RULES_SUMMARY } from '../lib/rules'
+import { RULES } from '../lib/rules'
 
 /**
  * The community rules. In `accept` mode this is the gate every new account
@@ -38,16 +38,13 @@ export function Rules({
       />
 
       <AppBody>
+        {/* Tessa struck the whole preamble on 30 August, and she was right: at
+            move-in nobody reads three paragraphs standing in a doorway. One
+            question, then the five things. */}
         {accepting && (
-          <>
-            <h3 style={{ fontSize: 24, margin: '0 0 8px', lineHeight: 1.12 }}>
-              This is a board for {campus || 'your campus'}, run on trust.
-            </h3>
-            <p style={{ fontSize: 13.5, opacity: 0.72, margin: '0 0 4px', textWrap: 'pretty' }}>
-              Everyone here proved they go to your school. The handoff itself happens in a lobby, between two people, and
-              no app is standing there — so these rules are the whole safety net. Read them once.
-            </p>
-          </>
+          <h3 style={{ fontSize: 24, margin: '0 0 4px', lineHeight: 1.12, textWrap: 'pretty' }}>
+            Do you promise to be a kind and respectful {campus || 'BetterBarter'} community member?
+          </h3>
         )}
 
         <div
@@ -68,7 +65,7 @@ export function Rules({
               textTransform: 'uppercase',
             }}
           >
-            {RULES_SUMMARY}
+            Community guidelines
           </div>
           {RULES.map((s) => (
             <div key={s.title} style={{ padding: '13px 12px', borderTop: '1px solid var(--color-divider)' }}>

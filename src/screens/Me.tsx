@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { Photo } from '../components/Photo'
 import { Switch } from '../components/Switch'
 import { TabBar } from '../components/TabBar'
-import { averageItem, co2eLabel, kgLabel } from '../lib/impact'
+import { averageItem, co2eLabel } from '../lib/impact'
 import { SUPPORT_EMAIL } from '../lib/rules'
 import { AppBody, AppHeader } from '../components/Shell'
 import type { Barter } from '../lib/useBarter'
@@ -98,24 +98,29 @@ export function Me({ h }: { h: Barter }) {
                   onError={(e) => ((e.currentTarget.style.display = 'none'))}
                 />
               )}
-              <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 600, fontSize: 14.5 }}>
-                {h.campusName || 'Your campus'}
+              <div style={{ fontSize: 12.5, opacity: 0.62 }}>
+                {h.me.email}
+                {h.me.since ? ` · joined ${h.me.since}` : ''}
               </div>
             </div>
-            <div style={{ display: 'flex', gap: 6, marginTop: 8, flexWrap: 'wrap' }}>
-              <span className="tag tag-accent">{h.me.handoffs} handoffs</span>
-              {h.me.carries > 0 && <span className="tag tag-neutral">{h.me.carries} carries</span>}
-              {h.me.rating != null && (
-                <span
-                  className="tag"
-                  style={{ background: 'var(--color-signal-100)', color: 'var(--color-signal-700)' }}
-                >
-                  {h.me.rating.toFixed(1)} ★ · {h.me.ratings}
-                </span>
-              )}
-              <span className="tag tag-neutral">{h.me.noShows} no-shows</span>
-              {h.me.preferredSpot && <span className="tag tag-outline">Meets at {h.me.preferredSpot}</span>}
-            </div>
+            {/* Tessa, 30 Aug: the campus line, the handoff count and the
+                no-show count all came off. The counts live in the Impact
+                Dashboard below, and saying them twice made a profile that is
+                mostly numbers about a person. Rating stays — it is the one that
+                is about how they behave. */}
+            {(h.me.rating != null || h.me.carries > 0) && (
+              <div style={{ display: 'flex', gap: 6, marginTop: 8, flexWrap: 'wrap' }}>
+                {h.me.rating != null && (
+                  <span
+                    className="tag"
+                    style={{ background: 'var(--color-signal-100)', color: 'var(--color-signal-700)' }}
+                  >
+                    {h.me.rating.toFixed(1)} ★ · {h.me.ratings}
+                  </span>
+                )}
+                {h.me.carries > 0 && <span className="tag tag-neutral">{h.me.carries} carries</span>}
+              </div>
+            )}
             {h.me.about && (
               <p style={{ fontSize: 13, opacity: 0.78, margin: '9px 0 0', lineHeight: 1.45, textWrap: 'pretty' }}>
                 {h.me.about}
@@ -133,11 +138,10 @@ export function Me({ h }: { h: Barter }) {
             beside it are estimates from the published model, and say so. */}
         <div style={{ padding: 16, borderBottom: '1px solid var(--color-divider)' }}>
           <h6 style={{ margin: '0 0 10px' }}>Impact Dashboard</h6>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 1, background: 'var(--color-divider)', border: '1px solid var(--color-divider)' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 1, background: 'var(--color-divider)', border: '1px solid var(--color-divider)' }}>
             {[
               [String(givenFree), 'given away free', 'measured'],
-              [String(sold), swapped > 0 ? `sold · ${swapped} swapped` : 'sold', 'measured'],
-              [kgLabel(averageItem().kg * h.me.handoffs), 'kept in use', 'estimated'],
+              [String(sold + swapped), swapped > 0 ? 'sold or swapped' : 'sold', 'measured'],
               [co2eLabel(averageItem().co2e * h.me.handoffs), 'emissions avoided', 'estimated'],
             ].map(([big, label, kind]) => (
               <div key={label} style={{ background: 'var(--color-bg)', padding: '10px 11px' }}>

@@ -54,6 +54,10 @@ export interface Item {
   /** What they suggest paying whoever carries it. Settled between them. */
   helpFee?: number
   photoUrl?: string | null
+  /** Every photo, cover first. `photoUrl` stays as the cover. */
+  photoUrls?: string[]
+  /** The date it has to be gone by, if the owner set one. */
+  goneBy?: string
   status?: ListingStatus
   ageDays?: number
   mine?: boolean

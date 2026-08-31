@@ -121,3 +121,27 @@ export const CATEGORY_ICON: Record<Category, string> = {
   'Tickets & Events': 'Ticket',
   Others: 'Package',
 }
+
+
+/**
+ * Where a handoff happens, on Tessa's list of 30 August.
+ *
+ * Every one of these is a place two strangers can both find and neither has to
+ * explain, which is the whole requirement. Deliberately public and deliberately
+ * not residential: the rules say never a room, and a list that offers one would
+ * be the product arguing with itself.
+ *
+ * Morningside only for now. SIPA, Barnard and Teachers College are the next
+ * ones in, once there is anyone on the board from them.
+ */
+export const CAMPUS_SPOTS = [
+  'Columbia University — Broadway gates',
+  'Columbia University — Amsterdam gates',
+  'Low Library steps',
+  'Butler Library entrance',
+  'Avery Library entrance',
+  'Uris Hall entrance',
+  'Lerner Hall lobby',
+  'Carman Hall front desk',
+  'John Jay dining entrance',
+] as const

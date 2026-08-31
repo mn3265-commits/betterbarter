@@ -10,7 +10,7 @@
 
 import { findContactInfo } from './contact'
 
-export const RULES_VERSION = 4
+export const RULES_VERSION = 5
 
 /**
  * A human, reachable.
@@ -33,65 +33,46 @@ export interface RuleSection {
   items?: string[]
 }
 
+/**
+ * The rules, as Tessa rewrote them on 30 August.
+ *
+ * The old set was four screens of careful prose that a first-year at move-in
+ * would scroll past to reach the button. Hers is five short things a person can
+ * actually hold in their head, which is the only version that protects anybody:
+ * a rule nobody read is not a rule. The banned-items list went with it — "no
+ * dangerous or illegal items" carries the same weight and does not read like a
+ * legal document at the door.
+ */
 export const RULES: RuleSection[] = [
   {
-    title: 'Do not list anything that can hurt someone',
-    body: 'Some things are off the board no matter how ordinary they feel on a campus:',
-    items: [
-      'Weapons and ammunition, of any kind',
-      'Drugs, prescription medication, and anything sold as a study aid',
-      'Alcohol, vapes, and tobacco',
-      'Fake IDs, keys, ID cards, or anything that opens a door that is not yours',
-      'Stolen, rented, or university-owned property',
-      'Recalled, damaged, or hazardous items — chemicals, fireworks, a charger that got hot',
-      'Live animals',
-      'Coursework, exam material, or anything meant to be handed in as someone else’s work',
-    ],
+    title: 'No dangerous or illegal items, please.',
+    body:
+      'Nothing that can hurt someone, nothing that is not yours to give, and nothing you would not want to explain to Public Safety.',
   },
   {
-    title: 'Say what it actually is',
+    title: 'Be clear and honest, act in good faith.',
     body:
-      'Post the thing in front of you, photograph it as it is, and name the flaws. "Works, one dent" is a better listing than "like new". If it is gone, mark it gone — a board full of things that already left is a dead board.',
+      'Post the item as it is, and name the flaws (if any). Respect the agreed upon meet up details and price.',
   },
   {
-    title: 'Keep the conversation in BetterBarter',
+    title: 'Keep the conversation in BetterBarter.',
     body:
-      'Do not swap phone numbers, email addresses, social handles or room numbers, and do not move the arrangement to another app. The thread here is the only record of what the two of you agreed, and both accounts behind it are verified — that is the entire reason this is safer than meeting someone from a public marketplace. Messages containing contact details will not send.',
+      'Refrain from swapping personal phone numbers, email addresses, social handles or room numbers. Refrain from moving the arrangement to another app. Your safety is our priority. Messages containing contact details will not be sent.',
   },
   {
-    title: 'Meet somewhere public on campus, never in a room',
+    title: 'Meet somewhere public on or near campus.',
     body:
-      'Hand things off at a library entrance, a dining hall door, a student centre, a department lobby, a campus gate — somewhere other people are, and somewhere you were going anyway. Nothing here assumes you live on campus. Do not give out your room number, do not go to anyone’s home, and if a meeting feels wrong, leave: no item is worth it.',
+      'Conduct your meetups in a public space — a library entrance, a hall lobby, a cafeteria or the gym. Do not give out your room number, and do not go to anyone\'s home or room.',
   },
   {
-    title: 'Renting and swapping are between you two',
+    title: 'Something wrong? Write to us.',
     body:
-      'BetterBarter holds no deposit, no escrow and no insurance, and it will not decide who broke what. If you rent something out, rent out only what you can afford to lose and agree the return date in the thread. If you rent something, bring it back on time and in the state you got it. If you swap, both sides describe their thing honestly — a swap is two listings, not one.',
-  },
-  {
-    title: 'Show up, or say you cannot',
-    body:
-      'Claiming holds the item for three hours and takes it away from someone else. If your plan changes, send one message. Two no-shows and you lose the ability to claim for a week.',
-  },
-  {
-    title: 'Treat people like neighbours',
-    body:
-      'Everyone here is on your campus and had to prove it with a school email. No harassment, no pressure, no discrimination. Report anything that crosses a line — reporting hides that account from you and flags it for review.',
-  },
-  {
-    title: 'What happens if you break this',
-    body:
-      'Listings that break these rules are removed. Accounts that break them can lose posting and claiming, or be suspended. Anything illegal is a matter for Public Safety or the police, not for us.',
-  },
-  {
-    title: 'If something goes wrong, write to us',
-    body:
-      `Reporting an account hides it from you straight away and puts it in front of us. If it is more urgent than that, or you would rather talk to a person, email ${SUPPORT_EMAIL} — a real person reads it. If you are in danger or something has been stolen, call Public Safety or the police first and us second.`,
+      `Email us at ${SUPPORT_EMAIL} — a real person reads it and resolves the issue. If you are in danger or something has been stolen, please call Public Safety or the police first and us second. Anyone who behaves in violation of these guidelines will unfortunately be removed permanently.`,
   },
 ]
 
 export const RULES_SUMMARY =
-  'Nothing dangerous or illegal, describe things honestly, keep it in the app, meet in public on campus, bring back what you rent, and show up.'
+  'Do you promise to be a kind and respectful BetterBarter community member? Read our community guidelines below.'
 
 // ── the pre-post check ────────────────────────────────────────────────────────
 

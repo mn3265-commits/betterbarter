@@ -33,7 +33,7 @@ export function Posted({ h }: { h: Barter }) {
             width: '100%',
           }}
         >
-          See it on the board
+          See it on the Marketplace
         </button>
         <button
           onClick={h.startPost}

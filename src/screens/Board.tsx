@@ -463,6 +463,29 @@ function ItemCard({ it, h }: { it: Item; h: Barter }) {
         {it.ago}
         {it.seller ? ` by ${it.seller}` : ''}
       </div>
+      {/* A deadline nobody sees is not a deadline. This is the line that makes a
+          move-out board different from a shop. */}
+      {it.goneBy && (() => {
+        const days = Math.ceil((new Date(it.goneBy + 'T12:00:00').getTime() - Date.now()) / 86400000)
+        if (days < 0) return null
+        return (
+          <div
+            style={{
+              fontSize: 9.5,
+              fontWeight: 700,
+              letterSpacing: '.08em',
+              textTransform: 'uppercase',
+              color: days <= 2 ? 'var(--color-signal-700)' : 'var(--color-neutral-700)',
+              background: days <= 2 ? 'var(--color-signal-100)' : 'var(--color-neutral-100)',
+              borderRadius: 3,
+              padding: '2px 6px',
+              alignSelf: 'flex-start',
+            }}
+          >
+            {days === 0 ? 'Gone today' : days === 1 ? 'Gone tomorrow' : `Gone in ${days} days`}
+          </div>
+        )
+      })()}
       <div style={{ fontSize: 10.5, opacity: 0.55 }}>
         {(() => {
           const km = h.distanceOf(it)

@@ -137,6 +137,8 @@ export function useBarter(config: BarterConfig, live?: LiveContext) {
     rentRate: 5,
     rentPeriod: 'week',
     spot: '',
+    /** "Gone by" — the date the room has to be empty. Optional, ISO yyyy-mm-dd. */
+    goneBy: '',
   })
   const [touched, setTouched] = useState<Record<string, boolean>>({})
 
@@ -146,8 +148,11 @@ export function useBarter(config: BarterConfig, live?: LiveContext) {
   }, [])
 
   const [photo, setPhoto] = useState(false)
-  const [photoFile, setPhotoFile] = useState<File | null>(null)
-  const [photoPreview, setPhotoPreview] = useState<string | null>(null)
+  /* Up to MAX_PHOTOS, in the order they were taken, first one the cover.
+     The screen has said "Maximum 3 photos" since the 28th while holding
+     exactly one and calling the second attempt a Retake — Tessa caught it. */
+  const [photoFiles, setPhotoFiles] = useState<File[]>([])
+  const [photoPreviews, setPhotoPreviews] = useState<string[]>([])
   const [postText, setPostText] = useState('')
   const [edit, setEdit] = useState<EditField | null>(null)
   const [oTitle, setOTitle] = useState<string | null>(null)
@@ -679,8 +684,8 @@ export function useBarter(config: BarterConfig, live?: LiveContext) {
   const startPost = useCallback(() => {
     setScreen('post1')
     setPhoto(false)
-    setPhotoFile(null)
-    setPhotoPreview(null)
+    setPhotoFiles([])
+    setPhotoPreviews((prev) => { prev.forEach(URL.revokeObjectURL); return [] })
     setPostText('')
     setEdit(null)
     resetOverrides()
@@ -703,13 +708,36 @@ export function useBarter(config: BarterConfig, live?: LiveContext) {
   const pickPhoto = useCallback(
     (file: File | null) => {
       if (!file) return
-      setPhotoFile(file)
-      setPhotoPreview(URL.createObjectURL(file))
-      setPhoto(true)
-      flash('Got it. Now just say what it is in your own words.')
+      setPhotoFiles((prev) => {
+        if (prev.length >= MAX_PHOTOS) {
+          flash(`Three photos is the most a listing takes.`)
+          return prev
+        }
+        setPhotoPreviews((p) => p.concat([URL.createObjectURL(file)]))
+        setPhoto(true)
+        flash(
+          prev.length === 0
+            ? 'Got it. Add up to two more, or move on.'
+            : prev.length === 1
+              ? 'Two. One more if you want it.'
+              : 'Three, that is the lot.',
+        )
+        return prev.concat([file])
+      })
     },
     [flash],
   )
+
+  const dropPhoto = useCallback((i: number) => {
+    setPhotoPreviews((prev) => {
+      const url = prev[i]
+      if (url) URL.revokeObjectURL(url)
+      const next = prev.filter((_, n) => n !== i)
+      setPhoto(next.length > 0)
+      return next
+    })
+    setPhotoFiles((prev) => prev.filter((_, n) => n !== i))
+  }, [])
 
   const shoot = useCallback(() => {
     setPhoto(true)
@@ -813,11 +841,16 @@ export function useBarter(config: BarterConfig, live?: LiveContext) {
     setBusy(true)
     void (async () => {
       try {
-        let path: string | null = null
+        // Upload them one at a time and keep whatever lands. Losing the third
+        // photo must not lose the listing — the poster is standing in a room
+        // they are trying to empty.
+        const paths: string[] = []
         let photoFailed = false
-        if (photoFile) {
+        for (const file of photoFiles) {
           try {
-            path = await api.uploadPhoto(photoFile, live.userId)
+            const p = await api.uploadPhoto(file, live.userId)
+            if (p) paths.push(p)
+            else photoFailed = true
           } catch {
             photoFailed = true
           }
@@ -842,7 +875,8 @@ export function useBarter(config: BarterConfig, live?: LiveContext) {
           description: [form.description.trim(), form.dimensions.trim() && `Size: ${form.dimensions.trim()}`]
             .filter(Boolean)
             .join('\n\n') || postText.trim(),
-          photoPath: path,
+          photoPaths: paths,
+          goneBy: form.goneBy || null,
         })
         await api.bumpSpot(live.campusId, p.spot)
         await refreshBoard()
@@ -864,7 +898,7 @@ export function useBarter(config: BarterConfig, live?: LiveContext) {
         setBusy(false)
       }
     })()
-  }, [parse, form, needsHelp, isLive, live, extra.length, postText, photoFile, ruleOverride, refreshBoard, fail])
+  }, [parse, form, needsHelp, isLive, live, extra.length, postText, photoFiles, ruleOverride, refreshBoard, fail])
 
   // ── claim ──────────────────────────────────────────────────────────────────
   const confirmClaim = useCallback(() => {
@@ -1310,7 +1344,8 @@ export function useBarter(config: BarterConfig, live?: LiveContext) {
     msgs,
     draftMsg,
     photo,
-    photoPreview,
+    photoPreviews,
+    dropPhoto,
     postText,
     edit,
     postedTitle,
