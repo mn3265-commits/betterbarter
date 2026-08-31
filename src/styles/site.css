@@ -53,7 +53,7 @@
 
 /* ── hero ── */
 .site__hero {
-  background: var(--color-accent-600);
+  background: var(--color-accent);
   color: var(--color-on-accent);
   padding: 72px 0 64px;
   /* The deck's periwinkle blobs, which are the thing that stops a flat lime
@@ -133,8 +133,10 @@
   padding: 64px 0;
   border-top: 1px solid var(--color-divider);
   /* the faint graph paper the deck sits on */
-  background-image: linear-gradient(color-mix(in srgb, var(--color-text) 5%, transparent) 1px, transparent 1px),
-                    linear-gradient(90deg, color-mix(in srgb, var(--color-text) 5%, transparent) 1px, transparent 1px);
+  /* The deck's graph paper is a warm pink-grey, not a green one — it is what
+     keeps a cream page from reading as blank. */
+  background-image: linear-gradient(#f4ece9 1px, transparent 1px),
+                    linear-gradient(90deg, #f4ece9 1px, transparent 1px);
   background-size: 74px 74px;
 }
 /* The method section is the argument of the whole page, so it gets its own
