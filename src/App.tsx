@@ -57,7 +57,7 @@ function Splash() {
   return (
     <div
       className="screen"
-      style={{ background: 'var(--color-accent)', color: 'var(--color-bg)', padding: '74px 26px 46px' }}
+      style={{ background: 'var(--color-accent)', color: 'var(--color-on-accent)', padding: '74px 26px 46px' }}
     >
       <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 600, fontSize: 60, lineHeight: 1.02, letterSpacing: '-.015em' }}>
         BetterBarter
@@ -71,7 +71,7 @@ function NotEnrolled({ email, onSignOut }: { email: string | null; onSignOut: ()
   return (
     <div
       className="screen"
-      style={{ background: 'var(--color-accent)', color: 'var(--color-bg)', padding: '74px 26px 46px' }}
+      style={{ background: 'var(--color-accent)', color: 'var(--color-on-accent)', padding: '74px 26px 46px' }}
     >
       <div style={{ fontSize: 10, letterSpacing: '.16em', textTransform: 'uppercase', opacity: 0.85 }}>
         School email required

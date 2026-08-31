@@ -6,57 +6,66 @@
  */
 
 :root {
-  /* The ground is paper, not screen: a warm off-white with a trace of green in
-     it, so the accent reads as material rather than as a UI colour. */
-  --color-bg: #f1f3ef;
-  --color-surface: #e6eae2;
-  --color-text: #16201a;
-  /* Deep pine, not eco-mint. It has to survive being a full-bleed field behind
-     white type, which a bright "sustainability green" never does. */
-  --color-accent: #1c7a4f;
-  --color-accent-2: #2f9463;
+  /* Tessa's palette, 30 August. Lime, periwinkle and cream, kept exactly as she
+     drew them — and used the way they have to be used to stay readable.
 
-  /* The second brand colour. Pine is the colour of action — post, claim,
-     confirm. Goldenrod is the colour of *attention without urgency*: the season
-     that is about to start, the feature that is announced but not open, the
-     rating someone left. It is deliberately not red: nothing on this board is an
-     emergency, and nothing here should feel like one. It is also not one of the
-     six category hues, so it can never be mistaken for a seventh category. */
-  --color-signal: #b8860b;
-  --color-signal-600: #9a7009;
-  --color-signal-100: #f7efd8;
-  --color-divider: color-mix(in srgb, #16201a 22%, transparent);
+     In her Canva deck the three colours were also the ink, and every text pair
+     failed: periwinkle on cream at 1.76:1, lime on cream at 1.28:1, white on
+     lime at 1.32:1, against a floor of 4.5:1. So here the colours are fields
+     and the ink is near-black. Nothing about the look changes; the text becomes
+     legible on a phone in sunlight, which is where this product is used. */
+  --color-bg: #fffbf7;
+  --color-surface: #f6f2ea;
+  --color-text: #14180a;
 
-  /* Tonal ramps — generated in OKLCH on one shared lightness scale, so the
-     same step of any role matches the others in visual value. */
-  --color-neutral-100: #f5f7f3;
-  --color-neutral-200: #e7eae4;
-  --color-neutral-300: #d3d8ce;
-  --color-neutral-400: #b6bcb1;
-  --color-neutral-500: #979e92;
-  --color-neutral-600: #798074;
+  /* Lime is the colour of action — post, claim, confirm. It is very light, so
+     unlike the pine it replaced it CANNOT carry white type. Anything sitting on
+     a lime field takes --color-on-accent, which is the ink. */
+  --color-accent: #dfe958;
+  --color-accent-2: #c2ce3d;
+  --color-on-accent: #14180a;
+
+  /* Periwinkle is attention without urgency: a season starting, a feature
+     announced but not open, a rating someone left. Deliberately not red —
+     nothing on this board is an emergency. */
+  --color-signal: #bbbcf4;
+  --color-signal-600: #6060d2;
+  --color-signal-100: #f0f0fd;
+  --color-divider: color-mix(in srgb, #14180a 20%, transparent);
+
+  /* Tonal ramps. The high steps of each are much darker than the brand colour
+     they belong to, because those steps carry text: lime-700 on paper is
+     4.52:1 and periwinkle-700 is 6.96:1. A ramp whose dark end is merely a
+     shade of the brand colour would fail every one of them. */
+  --color-neutral-100: #f8f6f0;
+  --color-neutral-200: #ecebe2;
+  --color-neutral-300: #d8d7cb;
+  --color-neutral-400: #bcbbad;
+  --color-neutral-500: #9b9a8d;
+  --color-neutral-600: #7d7c70;
   --color-neutral-700: #5d6359;
-  --color-neutral-800: #414640;
-  --color-neutral-900: #2a2f29;
+  --color-neutral-800: #43463c;
+  --color-neutral-900: #2b2e26;
 
-  --color-accent-100: #eaf4ee;
-  --color-accent-200: #cfe6d8;
-  --color-accent-300: #a9d3ba;
-  --color-accent-400: #6fb890;
-  --color-accent-500: #2f9463;
-  --color-accent-600: #176a44;
-  --color-accent-700: #115538;
-  --color-accent-800: #0d422c;
-  --color-accent-900: #0a3022;
+  --color-accent-100: #f9fbe0;
+  --color-accent-200: #f1f7bb;
+  --color-accent-300: #e8f188;
+  --color-accent-400: #dfe958;
+  --color-accent-500: #c2ce3d;
+  --color-accent-600: #9aa622;
+  --color-accent-700: #727a17;
+  --color-accent-800: #525810;
+  --color-accent-900: #383c0b;
 
-  --color-signal-200: #f0e2b8;
-  --color-signal-700: #7c5a07;
+  --color-signal-200: #dedefa;
+  --color-signal-700: #4a4ab4;
 
-  /* Fraunces carries the warmth — a soft, slightly wonky serif that reads as a
-     person wrote it, against Plus Jakarta Sans for everything you actually have
-     to read. The old single-grotesque setting was correct for a notice board
-     and too severe for a product about neighbours giving each other things. */
-  --font-heading: "Fraunces", Georgia, "Times New Roman", serif;
+  /* Fredoka carries the warmth — round bowls, soft terminals, a little bounce,
+     against Plus Jakarta Sans for everything you actually have to read. It is
+     the face from Tessa's deck, so the product and the pitch are finally the
+     same brand. A rounded display face at 16px is a headache, which is why it
+     never touches body copy. */
+  --font-heading: "Fredoka", "Plus Jakarta Sans", system-ui, sans-serif;
   --font-heading-weight: 600;
   --font-body: "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
 
@@ -97,10 +106,11 @@ h1, h2, h3, h4, h5, h6 {
   line-height: 1.16;
   letter-spacing: -0.005em;
   margin: 0 0 var(--space-2);
-  /* Fraunces has the axes that decide whether a serif feels institutional or
-     friendly: SOFT rounds the terminals, WONK swaps in the relaxed, slightly
-     off-kilter letterforms. Both off is a law firm; both on is a person. */
-  font-variation-settings: 'SOFT' 70, 'WONK' 1, 'opsz' 96;
+  /* Fredoka is round by construction, so the friendliness that Fraunces needed
+     two variable axes to reach is simply the shape of the face. Nothing to
+     tune — but it runs wide, so headings get slightly tighter tracking than a
+     serif would want. */
+  letter-spacing: -0.018em;
 }
 h1 { font-size: 42px; }
 h2 { font-size: 32px; }
@@ -149,13 +159,13 @@ img { display: block; max-width: 100%; }
 }
 .btn svg { display: block; }
 .btn:disabled { opacity: 0.45; cursor: not-allowed; }
-.btn-primary { background: var(--color-accent); color: var(--color-bg); }
+.btn-primary { background: var(--color-accent); color: var(--color-on-accent); }
 .btn-primary:hover { background: var(--color-accent-600); }
 .btn-primary:active { background: var(--color-accent-700); }
 .btn-secondary { border-color: var(--color-divider); }
 .btn-secondary:hover { background: color-mix(in srgb, var(--color-text) 7%, transparent); }
 .btn-secondary:active { background: color-mix(in srgb, var(--color-text) 14%, transparent); }
-.btn-ghost { color: var(--color-accent); padding-inline: var(--space-1); }
+.btn-ghost { color: var(--color-accent-700); padding-inline: var(--space-1); }
 .btn-ghost:hover { background: color-mix(in srgb, var(--color-accent) 10%, transparent); }
 .btn-ghost:active { background: color-mix(in srgb, var(--color-accent) 18%, transparent); }
 .btn-block { width: 100%; justify-content: flex-start; text-align: left; }
@@ -230,7 +240,7 @@ textarea.input { min-height: 90px; resize: vertical; }
    column is narrow even when the window is not — so this is unconditional. */
 .screen .seg-opt { padding: 6px 9px; font-size: 12.25px; }
 .seg-opt + .seg-opt { border-left: 1px solid var(--color-divider); }
-.seg-opt:has(input:checked) { background: var(--color-accent); color: var(--color-bg); }
+.seg-opt:has(input:checked) { background: var(--color-accent); color: var(--color-on-accent); }
 .seg-opt:not(:has(input:checked)):hover { background: color-mix(in srgb, var(--color-text) 7%, transparent); }
 .seg-opt:has(input:focus-visible) { outline: 2px solid var(--color-accent); outline-offset: -2px; }
 

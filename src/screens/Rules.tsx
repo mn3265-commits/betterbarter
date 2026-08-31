@@ -123,7 +123,7 @@ export function Rules({
                 marginTop: 1,
                 border: agreed ? '1.5px solid var(--color-accent)' : '1.5px solid var(--color-divider)',
                 background: agreed ? 'var(--color-accent)' : 'transparent',
-                color: 'var(--color-bg)',
+                color: agreed ? 'var(--color-on-accent)' : 'var(--color-text)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',

@@ -38,7 +38,7 @@ export function Gate({ h, auth }: { h: Barter; auth?: Auth }) {
   return (
     <div
       className="screen gate"
-      style={{ background: 'var(--color-accent)', color: 'var(--color-bg)', padding: '74px 26px 46px' }}
+      style={{ background: 'var(--color-accent)', color: 'var(--color-on-accent)', padding: '74px 26px 46px' }}
     >
       {/* One column on a phone; on a laptop these two halves sit side by side
           (see app.css) — what this is on the left, the way in on the right. */}
@@ -50,7 +50,7 @@ export function Gate({ h, auth }: { h: Barter; auth?: Auth }) {
         {/* The only way back to the public site, for anyone who arrived here first. */}
         <a
           href="/"
-          style={{ marginLeft: 'auto', fontSize: 11, color: 'var(--color-bg)', opacity: 0.8, textDecoration: 'underline' }}
+          style={{ marginLeft: 'auto', fontSize: 11, color: 'var(--color-on-accent)', opacity: 0.7, textDecoration: 'underline' }}
         >
           What is this?
         </a>

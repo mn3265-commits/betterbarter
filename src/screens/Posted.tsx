@@ -5,7 +5,7 @@ export function Posted({ h }: { h: Barter }) {
   return (
     <div
       className="screen"
-      style={{ background: 'var(--color-accent)', color: 'var(--color-bg)', padding: '74px 26px 46px' }}
+      style={{ background: 'var(--color-accent)', color: 'var(--color-on-accent)', padding: '74px 26px 46px' }}
     >
       <div style={{ fontSize: 10, letterSpacing: '.16em', textTransform: 'uppercase', opacity: 0.85 }}>{`Live at ${h.campusName || 'your campus'}`}</div>
       <div style={{ height: 2, background: 'var(--color-bg)', opacity: 0.5, margin: '14px 0 22px' }} />
@@ -22,7 +22,7 @@ export function Posted({ h }: { h: Barter }) {
           style={{
             border: 0,
             background: 'var(--color-bg)',
-            color: 'var(--color-accent-700)',
+            color: 'var(--color-accent-800)',
             borderRadius: 'var(--radius-md)',
             fontFamily: 'var(--font-heading)',
             fontWeight: 600,
@@ -38,9 +38,9 @@ export function Posted({ h }: { h: Barter }) {
         <button
           onClick={h.startPost}
           style={{
-            border: '1.5px solid var(--color-bg)', borderRadius: 'var(--radius-md)',
+            border: '1.5px solid var(--color-on-accent)', borderRadius: 'var(--radius-md)',
             background: 'transparent',
-            color: 'var(--color-bg)',
+            color: 'var(--color-on-accent)',
             fontFamily: 'var(--font-heading)',
             fontWeight: 600,
             fontSize: 15,
