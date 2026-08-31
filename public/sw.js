@@ -50,13 +50,24 @@ self.addEventListener('fetch', (event) => {
 
   if (req.mode === 'navigate') {
     event.respondWith(
-      fetch(req)
+      // `cache: 'reload'` is the whole point. A plain fetch() still consults the
+      // browser's own HTTP cache, so a navigation could be answered with an HTML
+      // document from an earlier deploy — and that document names the hashed
+      // asset files, so the entire app silently stays a build behind while every
+      // check on the server says the new one shipped. This was doing exactly
+      // that: serving CSS from two deploys back.
+      fetch(req, { cache: 'reload' })
         .then((res) => {
+          // Cache each page under its own URL. This used to write every
+          // navigation to the SHELL key, so visiting the marketing site stored
+          // the marketing page as the offline fallback for /app.
           const copy = res.clone()
-          caches.open(VERSION).then((c) => c.put(SHELL, copy)).catch(() => {})
+          caches.open(VERSION).then((c) => c.put(req, copy)).catch(() => {})
           return res
         })
-        .catch(() => caches.match(SHELL).then((hit) => hit || caches.match('/'))),
+        .catch(() =>
+          caches.match(req).then((hit) => hit || caches.match(SHELL).then((s) => s || caches.match('/'))),
+        ),
     )
     return
   }
