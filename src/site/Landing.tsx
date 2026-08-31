@@ -353,25 +353,33 @@ export function Landing() {
       <SiteNav />
 
       <section className="site__hero">
-        <div className="site__wrap">
-          <div className="site__kicker">Campus circular economy · Any university, one board each</div>
-          <h1>BetterBarter</h1>
-          <p className="site__lede">
-            Keep the things your campus already owns in use — and count every object that stayed out of the landfill.
-          </p>
-          <div className="site__cta-row">
-            <a className="site__cta" href={APP}>
-              Continue with school email <ArrowRight size={19} strokeWidth={2.4} />
-            </a>
-            <a className="site__cta site__cta--ghost" href="#impact">
-              See how we count it
-            </a>
+        <div className="site__wrap site__hero-in">
+          <div>
+            <div className="site__kicker">Campus circular economy · Any university, one board each</div>
+            <h1>BetterBarter</h1>
+            <p className="site__lede">
+              Keep the things your campus already owns in use — and count every object that stayed out of the landfill.
+            </p>
+            <div className="site__cta-row">
+              <a className="site__cta" href={APP}>
+                Continue with school email <ArrowRight size={19} strokeWidth={2.4} />
+              </a>
+              <a className="site__cta site__cta--ghost" href="#impact">
+                See how we count it
+              </a>
+            </div>
+            <p className="site__hero-note">
+              Every May a working desk lamp goes into a dumpster because the person two floors down never knew it
+              existed. A campus is the densest reuse market in a city — and the only one where the buyer, the seller
+              and the object are already inside the same building.
+            </p>
           </div>
-          <p className="site__hero-note">
-            Every May a working desk lamp goes into a dumpster because the person two floors down never knew it existed.
-            A campus is the densest reuse market in a city — and the only one where the buyer, the seller and the object
-            are already inside the same building.
-          </p>
+          {/* Two students outside a hall, one of them carrying a box. It is the
+              product, photographed — and the right half of this hero was empty.
+              Decoration: see public/photos/LICENCE.md. */}
+          <figure className="site__photo site__photo--hero">
+            <img src="/photos/two-students-outside.jpg" alt="" width={1600} height={1067} />
+          </figure>
         </div>
       </section>
 
@@ -389,7 +397,7 @@ export function Landing() {
             {/* Decoration. Nobody in these photographs is a user — see
                 public/photos/LICENCE.md. */}
             <figure className="site__photo">
-              <img src="/photos/moving-in.jpg" alt="" loading="lazy" width={1400} height={1050} />
+              <img src="/photos/among-the-boxes.jpg" alt="" loading="lazy" width={1600} height={1067} />
             </figure>
           </div>
           <div className="site__stats">
@@ -463,7 +471,7 @@ export function Landing() {
               published, in the open, at the low end of its range.
             </p>
             <figure className="site__photo site__photo--lime">
-              <img src="/photos/alone-with-a-mattress.jpg" alt="" loading="lazy" width={1400} height={1050} />
+              <img src="/photos/rolling-a-rug.jpg" alt="" loading="lazy" width={1600} height={1067} />
             </figure>
           </div>
 
