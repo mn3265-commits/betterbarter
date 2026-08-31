@@ -126,8 +126,10 @@ h5 { font-size: 16px; }
 h6 { font-size: 13px; letter-spacing: 0.06em; text-transform: uppercase; font-family: var(--font-body); font-weight: 600; }
 
 p { margin: 0 0 var(--space-3); }
-a { color: var(--color-accent); text-underline-offset: 3px; }
-a:hover { color: var(--color-accent-700); }
+/* Lime is a field colour, not an ink one — as a link on paper it is 1.25:1.
+   The dark end of its own ramp is what carries text. */
+a { color: var(--color-accent-800); text-underline-offset: 3px; }
+a:hover { color: var(--color-accent-900); }
 img { display: block; max-width: 100%; }
 
 :focus { outline: none; }
@@ -264,7 +266,7 @@ textarea.input { min-height: 90px; resize: vertical; }
 }
 .tag-accent { background: var(--color-accent-100); color: var(--color-accent-800); }
 .tag-neutral { background: var(--color-neutral-100); color: var(--color-neutral-800); }
-.tag-outline { border: 1px solid var(--color-accent); color: var(--color-accent); }
+.tag-outline { border: var(--border-ink); color: var(--color-text); }
 
 /* ── tables (rationale column) ── */
 .table { width: 100%; border-collapse: collapse; font-size: 14px; }
