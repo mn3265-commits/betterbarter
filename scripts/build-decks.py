@@ -48,13 +48,20 @@ async def render(page, src: pathlib.Path, out: pathlib.Path) -> None:
     slides = await page.evaluate("document.querySelectorAll('.slide').length")
     # A slide taller than the page silently becomes two, which is the one
     # failure that looks fine in a browser and wrong in the PDF.
-    over = await page.evaluate(
-        "[...document.querySelectorAll('.slide')]"
-        ".map((s,i)=>[i+1, Math.max(...[...s.children]"
-        ".filter(c=>!c.classList.contains('blob'))"
-        ".map(c=>c.getBoundingClientRect().bottom - s.getBoundingClientRect().top))])"
-        ".filter(([,h])=>h>700)"
-    )
+    over = await page.evaluate("""
+        [...document.querySelectorAll('.slide')].map((s, i) => {
+          const top = s.getBoundingClientRect().top;
+          let worst = 0;
+          // every descendant, not just the direct children — content nested in a
+          // grid or a flex column is exactly where a slide silently overflows
+          for (const el of s.querySelectorAll('*')) {
+            if (el.classList.contains('blob') || el.classList.contains('bleed')) continue;
+            const b = el.getBoundingClientRect().bottom - top;
+            if (b > worst) worst = b;
+          }
+          return [i + 1, Math.round(worst)];
+        }).filter(([, h]) => h > 706)
+    """)
     kb = out.stat().st_size // 1024
     print(f"  {out.name}  ·  {slides} slides  ·  {kb} KB")
     if over:
