@@ -380,11 +380,18 @@ export function Landing() {
         <div className="site__wrap">
           <div className="site__kicker">The problem</div>
           <h2>Reuse fails on friction, not on willingness.</h2>
-          <p className="site__section-lede">
-            Students do not throw out working things because they want to. They throw them out because listing an item
-            takes longer than carrying it to the bin, and because the alternative is meeting a stranger off campus. The
-            waste is downstream of a user-experience problem.
-          </p>
+          <div className="site__withphoto">
+            <p className="site__section-lede" style={{ marginTop: 0 }}>
+              Students do not throw out working things because they want to. They throw them out because listing an
+              item takes longer than carrying it to the bin, and because the alternative is meeting a stranger off
+              campus. The waste is downstream of a user-experience problem.
+            </p>
+            {/* Decoration. Nobody in these photographs is a user — see
+                public/photos/LICENCE.md. */}
+            <figure className="site__photo">
+              <img src="/photos/moving-in.jpg" alt="" loading="lazy" width={1400} height={1050} />
+            </figure>
+          </div>
           <div className="site__stats">
             {PROBLEM.map(([big, unit, line]) => (
               <div key={big} className="site__stat">
@@ -449,11 +456,16 @@ export function Landing() {
         <div className="site__wrap">
           <div className="site__kicker">The method · model v{MODEL_VERSION}</div>
           <h2>We count objects first, carbon second, and say which is which.</h2>
-          <p className="site__section-lede">
-            Most reuse claims are a weight divided by an assumption. Ours is built from a single verifiable event — two
-            students both confirming that one object changed hands — and every conversion after that is published, in
-            the open, at the low end of its range.
-          </p>
+          <div className="site__withphoto">
+            <p className="site__section-lede" style={{ marginTop: 0 }}>
+              Most reuse claims are a weight divided by an assumption. Ours is built from a single verifiable event —
+              two students both confirming that one object changed hands — and every conversion after that is
+              published, in the open, at the low end of its range.
+            </p>
+            <figure className="site__photo site__photo--lime">
+              <img src="/photos/alone-with-a-mattress.jpg" alt="" loading="lazy" width={1400} height={1050} />
+            </figure>
+          </div>
 
           <h3 className="site__sub" style={{ marginTop: 0 }}>Where this sits in the hierarchy</h3>
           <p className="site__fine" style={{ marginBottom: 4 }}>
@@ -622,11 +634,16 @@ export function Landing() {
         <div className="site__wrap">
           <div className="site__kicker">How this pays for itself</div>
           <h2>Charged before a deal exists, never on the object.</h2>
-          <p className="site__section-lede">
-            A board that takes a cut of a give-away is not a reuse product, it is a tax on generosity. So the money
-            never sits on the handoff itself — it sits on the two things that are worth paying for once a campus board
-            is busy.
-          </p>
+          <div className="site__withphoto">
+            <p className="site__section-lede" style={{ marginTop: 0 }}>
+              A board that takes a cut of a give-away is not a reuse product, it is a tax on generosity. So the money
+              never sits on the handoff itself — it sits on the two things that are worth paying for once a campus
+              board is busy.
+            </p>
+            <figure className="site__photo">
+              <img src="/photos/carrying-chairs.jpg" alt="" loading="lazy" width={1400} height={1050} />
+            </figure>
+          </div>
           <div className="site__grid">
             <div className="site__cell">
               <b>Campus licence — the main line</b>
