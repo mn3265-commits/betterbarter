@@ -56,6 +56,27 @@
   background: var(--color-accent);
   color: var(--color-on-accent);
   padding: 72px 0 64px;
+  /* The deck's periwinkle blobs, which are the thing that stops a flat lime
+     field reading as a colour swatch. Decoration only — they sit behind
+     everything and are hidden from assistive tech by having no content. */
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+.site__hero::before,
+.site__hero::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  background: var(--color-signal);
+  z-index: -1;
+  pointer-events: none;
+}
+.site__hero::before { width: 230px; height: 230px; top: -84px; right: 12%; }
+.site__hero::after  { width: 150px; height: 150px; bottom: -56px; left: -44px; }
+@media (max-width: 700px) {
+  .site__hero::before { width: 150px; height: 150px; right: -40px; }
+  .site__hero::after  { width: 96px; height: 96px; }
 }
 .site__kicker {
   font-size: 11px;
@@ -118,8 +139,33 @@
 }
 /* The method section is the argument of the whole page, so it gets its own
    ground rather than another run of the same off-white. */
-#impact { background: var(--color-accent-100); }
+/* The deck alternates its grounds — a lime slide, a cream slide, a periwinkle
+   slide — and the second colour is half of what makes it look like itself. On
+   the site periwinkle had no job at all beyond a "soon" badge, so it appeared
+   on exactly zero pixels. It now carries two whole sections, the way it carries
+   whole slides. */
+#impact {
+  background: var(--color-signal-100);
+  background-image: linear-gradient(color-mix(in srgb, var(--color-signal-700) 7%, transparent) 1px, transparent 1px),
+                    linear-gradient(90deg, color-mix(in srgb, var(--color-signal-700) 7%, transparent) 1px, transparent 1px);
+  background-size: 74px 74px;
+}
 #impact .site__level, #impact .site__calc-out > div { background: var(--color-bg); }
+
+#safety {
+  background: var(--color-signal);
+  background-image: none;
+}
+#safety .site__cell, #safety .site__seg, #safety .site__stat { background: var(--color-bg); }
+
+/* Alternating fills inside a grid, so a row of cards is not one flat colour —
+   the deck never puts three identical cards in a row either. */
+.site__grid > *:nth-child(4n + 2), .site__segs > *:nth-child(3n + 3) {
+  background: var(--color-signal-100);
+}
+.site__grid > *:nth-child(4n + 3), .site__stats > *:nth-child(4n + 1) {
+  background: var(--color-accent-100);
+}
 .site__section h2 {
   font-size: clamp(28px, 3.8vw, 42px);
   letter-spacing: -0.01em;
