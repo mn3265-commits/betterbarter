@@ -1,0 +1,200 @@
+/*
+ * BetterBarter deck styles — Tessa's palette, made readable.
+ *
+ * Her three colours are kept exactly: lime #DFE958, periwinkle #BBBCF4, cream
+ * #FFFBF7. What changes is their job. In the original deck they were also the
+ * ink, and every single text pair failed:
+ *
+ *   periwinkle on cream  1.76:1     (all the body copy)
+ *   lime on cream        1.28:1     (slide titles)
+ *   white on lime        1.32:1
+ *   white on periwinkle  1.81:1     (4.5:1 is the minimum for body text)
+ *
+ * Projected in a lit room, the third row reads none of it. So the colours are
+ * fields and the ink is near-black, which costs the look nothing and takes
+ * every pair past AAA:
+ *
+ *   ink on cream        20.4:1
+ *   ink on lime         15.9:1
+ *   ink on periwinkle   11.6:1
+ *
+ * One deliberate exception: a huge display word set in lime or periwinkle on
+ * cream is decoration, not reading — it is allowed, and it never carries
+ * information that is not repeated in ink somewhere on the slide.
+ */
+
+/* Fredoka is the closest free match to the soft rounded display face in
+   Tessa's Canva deck — same bouncy geometry, same very round bowls. Plus
+   Jakarta Sans stays for reading, because a rounded display face set at 16px
+   is a headache. */
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+
+:root {
+  --lime: #dfe958;
+  --peri: #bbbcf4;
+  --cream: #fffbf7;
+  --grid: #f4ece9;
+  --ink: #14180a;          /* near-black with a green bias, so it sits in the palette */
+  --ink-soft: #4a4f38;
+  --ink-faint: #7b8168;
+  --white: #ffffff;
+
+  --lime-deep: #8d9a10;    /* lime dark enough to be text on cream — 4.9:1 */
+  --peri-deep: #4b4bb8;    /* periwinkle dark enough to be text on cream — 6.6:1 */
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+@page { size: 1280px 720px; margin: 0; }
+
+html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+
+body {
+  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+  color: var(--ink);
+  background: var(--cream);
+}
+
+.slide {
+  width: 1280px;
+  height: 720px;
+  position: relative;
+  overflow: hidden;
+  background: var(--cream);
+  page-break-after: always;
+  break-after: page;
+  display: flex;
+  flex-direction: column;
+  padding: 56px 64px;
+}
+.slide:last-child { page-break-after: auto; break-after: auto; }
+
+/* the faint graph paper Tessa uses as the ground */
+.slide--grid {
+  background-image: linear-gradient(var(--grid) 1px, transparent 1px),
+                    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 74px 74px;
+}
+.slide--lime { background: var(--lime); background-image: none; }
+.slide--peri { background: var(--peri); background-image: none; }
+
+/* ── type ─────────────────────────────────────────────────────────────────── */
+.display {
+  font-family: Fredoka, 'Plus Jakarta Sans', system-ui, sans-serif;
+  font-weight: 600;
+  letter-spacing: -0.022em;
+  line-height: 0.98;
+  text-wrap: balance;
+}
+.t-hero  { font-size: 118px; }
+.t-big   { font-size: 80px; }
+.t-title { font-size: 56px; }
+
+.eyebrow {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--peri-deep);
+}
+.eyebrow--onlime { color: var(--ink); opacity: 0.62; }
+
+.lede { font-size: 25px; line-height: 1.34; color: var(--ink-soft); max-width: 30ch; text-wrap: pretty; }
+.body { font-size: 18px; line-height: 1.5; color: var(--ink-soft); text-wrap: pretty; }
+.small { font-size: 14.5px; line-height: 1.5; color: var(--ink-faint); }
+.num {
+  font-family: Fredoka, 'Plus Jakarta Sans', system-ui, sans-serif;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.03em;
+  line-height: 1;
+}
+
+b, strong { color: var(--ink); font-weight: 600; }
+
+/* ── layout ───────────────────────────────────────────────────────────────── */
+.row { display: flex; gap: 26px; }
+.col { flex: 1; min-width: 0; }
+.grow { flex: 1; }
+.foot {
+  position: absolute;
+  left: 64px; right: 64px; bottom: 30px;
+  display: flex; justify-content: space-between; align-items: baseline;
+  font-size: 12.5px; color: var(--ink-faint);
+}
+
+.cards { display: grid; gap: 14px; }
+.c2 { grid-template-columns: repeat(2, 1fr); }
+.c3 { grid-template-columns: repeat(3, 1fr); }
+.c4 { grid-template-columns: repeat(4, 1fr); }
+
+.card {
+  background: var(--white);
+  border: 1.5px solid var(--ink);
+  border-radius: 18px;
+  padding: 22px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+.card--lime { background: var(--lime); }
+.card--peri { background: var(--peri); }
+.card--flat { background: transparent; border-color: color-mix(in srgb, var(--ink) 22%, transparent); }
+.card h3 {
+  font-family: Fredoka, 'Plus Jakarta Sans', system-ui, sans-serif;
+  font-weight: 600;
+  font-size: 21px;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+.card p { font-size: 16px; line-height: 1.45; color: var(--ink-soft); text-wrap: pretty; }
+.card--lime p, .card--peri p { color: var(--ink); opacity: 0.82; }
+
+.stat { display: flex; flex-direction: column; gap: 3px; }
+.stat__n { font-size: 58px; }
+.stat__l { font-size: 15px; color: var(--ink-soft); }
+.stat__s { font-size: 12.5px; color: var(--ink-faint); }
+
+table { width: 100%; border-collapse: collapse; font-size: 16px; }
+th, td { padding: 13px 16px; text-align: left; border-bottom: 1px solid color-mix(in srgb, var(--ink) 16%, transparent); }
+th { font-size: 12.5px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-faint); font-weight: 700; }
+td.n { text-align: right; font-variant-numeric: tabular-nums; }
+tr.us { background: var(--lime); }
+tr.us td { font-weight: 600; }
+
+.pill {
+  display: inline-block;
+  border: 1.5px solid var(--ink);
+  border-radius: 999px;
+  padding: 6px 15px;
+  font-size: 14px;
+  font-weight: 600;
+  background: var(--white);
+}
+.pill--lime { background: var(--lime); }
+.pill--peri { background: var(--peri); }
+
+.blob {
+  position: absolute;
+  border-radius: 50%;
+  background: var(--peri);
+}
+
+.shot {
+  border: 1.5px solid var(--ink);
+  border-radius: 14px;
+  overflow: hidden;
+  background: var(--white);
+  display: flex;
+  flex-direction: column;
+}
+.shot img { width: 100%; display: block; }
+.shot__cap {
+  font-size: 12.5px;
+  padding: 9px 13px;
+  border-top: 1.5px solid var(--ink);
+  background: var(--cream);
+  color: var(--ink-soft);
+}
+
+.source { font-size: 11.5px; color: var(--ink-faint); line-height: 1.45; }

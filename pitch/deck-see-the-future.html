@@ -1,0 +1,317 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>BetterBarter — SEE THE FUTURE 2026</title>
+<link rel="stylesheet" href="deck.css">
+</head>
+<body>
+
+<!-- 1 · cover -->
+<section class="slide slide--lime" style="justify-content: center">
+  <div class="blob" style="width: 190px; height: 190px; top: -54px; left: 300px"></div>
+  <div class="blob" style="width: 250px; height: 250px; bottom: -80px; right: 90px"></div>
+  <div class="blob" style="width: 120px; height: 120px; bottom: 120px; left: -46px"></div>
+
+  <div style="position: relative">
+    <div class="eyebrow eyebrow--onlime">SEE THE FUTURE Startup Competition 2026 · Columbia Climate School</div>
+    <h1 class="display t-hero" style="margin-top: 18px">BetterBarter</h1>
+    <p class="lede" style="color: var(--ink); font-size: 29px; max-width: 34ch; margin-top: 22px">
+      A campus reuse board that <b>counts what it keeps out of the skip</b> — one confirmed
+      handoff at a time, on a model we published so you can argue with it.
+    </p>
+  </div>
+
+  <div class="foot" style="color: var(--ink); opacity: .78">
+    <span>Agung Nugroho &amp; Tessa Wong · Columbia University</span>
+    <span>betterbarter.vercel.app · live today</span>
+  </div>
+</section>
+
+<!-- 2 · the problem -->
+<section class="slide slide--grid">
+  <div class="eyebrow">The problem</div>
+  <h2 class="display t-title" style="margin-top: 10px; max-width: 26ch">
+    A working desk is thrown out because the term ended, not because it broke.
+  </h2>
+
+  <div class="row" style="margin-top: auto; align-items: flex-end">
+    <div class="col">
+      <p class="body" style="max-width: 40ch">
+        Move-out compresses a year of disposal into one week. Furniture, textiles and small
+        electronics leave residence halls in skips while, ten days later, the next intake buys
+        the same objects new. The material is fine. The <b>timing and the distance</b> are what fail.
+      </p>
+      <p class="body" style="max-width: 40ch; margin-top: 14px">
+        Columbia already runs <b>Give + Go Green</b> and <b>Clean + Go Green</b> at check-out, and
+        they work — but collection catches what is <i>left at the end</i>. Nothing moves an object
+        from one student to another <i>before</i> the pile forms, which is the cheaper step and
+        the higher one on the EPA hierarchy.
+      </p>
+    </div>
+    <div class="col" style="flex: 0 0 460px">
+      <div class="cards c1" style="grid-template-columns: 1fr">
+        <div class="card card--peri">
+          <h3>Reuse is measured at the truck</h3>
+          <p>A donation drive reports a weight, after the fact, in aggregate. No object, no
+          category, no way to audit a single line of it.</p>
+        </div>
+        <div class="card">
+          <h3>So a sustainability office cannot defend the number</h3>
+          <p>Which means it cannot be put in a report, and what cannot be reported does not get
+          funded.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="foot"><span>2</span><span>EPA Waste Management Hierarchy · Columbia Plan 2030</span></div>
+</section>
+
+<!-- 3 · solution -->
+<section class="slide slide--peri">
+  <div class="eyebrow eyebrow--onlime">The solution</div>
+  <h2 class="display t-title" style="margin-top: 10px; max-width: 28ch">One campus, one board, one confirmed handoff at a time.</h2>
+
+  <div class="cards c3" style="margin-top: 34px">
+    <div class="card">
+      <h3>Walled to one campus</h3>
+      <p>A university email maps to a campus in the database. Row-level security means a query
+      cannot cross the wall, not that the interface hides it. Verified tested, not asserted.</p>
+    </div>
+    <div class="card">
+      <h3>Zero logistics</h3>
+      <p>Two students crossing a campus they were crossing anyway. No van, no packaging, no
+      collection round — so the transport term of the saving is genuinely nil.</p>
+    </div>
+    <div class="card card--lime">
+      <h3>Counted at the object</h3>
+      <p>Both sides confirm the handoff in person. One event, one category, one timestamp —
+      a circularity metric a sustainability office can defend line by line.</p>
+    </div>
+  </div>
+
+  <p class="body" style="margin-top: 26px; color: var(--ink); max-width: 62ch">
+    It is not an alternative to Give + Go Green. The board takes the easy majority out of the pile
+    before it forms, so staffed collection can deal with what actually needs handling.
+  </p>
+  <div class="foot" style="color: var(--ink); opacity: .7"><span>3</span><span>betterbarter.vercel.app</span></div>
+</section>
+
+<!-- 4 · the product, actually shown -->
+<section class="slide slide--grid">
+  <div class="eyebrow">Built and running</div>
+  <h2 class="display t-title" style="margin-top: 10px">Not a mockup — a deployed product on a live backend.</h2>
+
+  <div class="row" style="margin-top: 26px; gap: 18px">
+    <div class="col"><div class="card card--flat">
+      <h3>The board</h3>
+      <p>Browsed by category, colour-coded free / sale / swap, with a "gone by" date because a
+      thing in a room somebody must empty by Friday is not a thing for sale.</p>
+    </div></div>
+    <div class="col"><div class="card card--flat">
+      <h3>The handoff code</h3>
+      <p>Six digits split across two phones — the buyer holds three, the seller three, and the
+      database gives neither the other half.</p>
+    </div></div>
+    <div class="col"><div class="card card--flat">
+      <h3>The safety net</h3>
+      <p>Contact details cannot be sent in chat. Reporting hides an account instantly and files
+      it. Rate limits live in the database, not the client.</p>
+    </div></div>
+  </div>
+
+  <div class="cards c4" style="margin-top: 22px">
+    <div class="card card--lime"><div class="stat"><div class="num stat__n">SSO</div><div class="stat__l">University sign-in only</div></div></div>
+    <div class="card"><div class="stat"><div class="num stat__n">RLS</div><div class="stat__l">Campus wall in Postgres</div></div></div>
+    <div class="card"><div class="stat"><div class="num stat__n">PWA</div><div class="stat__l">Installable, and a desktop app</div></div></div>
+    <div class="card card--peri"><div class="stat"><div class="num stat__n">Open</div><div class="stat__l">Source, and the model with it</div></div></div>
+  </div>
+  <div class="foot"><span>4</span><span>github.com/mn3265-commits/betterbarter</span></div>
+</section>
+
+<!-- 5 · the differentiator -->
+<section class="slide slide--grid">
+  <div class="eyebrow">Why this counts when other reuse numbers do not</div>
+  <h2 class="display t-title" style="margin-top: 10px; max-width: 24ch">The measurement cannot be raised by one person alone.</h2>
+
+  <div class="row" style="margin-top: 30px; align-items: stretch">
+    <div class="col" style="flex: 0 0 520px">
+      <div class="card card--lime" style="height: 100%">
+        <h3>Six digits, split down the middle</h3>
+        <p>The buyer's app shows the first three, the seller's the last three, and neither can
+        read the other's — the column is not readable by any client. Those six digits do not exist
+        in one place until two people are standing together.</p>
+        <p style="margin-top: 6px"><b>And the honest limit:</b> two people set on faking a handoff
+        can read the digits to each other. It cannot happen by accident, it cannot happen alone,
+        and faking it takes a deliberate conversation inside a thread that is on the record.</p>
+      </div>
+    </div>
+    <div class="col">
+      <p class="body">Every other campus reuse figure we can find is self-reported or weighed at a
+      truck. Ours is reported in two tiers, and only the first is evidence:</p>
+      <table style="margin-top: 14px">
+        <tr class="us"><td><b>Verified in person</b></td><td class="n">two halves, joined</td></tr>
+        <tr><td>Taken on trust</td><td class="n">both tapped, nothing proved</td></tr>
+      </table>
+      <p class="small" style="margin-top: 14px">The founders' dashboard shows them side by side, and
+      the second number is never quoted as the first.</p>
+    </div>
+  </div>
+  <div class="foot"><span>5</span><span>The split-code confirmation, live since 29 August 2026</span></div>
+</section>
+
+<!-- 6 · the model -->
+<section class="slide slide--grid">
+  <div class="eyebrow">The impact model, v1.1 — published in full</div>
+  <h2 class="display t-title" style="margin-top: 10px">Three levels, kept apart, so nobody has to take our word for the third.</h2>
+
+  <div class="cards c3" style="margin-top: 26px">
+    <div class="card card--lime">
+      <div class="eyebrow eyebrow--onlime">Measured</div>
+      <div class="num" style="font-size: 46px">1 object</div>
+      <p>A confirmed handoff. Counted, not estimated. This is the only number that is observed.</p>
+    </div>
+    <div class="card">
+      <div class="eyebrow">Estimated</div>
+      <div class="num" style="font-size: 46px">3.45 kg</div>
+      <p>Mass kept in use, from a published factor table weighted to a category mix of small
+      things, not one carried by bikes and laptops.</p>
+    </div>
+    <div class="card">
+      <div class="eyebrow">Estimated + adjusted</div>
+      <div class="num" style="font-size: 46px">7.2 kg</div>
+      <p>CO₂e avoided, at a <b>displacement rate of 0.5</b> — we assume only half of reuse events
+      prevent a purchase.</p>
+    </div>
+  </div>
+
+  <div class="row" style="margin-top: 24px; gap: 20px; align-items: flex-start">
+    <div class="col">
+      <p class="body"><b>The assumption most likely to be challenged, given away before anyone asks:</b>
+      a rented object earns no carbon credit at all in this model, because it comes back. It is
+      recorded as a reuse event and nothing more.</p>
+    </div>
+    <div class="col">
+      <p class="source">Sources: EPA <i>Advancing Sustainable Materials Management</i> (durable goods,
+      textiles); EPA GHG Emission Factors Hub; EPA Waste Management Hierarchy; NCES IPEDS
+      enrolment; WRAP, <i>Environmental and Economic Benefits of Re-use</i>. Factor table, mix and
+      arithmetic are in one file in the open repository.</p>
+    </div>
+  </div>
+  <div class="foot"><span>6</span><span>betterbarter.vercel.app/#impact</span></div>
+</section>
+
+<!-- 7 · scale -->
+<section class="slide slide--peri">
+  <div class="eyebrow eyebrow--onlime">If it works, what does it move</div>
+  <h2 class="display t-title" style="margin-top: 10px">The arithmetic, shown so it can be checked.</h2>
+
+  <table style="margin-top: 24px">
+    <thead><tr><th></th><th>Objects a year</th><th>Mass</th><th>CO₂e avoided</th><th>How it is derived</th></tr></thead>
+    <tbody>
+      <tr><td><b>TAM</b></td><td class="n">≈46M</td><td class="n">≈159,000 t</td><td class="n">≈333,000 t</td>
+          <td class="small">15.4M US undergraduates (NCES) × 3 reusable objects each</td></tr>
+      <tr><td><b>SAM</b></td><td class="n">≈14M</td><td class="n">≈48,000 t</td><td class="n">≈101,000 t</td>
+          <td class="small">the ~30% on residential campuses dense enough for a board to work</td></tr>
+      <tr class="us"><td><b>SOM · year 3</b></td><td class="n">≈300,000</td><td class="n">≈1,000 t</td><td class="n">≈2,160 t</td>
+          <td class="small">25 campuses at a 15% participation rate</td></tr>
+    </tbody>
+  </table>
+
+  <p class="body" style="margin-top: 22px; color: var(--ink); max-width: 66ch">
+    Every figure above is the published per-object model multiplied by a student count we did not
+    invent. Change the displacement rate and the third column moves — which is the point of
+    printing the rate.
+  </p>
+  <div class="foot" style="color: var(--ink); opacity: .7"><span>7</span><span>NCES IPEDS 2022–23</span></div>
+</section>
+
+<!-- 8 · how it pays for itself -->
+<section class="slide slide--grid">
+  <div class="eyebrow">How it sustains itself</div>
+  <h2 class="display t-title" style="margin-top: 10px; max-width: 22ch">The university pays. The students never do.</h2>
+
+  <div class="row" style="margin-top: 26px; gap: 20px">
+    <div class="col"><div class="card card--lime">
+      <h3>Campus licence · $15k a year</h3>
+      <p>Priced against a cost the university already carries: move-out hauling, plus the
+      circularity reporting it has to produce anyway. What the licence buys is object-level,
+      auditable reuse data it currently cannot get at any price.</p>
+    </div></div>
+    <div class="col"><div class="card">
+      <h3>No cut of a handoff. Ever.</h3>
+      <p>No listing fee, no commission, no escrow. Money between two students moves the way it
+      already does, and we never touch it — which is also why the data stays clean and why nobody
+      has an incentive to inflate it.</p>
+    </div></div>
+  </div>
+
+  <div class="cards c3" style="margin-top: 20px">
+    <div class="card card--flat"><div class="stat"><div class="num stat__n">$58M</div><div class="stat__l">TAM</div><div class="stat__s">3,896 US degree-granting institutions (NCES)</div></div></div>
+    <div class="card card--flat"><div class="stat"><div class="num stat__n">$18M</div><div class="stat__l">SAM</div><div class="stat__s">~1,200 residential four-year campuses</div></div></div>
+    <div class="card card--peri"><div class="stat"><div class="num stat__n">$375k</div><div class="stat__l">SOM · year 3</div><div class="stat__s">25 licensed campuses, ~2% of the serviceable set</div></div></div>
+  </div>
+  <div class="foot"><span>8</span><span>Verified-audience placements exist and are deliberately excluded here</span></div>
+</section>
+
+<!-- 9 · where we are -->
+<section class="slide slide--grid">
+  <div class="eyebrow">Where we actually are</div>
+  <h2 class="display t-title" style="margin-top: 10px; max-width: 24ch">Working product. Pre-pilot. We would rather say so.</h2>
+
+  <div class="row" style="margin-top: 28px; gap: 22px">
+    <div class="col">
+      <div class="card card--lime">
+        <h3>Shipped and running</h3>
+        <p>University SSO · campus-isolated Postgres with row-level security · realtime chat with
+        contact details blocked · photo storage · the day-7 freshness check on an hourly job ·
+        community-rules gate · pre-post safety check · split-code handoff confirmation · ratings ·
+        reports and a moderation queue · database-level rate limits · installable PWA.</p>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card">
+        <h3>Not yet</h3>
+        <p>No paying customers. No institutional partnership. No pilot users — two verified
+        Columbia accounts, and both of them are us.</p>
+        <p style="margin-top: 8px"><b>The pilot window is now:</b> Columbia's first-years moved in
+        on 29–30 August and orientation runs to 7 September. It is the one week of the year when
+        the demand side of a campus reuse board is standing in front of you with an empty room.</p>
+      </div>
+    </div>
+  </div>
+  <div class="foot"><span>9</span><span>Every claim on this slide is checkable in the open repository</span></div>
+</section>
+
+<!-- 10 · team + ask -->
+<section class="slide slide--lime">
+  <div class="blob" style="width: 210px; height: 210px; top: -70px; right: 140px"></div>
+  <div class="eyebrow eyebrow--onlime">The team, and what we want from you</div>
+  <h2 class="display t-title" style="margin-top: 10px; max-width: 26ch">A pilot campus, and people willing to argue with the model.</h2>
+
+  <div class="row" style="margin-top: 28px; gap: 18px; position: relative">
+    <div class="col"><div class="card">
+      <h3>Agung Nugroho</h3>
+      <p>Columbia SPS. Marketing — CRM, lifecycle and growth. Builds and runs the product, the
+      impact model and the data.</p>
+    </div></div>
+    <div class="col"><div class="card">
+      <h3>Tessa Wong</h3>
+      <p>Columbia. Product and partnerships — the community rules, the listing experience, and the
+      route into housing and sustainability offices.</p>
+    </div></div>
+    <div class="col"><div class="card card--peri">
+      <h3>What we need</h3>
+      <p>One residential campus willing to pilot at move-out 2027, an introduction to a housing or
+      sustainability office, and a hard read of the displacement assumption.</p>
+    </div></div>
+  </div>
+
+  <div class="foot" style="color: var(--ink); opacity: .8">
+    <span>betterbarter.vercel.app</span>
+    <span>github.com/mn3265-commits/betterbarter</span>
+  </div>
+</section>
+
+</body>
+</html>

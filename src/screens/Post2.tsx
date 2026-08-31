@@ -283,7 +283,10 @@ export function Post2({ h }: { h: Barter }) {
             "what about the heavy things" without a van in it. One line. */}
         <label className="app-check app-check--slim">
           <input type="checkbox" checked={h.needsHelp} onChange={(e) => h.setNeedsHelp(e.target.checked)} />
-          <span>Needs two people or a trolley — show it to students who carry for a few dollars</span>
+          <span>
+            Needs two people or a trolley — show it to students who carry for a few dollars.
+            {' '}They meet you at your door; the buyer still meets you in public.
+          </span>
         </label>
       </AppBody>
 

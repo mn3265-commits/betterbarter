@@ -1003,3 +1003,26 @@ export async function fetchTeaser(domain?: string | null): Promise<Teaser | null
   if (error || !data) return null
   return data as Teaser
 }
+
+/* ── What this campus has done ───────────────────────────────────────────────
+ *
+ * The number on Profile answers "what have I done". This one answers "is
+ * anything happening here", which is what a person actually wants to know when
+ * they open a board in their first week. Aggregates, own campus only.
+ */
+export interface CampusImpact {
+  handoffs: number
+  verified: number
+  thisWeek: number
+  live: number
+  people: number
+  goneByCategory: Record<string, number>
+}
+
+export async function fetchCampusImpact(): Promise<CampusImpact | null> {
+  const c = db()
+  if (!c) return null
+  const { data, error } = await c.rpc('campus_impact')
+  if (error || !data) return null
+  return data as CampusImpact
+}

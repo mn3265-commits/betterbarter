@@ -1,9 +1,11 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { ChevronRight } from 'lucide-react'
 import { Photo } from '../components/Photo'
 import { CategoryIcon } from '../components/CategoryIcon'
 import { TabBar } from '../components/TabBar'
 import { CATEGORIES } from '../lib/taxonomy'
+import { co2eLabel, impactOfCounts, kgLabel } from '../lib/impact'
+import { fetchCampusImpact, type CampusImpact } from '../lib/api'
 import type { Item } from '../data/types'
 import type { Barter } from '../lib/useBarter'
 
@@ -28,6 +30,18 @@ export function Board({ h }: { h: Barter }) {
   const q = h.q.trim().toLowerCase()
   const [cat, setCat] = useState<string | null>(null)
   const [kind, setKind] = useState<'all' | 'free' | 'sale' | 'trade' | 'rent'>('all')
+
+  /* Tessa asked twice for impact on this page. The personal number belongs on
+     Profile; what belongs here is the campus's — it is the thing that makes a
+     board with four items on it feel like somewhere people are, and no one
+     person is legible in it. */
+  const [campusImpact, setCampusImpact] = useState<CampusImpact | null>(null)
+  useEffect(() => {
+    if (!h.live) return
+    let alive = true
+    void fetchCampusImpact().then((r) => { if (alive) setCampusImpact(r) })
+    return () => { alive = false }
+  }, [h.live])
 
   /* Everything live on this campus, before either filter — the category counts
      have to be counted against this or they lie about what is behind them. */
@@ -215,6 +229,44 @@ export function Board({ h }: { h: Barter }) {
             )}
           </div>
         )}
+
+        {/* what this campus has kept in use, weighted by what actually moved */}
+        {campusImpact && campusImpact.handoffs > 0 && (() => {
+          const im = impactOfCounts(campusImpact.goneByCategory)
+          return (
+            <div
+              style={{
+                margin: '12px 16px 0',
+                border: '1px solid var(--color-divider)',
+                borderRadius: 'var(--radius-md)',
+                padding: '11px 13px',
+                display: 'flex',
+                alignItems: 'baseline',
+                gap: 14,
+                flexWrap: 'wrap',
+              }}
+            >
+              <div style={{ fontSize: 10, letterSpacing: '.12em', textTransform: 'uppercase', color: 'var(--color-accent-700)', width: '100%' }}>
+                {campus} together
+              </div>
+              {([
+                [String(campusImpact.handoffs), 'handoffs'],
+                [kgLabel(im.kg), 'kept in use'],
+                [co2eLabel(im.co2e), 'avoided'],
+              ] as const).map(([big, label]) => (
+                <div key={label}>
+                  <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 600, fontSize: 17, letterSpacing: '-.02em' }}>{big}</div>
+                  <div style={{ fontSize: 11, opacity: 0.6 }}>{label}</div>
+                </div>
+              ))}
+              {campusImpact.thisWeek > 0 && (
+                <div style={{ fontSize: 11, opacity: 0.6, marginLeft: 'auto' }}>
+                  {campusImpact.thisWeek} this week
+                </div>
+              )}
+            </div>
+          )
+        })()}
 
         {/* category first — the question people actually arrive with */}
         {h.tab !== 'wanted' && (

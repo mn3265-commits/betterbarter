@@ -244,3 +244,25 @@ export const SOURCES: { claim: string; source: string; url: string }[] = [
     url: 'https://www.wrap.ngo/resources/tool/environmental-and-economic-benefits-re-use',
   },
 ]
+
+/**
+ * What a real set of handed-off objects came to, weighted by what they actually
+ * were rather than by the assumed mix.
+ *
+ * `averageItem()` multiplies by MIX because before anything has happened, a
+ * guess at the mix is the only thing there is. Once objects have actually
+ * moved, their categories are known — so use them. The number gets more honest
+ * the more the board is used, which is the right direction for it to move.
+ */
+export function impactOfCounts(byCategory: Record<string, number>): Impact {
+  let items = 0
+  let kg = 0
+  let co2e = 0
+  for (const [cat, n] of Object.entries(byCategory)) {
+    const f = FACTORS[cat] ?? FALLBACK
+    items += n
+    kg += f.kg * n
+    co2e += f.kg * f.efPerKg * DISPLACEMENT * n
+  }
+  return { items, kg, co2e }
+}
