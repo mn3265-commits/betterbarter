@@ -40,15 +40,21 @@ PAPER = (241, 243, 239)     # #f1f3ef
 # always going to sit slightly wrong beside it — this is the same letter.
 #
 # The stem of Fredoka's B at weight 600 is exactly 152 units wide (38.5 to
-# 190.5, measured by scanline, constant up the letter). Mirroring about the
-# stem's centre makes the two B's share it — and that reads as one solid slab,
-# not as two letters. Mirroring at x=16 leaves a 45-unit gap instead, which is
-# tight enough to be one mark and open enough to still be two B's.
+# 190.5, measured by scanline, constant up the letter), so where the mirror line
+# falls decides everything:
+#
+#   x = 114.5   the stems fully merge     one solid slab, four small holes
+#   x = 38.5    the stems touch           a body, with the bowls as wings
+#   x = 16      a 45-unit gap             two separate letters
+#
+# 38.5 is the one. The two stems together make a spine down the middle and the
+# four bowls flare off it, which is a butterfly before it is a monogram — and it
+# still holds at 16px, where the counters stay open.
 FREDOKA_URL = (
     "https://raw.githubusercontent.com/google/fonts/main/ofl/fredoka/"
     "Fredoka%5Bwdth%2Cwght%5D.ttf"
 )
-MIRROR_AT = 16          # leaves a 45-unit gap between the two stems
+MIRROR_AT = 38.5        # the two stems touch, making one body
 GLYPH_BOX = (2 * MIRROR_AT - 590, 590, -8.75, 690.75)   # x0, x1, y0, y1
 
 PINE = (28, 122, 79)        # kept for reference; the brand moved to lime

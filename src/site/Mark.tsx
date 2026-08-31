@@ -23,9 +23,9 @@ export function Mark({ size = 20 }: { size?: number }) {
       aria-hidden="true"
       style={{ display: 'block', flex: 'none' }}
     >
-      <g transform="translate(48.829 74.951) scale(0.07317 -0.07317)">
+      <g transform="translate(47.068 75.969) scale(0.07616 -0.07616)">
         <path d={D} />
-        <path d={D} transform="translate(32 0) scale(-1 1)" />
+        <path d={D} transform="translate(77.0 0) scale(-1 1)" />
       </g>
     </svg>
   )
