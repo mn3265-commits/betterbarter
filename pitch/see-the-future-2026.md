@@ -16,7 +16,7 @@ missing, which reads better to a judge than a figure they can puncture.
 
 | Form field | File | Status |
 | --- | --- | --- |
-| Project introduction document *(required)* | `pitch/BetterBarter-SEE-THE-FUTURE-2026.pdf` | ✅ 3 pages |
+| Project introduction document *(required)* | `pitch/BetterBarter-SEE-THE-FUTURE-2026.pdf` | ✅ 4 pages |
 | Supporting upload *(the form takes 5)* | `pitch/BetterBarter-SEE-THE-FUTURE.pdf` — 8 slides | ✅ |
 | Company logo *(optional)* | `pitch/BetterBarter-logo.png` (1000×270), `pitch/logo.svg`, `pitch/logomark.svg`, `pitch/BetterBarter-icon-512.png` | ✅ |
 
