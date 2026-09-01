@@ -20,10 +20,9 @@ missing, which reads better to a judge than a figure they can puncture.
 | Supporting upload *(the form takes 5)* | the published pitch deck, 12 slides | ✅ link below |
 | Company logo *(optional)* | `pitch/BetterBarter-logo.png` (1000×270), `pitch/logo.svg`, `pitch/logomark.svg`, `pitch/BetterBarter-icon-512.png` | ✅ |
 
-Still needed: **Tessa's role and background**, which appears in four places —
-this form, the PDF, the deck and the site's About page — and an answer to the
-validation question at Section 4 if either of you has spoken to anyone in
-Columbia Housing, Facilities or Sustainability.
+Still needed: an answer to the validation question under **traction** if either
+of you has spoken to anyone in Columbia Housing, Facilities, EcoReps or
+Sustainability. Everything else is filled.
 
 ---
 
@@ -40,23 +39,29 @@ Columbia Housing, Facilities or Sustainability.
 
 ## Team Members & Roles
 
-> **Agung Nugroho — product and build.** Designs the board, writes the code, owns
-> the impact model and runs the Columbia pilot. Graduate student and Graduate
-> Assistant at Columbia SPS; background in customer-lifecycle and CRM marketing
-> at telecommunications scale.
+> **Agung Nugroho — Co-Founder, Tech and Product.** Designs the Marketplace,
+> writes the code, owns the impact model and runs the Columbia pilot. Graduate
+> student and Graduate Assistant at Columbia SPS; background in
+> customer-lifecycle and CRM marketing at telecommunications scale.
 >
-> **Tessa Wong — `[FILL: role]`.** `[FILL: one or two sentences — what she owns
-> on the project, and the background that makes her the right person for it.]`
+> **Tessa Wong — Co-Founder, Strategy and Community.** A sustainable development
+> professional by background. She began her career as a management consultant at
+> Accenture Singapore, before pivoting to sustainable development research and
+> consulting — first for the development sector in Cambodia, then for the private
+> sector in Singapore.
 
 *Judges read complementary roles more favourably than two similar ones. The split
 that fits this venture is one person on product and engineering, one on campus
 operations and partnerships — housing, sustainability offices, EcoReps, student
 groups. Use those words if that is how you actually work.*
 
-### If this is a solo entry
+### If this were a solo entry — no longer needed
 
-Tessa is building the investor deck and may not be entering this competition. If
-she is not, use the block below instead — **team size 1** — and credit her
+*Kept only in case something changes. Tessa confirmed on 1 September that she is
+entering as Co-Founder, Strategy and Community, so the block above is the one to
+use.*
+
+If she were not, the block below would be it — **team size 1** — crediting her
 honestly rather than listing her as an entrant. A solo founder who names his
 collaborator reads better than one who quietly absorbs her work, and it is also
 just true.

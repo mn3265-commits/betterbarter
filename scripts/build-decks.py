@@ -62,10 +62,29 @@ async def render(page, src: pathlib.Path, out: pathlib.Path) -> None:
           return [i + 1, Math.round(worst)];
         }).filter(([, h]) => h > 706)
     """)
+    # Overflow is not the only way a slide goes wrong: a floated or absolutely
+    # sized element can sit on top of the next block and still be inside the
+    # page. Check the cards, which is where it shows.
+    overlap = await page.evaluate("""
+        [...document.querySelectorAll('.slide')].map((s, i) => {
+          const cards = [...s.querySelectorAll('.card, .photo, table')]
+            .map(el => el.getBoundingClientRect());
+          for (let a = 0; a < cards.length; a++)
+            for (let b = a + 1; b < cards.length; b++) {
+              const A = cards[a], B = cards[b];
+              const ox = Math.min(A.right, B.right) - Math.max(A.left, B.left);
+              const oy = Math.min(A.bottom, B.bottom) - Math.max(A.top, B.top);
+              if (ox > 4 && oy > 4) return [i + 1, Math.round(ox) + 'x' + Math.round(oy)];
+            }
+          return null;
+        }).filter(Boolean)
+    """)
     kb = out.stat().st_size // 1024
     print(f"  {out.name}  ·  {slides} slides  ·  {kb} KB")
     if over:
         print(f"  ! slides overflowing 720px: {over}")
+    if overlap:
+        print(f"  ! blocks overlapping each other: {overlap}")
 
 
 async def main() -> None:
