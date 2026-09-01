@@ -17,7 +17,7 @@ missing, which reads better to a judge than a figure they can puncture.
 | Form field | File | Status |
 | --- | --- | --- |
 | Project introduction document *(required)* | `pitch/BetterBarter-SEE-THE-FUTURE-2026.pdf` | ✅ 3 pages |
-| Supporting upload *(the form takes 5)* | the published pitch deck, 12 slides | ✅ link below |
+| Supporting upload *(the form takes 5)* | `pitch/BetterBarter-SEE-THE-FUTURE.pdf` — 8 slides | ✅ |
 | Company logo *(optional)* | `pitch/BetterBarter-logo.png` (1000×270), `pitch/logo.svg`, `pitch/logomark.svg`, `pitch/BetterBarter-icon-512.png` | ✅ |
 
 Still needed: an answer to the validation question under **traction** if either
@@ -273,8 +273,12 @@ actually true on the day; the honest "not yet" above beats a vague claim.]`
 > built the product — interface, parser, database schema and row-level security,
 > and the impact model.
 >
-> `[FILL: two or three sentences on Tessa — what she owns and the experience
-> behind it.]`
+> Tessa Wong is a sustainable development professional by background. She began
+> her career as a management consultant at Accenture Singapore, before pivoting
+> to sustainable development research and consulting — first for the development
+> sector in Cambodia, then for the private sector in Singapore. She owns
+> strategy and community: the guidelines, the listing experience, and the route
+> into housing and sustainability offices.
 >
 > Campus reuse does not fail on technology. It fails on adoption and on trust,
 > which are behaviour and product problems before they are engineering ones. Both

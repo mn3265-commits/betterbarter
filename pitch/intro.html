@@ -3,12 +3,12 @@
 <title>BetterBarter — Project Introduction</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:SOFT,WONK,opsz,wght@0..100,0..1,9..144,500..700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --ink:#16201a; --bg:#f1f3ef; --surface:#e6eae2; --accent:#1c7a4f; --accent-700:#115538;
-    --accent-100:#eaf4ee; --line:rgba(22,32,26,.22); --muted:rgba(22,32,26,.62);
-    --serif:"Fraunces",Georgia,serif; --sans:"Plus Jakarta Sans",system-ui,sans-serif;
+    --ink:#14180a; --bg:#fffbf7; --surface:#f6f2ea; --accent:#dfe958; --accent-700:#525810;
+    --accent-100:#f9fbe0; --line:rgba(22,32,26,.22); --muted:rgba(22,32,26,.62);
+    --serif:"Fredoka","Plus Jakarta Sans",system-ui,sans-serif; --sans:"Plus Jakarta Sans",system-ui,sans-serif;
   }
   @page { size: A4; margin: 12mm 13mm 10mm; }
   *{box-sizing:border-box}
@@ -19,7 +19,7 @@
   h3{font-size:11pt;margin:0 0 3pt}
   p{margin:0 0 7pt}
   .kicker{font-size:7.5pt;letter-spacing:.14em;text-transform:uppercase;color:var(--accent-700);font-weight:600}
-  .cover{background:var(--accent);color:var(--bg);padding:13mm 13mm;margin:-12mm -13mm 6mm;}
+  .cover{background:var(--accent);color:var(--ink);padding:13mm 13mm;margin:-12mm -13mm 6mm;}
   .cover .kicker{color:rgba(255,255,255,.85)}
   .cover p{max-width:78mm;font-size:11pt;margin-top:6pt}
   .cover .meta{margin-top:10mm;font-size:8.5pt;line-height:1.6;opacity:.9}
@@ -31,7 +31,7 @@
   .card b{display:block;font-family:var(--serif);font-weight:600;font-size:10.5pt;margin-bottom:2pt}
   .card span{font-size:9pt;color:var(--muted);line-height:1.45}
   .stat{background:var(--accent-100);border-radius:3mm;padding:4mm}
-  .stat b{display:block;font-family:var(--serif);font-size:20pt;color:var(--accent);line-height:1}
+  .stat b{display:block;font-family:var(--serif);font-size:20pt;color:var(--accent-700);line-height:1}
   .stat span{display:block;font-size:8.5pt;color:var(--muted);margin-top:2pt;line-height:1.4}
   table{width:100%;border-collapse:collapse;font-size:9pt}
   td,th{text-align:left;padding:2.4mm 3mm 2.4mm 0;border-bottom:1px solid var(--line);vertical-align:top}
@@ -71,13 +71,13 @@
 
 <section>
   <div class="kicker">The solution</div>
-  <h2>Four ways to keep an object in use, and one tap that counts it.</h2>
+  <h2>Four ways to keep an object in use, and a code that proves it happened.</h2>
   <div class="two">
-    <div class="card"><b>Twenty seconds to post</b><span>One photo, then one sentence written like a text message. The app reads price, category, condition and meetup spot out of the words — no form — and any of it is corrected in one tap.</span></div>
-    <div class="card"><b>Give, sell, swap — lending next</b><span>Ownership is one way to have a thing. A swap keeps two objects in use instead of one; lending is built and announced on the board, opening once returns are handled properly.</span></div>
+    <div class="card"><b>Twenty seconds to post</b><span>Up to three photos, then a short form: category, condition, size, how you are listing it, and where you want to meet — from a list of real campus places, never a room.</span></div>
+    <div class="card"><b>Give, sell, swap — renting next</b><span>Ownership is one way to have a thing. A swap keeps two objects in use instead of one; renting is built and announced on the Marketplace, opening once returns are handled properly.</span></div>
     <div class="card"><b>Only your campus sees it</b><span>One verified university email per account, enforced in the database. Every school is an isolated board — which removes the stranger problem that stops students listing.</span></div>
     <div class="card"><b>The community is the logistics</b><span>A fridge is not a one-person object. Listings can ask for two people or a trolley, and students on the same campus take that work for a fee paid directly between them — no van dispatched, so the transport term stays zero.</span></div>
-    <div class="card"><b>Both sides confirm</b><span>The exchange happens at a library entrance or a dining hall door. Both people tap "handed off": the object is counted, and each public handoff count rises by one.</span></div>
+    <div class="card"><b>Both sides confirm, in person</b><span>The exchange happens at a library entrance or a dining hall door — and it is counted only when six digits, split three-and-three across the two phones, are put back together there. Neither app can read the other’s half, so the count cannot be raised by one person alone.</span></div>
   </div>
 </section>
 
@@ -149,7 +149,7 @@
   <div class="three">
     <div class="card"><b>Campus licence</b><span>The main line. Housing and sustainability offices already pay to haul this material away and already must report circularity; a licensed campus gets admin tools, the move-out programme and an audited object-level number.</span></div>
     <div class="card"><b>Verified-audience placements</b><span>Movers, storage and student services reaching one campus at one fortnight of the year. Paid up front, clearly marked, never mixed into ranking.</span></div>
-    <div class="card"><b>Free permanently</b><span>Posting, claiming, giving, lending, swapping. No listing fee and no cut of a handoff — a fee on a give-away would be a tax on generosity.</span></div>
+    <div class="card"><b>Free permanently</b><span>Posting, claiming, giving, renting, swapping. No listing fee and no cut of a handoff — a fee on a give-away would be a tax on generosity.</span></div>
   </div>
 </section>
 
@@ -157,7 +157,10 @@
   <div class="kicker">Team</div>
   <h2>Two people, in the open.</h2>
   <p><b class="h">Agung Nugroho</b> — product and build. Designs the board, writes the code, owns the impact model, runs the pilot. Graduate student and Graduate Assistant at Columbia SPS; professional background in customer-lifecycle and CRM marketing at telecommunications scale, where the daily problem is the same one this product has: getting a very large number of ordinary people to complete one specific action, and measuring honestly whether they did.</p>
-  <p><b class="h">Tessa Wong</b> — Columbia University. [role and background]</p>
+  <p><b class="h">Tessa Wong</b> — Co-Founder, Strategy and Community. A sustainable
+  development professional by background. She began her career as a management consultant at
+  Accenture Singapore, before pivoting to sustainable development research and consulting — first
+  for the development sector in Cambodia, then for the private sector in Singapore.</p>
   <p>Campus reuse does not fail on technology. It fails on adoption and on trust, which are behaviour and product problems before they are engineering ones.</p>
 </section>
 
