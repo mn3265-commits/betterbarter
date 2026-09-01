@@ -89,28 +89,25 @@ her background is in the block above.
 
 ## One-Sentence Project Description (max 30 words)
 
-> BetterBarter is a verified campus marketplace built on a simple fact: a university already owns everything its students need — it just throws it away and buys it again. *(29 words)*
+> BetterBarter is a verified campus marketplace where a university supplies itself from what it already owns, keeping working things out of landfill and moving them without a single vehicle. *(29 words)*
 
-*This one is read aloud. The form says it may be used in promotional materials,
-the event programme and speaker introductions — so it is written to survive
-being heard once, by someone who has not read anything else. That is why it ends
-on an object and a dumpster rather than on a method: a concrete image lands in a
-room, an abstraction does not.*
+*This one is read aloud — the form says it may be used in promotional materials,
+the event programme and speaker introductions — so it has to land on someone who
+has read nothing else and will hear it once. It has to carry three things in
+under thirty words: what it is, that a campus supplies itself, and the
+environmental claim. "Out of landfill" is the waste half; "without a single
+vehicle" is the emissions half, and it is the one thing no shipped resale
+platform or staffed collection round can say.*
 
-*Two alternates, both under 30 words, if you or Tessa prefer a different
-emphasis:*
+*Two alternates, both under 30 words:*
 
-*— **Shorter, same idea:** A campus already owns everything its students need —
-BetterBarter is the verified marketplace that keeps it moving between them
-instead of into a dumpster. (25)*
+*— **With the measurement in it:** BetterBarter lets a campus supply itself: a
+verified student marketplace that keeps working furniture, electronics and
+clothing out of landfill, moved on foot, and counts every item it saves. (29)*
 
-*— **Leading with the measurement:** BetterBarter is a verified campus
-marketplace for student reuse, where every exchange is confirmed in person by
-both people and counted — so the impact can be audited, not estimated. (30)*
-
-*The chosen one puts the self-sufficiency argument in the sting rather than the
-setup. "It just throws it away and buys it again" is the whole problem in nine
-words, and it is the half a listener remembers.*
+*— **Shortest:** BetterBarter is a verified campus marketplace for self-supplying
+universities, where reuse happens on foot instead of in a landfill or a lorry,
+and every object saved is counted. (28)*
 
 ## Focus areas
 
