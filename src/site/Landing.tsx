@@ -137,7 +137,7 @@ const NOT: [string, string][] = [
 const FAQ: [string, string][] = [
   [
     'Who can sign in?',
-    'Anyone with a working university email address — .edu, .ac.uk, .edu.au, .ac.id and the rest of the academic namespaces. The domain is checked server-side, so a personal address cannot get onto any board, and your board only ever contains people from your own school.',
+    'Anyone with a working university email address — .edu, .ac.uk, .edu.au, .ac.id and the rest of the academic namespaces. The domain is checked server-side, so a personal address cannot get onto any Marketplace, and yours only ever contains people from your own school.',
   ],
   [
     'My university is not on here yet. Can I use it?',
@@ -604,7 +604,7 @@ export function Landing() {
             <div className="site__panel">
               <h4>What happens when something goes wrong</h4>
               <p>
-                Report an account and it disappears from your board immediately, then gets reviewed. Listings that break
+                Report an account and it disappears from your Marketplace immediately, then gets reviewed. Listings that break
                 the rules are removed; accounts that break them lose posting and claiming.
               </p>
               <p>
