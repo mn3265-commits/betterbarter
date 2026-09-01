@@ -62,14 +62,25 @@ export function Detail({ h }: { h: Barter }) {
       )}
 
       <AppBody pad={false}>
-        <Photo
-          url={d0.photoUrl}
-          category={d0.cat}
-          caption={[d0.cat, d0.loc && `shot in ${d0.loc}`].filter(Boolean).join(' · ')}
-          height={238}
-          hatch="hatch-lg"
-          border="0"
-        />
+        {/* Three photos could be posted since 30 August and only the cover was
+            ever shown — Tessa found it by listing something and looking for the
+            other two. A swipeable strip, because a phone already knows how. */}
+        {(d0.photoUrls?.length ?? 0) > 1 ? (
+          <div className="detail-shots">
+            {d0.photoUrls!.map((u, i) => (
+              <img key={u} src={u} alt="" loading={i === 0 ? undefined : 'lazy'} />
+            ))}
+          </div>
+        ) : (
+          <Photo
+            url={d0.photoUrl}
+            category={d0.cat}
+            caption={[d0.cat, d0.loc && `shot in ${d0.loc}`].filter(Boolean).join(' · ')}
+            height={238}
+            hatch="hatch-lg"
+            border="0"
+          />
+        )}
         <div style={{ borderBottom: '1px solid var(--color-divider)' }} />
         <div style={{ padding: 16 }}>
           <div style={{ display: 'flex', alignItems: 'baseline', gap: 10 }}>
@@ -114,7 +125,7 @@ export function Detail({ h }: { h: Barter }) {
                 {mine ? 'You' : d0.seller}
               </div>
               <div style={{ fontSize: 11.5, opacity: 0.65, marginTop: 1 }}>
-                {d0.handoffs} handoffs{d0.since ? ` · joined ${d0.since}` : ''}
+                {d0.handoffs} meet-up{d0.handoffs === 1 ? '' : 's'}{d0.since ? ` · joined ${d0.since}` : ''}
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: 5, marginTop: 6, fontSize: 11, color: 'var(--color-accent-700)' }}>
                 <Check size={13} strokeWidth={2.4} />
@@ -125,7 +136,7 @@ export function Detail({ h }: { h: Barter }) {
           <hr className="hr" />
           {d0.desc && <p style={{ fontSize: 14.5, lineHeight: 1.5, margin: 0, textWrap: 'pretty' }}>{d0.desc}</p>}
           <div style={{ marginTop: 18, border: '1px solid var(--color-divider)', padding: '12px 13px' }}>
-            <div style={{ fontSize: 10, letterSpacing: '.14em', textTransform: 'uppercase', opacity: 0.6 }}>Hands off at</div>
+            <div style={{ fontSize: 10, letterSpacing: '.14em', textTransform: 'uppercase', opacity: 0.6 }}>Meet up at</div>
             <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 600, fontSize: 16, marginTop: 4 }}>{d0.spot}</div>
             <div style={{ fontSize: 11.5, opacity: 0.65, marginTop: 2 }}>
               Named by the seller, public, and never a room number.

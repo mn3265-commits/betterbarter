@@ -12,7 +12,7 @@ export function AppRail({ h }: { h: Barter }) {
   const isBoard = h.screen === 'browse'
   const items: [boolean, () => void, React.ReactNode, string][] = [
     [isBoard && h.tab !== 'wanted', h.jumpBrowse, <Search size={19} strokeWidth={1.9} />, 'Marketplace'],
-    [isBoard && h.tab === 'wanted', h.jumpWanted, <List size={19} strokeWidth={1.9} />, 'Looking for'],
+    [isBoard && h.tab === 'wanted', h.jumpWanted, <List size={19} strokeWidth={1.9} />, 'Looking For'],
     [h.screen === 'chats' || h.screen === 'chat', h.jumpChats, <MessageSquare size={19} strokeWidth={1.9} />, 'Chats'],
     [h.screen === 'me', h.jumpMe, <User size={19} strokeWidth={1.9} />, 'Profile'],
   ]

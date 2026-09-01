@@ -14,6 +14,8 @@ export const CATEGORIES = [
   'Furniture & Dorm Essentials',
   'Fashion & Accessories',
   'Tickets & Events',
+  'Family & Kids',
+  'Regalia',
   'Others',
 ] as const
 export type Category = (typeof CATEGORIES)[number]
@@ -106,11 +108,13 @@ export function toCondition(value: string | undefined | null): Condition {
  */
 export const CATEGORY_COLOR: Record<Category, string> = {
   'Textbooks & Course Materials': '#1c7a4f',
-  Electronics: '#c2410c',
-  'Furniture & Dorm Essentials': '#1f6f9c',
-  'Fashion & Accessories': '#6b7a12',
+  Electronics: '#5b53c9',
+  'Furniture & Dorm Essentials': '#6b7a12',
+  'Fashion & Accessories': '#1e40af',
   'Tickets & Events': '#a3197a',
-  Others: '#5b53c9',
+  'Family & Kids': '#0f766e',
+  Regalia: '#c2410c',
+  Others: '#1f6f9c',
 }
 
 export const CATEGORY_ICON: Record<Category, string> = {
@@ -119,6 +123,8 @@ export const CATEGORY_ICON: Record<Category, string> = {
   'Furniture & Dorm Essentials': 'Lamp',
   'Fashion & Accessories': 'Shirt',
   'Tickets & Events': 'Ticket',
+  'Family & Kids': 'Baby',
+  Regalia: 'GraduationCap',
   Others: 'Package',
 }
 
@@ -135,13 +141,20 @@ export const CATEGORY_ICON: Record<Category, string> = {
  * ones in, once there is anyone on the board from them.
  */
 export const CAMPUS_SPOTS = [
-  'Columbia University — Broadway gates',
+  // Tessa, 31 Aug: keep these at the building level and let the two of them
+  // agree the door in conversation. A list with "Butler Library entrance" and
+  // "Butler Library steps" on it makes people choose between two answers that
+  // are the same answer.
+  //
+  // Alphabetical, with the escape hatch first so nobody scrolls looking for it.
+  'Somewhere else',
+  'Avery Library',
+  'Butler Library',
+  'Carman Hall',
   'Columbia University — Amsterdam gates',
-  'Low Library steps',
-  'Butler Library entrance',
-  'Avery Library entrance',
-  'Uris Hall entrance',
-  'Lerner Hall lobby',
-  'Carman Hall front desk',
-  'John Jay dining entrance',
+  'Columbia University — Broadway gates',
+  'John Jay Hall',
+  'Lerner Hall',
+  'Low Library',
+  'Uris Hall',
 ] as const

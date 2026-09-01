@@ -20,8 +20,6 @@ export function Me({ h }: { h: Barter }) {
      figure is the published model and still says so. */
   const done = mine.filter((it) => it.status === 'gone')
   const givenFree = done.filter((it) => h.kindOf(it) === 'free').length
-  const sold = done.filter((it) => h.kindOf(it) === 'sale').length
-  const swapped = done.filter((it) => h.kindOf(it) === 'trade').length
 
   const [name, setName] = useState(h.me.name)
   const [spot, setSpot] = useState(h.me.preferredSpot)
@@ -98,9 +96,11 @@ export function Me({ h }: { h: Barter }) {
                   onError={(e) => ((e.currentTarget.style.display = 'none'))}
                 />
               )}
+              {/* Tessa, 31 Aug: no email on a page every member can see. Joined
+                  date and rating are the two things that say "this is a real
+                  person who has been here a while". */}
               <div style={{ fontSize: 12.5, opacity: 0.62 }}>
-                {h.me.email}
-                {h.me.since ? ` · joined ${h.me.since}` : ''}
+                {h.me.since ? `Joined ${h.me.since}` : 'New here'}
               </div>
             </div>
             {/* Tessa, 30 Aug: the campus line, the handoff count and the
@@ -137,11 +137,11 @@ export function Me({ h }: { h: Barter }) {
         {/* What those handoffs add up to. The count is measured; the two numbers
             beside it are estimates from the published model, and say so. */}
         <div style={{ padding: 16, borderBottom: '1px solid var(--color-divider)' }}>
-          <h6 style={{ margin: '0 0 10px' }}>Impact Dashboard</h6>
+          <h6 style={{ margin: '0 0 10px' }}>Individual Impact Dashboard</h6>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 1, background: 'var(--color-divider)', border: '1px solid var(--color-divider)' }}>
             {[
-              [String(givenFree), 'given away free', 'measured'],
-              [String(sold + swapped), swapped > 0 ? 'sold or swapped' : 'sold', 'measured'],
+              [String(h.me.handoffs), 'meet-ups', 'measured'],
+              [String(givenFree), 'items given away for free', 'measured'],
               [co2eLabel(averageItem().co2e * h.me.handoffs), 'emissions avoided', 'estimated'],
             ].map(([big, label, kind]) => (
               <div key={label} style={{ background: 'var(--color-bg)', padding: '10px 11px' }}>

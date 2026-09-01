@@ -14,9 +14,9 @@ export function Posted({ h }: { h: Barter }) {
       </div>
       <p style={{ fontSize: 17, lineHeight: 1.35, margin: '20px 0 0', maxWidth: '24ch' }}>{h.postedNote}</p>
       <div style={{ marginTop: 'auto', display: 'flex', flexDirection: 'column', gap: 10 }}>
-        <div style={{ fontSize: 12, opacity: 0.9, textWrap: 'pretty' }}>
-          A bump to the top of the board costs $2 — paid now, before anyone has your number.
-        </div>
+        {/* The $2 bump is off — Tessa, 31 Aug: it needs many more listings
+            before bumping means anything, and if it comes back it belongs in
+            step 2 of posting, not on the screen that says well done. */}
         <button
           onClick={h.jumpBrowse}
           style={{
@@ -33,7 +33,7 @@ export function Posted({ h }: { h: Barter }) {
             width: '100%',
           }}
         >
-          See it on the Marketplace
+          It is on the Marketplace now
         </button>
         <button
           onClick={h.startPost}
@@ -50,7 +50,7 @@ export function Posted({ h }: { h: Barter }) {
             width: '100%',
           }}
         >
-          Post the next thing
+          Post the Next Item
         </button>
       </div>
     </div>

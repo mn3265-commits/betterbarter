@@ -1,7 +1,7 @@
-import { BookOpen, Lamp, Laptop, Package, Shirt, Ticket } from 'lucide-react'
+import { Baby, BookOpen, GraduationCap, Lamp, Laptop, Package, Shirt, Ticket } from 'lucide-react'
 import { CATEGORY_COLOR, toCategory } from '../lib/taxonomy'
 
-const ICONS = { BookOpen, Laptop, Lamp, Shirt, Ticket, Package }
+const ICONS = { BookOpen, Laptop, Lamp, Shirt, Ticket, Baby, GraduationCap, Package }
 
 const MAP: Record<string, keyof typeof ICONS> = {
   'Textbooks & Course Materials': 'BookOpen',
@@ -9,6 +9,8 @@ const MAP: Record<string, keyof typeof ICONS> = {
   'Furniture & Dorm Essentials': 'Lamp',
   'Fashion & Accessories': 'Shirt',
   'Tickets & Events': 'Ticket',
+  'Family & Kids': 'Baby',
+  Regalia: 'GraduationCap',
   Others: 'Package',
 }
 

@@ -25,7 +25,7 @@ export function Chat({ h }: { h: Barter }) {
     <div className="screen">
       <AppHeader
         title={name}
-        kicker={`${handoffs} handoffs · verified email`}
+        kicker={`${handoffs} meet-up${handoffs === 1 ? '' : 's'} · verified email`}
         onBack={h.jumpChats}
         action={
           <button onClick={() => setReporting(true)} className="btn btn-ghost" style={{ fontSize: 12 }}>

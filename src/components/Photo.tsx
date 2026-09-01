@@ -1,7 +1,11 @@
 import { CategoryIcon } from './CategoryIcon'
 
-/** A listing photo. Real photos print full-bleed grayscale, per the design
- *  system; without one we fall back to the 45° hatch placeholder.
+/** A listing photo.
+ *
+ *  These used to print greyscale, which was a design-system rule inherited from
+ *  a notice-board aesthetic. Tessa killed it on 31 August and she is right: the
+ *  colour of a thing is half of what you are deciding about when you look at a
+ *  second-hand desk lamp.
  *
  *  Posting requires a photo, so in normal use `url` is always set. It can still
  *  be missing: an upload that failed after the listing was written, or a row
@@ -51,7 +55,6 @@ export function Photo({
             width: '100%',
             height: '100%',
             objectFit: 'cover',
-            filter: 'grayscale(1) contrast(1.08)',
           }}
         />
       )}

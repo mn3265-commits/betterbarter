@@ -32,7 +32,11 @@ export function Post2({ h }: { h: Barter }) {
   ]
 
   // Tessa's list first, then anywhere this campus has actually met before.
-  const spots = [...new Set([...CAMPUS_SPOTS, ...h.campusSpots.map((s) => s.name)])]
+  // "Somewhere else" is the option that opens a free-text box, so it must not
+  // also appear as a pickable place.
+  const spots = [...new Set([...CAMPUS_SPOTS, ...h.campusSpots.map((s) => s.name)])].filter(
+    (n) => n.toLowerCase() !== 'somewhere else',
+  )
   const spotKnown = spots.includes(f.spot)
 
   return (
@@ -142,7 +146,7 @@ export function Post2({ h }: { h: Barter }) {
             className="input"
             value={f.description}
             onChange={(e) => h.setField('description', e.target.value)}
-            placeholder="Anything useful for the next owner to know."
+            placeholder="Anything useful for the next BetterBarter owner to know."
           />
         </div>
 
@@ -172,13 +176,15 @@ export function Post2({ h }: { h: Barter }) {
 
         {f.kind === 'sale' && (
           <div className="field">
-            <label>How much (USD)</label>
+            <label>How Much (optional)</label>
             <input
               className="input"
               type="number"
               min={0}
-              value={f.price}
-              onChange={(e) => h.setField('price', Number(e.target.value))}
+              inputMode="numeric"
+              value={f.price || ''}
+              onChange={(e) => h.setField('price', Number(e.target.value.replace(/^0+(?=\d)/, '')) || 0)}
+              placeholder="0" 
             />
           </div>
         )}
@@ -198,13 +204,15 @@ export function Post2({ h }: { h: Barter }) {
         {f.kind === 'rent' && (
           <div style={{ display: 'flex', gap: 10 }}>
             <div className="field" style={{ flex: 1 }}>
-              <label>How much (USD)</label>
+              <label>How Much (optional)</label>
               <input
                 className="input"
                 type="number"
                 min={0}
-                value={f.rentRate}
-                onChange={(e) => h.setField('rentRate', Number(e.target.value))}
+                inputMode="numeric"
+                value={f.rentRate || ''}
+                onChange={(e) => h.setField('rentRate', Number(e.target.value.replace(/^0+(?=\d)/, '')) || 0)}
+                placeholder="0" 
               />
             </div>
             <div className="field" style={{ flex: 1 }}>
@@ -224,7 +232,7 @@ export function Post2({ h }: { h: Barter }) {
             sentence the whole product is built around — a thing in a room
             somebody has to empty by Friday is not the same as a thing for sale. */}
         <div className="field">
-          <label>Gone by (optional)</label>
+          <label>Gone By (optional)</label>
           <input
             className="input"
             type="date"
@@ -235,7 +243,7 @@ export function Post2({ h }: { h: Barter }) {
           <div className="field__hint">
             {f.goneBy
               ? 'The board will say how long is left, and put it in front of people sooner.'
-              : 'Moving out, flying home, lease ending — say the day and people will treat it as real.'}
+              : 'Moving out, flying home, lease ending — when do you need this item out of your hair?'}
           </div>
         </div>
 
@@ -257,12 +265,12 @@ export function Post2({ h }: { h: Barter }) {
             }}
           >
             <option value="">Pick a spot on campus…</option>
+            <option value="__other">Somewhere Else</option>
             {spots.map((s) => (
               <option key={s} value={s}>
                 {s}
               </option>
             ))}
-            <option value="__other">Somewhere else…</option>
           </select>
           {(elsewhere || (f.spot && !spotKnown)) && (
             <input
@@ -273,21 +281,15 @@ export function Post2({ h }: { h: Barter }) {
               style={{ marginTop: 8 }}
             />
           )}
-          <div className="field__hint">Somewhere public on campus. Never a room number.</div>
+          <div className="field__hint">Somewhere public near or on campus. Never a room number or personal address.</div>
         </div>
 
-        {/* Tessa struck this on 28 Aug as decision fatigue, and she was right
-            about its weight — it was a bold heading over a three-line
-            paragraph. It is not removed, because this is the only place the
-            flag can be set, and student carriers are the whole answer to
-            "what about the heavy things" without a van in it. One line. */}
-        <label className="app-check app-check--slim">
-          <input type="checkbox" checked={h.needsHelp} onChange={(e) => h.setNeedsHelp(e.target.checked)} />
-          <span>
-            Needs two people or a trolley — show it to students who carry for a few dollars.
-            {' '}They meet you at your door; the buyer still meets you in public.
-          </span>
-        </label>
+        {/* Carry help is switched off for now — Tessa, 31 Aug: there is no way
+            to meet demand for it in the short term, and a checkbox that promises
+            a carrier who never appears is worse than no checkbox. The database
+            column, the offers table and the /ops view all stay, so turning it
+            back on is deleting this comment. */}
+
       </AppBody>
 
       {h.ruleHits.length > 0 && (

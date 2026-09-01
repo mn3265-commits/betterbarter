@@ -88,8 +88,7 @@ export function Post1({ h }: { h: Barter }) {
                   width: '100%',
                   height: '100%',
                   objectFit: 'cover',
-                  filter: 'grayscale(1) contrast(1.08)',
-                }}
+                      }}
               />
               <span
                 style={{
@@ -117,8 +116,7 @@ export function Post1({ h }: { h: Barter }) {
                       height: '100%',
                       objectFit: 'cover',
                       border: '1px solid var(--color-divider)',
-                      filter: 'grayscale(1) contrast(1.08)',
-                    }}
+                      }}
                   />
                   <button
                     onClick={() => h.dropPhoto(i)}
@@ -185,10 +183,26 @@ export function Post1({ h }: { h: Barter }) {
               )}
             </div>
 
-            <div style={{ fontSize: 12.5, opacity: 0.65, marginTop: 10, textWrap: 'pretty' }}>
-              {room > 0
-                ? `${shots.length} of ${MAX_PHOTOS}. One more angle is usually the difference between a message and a shrug.`
-                : `${MAX_PHOTOS} photos, that is the lot. Tap one to drop it if you want a different angle.`}
+            {/* Tessa's prompts, 31 Aug — one per photo, so the ask changes as
+                they go rather than repeating. */}
+            <div style={{ fontSize: 12.5, opacity: 0.7, marginTop: 10, textWrap: 'pretty' }}>
+              {shots.length === 1 && (
+                <>
+                  <b>1 of 3 (Cover):</b> This will be the main photo of your item listing on the Marketplace. Give it
+                  your best shot!
+                </>
+              )}
+              {shots.length === 2 && (
+                <>
+                  <b>2 of 3:</b> Take another five seconds to show your item off — another angle is what keeps a buyer
+                  reading instead of scrolling past.
+                </>
+              )}
+              {shots.length >= 3 && (
+                <>
+                  <b>3 of 3:</b> Last photo, best photo, let’s go!
+                </>
+              )}
             </div>
           </>
         )}
@@ -196,7 +210,7 @@ export function Post1({ h }: { h: Barter }) {
 
       <AppFooter>
         <button onClick={h.toStep2} disabled={shots.length === 0} className="app-cta">
-          Next — say what it is
+          Go to Step 2 of 2: Item Details
         </button>
       </AppFooter>
     </div>

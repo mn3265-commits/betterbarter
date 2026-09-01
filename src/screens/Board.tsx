@@ -29,7 +29,7 @@ const KIND_MARK: Record<string, { label: string; fg: string; bg: string }> = {
 export function Board({ h }: { h: Barter }) {
   const q = h.q.trim().toLowerCase()
   const [cat, setCat] = useState<string | null>(null)
-  const [kind, setKind] = useState<'all' | 'free' | 'sale' | 'trade' | 'rent'>('all')
+  const [kind] = useState<'all' | 'free' | 'sale' | 'trade' | 'rent'>('all')
 
   /* Tessa asked twice for impact on this page. The personal number belongs on
      Profile; what belongs here is the campus's — it is the thing that makes a
@@ -224,7 +224,7 @@ export function Board({ h }: { h: Barter }) {
               </>
             ) : (
               <button onClick={h.shareLocation} className="btn btn-secondary" style={{ fontSize: 12 }}>
-                {h.locating ? 'Asking…' : 'Sort by how close it is'}
+                {h.locating ? 'Asking…' : 'Sort by distance from you'}
               </button>
             )}
           </div>
@@ -300,28 +300,10 @@ export function Board({ h }: { h: Barter }) {
           </div>
         )}
 
-        {/* and how it moves, second — colour-coded on the cards either way */}
-        {h.tab !== 'wanted' && (
-          <div style={{ padding: '10px 16px 0', display: 'flex', gap: 7, flexWrap: 'wrap' }}>
-            {([
-              ['all', 'Everything'],
-              ['free', 'Free'],
-              ['sale', 'For sale'],
-              ['trade', 'Swap'],
-              ['rent', 'Rent'],
-            ] as const).map(([k, label]) => (
-              <button
-                key={k}
-                onClick={() => setKind(k)}
-                className={'btn ' + (kind === k ? 'btn-primary' : 'btn-secondary')}
-                style={{ fontSize: 12 }}
-              >
-                {label}
-                {k === 'rent' && <sup className="seg-soon">soon</sup>}
-              </button>
-            ))}
-          </div>
-        )}
+        {/* The kind filter row is off — Tessa, 31 Aug: "in the Marketplace
+            page, I find that this really clutters and overwhelms". The category
+            chips stay because they are the axis people arrive with; the kind is
+            already a colour on every card, which is what it is for. */}
 
         {/* renting: announced, not open */}
         {h.tab !== 'wanted' && kind === 'rent' && (
@@ -347,8 +329,8 @@ export function Board({ h }: { h: Barter }) {
         {h.tab === 'wanted' && (
           <div style={{ padding: '14px 16px 0' }}>
             <p style={{ fontSize: 12, opacity: 0.65, margin: '0 0 12px', textWrap: 'pretty' }}>
-              This is the board in reverse: say what you are looking for, and the board stays useful even when the
-              shelves are empty.
+              This is the Marketplace in reverse. Say what you are looking for, and a BetterBarter community member
+              might just be able to help!
             </p>
 
             {h.wanted.length > 0 ? (
@@ -381,7 +363,7 @@ export function Board({ h }: { h: Barter }) {
               <label>What do you need?</label>
               <input
                 className="input"
-                placeholder="Box fan — under $15"
+                placeholder="[Item] - [Preferred Condition] - [Budget] - [Need By]"
                 value={h.wantedDraft}
                 onChange={(e) => h.setWantedDraft(e.target.value)}
                 onKeyDown={(e) => {
