@@ -176,7 +176,7 @@ function LiveApp() {
   return (
     <div className={'app-frame' + (inApp ? ' has-rail' : '')}>
       {inApp && <AppRail h={h} />}
-      {/* The screen name reaches CSS so the desktop layout can let the board
+      {/* The screen name reaches CSS so the desktop layout can let the Marketplace
           spread while keeping reading and typing screens at a column width. */}
       <div className="app-viewport" data-screen={h.screen}>
         {body}

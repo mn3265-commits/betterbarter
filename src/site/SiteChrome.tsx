@@ -32,7 +32,7 @@ export function SiteNav({ current }: { current?: string }) {
           </a>
         ))}
         <a className="btn btn-primary" href="/app">
-          Open the board
+          Open the Marketplace
         </a>
       </div>
     </header>
@@ -43,12 +43,12 @@ export function SiteFooter() {
   return (
     <footer className="site__wrap site__foot">
       <span>
-        BetterBarter — campus reuse, counted · Any university, one board each · Built by Agung Nugroho and Tessa Wong ·
+        BetterBarter — campus reuse, counted · Any university, one Marketplace each · Built by Agung Nugroho and Tessa Wong ·
         impact model v{MODEL_VERSION}, displacement {DISPLACEMENT}.
       </span>
       <a href="/about">About</a>
       <a href="/brand">Brand guide</a>
-      <a href="/app">Open the board</a>
+      <a href="/app">Open the Marketplace</a>
       <a href="/?showcase">Design walkthrough</a>
       <a href="https://github.com/mn3265-commits/betterbarter">Source &amp; model</a>
     </footer>

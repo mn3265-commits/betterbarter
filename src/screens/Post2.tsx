@@ -112,7 +112,7 @@ export function Post2({ h }: { h: Barter }) {
           />
           <div className="field__hint">
             {f.item.trim() || f.brand.trim() ? (
-              <>Shows on the board as <b>{[f.brand.trim(), f.item.trim()].filter(Boolean).join(' - ')}</b></>
+              <>Shows on the Marketplace as <b>{[f.brand.trim(), f.item.trim()].filter(Boolean).join(' - ')}</b></>
             ) : (
               'Whatever you call it when you talk about it — "desk lamp", "mini fridge".'
             )}
@@ -242,7 +242,7 @@ export function Post2({ h }: { h: Barter }) {
           />
           <div className="field__hint">
             {f.goneBy
-              ? 'The board will say how long is left, and put it in front of people sooner.'
+              ? 'The Marketplace will say how long is left, and put it in front of people sooner.'
               : 'Moving out, flying home, lease ending — when do you need this item out of your hair?'}
           </div>
         </div>
@@ -295,7 +295,7 @@ export function Post2({ h }: { h: Barter }) {
       {h.ruleHits.length > 0 && (
         <div style={{ borderTop: '1px solid var(--color-accent)', background: 'var(--color-accent-100)', padding: '13px 16px' }}>
           <div style={{ fontSize: 10, letterSpacing: '.12em', textTransform: 'uppercase', color: 'var(--color-accent-800)' }}>
-            {blocked ? 'Not allowed on the board' : 'Check this before you post'}
+            {blocked ? 'Not allowed on the Marketplace' : 'Check this before you post'}
           </div>
           <div style={{ fontSize: 13.5, lineHeight: 1.45, marginTop: 6 }}>{h.ruleHits[0].why}</div>
           <div style={{ display: 'flex', gap: 8, marginTop: 10, flexWrap: 'wrap' }}>

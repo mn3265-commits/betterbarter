@@ -15,7 +15,7 @@ const MAP: Record<string, keyof typeof ICONS> = {
 }
 
 /**
- * The mark for a category. Categories became a fixed vocabulary when the board
+ * The mark for a category. Categories became a fixed vocabulary when the Marketplace
  * became searchable, so they can carry a fixed icon — which is what lets a
  * person scan a board instead of reading it.
  */

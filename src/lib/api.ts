@@ -864,7 +864,7 @@ export async function touchLastSeen(): Promise<void> {
   await c.rpc('touch_last_seen')
 }
 
-/** "Take me off the board." Not a delete — see the note in 0020. */
+/** "Take me off the Marketplace." Not a delete — see the note in 0020. */
 export async function deactivateAccount(): Promise<{ listingsHidden: number } | null> {
   const c = db()
   if (!c) return null

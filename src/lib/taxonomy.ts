@@ -3,7 +3,7 @@
  *
  * Categories and conditions are picked, not typed. Browsing only works if two
  * people describing the same object land in the same place — "desk lamp" and
- * "IKEA lamp white" have to end up under one heading or the board cannot be
+ * "IKEA lamp white" have to end up under one heading or the Marketplace cannot be
  * searched, filtered, or measured. The parser still reads a sentence; these are
  * what it has to choose between.
  */
@@ -39,7 +39,7 @@ export const MAX_PHOTOS = 3
  * Renting is built end to end, but it needs a second meeting to bring the thing
  * back, and the team's call on 26 August was to keep that out of the first
  * release. Hiding it entirely was the wrong way to do that: it made the product
- * look like it had three ideas when it has four. So renting stays on the board,
+ * look like it had three ideas when it has four. So renting stays on the Marketplace,
  * visibly, marked as not open yet — which also tells us who wants it before we
  * finish it.
  */
@@ -63,7 +63,7 @@ export const KINDS_ENABLED = {
 }
 
 /** The category the old free-text values map onto, so nothing already posted
- *  falls off the board when the vocabulary changes under it. */
+ *  falls off the Marketplace when the vocabulary changes under it. */
 const LEGACY: Record<string, Category> = {
   Books: 'Textbooks & Course Materials',
   Tech: 'Electronics',
@@ -138,7 +138,7 @@ export const CATEGORY_ICON: Record<Category, string> = {
  * be the product arguing with itself.
  *
  * Morningside only for now. SIPA, Barnard and Teachers College are the next
- * ones in, once there is anyone on the board from them.
+ * ones in, once there is anyone on the Marketplace from them.
  */
 export const CAMPUS_SPOTS = [
   // Tessa, 31 Aug: keep these at the building level and let the two of them

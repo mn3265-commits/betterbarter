@@ -5,7 +5,7 @@ import { RULES } from '../lib/rules'
 
 /**
  * The community rules. In `accept` mode this is the gate every new account
- * passes through once — you cannot reach the board without agreeing. In `read`
+ * passes through once — you cannot reach the Marketplace without agreeing. In `read`
  * mode it is the same text, reachable any time from Me.
  */
 export function Rules({

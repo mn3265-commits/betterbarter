@@ -1,5 +1,5 @@
 /**
- * The community rules every account agrees to before it can use the board, and
+ * The community rules every account agrees to before it can use the Marketplace, and
  * the check that runs on a listing before it is posted.
  *
  * The rules exist because the handoff itself happens off-platform, in a lobby,
@@ -89,7 +89,7 @@ const BLOCKED: { re: RegExp; label: string; why: string }[] = [
   {
     re: /\b(handgun|firearm|pistol|rifle|shotgun|ammo|ammunition|bullets|taser|stun gun|switchblade|brass knuckles)\b/i,
     label: 'a weapon',
-    why: 'Weapons and ammunition are never allowed on the board.',
+    why: 'Weapons and ammunition are never allowed on the Marketplace.',
   },
   {
     re: /\b(weed|marijuana|cannabis|edibles|shrooms|cocaine|molly|mdma|ketamine|lsd|acid tabs)\b/i,
@@ -114,7 +114,7 @@ const BLOCKED: { re: RegExp; label: string; why: string }[] = [
   {
     re: /\b(essay|term paper|problem set|exam answers|test bank|homework) for (?:sale|money|\$)/i,
     label: 'coursework',
-    why: 'Coursework meant to be handed in as someone else’s work is off the board.',
+    why: 'Coursework meant to be handed in as someone else’s work is off the Marketplace.',
   },
 ]
 

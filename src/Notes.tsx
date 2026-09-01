@@ -28,12 +28,12 @@ export function Notes({ h }: { h: Barter }) {
       <h1>BetterBarter</h1>
       <p className="notes__lede">
         A handoff board for one campus. You post what you are done with, someone else on campus takes it — nearest
-        first. Verified by school email — that is the whole product. Every campus is its own board, and the first one is
+        first. Verified by school email — that is the whole product. Every campus is its own Marketplace, and the first one is
         Columbia.
       </p>
       <hr className="hr" />
 
-      <h6 style={{ margin: '0 0 10px' }}>Cut from the board</h6>
+      <h6 style={{ margin: '0 0 10px' }}>Cut from the Marketplace</h6>
       <table className="table">
         <tbody>
           {CUT.map(([k, v]) => (
@@ -64,7 +64,7 @@ export function Notes({ h }: { h: Barter }) {
         <div className="notes__cell" style={{ gridColumn: '1 / -1' }}>
           <b>Day-7 freshness check</b>
           <span>
-            A week old and the app asks: still there? Silence pauses the listing, so the board can never fill with things
+            A week old and the app asks: still there? Silence pauses the listing, so the Marketplace can never fill with things
             that are already gone.
           </span>
         </div>
@@ -74,7 +74,7 @@ export function Notes({ h }: { h: Barter }) {
       <h6 style={{ margin: '0 0 10px' }}>Money, before the handshake</h6>
       <p style={{ fontSize: 14, margin: '0 0 14px', maxWidth: '46ch', textWrap: 'pretty' }}>
         Everything charged here is paid <em>before</em> a deal exists, so nobody can route around it: a bump to the top
-        of the board, a verified-audience slot for movers and storage, club accounts with real budgets.
+        of the Marketplace, a verified-audience slot for movers and storage, club accounts with real budgets.
       </p>
 
       <h6 style={{ margin: '22px 0 10px' }}>Walk the flow</h6>

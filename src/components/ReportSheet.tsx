@@ -24,7 +24,7 @@ export function ReportSheet({
     <div className="app-sheet">
       <div className="app-sheet__title">Report {who}</div>
       <p className="app-sheet__body">
-        They disappear from your board straight away, and one of us reads this. Tell us what happened — it is the only
+        They disappear from your Marketplace straight away, and one of us reads this. Tell us what happened — it is the only
         thing we have to go on.
       </p>
 

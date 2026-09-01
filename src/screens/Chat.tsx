@@ -62,7 +62,7 @@ export function Chat({ h }: { h: Barter }) {
               <div style={{ display: 'flex', gap: 8, alignItems: 'flex-start' }}>
                 <Check size={16} strokeWidth={2.6} style={{ flex: 'none', marginTop: 1, color: 'var(--color-accent)' }} />
                 <div style={{ fontSize: 12.5, lineHeight: 1.4 }}>
-                  Both of you confirmed. <strong>+1 handoff</strong> each, and the listing is off the board.
+                  Both of you confirmed. <strong>+1 handoff</strong> each, and the listing is off the Marketplace.
                 </div>
               </div>
             ) : h.myHalf ? (
@@ -136,7 +136,7 @@ export function Chat({ h }: { h: Barter }) {
 
         {h.live && h.msgs.length <= 1 && (
           <div style={{ fontSize: 11.5, opacity: 0.55, textWrap: 'pretty' }}>
-            {name.split(' ')[0]} gets this on their board. Replies show up here the moment they send one.
+            {name.split(' ')[0]} gets this on their Marketplace. Replies show up here the moment they send one.
           </div>
         )}
         {/* the last step of the flow: rate the person you just met */}

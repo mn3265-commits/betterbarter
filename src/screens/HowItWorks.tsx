@@ -21,7 +21,7 @@ const CARDS: Card[] = [
     kicker: 'Step two',
     title: 'Claim what you want, nearest first',
     body:
-      'The board only shows your campus, closest halls first. Free things are free — take them. Priced things are cheap and settled between you two; the app never touches money.',
+      'The Marketplace only shows your campus, closest halls first. Free things are free — take them. Priced things are cheap and settled between you two; the app never touches money.',
     icon: <Search size={26} strokeWidth={1.8} />,
   },
   {
@@ -35,13 +35,13 @@ const CARDS: Card[] = [
     kicker: 'What keeps it safe',
     title: 'Everyone here goes to your school',
     body:
-      'One verified school email per account, and you only ever see your own campus. Your handoff count is public — it is the whole reputation system. Anything that feels wrong, report it: that account disappears from your board and gets reviewed.',
+      'One verified school email per account, and you only ever see your own campus. Your handoff count is public — it is the whole reputation system. Anything that feels wrong, report it: that account disappears from your Marketplace and gets reviewed.',
     icon: <ShieldCheck size={26} strokeWidth={1.8} />,
   },
 ]
 
 /** The first-run walkthrough. Also reachable any time from Me. */
-export function HowItWorks({ onDone, doneLabel = 'Go to the board' }: { onDone: () => void; doneLabel?: string }) {
+export function HowItWorks({ onDone, doneLabel = 'Go to the Marketplace' }: { onDone: () => void; doneLabel?: string }) {
   const [i, setI] = useState(0)
   const card = CARDS[i]
   const last = i === CARDS.length - 1

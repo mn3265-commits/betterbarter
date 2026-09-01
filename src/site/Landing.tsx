@@ -53,9 +53,9 @@ const APP = '/app'
 const SEGMENTS: [string, string][] = [
   ['For free', 'The thing that would otherwise go in a hallway or a dumpster. Someone on your floor takes it today.'],
   ['For sale', 'Cheap, and settled between the two of you. The app never touches the money.'],
-  ['For rent — opening soon', 'One drill can serve a whole floor. Renting needs a second meeting to bring the thing back, so it is announced rather than live: on the board, marked, and switched on once returns are handled properly.'],
+  ['For rent — opening soon', 'One drill can serve a whole floor. Renting needs a second meeting to bring the thing back, so it is announced rather than live: on the Marketplace, marked, and switched on once returns are handled properly.'],
   ['For swap', 'Your heater for their fan. Two objects stay in use, and neither of you buys anything.'],
-  ['Looking for', 'The board in reverse: say what you need before you buy it new, and let the person holding it find you.'],
+  ['Looking for', 'The Marketplace in reverse: say what you need before you buy it new, and let the person holding it find you.'],
   ['Needs a hand', 'A fridge is not a one-person object. Students with an hour and a trolley carry it, paid directly — no van, no company.'],
 ]
 
@@ -76,7 +76,7 @@ const STEPS: [string, string, string][] = [
   [
     '02',
     'Someone on your campus takes it on',
-    'The board only ever shows your school, closest halls first. They can take it free, buy it cheap, rent it for a week, or offer you something of theirs for it. The item is held for three hours so two people are not walking to the same lobby.',
+    'The Marketplace only ever shows your school, closest halls first. They can take it free, buy it cheap, rent it for a week, or offer you something of theirs for it. The item is held for three hours so two people are not walking to the same lobby.',
   ],
   [
     '03',
@@ -119,7 +119,7 @@ const WHY: [string, string][] = [
   ],
   [
     'It complements the drives, it does not replace them',
-    'What the board cannot rehome still belongs in Give & Go Green and Clean + Go Green. The board removes the easy 80% from the pile so staffed collection can deal with the rest.',
+    'What the Marketplace cannot rehome still belongs in Give & Go Green and Clean + Go Green. The Marketplace removes the easy 80% from the pile so staffed collection can deal with the rest.',
   ],
   [
     'A board that cleans itself',
@@ -354,7 +354,7 @@ export function Landing() {
 
       <section className="site__hero">
         <div className="site__wrap">
-          <div className="site__kicker">Campus circular economy · Any university, one board each</div>
+          <div className="site__kicker">Campus circular economy · Any university, one Marketplace each</div>
           <h1>BetterBarter</h1>
           <p className="site__lede">
             Keep the things your campus already owns in use — and count every object that stayed out of the landfill.
@@ -398,7 +398,7 @@ export function Landing() {
           <h3 className="site__sub">The shape of a university year</h3>
           <p className="site__fine" style={{ marginBottom: 4 }}>
             Disposal and buying are the same curve, eight weeks apart, twice a year. Schematic rather than measured —
-            nobody has per-week discard data for a campus, because the thing that would produce it is the board itself.
+            nobody has per-week discard data for a campus, because the thing that would produce it is the Marketplace itself.
           </p>
           <Seasonality />
 
@@ -598,7 +598,7 @@ export function Landing() {
                 ))}
               </div>
               <p className="site__fine" style={{ marginTop: 14 }}>
-                Every account agrees to the full text once, before it can reach the board.
+                Every account agrees to the full text once, before it can reach the Marketplace.
               </p>
             </div>
             <div className="site__panel">
@@ -624,7 +624,7 @@ export function Landing() {
           <h2>Charged before a deal exists, never on the object.</h2>
           <p className="site__section-lede">
             A board that takes a cut of a give-away is not a reuse product, it is a tax on generosity. So the money
-            never sits on the handoff itself — it sits on the two things that are worth paying for once a campus board
+            never sits on the handoff itself — it sits on the two things that are worth paying for once a campus Marketplace
             is busy.
           </p>
           <div className="site__grid">
@@ -641,7 +641,7 @@ export function Landing() {
               <b>Verified-audience placements</b>
               <span>
                 Movers, storage, print shops, student services — businesses that want to reach one specific campus at
-                one specific fortnight of the year. Paid up front, clearly marked, and never mixed into the board’s
+                one specific fortnight of the year. Paid up front, clearly marked, and never mixed into the Marketplace’s
                 ranking.
               </span>
             </div>
@@ -669,7 +669,7 @@ export function Landing() {
         <Reveal>
         <div className="site__wrap">
           <div className="site__kicker">What BetterBarter is not</div>
-          <h2>The things left off the board, on purpose.</h2>
+          <h2>The things left off the Marketplace, on purpose.</h2>
           <table className="site__not">
             <tbody>
               {NOT.map(([k, v]) => (
@@ -710,7 +710,7 @@ export function Landing() {
           </p>
           <div className="site__cta-row">
             <a className="site__cta" href={APP}>
-              Open the board <ArrowRight size={19} strokeWidth={2.4} />
+              Open the Marketplace <ArrowRight size={19} strokeWidth={2.4} />
             </a>
           </div>
         </div>

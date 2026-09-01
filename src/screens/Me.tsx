@@ -229,8 +229,8 @@ export function Me({ h }: { h: Barter }) {
             <h6 style={{ margin: '0 0 8px' }}>Distance</h6>
             <p style={{ fontSize: 12.5, opacity: 0.72, margin: '0 0 12px', textWrap: 'pretty' }}>
               {h.hasLocation
-                ? 'The board sorts by how close things are. Your position is stored to about 100 metres and is never shown to anyone — other people only ever see a distance.'
-                : 'Share an approximate location and the board sorts by how close things are. It is rounded to about 100 metres before it leaves this device, nobody else ever sees it, and you can forget it at any time.'}
+                ? 'The Marketplace sorts by how close things are. Your position is stored to about 100 metres and is never shown to anyone — other people only ever see a distance.'
+                : 'Share an approximate location and the Marketplace sorts by how close things are. It is rounded to about 100 metres before it leaves this device, nobody else ever sees it, and you can forget it at any time.'}
             </p>
             {h.hasLocation ? (
               <button onClick={h.forgetLocation} className="btn btn-secondary" style={{ fontSize: 13 }}>
@@ -314,7 +314,7 @@ export function Me({ h }: { h: Barter }) {
                   <div key={it.id} style={{ border: '1px solid var(--color-divider)', borderRadius: 'var(--radius-lg)', padding: '12px 13px' }}>
                     <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 600, fontSize: 16, lineHeight: 1.15 }}>{it.title}</div>
                     <div style={{ fontSize: 10, letterSpacing: '.12em', textTransform: 'uppercase', color: 'var(--color-accent-700)', marginTop: 5 }}>
-                      {h.daysOf(it)} days on the board · {h.isFree(it) ? 'free' : h.priceOf(it)}
+                      {h.daysOf(it)} days on the Marketplace · {h.isFree(it) ? 'free' : h.priceOf(it)}
                     </div>
                     <div style={{ fontSize: 12.5, opacity: 0.7, marginTop: 6, textWrap: 'pretty' }}>
                       {h.isFree(it)
@@ -339,7 +339,7 @@ export function Me({ h }: { h: Barter }) {
               })}
             </div>
             <p style={{ fontSize: 11.5, opacity: 0.6, margin: '12px 0 0', textWrap: 'pretty' }}>
-              Every listing gets this check on day 7. No answer and it pauses itself, so nothing sits on the board
+              Every listing gets this check on day 7. No answer and it pauses itself, so nothing sits on the Marketplace
               rotting.
             </p>
           </div>
@@ -354,7 +354,7 @@ export function Me({ h }: { h: Barter }) {
                 <div key={it.id} style={{ background: 'var(--color-bg)', padding: '11px 0', display: 'flex', alignItems: 'center', gap: 11 }}>
                   <div style={{ flex: 1, minWidth: 0 }}>
                     <div style={{ fontSize: 14, fontWeight: 500, opacity: 0.75 }}>{it.title}</div>
-                    <div style={{ fontSize: 11, opacity: 0.55 }}>Paused · hidden from the board</div>
+                    <div style={{ fontSize: 11, opacity: 0.55 }}>Paused · hidden from the Marketplace</div>
                   </div>
                   <button onClick={() => h.relist(it.id)} className="btn btn-secondary" style={{ flex: 'none', fontSize: 12 }}>
                     Relist
@@ -403,10 +403,10 @@ export function Me({ h }: { h: Barter }) {
                 const stat = isGone
                   ? 'Gone · handed off'
                   : h.isPaused(it)
-                    ? 'Paused · hidden from the board'
+                    ? 'Paused · hidden from the Marketplace'
                     : h.isFree(it)
-                      ? 'Free · on the board'
-                      : '$' + it.price + ' · on the board'
+                      ? 'Free · on the Marketplace'
+                      : '$' + it.price + ' · on the Marketplace'
                 return (
                   <div key={it.id} style={{ background: 'var(--color-bg)', padding: '11px 0', display: 'flex', alignItems: 'center', gap: 11 }}>
                     <div style={{ width: 40, height: 40, flex: 'none' }}>
@@ -433,7 +433,7 @@ export function Me({ h }: { h: Barter }) {
             <div style={{ flex: 1 }}>
               <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 600, fontSize: 15 }}>Ping me on new posts</div>
               <div style={{ fontSize: 11.5, opacity: 0.62, marginTop: 2 }}>
-                Tells you the second something matching lands on the board.
+                Tells you the second something matching lands on the Marketplace.
               </div>
             </div>
             <Switch on={h.alerts} onToggle={() => h.setAlerts(!h.alerts)} />
@@ -447,7 +447,7 @@ export function Me({ h }: { h: Barter }) {
             <div style={{ flex: 1 }}>
               <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 600, fontSize: 15 }}>Move-out week</div>
               <div style={{ fontSize: 11.5, opacity: 0.62, marginTop: 2 }}>
-                Puts the move-out banner on the board so the hall empties fast.
+                Puts the move-out banner on the Marketplace so the hall empties fast.
               </div>
             </div>
             <Switch on={h.moveOut} onToggle={() => h.setMoveOut(!h.moveOut)} />
@@ -494,14 +494,14 @@ export function Me({ h }: { h: Barter }) {
                 Sign out
               </button>
               <button onClick={() => setLeaving(true)} className="btn btn-secondary" style={{ fontSize: 13, opacity: 0.75 }}>
-                Take me off the board
+                Take me off the Marketplace
               </button>
             </div>
           )}
 
           {leaving && (
             <div className="app-sheet" style={{ marginTop: 14 }}>
-              <h6 style={{ margin: '0 0 6px' }}>Take me off the board</h6>
+              <h6 style={{ margin: '0 0 6px' }}>Take me off the Marketplace</h6>
               <p style={{ fontSize: 12.5, opacity: 0.75, margin: '0 0 4px', textWrap: 'pretty' }}>
                 Your listings come down and nobody can find you. Sign back in whenever you like and it is all still
                 here — this is a door, not a trapdoor.

@@ -189,7 +189,7 @@ export function useBarter(config: BarterConfig, live?: LiveContext) {
     }
   }, [])
 
-  // Session resolved: leave the gate for the board, and never strand someone on
+  // Session resolved: leave the gate for the Marketplace, and never strand someone on
   // it again. Anything else the person has navigated to is left alone.
   useEffect(() => {
     if (!isLive) return
@@ -227,7 +227,7 @@ export function useBarter(config: BarterConfig, live?: LiveContext) {
       setError(null)
       if (live?.lat != null) api.fetchDistances().then(setDistances).catch(() => {})
     } catch (e) {
-      fail(e, 'Could not load the board.')
+      fail(e, 'Could not load the Marketplace.')
     } finally {
       setLoadingBoard(false)
     }
@@ -238,7 +238,7 @@ export function useBarter(config: BarterConfig, live?: LiveContext) {
     try {
       setThreads(await api.fetchThreads(userId))
     } catch {
-      /* threads are non-critical for the board */
+      /* threads are non-critical for the Marketplace */
     }
   }, [isLive, userId])
 
@@ -291,7 +291,7 @@ export function useBarter(config: BarterConfig, live?: LiveContext) {
           if (proper && (await api.nameMyCampus(proper))) setCampusName(proper)
         }
       } catch {
-        /* the board works without a campus name */
+        /* the Marketplace works without a campus name */
       }
     })()
   }, [isLive, refreshBoard, refreshThreads, refreshWanted])
@@ -789,7 +789,7 @@ export function useBarter(config: BarterConfig, live?: LiveContext) {
       free: form.kind === 'free',
     }
 
-    // Nothing dangerous or illegal goes on the board. Blocked matches cannot be
+    // Nothing dangerous or illegal goes on the Marketplace. Blocked matches cannot be
     // overridden; ambiguous ones can, once the person has read why.
     const hits = checkListing(postText)
     const blocked = hits.some((x) => x.level === 'blocked')
@@ -802,10 +802,10 @@ export function useBarter(config: BarterConfig, live?: LiveContext) {
       p.kind === 'rent'
         ? 'Listed to rent at $' + p.rentRate + ' a ' + p.rentPeriod + '. It comes back to you.'
         : p.kind === 'trade'
-          ? 'Listed as a swap' + (p.tradeFor ? ' for ' + p.tradeFor : '') + '. It is on the board now.'
+          ? 'Listed as a swap' + (p.tradeFor ? ' for ' + p.tradeFor : '') + '. It is on the Marketplace now.'
           : p.kind === 'sale'
-            ? 'Listed at $' + p.price + '. It is on the board now.'
-            : 'It is on the board now. Anyone on campus with a matching saved search gets pinged.'
+            ? 'Listed at $' + p.price + '. It is on the Marketplace now.'
+            : 'It is on the Marketplace now. Anyone on campus with a matching saved search gets pinged.'
 
     if (!isLive || !live) {
       const it: Item = {
@@ -986,12 +986,12 @@ export function useBarter(config: BarterConfig, live?: LiveContext) {
   const markGoneStale = useCallback(
     (id: number) => {
       if (isLive) {
-        void liveMutate(id, (u) => api.setListingStatus(u, 'gone'), 'Cleared off the board.')
+        void liveMutate(id, (u) => api.setListingStatus(u, 'gone'), 'Cleared off the Marketplace.')
         return
       }
       setGoneDemo((prev) => prev.concat([id]))
       setConfirmed((prev) => prev.concat([id]))
-      flash('Cleared off the board.')
+      flash('Cleared off the Marketplace.')
     },
     [isLive, liveMutate, flash],
   )
@@ -1024,8 +1024,8 @@ export function useBarter(config: BarterConfig, live?: LiveContext) {
       if (!res) { flash('Could not do that just now.'); return }
       flash(
         res.listingsHidden > 0
-          ? `Taken off the board. ${res.listingsHidden} listing${res.listingsHidden === 1 ? '' : 's'} hidden — sign back in any time to bring them back.`
-          : 'Taken off the board. Sign back in any time.',
+          ? `Taken off the Marketplace. ${res.listingsHidden} listing${res.listingsHidden === 1 ? '' : 's'} hidden — sign back in any time to bring them back.`
+          : 'Taken off the Marketplace. Sign back in any time.',
       )
       await live.signOut()
     })()
@@ -1051,12 +1051,12 @@ export function useBarter(config: BarterConfig, live?: LiveContext) {
         void liveMutate(
           id,
           (u) => api.setListingStatus(u, next),
-          isGone ? 'Back on the board.' : 'Marked gone. It disappears from the board immediately.',
+          isGone ? 'Back on the Marketplace.' : 'Marked gone. It disappears from the Marketplace immediately.',
         )
         return
       }
       setGoneDemo((prev) => (isGone ? prev.filter((g) => g !== id) : prev.concat([id])))
-      flash(isGone ? 'Back on the board.' : 'Marked gone. It disappears from the board immediately.')
+      flash(isGone ? 'Back on the Marketplace.' : 'Marked gone. It disappears from the Marketplace immediately.')
     },
     [isLive, liveMutate, flash],
   )
@@ -1145,7 +1145,7 @@ export function useBarter(config: BarterConfig, live?: LiveContext) {
 
   /**
    * Ask the browser once, round hard, and store it. Declining is a normal
-   * answer: without a location the board simply stops sorting by distance.
+   * answer: without a location the Marketplace simply stops sorting by distance.
    */
   const shareLocation = useCallback(() => {
     if (!live || !navigator.geolocation) {
@@ -1169,7 +1169,7 @@ export function useBarter(config: BarterConfig, live?: LiveContext) {
       },
       () => {
         setLocating(false)
-        flash('No location shared. The board still works, it just will not sort by distance.')
+        flash('No location shared. The Marketplace still works, it just will not sort by distance.')
       },
       { enableHighAccuracy: false, timeout: 8000, maximumAge: 600_000 },
     )
@@ -1268,7 +1268,7 @@ export function useBarter(config: BarterConfig, live?: LiveContext) {
   )
 
   /**
-   * Report someone, which also blocks them. The board stops showing their
+   * Report someone, which also blocks them. The Marketplace stops showing their
    * things immediately — enforced by the listings policy, not by the client —
    * and a founder picks the report up in the moderation queue.
    */
@@ -1283,7 +1283,7 @@ export function useBarter(config: BarterConfig, live?: LiveContext) {
         }
         await refreshBoard()
         await refreshThreads()
-        flash('Reported. That account is hidden from your board and flagged for review.')
+        flash('Reported. That account is hidden from your Marketplace and flagged for review.')
         go('browse')
       })()
     },

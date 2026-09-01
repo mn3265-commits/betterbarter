@@ -80,7 +80,7 @@ export function Ops() {
           <h1>Founders only</h1>
           <p className="ops__lede">
             This page reads across every campus, so it is gated to founder accounts. Sign in with one, or{' '}
-            <a href="/app">open the board</a> instead.
+            <a href="/app">open the Marketplace</a> instead.
           </p>
         </div>
         <SiteFooter />
@@ -237,7 +237,7 @@ export function Ops() {
           <h2>Lifecycle</h2>
           <div className="ops__stair">
             {([
-              ['On the board', m.listingsLive, 'active'],
+              ['On the Marketplace', m.listingsLive, 'active'],
               ['Paused', m.listingsPaused, 'day 9, no answer'],
               ['Archived', m.listingsArchived, 'day 30, off the shelf'],
               ['Handed off', m.listingsGone, 'the point of all this'],
@@ -253,7 +253,7 @@ export function Ops() {
           <table className="ops__table">
             <tbody>
               <tr>
-                <td>Accounts off the board by choice</td>
+                <td>Accounts off the Marketplace by choice</td>
                 <td className="num">{m.deactivated}</td>
               </tr>
               <tr>

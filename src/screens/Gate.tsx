@@ -9,7 +9,7 @@ import type { Barter } from '../lib/useBarter'
  *  fallback; without one it's the demo. */
 export function Gate({ h, auth }: { h: Barter; auth?: Auth }) {
   /* The campus can come in on the link — betterbarter.vercel.app/app?c=columbia.edu
-     — so an invitation says what is waiting on the board it is inviting you to. */
+     — so an invitation says what is waiting on the Marketplace it is inviting you to. */
   const [teaser, setTeaser] = useState<Teaser | null>(null)
   useEffect(() => {
     const domain = new URLSearchParams(window.location.search).get('c')
@@ -94,7 +94,7 @@ export function Gate({ h, auth }: { h: Barter; auth?: Auth }) {
           from being a wordmark floating in an empty red field on a laptop. */}
       <div style={{ marginTop: 26, display: 'flex', flexDirection: 'column', gap: 1 }}>
         {[
-          ['One verified school email', 'One campus per board. No strangers, ever.'],
+          ['One verified school email', 'One Marketplace per campus. No strangers, ever.'],
           ['Meet in a lobby', 'No shipping, no packaging, no van. It never leaves the building.'],
           ['Both sides confirm it', 'That tap is what counts the object as kept in use.'],
         ].map(([title, line]) => (
@@ -109,7 +109,7 @@ export function Gate({ h, auth }: { h: Barter; auth?: Auth }) {
 
       <div className="gate__signin" style={{ marginTop: 'auto', display: 'flex', flexDirection: 'column', gap: 12 }}>
         <div style={{ fontSize: 12, opacity: 0.9, letterSpacing: '.02em' }}>
-          Sign in with your university email. Your school gets its own board — if it has no board yet, yours opens it.
+          Sign in with your university email. Your school gets its own Marketplace — if it has no Marketplace yet, yours opens it.
         </div>
 
         {live ? (

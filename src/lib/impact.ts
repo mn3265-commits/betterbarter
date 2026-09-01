@@ -159,7 +159,7 @@ export function impactOf(counts: Record<string, number>): Impact {
  * emissions-dense categories (Tech, Bike) would carry a forecast they do not
  * carry in a real hallway. This mix is a first-campus assumption — what a dorm
  * floor actually puts out at move-out, weighted toward small things — and it
- * gets replaced by measured shares the moment the board has them.
+ * gets replaced by measured shares the moment the Marketplace has them.
  */
 export const MIX: Record<string, number> = {
   'Furniture & Dorm Essentials': 0.34,
@@ -252,7 +252,7 @@ export const SOURCES: { claim: string; source: string; url: string }[] = [
  * `averageItem()` multiplies by MIX because before anything has happened, a
  * guess at the mix is the only thing there is. Once objects have actually
  * moved, their categories are known — so use them. The number gets more honest
- * the more the board is used, which is the right direction for it to move.
+ * the more the Marketplace is used, which is the right direction for it to move.
  */
 export function impactOfCounts(byCategory: Record<string, number>): Impact {
   let items = 0

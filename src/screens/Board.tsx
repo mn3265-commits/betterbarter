@@ -12,7 +12,7 @@ import type { Barter } from '../lib/useBarter'
 /**
  * How an object is moving, as a colour rather than as a tab.
  *
- * Tessa's review of 28 August moved the board's first question from "how do you
+ * Tessa's review of 28 August moved the Marketplace's first question from "how do you
  * want to get it" to "what are you looking for" — which is the question people
  * actually arrive with. Kind stops being the axis you browse along and becomes
  * a mark on the card, so a category shows everything in it at once.
@@ -25,7 +25,7 @@ const KIND_MARK: Record<string, { label: string; fg: string; bg: string }> = {
 }
 
 /** Walk time from the viewer's own hall. Same building = same door. */
-/** Board (the board) — tab 1. Scan what is available on campus right now. */
+/** Board (the Marketplace) — tab 1. Scan what is available on campus right now. */
 export function Board({ h }: { h: Barter }) {
   const q = h.q.trim().toLowerCase()
   const [cat, setCat] = useState<string | null>(null)
@@ -71,7 +71,7 @@ export function Board({ h }: { h: Barter }) {
 
   return (
     <div className="screen">
-      {/* header — the board keeps its own, because it carries the campus mark
+      {/* header — the Marketplace keeps its own, because it carries the campus mark
           and the live count, but it uses the same metrics as every other. */}
       <div
         className="app-hd"
@@ -143,7 +143,7 @@ export function Board({ h }: { h: Barter }) {
                 {staleMine.length} of your listings passed a week
               </div>
               <div style={{ fontSize: 11.5, color: 'var(--color-accent-800)', opacity: 0.8 }}>
-                Say whether they are still there, or the board pauses them.
+                Say whether they are still there, or the Marketplace pauses them.
               </div>
             </div>
             <ChevronRight size={18} strokeWidth={2} style={{ color: 'var(--color-accent-700)' }} />
@@ -354,7 +354,7 @@ export function Board({ h }: { h: Barter }) {
               </div>
             ) : (
               <div style={{ fontSize: 13, opacity: 0.6, textWrap: 'pretty' }}>
-                Nobody has asked for anything yet. Say what you need and the board works for you.
+                Nobody has asked for anything yet. Say what you need and the Marketplace works for you.
               </div>
             )}
 
@@ -386,7 +386,7 @@ export function Board({ h }: { h: Barter }) {
         {h.tab !== 'wanted' && kind !== 'rent' && (
           <>
             {h.loadingBoard ? (
-              <div style={{ padding: '24px 16px', fontSize: 13, opacity: 0.55 }}>Loading the board…</div>
+              <div style={{ padding: '24px 16px', fontSize: 13, opacity: 0.55 }}>Loading the Marketplace…</div>
             ) : cards.length === 0 ? (
               <EmptyBoard h={h} />
             ) : (

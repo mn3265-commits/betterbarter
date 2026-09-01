@@ -63,7 +63,7 @@ export function findContactInfo(text: string): ContactHit[] {
   if (EMAIL.test(t)) {
     hits.push({
       kind: 'email',
-      why: 'Email addresses stay off the board — everything you agree here is the record if something goes wrong.',
+      why: 'Email addresses stay off the Marketplace — everything you agree here is the record if something goes wrong.',
     })
   }
 

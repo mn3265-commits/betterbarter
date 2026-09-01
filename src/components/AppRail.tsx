@@ -5,7 +5,7 @@ import type { Barter } from '../lib/useBarter'
 /**
  * The desktop navigation rail. It is the bottom tab bar, stood up: same five
  * destinations, same order, same active logic — a laptop just has room to put
- * them beside the board instead of under it. Hidden below 1000px, where the tab
+ * them beside the Marketplace instead of under it. Hidden below 1000px, where the tab
  * bar takes over.
  */
 export function AppRail({ h }: { h: Barter }) {

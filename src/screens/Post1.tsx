@@ -9,11 +9,11 @@ import type { Barter } from '../lib/useBarter'
  *
  * Up to three. The screen has promised three since the 28th while holding
  * exactly one and calling the second attempt a "Retake", which is how Tessa
- * found it. Three matters for the things this board is actually for: a desk
+ * found it. Three matters for the things this Marketplace is actually for: a desk
  * photographed from one angle is a desk nobody trusts, and a scratch you cannot
  * see is the reason someone turns up and walks away.
  *
- * The first photo is the cover — it is the one on the board — so the order is
+ * The first photo is the cover — it is the one on the Marketplace — so the order is
  * the order they were taken, and any of them can be dropped.
  */
 export function Post1({ h }: { h: Barter }) {
@@ -67,7 +67,7 @@ export function Post1({ h }: { h: Barter }) {
           </button>
         ) : (
           <>
-            {/* the cover, big — this is the one the board shows */}
+            {/* the cover, big — this is the one the Marketplace shows */}
             <div
               style={{
                 height: 288,

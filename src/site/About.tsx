@@ -38,7 +38,7 @@ const PRINCIPLES: [string, string, string][] = [
   [
     '05',
     'Trust is infrastructure, not a feature',
-    'Reuse between strangers fails on fear, so the only wall we build is who gets in: one verified school email, one campus per board, a public count of real handoffs. Everything else — the rules, the public meetup spots, the record kept in the thread — exists so two people who have never met can hand something over without either of them being brave.',
+    'Reuse between strangers fails on fear, so the only wall we build is who gets in: one verified school email, one campus per Marketplace, a public count of real handoffs. Everything else — the rules, the public meetup spots, the record kept in the thread — exists so two people who have never met can hand something over without either of them being brave.',
   ],
   [
     '06',
@@ -50,7 +50,7 @@ const PRINCIPLES: [string, string, string][] = [
 const HORIZON: [string, string][] = [
   [
     'Now — one campus deep, not many campuses wide',
-    'Any university email already opens its own board. Our own attention goes to a single school, building by building, until it is useful on an ordinary Tuesday and not only in the last week of May. Density is the whole product: a board with nothing on it is worse than no board.',
+    'Any university email already opens its own Marketplace. Our own attention goes to a single school, building by building, until it is useful on an ordinary Tuesday and not only in the last week of May. Density is the whole product: a Marketplace with nothing on it is worse than none at all.',
   ],
   [
     'Next — the loop closes locally',
@@ -183,7 +183,7 @@ export function About() {
           </p>
           <div className="site__cta-row">
             <a className="site__cta" href={APP}>
-              Open the board <ArrowRight size={19} strokeWidth={2.4} />
+              Open the Marketplace <ArrowRight size={19} strokeWidth={2.4} />
             </a>
           </div>
         </div>

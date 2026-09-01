@@ -91,10 +91,10 @@ export function Chats({ h }: { h: Barter }) {
           <div style={{ padding: '40px 22px', textAlign: 'left' }}>
             <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 600, fontSize: 20, lineHeight: 1.15 }}>Nothing yet.</div>
             <p style={{ fontSize: 13.5, opacity: 0.65, margin: '8px 0 16px', textWrap: 'pretty' }}>
-              Claim something on the board and the conversation starts itself, with the meetup spot already in it.
+              Claim something on the Marketplace and the conversation starts itself, with the meetup spot already in it.
             </p>
             <button onClick={h.jumpBrowse} className="btn btn-primary">
-              Go to the board
+              Go to the Marketplace
             </button>
           </div>
         )}
