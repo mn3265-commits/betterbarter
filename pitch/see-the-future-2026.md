@@ -166,13 +166,13 @@ Verified-audience placements are additional and deliberately excluded here.
 
 ## Current stage
 
-**Working product, pre-pilot.** Deployed and running on a live backend, not a
-mockup: university single sign-on, campus-isolated Postgres with row-level
-security, realtime chat, photo storage, the day-7 freshness check, a
-community-rules gate, a pre-post safety check, the both-sides handoff
-confirmation, ratings, and an installable PWA that is also a full desktop web
-app. Two verified accounts exist; the board has not yet been opened to residents.
-The pilot is scoped for the coming term, ahead of the May 2027 move-out peak.
+> Working product, pre-pilot.
+>
+> It is deployed and running on a live backend rather than a mockup: university single sign-on, a campus-isolated Postgres with row-level security on every table, realtime chat that refuses to send contact details, photo storage, an hourly freshness check that retires stale listings by itself, a community-rules gate, a pre-post safety check, ratings, reporting with a moderation queue behind it, rate limits enforced in the database, and an installable PWA that is also a full desktop web app. Handoffs are confirmed in person using a six-digit code split across the two phones, three digits each. The impact model is published in full, with its factor table, its assumed category mix and its sources. The whole thing is open source.
+>
+> Two verified Columbia accounts exist, and both of them are ours. The Marketplace has not been opened to residents yet, and we have not yet spoken to Columbia Housing, EcoReps or the Office of Sustainability.
+>
+> The roll-out is scoped in four phases. Phase 0 is fifty to a hundred Columbia SPS students invited by hand, beginning during orientation week, which runs to 7 September. Phase I opens the Marketplace to the School of Professional Studies within a month, Phase II to the university within six, and Phase III to other institutions after that — a university email domain already maps to a campus server-side, so a new school's Marketplace exists the moment its first student signs in. The pilot is scoped to run through the May 2027 move-out, which is the week the whole thesis is actually tested.
 
 ## What makes your solution innovative?
 
