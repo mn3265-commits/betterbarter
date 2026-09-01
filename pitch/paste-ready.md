@@ -74,46 +74,13 @@ nobody has built for.**
 
 ## Describe your Solution
 
-A campus-only reuse board where the exchange never leaves the campus.
+BetterBarter is a marketplace that exists once per campus and is visible only to people holding that school's email address. Students give away, sell, swap or rent the things they already own, to people who are already inside the same few buildings.
 
-- **Twenty seconds to post.** A photo and a sentence written the way you would
-  text a friend. The app reads category, condition, price and meetup place out of
-  the words and fills the listing in; anything you edit is yours. Friction is
-  what sends objects to the dumpster, so removing it *is* the intervention.
-- **Four ways to keep an object in use.** Give it away, sell it cheap, swap it
-  for something you need — and lending, built and announced on the board, opening
-  once returns are handled properly. Ownership is only one way to have a thing.
-- **Only your campus sees it.** One verified university email per account,
-  enforced in the database rather than the interface. Every school is an isolated
-  board, which removes the stranger problem that stops students listing.
-- **Meet on campus, never at a home.** A library entrance, a dining hall door, a
-  department lobby. Nothing assumes you live in a hall, so commuters are
-  first-class, and the app refuses a room number as a meetup place. Personal
-  contact details do not send: the thread is the record if something goes wrong.
-- **The community is the logistics.** A listing can ask for two people or a
-  trolley; a student on the same campus takes that work for a fee paid directly
-  between them and earns a public carry count. No van is dispatched.
-- **Both people confirm.** That second tap closes the listing, releases the hold
-  and adds +1 to each public handoff count — the entire reputation system, and
-  the measurement event.
-- **The board keeps itself alive.** On day seven the app asks whether the item is
-  still there; silence pauses the listing.
+The community supplies itself. Everything on it is already on campus — the desk, the mini fridge, the textbook, the winter coat — so a school stops buying in what it already holds in surplus. We collect nothing, sort nothing, store nothing and resell nothing. Members find each other, agree the details in a thread, and meet at a library entrance or a dining hall door. When an object needs two people, another student on the same campus carries it for a fee paid directly between them, which turns a logistics cost into a campus job.
 
-Every confirmed handoff feeds a published impact model with three explicitly
-separated levels: **measured** (confirmed handoffs), **estimated** (mass kept in
-use), and **estimated and displacement-adjusted** (avoided production, at 0.5).
-The factor table, the assumed category mix and every source are printed on the
-public site and live in one file in an open repository.
+That is what makes the transport term zero rather than small. No van, no collection round, no warehouse, no packaging, no postage. Two people crossing a campus they were crossing anyway emit nothing extra — a claim no shipped resale platform and no staffed donation drive can make, because both of them move the object again after the owner is finished with it.
 
-The measured level has to be worth the name, so a handoff is confirmed by a
-**six-digit code split between the two phones** — the buyer's app holds three
-digits, the seller's the other three, and the database will not give either side
-the half it does not own. Those six digits do not exist in one place until two
-people are standing together. It is a speed bump rather than a vault, and we say
-so: two people set on faking a handoff can read the digits to each other. But it
-cannot happen by accident, it cannot happen alone, and the dashboard reports
-**verified in person** and **taken on trust** as two separate numbers rather than
-one that quietly blends them.
+And it is counted at the object rather than at the truck. Both people confirm the exchange in person using a six-digit code split across their two phones, three digits each, so a single reuse event is recorded with its category and its date. That is a circularity figure a sustainability office can put in a report and defend line by line, instead of a weight estimated afterwards in aggregate.
 
 ## Market size — TAM / SAM / SOM
 
