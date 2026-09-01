@@ -117,25 +117,15 @@ both people and counted — so the impact can be audited, not estimated. (30)*
 
 ## What environmental problem are you solving?
 
-A residential campus throws out most of a year's durable goods in a single week.
-At move-out, working lamps, mini-fridges, rugs, textbooks and coats go into the
-same dumpsters — not because students want to discard them, but because listing
-an item takes longer than carrying it downstairs, and because the alternative to
-the dumpster is meeting a stranger from a public marketplace off campus. Eight
-weeks later the next intake buys the identical objects new, often financed on
-money they do not have.
-
-The category is enormous. The EPA puts US furniture and furnishings at **12.1
-million tons generated in 2018, 80.1% of it landfilled**, and textiles at **17
-million tons generated, 11.3 million tons landfilled**. There are **15.4 million
-US undergraduates**, and every one of them moves in and out of somewhere.
-
-Existing responses are one-week, staffed, one-way donation drives, bound by
-trucks, storage and volunteer hours. Nothing runs on the ordinary Tuesday when
-the decision to bin the chair is actually made.
-
-**The waste is downstream of a user-experience problem, and that is the part
-nobody has built for.**
+> A residential campus throws away most of a year's discarded goods in a single week, and buys much of it back eight weeks later.
+>
+> The material is not worn out. At move-out, working lamps, mini fridges, rugs, textbooks and winter coats go into the same dumpsters — not because students want to discard them, but because listing an item takes longer than carrying it downstairs, and because the alternative is meeting a stranger from a public marketplace somewhere off campus. In September the next intake buys the identical objects new, often financed on money they do not have.
+>
+> The volume behind this is not marginal. The EPA put US furniture and furnishings at 12.1 million tons generated in 2018, with 80.1 percent landfilled — the worst landfill rate of any durable goods category it tracks. Textiles were 17 million tons in the same year, of which 11.3 million went straight to landfill.
+>
+> Reuse sits at the very top of the EPA's waste management hierarchy, above recycling, because nothing is reprocessed and nothing is driven anywhere: the object simply keeps being the object. Yet almost every campus response operates two rungs down — bins, audits, hauling contracts, and one-week staffed donation drives bound by trucks, storage and volunteer hours. None of them are running on the ordinary Tuesday when the decision to bin the chair is actually made. The waste is downstream of a user-experience problem, and that is the part nobody has built for.
+>
+> Underneath it sits a second problem. Campus reuse is measured at the truck — a weight, reported after the fact, in aggregate. No sustainability office can audit a single line of it, which means it cannot defend the number, and a number that cannot be defended does not get funded.
 
 ## Describe your Solution
 
