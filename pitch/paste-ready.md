@@ -113,10 +113,10 @@ The roll-out is scoped in four phases. Phase 0 is fifty to a hundred Columbia SP
 1. **Reuse measured at the object, not at the truck.** Donation drives report a
    weight after the fact, in aggregate, with no way to audit it. We record one
    confirmed event per object, with category and timestamp, agreed by both
-   parties — a bottom-up circularity metric a sustainability office can put in a
+   parties — a bottom-up circularity figure a sustainability office can put in a
    report and defend line by line.
 2. **The measurement is the reputation, and it has to be earned.** The act that
-   counts the reuse is the act that raises both people's public handoff count, so
+   counts the reuse is the act that raises both people's public meet-up count, so
    the incentive to record impact is intrinsic rather than bolted on. And the act
    is not a button: it is a six-digit code split across the two phones, half
    each, which cannot be assembled without both people being present. A reuse
@@ -135,21 +135,21 @@ The roll-out is scoped in four phases. Phase 0 is fifty to a hundred Columbia SP
    it.** Columbia has Give + Go Green at check-out, the Green Sale each autumn,
    and Clean + Go Green bins — an award-winning, staffed operation that EcoReps
    champions. None of it is the thing we are replacing. Those programmes collect
-   what is left at the end; a board moves things between students *before* the
-   pile forms, which is both cheaper and better placed on the EPA hierarchy.
-   What the board cannot rehome still belongs in Give + Go Green — the board's
-   job is to take the easy majority out of the pile so staffed collection can
-   deal with what actually needs handling. The natural first partner is the group
+   what is left at the end; a Marketplace moves things between students *before*
+   the pile forms, which is both cheaper and better placed on the EPA hierarchy.
+   What it cannot rehome still belongs in Give + Go Green — its job is to take
+   the easy majority out of the pile so staffed collection can deal with what
+   actually needs handling. The natural first partner is the group
    already doing this work, not a blank campus.
 6. **Self-serve campuses.** A university email domain maps to a campus
-   server-side. A school with no board gets one the moment its first student
+   server-side. A school with no Marketplace gets one the moment its first student
    signs in, named and marked from a registry of 7,328 academic domains. No
    waiting list, no launch, no code.
 
 ## Have you achieved any traction?
 
 - **Live product** at https://betterbarter.vercel.app — a public site
-  explaining the method, and the board itself behind university sign-in.
+  explaining the method, and the Marketplace itself behind university sign-in.
 - **Shipped end to end:** verified sign-in, a Marketplace browsed by category
   with free / sale / swap colour-coded on every card and renting announced, a
   three-photo listing form with an optional "gone by" date, claim with a
@@ -207,13 +207,13 @@ CO₂e**. The public site carries the calculator so anyone can run their own
 numbers, or dispute ours.
 
 **Structural.** The number that matters is not tonnage in year one; it is
-*handoffs per week per building*. If reuse becomes the default first thought on
+*meet-ups per week per building*. If reuse becomes the default first thought on
 an ordinary Tuesday rather than an annual clear-out ritual, the same intervention
 compounds at every campus it reaches — and it produces the dataset sustainability
 offices currently have to guess at: what students actually discard, when, and in
 what quantity.
 
-**Behavioural and social.** Students who complete a handoff acquire a visible,
+**Behavioural and social.** Students who complete a meet-up acquire a visible,
 personal record of circular behaviour, and students who need an hour of paid work
 get it by carrying things their neighbours cannot lift alone. Affordability and
 emissions are the same transaction here, not a trade-off.
@@ -230,21 +230,20 @@ emissions are the same transaction here, not a trade-off.
 - **The university** — fewer dumpsters at move-out, lower waste-hauling costs,
   and a measurable circularity number for its own climate reporting.
 - **Sustainability offices and student groups** — a year-round instrument that
-  complements rather than competes with the drives they already run: the board
-  removes the easy majority from the pile so staffed collection can handle what
-  is left.
+  complements rather than competes with the drives they already run: it removes
+  the easy majority from the pile so staffed collection can handle what is left.
 - **The wider system** — every object rehomed is one production run not triggered
   and one landfill entry avoided.
 
 ## How could your solution scale?
 
 **Technically, a school joins by someone signing in.** A university email domain
-maps to a campus, row-level security keeps the boards isolated, and the campus is
+maps to a campus, row-level security keeps the Marketplaces isolated, and the campus is
 named and marked automatically from a registry of 7,328 academic domains. The
 product does not get harder with the tenth campus.
 
-**Commercially, the constraint is density, not code.** A board with nothing on it
-is worse than no board, so attention goes to one school at a time — all of
+**Commercially, the constraint is density, not code.** A Marketplace with nothing
+on it is worse than none at all, so attention goes to one school at a time — all of
 Columbia first, building by building — before recruiting a second. Growth follows
 the residential calendar: move-in and move-out are the two moments when the whole
 population has the same problem at once.
