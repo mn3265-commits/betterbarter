@@ -89,7 +89,7 @@ her background is in the block above.
 
 ## One-Sentence Project Description (max 30 words)
 
-> BetterBarter is a verified campus marketplace where students give, sell and swap what they already own — so a working desk lamp finds its next owner, not a dumpster. *(29 words)*
+> BetterBarter is a verified campus marketplace built on a simple fact: a university already owns everything its students need — it just throws it away and buys it again. *(29 words)*
 
 *This one is read aloud. The form says it may be used in promotional materials,
 the event programme and speaker introductions — so it is written to survive
@@ -100,13 +100,17 @@ room, an abstraction does not.*
 *Two alternates, both under 30 words, if you or Tessa prefer a different
 emphasis:*
 
-*— **Leading with the thesis:** BetterBarter is a verified campus marketplace
-that keeps what students already own in use, because every May a campus throws
-away what it buys back in September. (27)*
+*— **Shorter, same idea:** A campus already owns everything its students need —
+BetterBarter is the verified marketplace that keeps it moving between them
+instead of into a dumpster. (25)*
 
 *— **Leading with the measurement:** BetterBarter is a verified campus
 marketplace for student reuse, where every exchange is confirmed in person by
 both people and counted — so the impact can be audited, not estimated. (30)*
+
+*The chosen one puts the self-sufficiency argument in the sting rather than the
+setup. "It just throws it away and buys it again" is the whole problem in nine
+words, and it is the half a listener remembers.*
 
 ## Focus areas
 
