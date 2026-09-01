@@ -100,7 +100,7 @@
   <table>
     <thead><tr><th>Level</th><th>Number</th><th>Status</th></tr></thead>
     <tbody>
-      <tr><td>1</td><td>Confirmed handoffs — both people tapped, one object, one timestamp</td><td><b>Measured</b></td></tr>
+      <tr><td>1</td><td>Confirmed handoffs — both people present, code joined, one object, one timestamp</td><td><b>Measured</b></td></tr>
       <tr><td>2</td><td>Mass kept in use = count × typical mass for the category</td><td>Estimated</td></tr>
       <tr><td>3</td><td>Production avoided = mass × low-end cradle-to-gate factor × displacement 0.5</td><td>Estimated, conservative</td></tr>
     </tbody>
@@ -140,7 +140,15 @@
 <section>
   <div class="kicker">Current stage</div>
   <h2>Working product, pre-pilot.</h2>
-  <p>Deployed and running on a live backend, not a mockup: Google (university) sign-in, campus-isolated Postgres with row-level security, realtime chat, photo storage, the day-7 freshness check, a community-rules gate, a pre-post safety check, and the both-sides handoff confirmation. The board is also an installable PWA and a full desktop web app. Two verified accounts exist; the board has not yet been opened to residents. The pilot is scoped for the coming term, ahead of the May 2027 move-out peak.</p>
+  <p>Deployed and running on a live backend, not a mockup: university sign-in, campus-isolated Postgres with row-level security on every table, realtime chat that refuses to send contact details, photo storage, an hourly freshness check that retires stale listings by itself, a community-rules gate, a pre-post safety check, ratings, reporting with a moderation queue behind it, and rate limits enforced in the database. It is an installable PWA and a full desktop web app. Handoffs are confirmed in person with a six-digit code split across the two phones.</p>
+  <p>The roll-out runs in four phases: fifty to a hundred Columbia SPS students invited by hand during orientation week, then the School of Professional Studies within a month, the university within six, and other institutions after that — a university email domain already maps to a campus server-side, so a new school&rsquo;s Marketplace exists the moment its first student signs in. The pilot is scoped through the May 2027 move-out, which is the week the thesis is actually tested.</p>
+</section>
+
+<section>
+  <div class="kicker">Evidence of traction</div>
+  <h2>What exists, and what does not.</h2>
+  <p><b>What exists.</b> A live product at betterbarter.vercel.app, open source at github.com/mn3265-commits/betterbarter. A hardened backend: row-level security on every table, an RLS-hardening pass after the security advisor flagged it, server-side sign-up gating on academic domains, database-level rate limits, a reporting and moderation queue, and a confirmation function that cannot double-count. The impact model published in full with its factor table, its assumed category mix, its displacement rate and every source. All of it built and shipped by a two-person team in five weeks.</p>
+  <p><b>What does not.</b> No paying customers. No institutional partnership. No pilot users &mdash; two verified Columbia accounts exist and both of them are ours. No conversation has happened yet with Columbia Housing, EcoReps or the Office of Sustainability. We would rather state that plainly than dress it up: the thing we are asking to be judged on is a working product and a defensible method, not a user count we do not have.</p>
 </section>
 
 <section>
@@ -156,7 +164,7 @@
 <section>
   <div class="kicker">Team</div>
   <h2>Two people, in the open.</h2>
-  <p><b class="h">Agung Nugroho</b> — product and build. Designs the board, writes the code, owns the impact model, runs the pilot. Graduate student and Graduate Assistant at Columbia SPS; professional background in customer-lifecycle and CRM marketing at telecommunications scale, where the daily problem is the same one this product has: getting a very large number of ordinary people to complete one specific action, and measuring honestly whether they did.</p>
+  <p><b class="h">Agung Nugroho</b> — Co-Founder, Tech and Product. Designs the Marketplace, writes the code, owns the impact model, runs the pilot. Graduate student and Graduate Assistant at Columbia SPS; professional background in customer-lifecycle and CRM marketing at telecommunications scale, where the daily problem is the same one this product has: getting a very large number of ordinary people to complete one specific action, and measuring honestly whether they did.</p>
   <p><b class="h">Tessa Wong</b> — Co-Founder, Strategy and Community. A sustainable
   development professional by background. She began her career as a management consultant at
   Accenture Singapore, before pivoting to sustainable development research and consulting — first
@@ -167,7 +175,7 @@
 <section>
   <div class="kicker">Scale</div>
   <h2>Dense before wide.</h2>
-  <p>Adding a school costs nothing and requires no code: a university email opens a board, and row-level security keeps every campus isolated. What does not copy is density, so our attention stays on one campus — building by building — until the board is useful on an ordinary Tuesday and not only in the last week of May. Distribution then runs through institutions rather than advertising: housing, sustainability offices and student groups already own the move-out problem, and the impact model is the pitch to them.</p>
+  <p>Adding a school costs nothing and requires no code: a university email opens a Marketplace, and row-level security keeps every campus isolated. What does not copy is density, so our attention stays on one campus — building by building — until it is useful on an ordinary Tuesday and not only in the last week of May. Distribution then runs through institutions rather than advertising: housing, sustainability offices and student groups already own the move-out problem, and the impact model is the pitch to them.</p>
 </section>
 
 <div class="foot">
