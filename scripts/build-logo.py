@@ -35,75 +35,51 @@ PINE = (28, 122, 79)        # #1c7a4f
 PAPER = (241, 243, 239)     # #f1f3ef
 
 # ── The mark ────────────────────────────────────────────────────────────────
-# Two B's facing each other, cut from Fredoka itself rather than drawn to look
-# like it. The wordmark is set in Fredoka, so a monogram approximating it was
-# always going to sit slightly wrong beside it — this is the same letter.
+# Two B's sharing one spine, drawn rather than cut from the typeface.
 #
-# The stem of Fredoka's B at weight 600 is exactly 152 units wide (38.5 to
-# 190.5, measured by scanline, constant up the letter), so where the mirror line
-# falls decides everything:
+# The Fredoka glyph version was tried on 31 August in three spacings and reverted
+# on Agung's call. Real letterforms are filled, so two of them make a heavy block
+# whichever way they are spaced; these strokes stay open, which is what lets the
+# mark hold at 16px and sit lightly beside a wordmark that is already solid.
 #
-#   x = 114.5   the stems fully merge     one solid slab, four small holes
-#   x = 38.5    the stems touch           a body, with the bowls as wings
-#   x = 16      a 45-unit gap             two separate letters
-#
-# 38.5 is the one. The two stems together make a spine down the middle and the
-# four bowls flare off it, which is a butterfly before it is a monogram — and it
-# still holds at 16px, where the counters stay open.
+# One known reading: the spine runs past the bowls top and bottom, which is the
+# construction of the Bitcoin B. In lime with a wordmark beside it that has not
+# been a problem, but it is the thing to watch if the mark ever appears alone.
+MARK_PATHS = [
+    'M50 16v68',                          # the spine both letters hang on
+    'M50 22h13a14 14 0 0 1 0 28H50',      # right B, upper bowl
+    'M50 50h15a14 14 0 0 1 0 28H50',      # right B, lower bowl (wider, as a B is)
+    'M50 22H37a14 14 0 0 0 0 28h13',      # mirrored B, upper bowl
+    'M50 50H35a14 14 0 0 0 0 28h15',      # mirrored B, lower bowl
+]
+
+LIME = (223, 233, 88)       # #dfe958
+INK = (20, 24, 10)          # #14180a
+
 FREDOKA_URL = (
     "https://raw.githubusercontent.com/google/fonts/main/ofl/fredoka/"
     "Fredoka%5Bwdth%2Cwght%5D.ttf"
 )
-MIRROR_AT = 38.5        # the two stems touch, making one body
-GLYPH_BOX = (2 * MIRROR_AT - 590, 590, -8.75, 690.75)   # x0, x1, y0, y1
-
-PINE = (28, 122, 79)        # kept for reference; the brand moved to lime
-LIME = (223, 233, 88)       # #dfe958
-INK = (20, 24, 10)          # #14180a
 
 
-def fredoka_b() -> str:
-    """The B outline as an SVG path, at weight 600."""
-    from fontTools.ttLib import TTFont
-    from fontTools.varLib.instancer import instantiateVariableFont
-    from fontTools.pens.svgPathPen import SVGPathPen
-
+def fredoka_ttf():
+    """Only the wordmark needs the font now; the mark is drawn."""
     FONT_DIR.mkdir(exist_ok=True)
     dest = FONT_DIR / "Fredoka.ttf"
     if not dest.exists() or dest.stat().st_size < 100_000:
         req = urllib.request.Request(FREDOKA_URL, headers={"User-Agent": "curl/8"})
         with urllib.request.urlopen(req, timeout=60) as r:
             data = r.read()
-        if data[:4] not in (b"\x00\x01\x00\x00", b"true", b"OTTO"):
-            raise ValueError(f"not a TrueType file (magic {data[:4]!r})")
         dest.write_bytes(data)
         print(f"  fetched Fredoka ({len(data) // 1024} KB)")
-
-    font = TTFont(dest)
-    inst = instantiateVariableFont(font, {"wght": 600, "wdth": 100}, inplace=False)
-    gs = inst.getGlyphSet()
-    pen = SVGPathPen(gs)
-    gs[inst.getBestCmap()[ord("B")]].draw(pen)
-    return pen.getCommands()
+    return dest
 
 
-def mark_transform(box: float = 100, pad: float = 8):
-    """Fit the pair into a square box, flipping y from font space to SVG space."""
-    x0, x1, y0, y1 = GLYPH_BOX
-    w, h = x1 - x0, y1 - y0
-    sc = (box - pad * 2) / max(w, h)
-    tx = pad + (box - pad * 2 - w * sc) / 2 - x0 * sc
-    ty = pad + (box - pad * 2 - h * sc) / 2 + y1 * sc
-    return tx, ty, sc
-
-
-def svg_mark(fill: str, d: str, box: float = 100, pad: float = 8) -> str:
-    tx, ty, sc = mark_transform(box, pad)
+def svg_mark(stroke: str, width: float = 8.5) -> str:
+    paths = "\n".join(f'    <path d="{d}"/>' for d in MARK_PATHS)
     return (
-        f'  <g transform="translate({tx:.3f} {ty:.3f}) scale({sc:.5f} -{sc:.5f})" fill="{fill}">\n'
-        f'    <path d="{d}"/>\n'
-        f'    <path d="{d}" transform="translate({2 * MIRROR_AT} 0) scale(-1 1)"/>\n'
-        f'  </g>'
+        f'  <g fill="none" stroke="{stroke}" stroke-width="{width}" '
+        f'stroke-linecap="round" stroke-linejoin="round">\n{paths}\n  </g>'
     )
 
 
@@ -130,55 +106,54 @@ async def _shoot(pairs):
     (ROOT / "scripts" / ".fonts" / "_render.svg").unlink(missing_ok=True)
 
 
-def png_icons(d):
+def png_icons():
     import asyncio
 
-    def tile(size, radius):
+    def tile(size, radius, width):
         return (
             f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" '
             f'width="{size}" height="{size}">\n'
             f'  <rect width="100" height="100" rx="{radius}" fill="#dfe958"/>\n'
-            + svg_mark("#14180a", d, pad=14)
+            + svg_mark("#14180a", width)
             + "\n</svg>"
         )
 
     asyncio.run(_shoot([
-        (tile(192, 0), ROOT / "public/icon-192.png", 192),
-        (tile(512, 0), ROOT / "public/icon-512.png", 512),
-        (tile(512, 22), ROOT / "pitch/BetterBarter-icon-512.png", 512),
+        (tile(192, 0, 9), ROOT / "public/icon-192.png", 192),
+        (tile(512, 0, 9), ROOT / "public/icon-512.png", 512),
+        (tile(512, 22, 9), ROOT / "pitch/BetterBarter-icon-512.png", 512),
     ]))
 
 
-def html_lockup(d, w=1000, h=270):
-    """The wordmark, set in the real Fredoka from Google Fonts."""
-    tx, ty, sc = mark_transform(100, 8)
+def html_lockup(w=1000, h=270):
+    """The wordmark, set in the real Fredoka, beside the drawn mark."""
     return f"""<!doctype html><meta charset=utf-8>
 <link rel=stylesheet href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600&display=swap">
 <style>
   html,body{{margin:0;padding:0}}
-  body{{width:{w}px;height:{h}px;display:flex;align-items:center;gap:34px;padding-left:34px;
+  body{{width:{w}px;height:{h}px;display:flex;align-items:center;gap:30px;padding-left:30px;
         box-sizing:border-box;background:transparent}}
   .w{{font-family:Fredoka,sans-serif;font-weight:600;font-size:{int(h*0.44)}px;
       letter-spacing:-0.028em;color:#14180a;line-height:1}}
 </style>
-<svg width="{int(h*0.62)}" height="{int(h*0.62)}" viewBox="0 0 100 100">
-  <g transform="translate({tx:.3f} {ty:.3f}) scale({sc:.5f} -{sc:.5f})" fill="#14180a">
-    <path d="{d}"/><path d="{d}" transform="translate({2*MIRROR_AT} 0) scale(-1 1)"/>
-  </g>
+<svg width="{int(h*0.66)}" height="{int(h*0.66)}" viewBox="0 0 100 100">
+{svg_mark("#14180a", 8.5)}
 </svg>
 <div class=w>BetterBarter</div>"""
 
 
-def png_lockup(d, w=1000, h=270):
+def png_lockup(w=1000, h=270):
     import asyncio
     from playwright.async_api import async_playwright
+
+    fredoka_ttf()
 
     async def go():
         async with async_playwright() as pw:
             b = await pw.chromium.launch()
             page = await b.new_page(viewport={"width": w, "height": h})
             tmp = ROOT / "scripts" / ".fonts" / "_lockup.html"
-            tmp.write_text(html_lockup(d, w, h))
+            tmp.write_text(html_lockup(w, h))
             await page.goto(tmp.as_uri(), wait_until="networkidle")
             await page.evaluate("document.fonts.ready")
             out = ROOT / "pitch/BetterBarter-logo.png"
@@ -191,68 +166,66 @@ def png_lockup(d, w=1000, h=270):
 
 
 def main():
-    print("Building every logo file from one glyph…")
-    d = fredoka_b()
+    print("Building every logo file from one geometry…")
 
     (ROOT / "public/icon.svg").write_text(
         '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">\n'
-        + svg_mark("#14180a", d) + "\n</svg>\n")
+        + svg_mark("#14180a") + "\n</svg>\n")
     print("  wrote public/icon.svg")
 
     (ROOT / "pitch/logomark.svg").write_text(
         '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">\n'
         '  <rect width="100" height="100" rx="22" fill="#dfe958"/>\n'
-        + svg_mark("#14180a", d, pad=14) + "\n</svg>\n")
+        + svg_mark("#14180a", 9) + "\n</svg>\n")
     print("  wrote pitch/logomark.svg")
 
-    tx, ty, sc = mark_transform(100, 8)
     (ROOT / "pitch/logo.svg").write_text(
         '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 220" width="980" height="220">\n'
-        '  <g transform="translate(24 40) scale(1.4)">\n'
-        + svg_mark("#14180a", d) + "\n  </g>\n"
-        '  <text x="196" y="140" font-family="Fredoka, sans-serif" font-size="104"\n'
+        '  <g transform="translate(20 38) scale(1.44)">\n'
+        + svg_mark("#14180a") + "\n  </g>\n"
+        '  <text x="188" y="140" font-family="Fredoka, sans-serif" font-size="104"\n'
         '        font-weight="600" letter-spacing="-3" fill="#14180a">BetterBarter</text>\n'
         "</svg>\n")
     print("  wrote pitch/logo.svg  (text needs Fredoka — use the PNG where it may be missing)")
 
-    # the React component, from the same geometry
+    paths = "\n        ".join(f"<path d=\"{d}\" />" for d in MARK_PATHS)
     (ROOT / "src/site/Mark.tsx").write_text(f'''/**
- * The mark: two B\'s, cut from Fredoka itself.
+ * The mark: two B\'s sharing one spine.
  *
- * The wordmark is set in Fredoka, so a monogram merely drawn to look like it
- * always sat slightly wrong beside it. This is the same letter, mirrored, with
- * a 45-unit gap between the stems — sharing the stem instead reads as one solid
- * slab rather than as two letters.
+ * Drawn rather than cut from Fredoka. The glyph version was tried on 31 August
+ * and reverted: real letterforms are filled, so two of them make a heavy block
+ * however they are spaced, while these strokes stay open — which is what lets
+ * the mark hold at 16px and sit lightly beside a wordmark that is already solid.
  *
- * Generated by scripts/build-logo.py. Do not edit the path by hand; change the
- * script and re-run it so the favicon, the PWA icons, the app tile and the
- * 1000x270 lockup all move together.
+ * Generated by scripts/build-logo.py. Do not edit by hand; change the script and
+ * re-run it so the favicon, the PWA icons, the app tile and the 1000x270 lockup
+ * all move together.
  */
-const D =
-  \'{d}\'
-
-export function Mark({{ size = 20 }}: {{ size?: number }}) {{
+export function Mark({{ size = 20, strokeWidth }}: {{ size?: number; strokeWidth?: number }}) {{
+  // Small sizes need a heavier stroke or the counters close up and it greys out.
+  const w = strokeWidth ?? (size <= 18 ? 10 : size <= 28 ? 9 : 8.5)
   return (
     <svg
       width={{size}}
       height={{size}}
       viewBox="0 0 100 100"
-      fill="currentColor"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={{w}}
+      strokeLinecap="round"
+      strokeLinejoin="round"
       aria-hidden="true"
       style={{{{ display: \'block\', flex: \'none\' }}}}
     >
-      <g transform="translate({tx:.3f} {ty:.3f}) scale({sc:.5f} -{sc:.5f})">
-        <path d={{D}} />
-        <path d={{D}} transform="translate({2*MIRROR_AT} 0) scale(-1 1)" />
-      </g>
+        {paths}
     </svg>
   )
 }}
 ''')
     print("  wrote src/site/Mark.tsx")
 
-    png_icons(d)
-    png_lockup(d)
+    png_icons()
+    png_lockup()
     print("Done.")
 
 
