@@ -89,8 +89,24 @@ her background is in the block above.
 
 ## One-Sentence Project Description (max 30 words)
 
-> BetterBarter is a verified campus reuse board where students give, sell or swap what
-> they already own — and every confirmed handoff is measured. *(24 words)*
+> BetterBarter is a verified campus marketplace where students give, sell and swap what they already own — so a working desk lamp finds its next owner, not a dumpster. *(29 words)*
+
+*This one is read aloud. The form says it may be used in promotional materials,
+the event programme and speaker introductions — so it is written to survive
+being heard once, by someone who has not read anything else. That is why it ends
+on an object and a dumpster rather than on a method: a concrete image lands in a
+room, an abstraction does not.*
+
+*Two alternates, both under 30 words, if you or Tessa prefer a different
+emphasis:*
+
+*— **Leading with the thesis:** BetterBarter is a verified campus marketplace
+that keeps what students already own in use, because every May a campus throws
+away what it buys back in September. (27)*
+
+*— **Leading with the measurement:** BetterBarter is a verified campus
+marketplace for student reuse, where every exchange is confirmed in person by
+both people and counted — so the impact can be audited, not estimated. (30)*
 
 ## Focus areas
 

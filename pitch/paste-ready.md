@@ -39,8 +39,9 @@ sector in Singapore.
 
 ## One-Sentence Project Description (max 30 words)
 
-BetterBarter is a verified campus reuse board where students give, sell or swap what
-they already own — and every confirmed handoff is measured. *(24 words)*
+BetterBarter is a verified campus marketplace where students give, sell and swap what they already own — so a working desk lamp finds its next owner, not a dumpster.
+
+*(29 words)*
 
 ## Focus areas
 
