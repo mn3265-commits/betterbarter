@@ -20,9 +20,9 @@ missing, which reads better to a judge than a figure they can puncture.
 | Supporting upload *(the form takes 5)* | `pitch/BetterBarter-SEE-THE-FUTURE.pdf` — 8 slides | ✅ |
 | Company logo *(optional)* | `pitch/BetterBarter-logo.png` (1000×270), `pitch/logo.svg`, `pitch/logomark.svg`, `pitch/BetterBarter-icon-512.png` | ✅ |
 
-Still needed: an answer to the validation question under **traction** if either
-of you has spoken to anyone in Columbia Housing, Facilities, EcoReps or
-Sustainability. Everything else is filled.
+Nothing outstanding. Every field is answered and every file is built — the two
+PDFs from `scripts/build-decks.py` and `pitch/intro.html`, the logo set from
+`scripts/build-logo.py`.
 
 ---
 
@@ -80,9 +80,8 @@ to spend their evenings on it. Do not pretend otherwise in the answer. What
 offsets it here is that the product is built, deployed and hardened by one
 person, which is itself a signal about execution speed.
 
-**What it saves.** The one thing blocking this submission for three days has been
-a `[FILL]` waiting on somebody else. A solo entry removes that dependency two
-days before the deadline, which is not nothing.
+**What it saved.** Not applicable in the end — Tessa confirmed on 1 September and
+her background is in the block above.
 
 ## Startup / Project Name
 
@@ -243,23 +242,26 @@ The pilot is scoped for the coming term, ahead of the May 2027 move-out peak.
 
 - **Live product** at https://betterbarter.vercel.app — a public site
   explaining the method, and the board itself behind university sign-in.
-- **Shipped end to end:** verification gate, board with For free / For sale / For
-  swap / For rent (announced) / Looking for, structured listing form, claim with
-  a three-hour hold, realtime chat, day-7 lifecycle, community rules, ratings,
-  profile with impact dashboard, desktop layout and installable PWA.
-- **Backend hardened:** row-level security migrations, an RLS-hardening pass
-  after the security advisor, server-side sign-up gating, and a SECURITY DEFINER
-  confirmation function that cannot double-count, and a split-code confirmation
-  that a single person cannot complete alone.
+- **Shipped end to end:** verified sign-in, a Marketplace browsed by category
+  with free / sale / swap colour-coded on every card and renting announced, a
+  three-photo listing form with an optional "gone by" date, claim with a
+  three-hour hold, realtime chat that refuses to send contact details, the
+  day-7 freshness check running hourly, community rules, ratings, a profile with
+  an impact dashboard, a desktop layout and an installable PWA.
+- **Backend hardened:** row-level security on every table, an RLS-hardening pass
+  after the security advisor, server-side sign-up gating on academic domains,
+  database-level rate limits, a reporting and moderation queue, and a
+  confirmation function that cannot double-count.
+- **Handoffs are verified in person:** six digits split across the two phones,
+  three each, with the column unreadable by any client. A reuse count that one
+  person can raise alone is not a count.
 - **Impact model v1.1 published** with its factor table, assumed mix and sources.
 - **Open source:** https://github.com/mn3265-commits/betterbarter
 - **Not yet:** paying customers, an institutional partnership, or pilot users.
-  Two verified Columbia accounts. We would rather say that than inflate it.
-
-`[FILL — one named conversation goes here. Drafts ready to send in
-pitch/outreach.md: EcoReps (they run Give + Go Green), the Office of
-Sustainability office-hours form, and Columbia Housing. Only write what is
-actually true on the day; the honest "not yet" above beats a vague claim.]`
+  Two verified Columbia accounts, and both of them are us. No conversation with
+  Housing, EcoReps or the Office of Sustainability has happened yet either. We
+  would rather say that than inflate it — the pilot is scoped for this term, and
+  the first fifty users are being invited during orientation week.
 
 ## Team Background
 
