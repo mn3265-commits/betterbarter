@@ -79,21 +79,63 @@
       </div>
     </div>
   </div>
-  <div class="cards c3" style="margin-top: 12px">
-    <div class="card card--flat" style="padding: 14px 18px">
-      <div class="stat"><div class="num" style="font-size: 30px">12.1M t</div>
-      <div class="stat__s">US furniture and furnishings generated in 2018 — 80.1% landfilled (EPA)</div></div>
+  <div class="row" style="margin-top: 14px; gap: 26px; align-items: center">
+    <div class="col" style="flex: 0 0 620px">
+      <svg class="chart" viewBox="0 0 680 128" role="img" aria-label="Share of US furniture and textiles sent to landfill in 2018">
+        <!-- furniture -->
+        <text class="ax" x="0" y="26">Furniture &amp; furnishings</text>
+        <rect x="0" y="34" width="472" height="26" fill="#383c0b"/>
+        <rect x="474" y="34" width="115" height="26" fill="#c2ce3d"/>
+        <rect class="bar-out" x="0" y="34" width="589" height="26" rx="3"/>
+        <text class="val" x="12" y="52" fill="#fffbf7">80.1% landfilled</text>
+        <text class="ax" x="600" y="52">12.1M t</text>
+        <!-- textiles -->
+        <text class="ax" x="0" y="90">Textiles</text>
+        <rect x="0" y="98" width="392" height="26" fill="#383c0b"/>
+        <rect x="394" y="98" width="195" height="26" fill="#c2ce3d"/>
+        <rect class="bar-out" x="0" y="98" width="589" height="26" rx="3"/>
+        <text class="val" x="12" y="116" fill="#fffbf7">66% landfilled</text>
+        <text class="ax" x="600" y="116">17M t</text>
+      </svg>
+      <div class="legend">
+        <span><i style="border-top-width: 10px; border-color: #383c0b"></i>Landfilled</span>
+        <span><i style="border-top-width: 10px; border-color: #c2ce3d"></i>Recycled, composted or combusted</span>
+        <span style="margin-left: auto; color: var(--ink-faint)">US, 2018 &middot; EPA</span>
+      </div>
     </div>
-    <div class="card card--flat" style="padding: 14px 18px">
-      <div class="stat"><div class="num" style="font-size: 30px">17M t</div>
-      <div class="stat__s">US textiles the same year; 11.3M t straight to landfill (EPA)</div></div>
-    </div>
-    <div class="card card--flat" style="padding: 14px 18px">
-      <div class="stat"><div class="num" style="font-size: 30px">1 week</div>
-      <div class="stat__s">of May carries most of a residential campus's annual discard</div></div>
+    <div class="col">
+      <div class="card card--flat" style="padding: 16px 18px">
+        <div class="stat"><div class="num" style="font-size: 30px">1 week</div>
+        <div class="stat__s">of May carries most of a residential campus&rsquo;s annual discard</div></div>
+      </div>
     </div>
   </div>
   <div class="foot"><span>2</span><span>EPA Advancing Sustainable Materials Management</span></div>
+</section>
+
+<section class="slide slide--grid">
+  <div class="eyebrow">The shape of a university year</div>
+  <h2 class="display t-title" style="margin-top: 8px; max-width: 34ch">The same objects leave in May and are bought again in September.</h2>
+
+  <svg class="chart" viewBox="0 0 1080 300" role="img" aria-label="Discarding peaks at move-out in May; buying peaks at move-in in September">
+  <rect x="30" y="16" width="32" height="244" fill="#6060d2" opacity=".10"/><rect x="765" y="16" width="32" height="244" fill="#383c0b" opacity=".10"/><line class="grid" x1="46" y1="260" x2="1056" y2="260"/><line class="grid" x1="46" y1="199" x2="1056" y2="199"/><line class="grid" x1="46" y1="138" x2="1056" y2="138"/><line class="grid" x1="46" y1="77" x2="1056" y2="77"/><line class="grid" x1="46" y1="16" x2="1056" y2="16"/>
+  <path d="M 46.0 206.3 L 137.8 225.8 L 229.6 230.7 L 321.5 186.8 L 413.3 221.0 L 505.1 230.7 L 596.9 228.3 L 688.7 196.6 L 780.5 25.8 L 872.4 177.0 L 964.2 230.7 L 1056.0 216.1" fill="none" stroke="#383c0b" stroke-width="3.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <path d="M 46.0 35.5 L 137.8 186.8 L 229.6 221.0 L 321.5 225.8 L 413.3 152.6 L 505.1 221.0 L 596.9 225.8 L 688.7 225.8 L 780.5 211.2 L 872.4 221.0 L 964.2 225.8 L 1056.0 162.4" fill="none" stroke="#6060d2" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <circle cx="781" cy="26" r="5" fill="#383c0b"/><text class="val" x="781" y="12" text-anchor="middle" fill="#383c0b">Move-out</text><circle cx="46" cy="36" r="5" fill="#6060d2"/><text class="val" x="52" y="22" text-anchor="start" fill="#4a4ab4">Move-in</text><text class="ax" x="46" y="286" text-anchor="middle">Sep</text><text class="ax" x="138" y="286" text-anchor="middle">Oct</text><text class="ax" x="230" y="286" text-anchor="middle">Nov</text><text class="ax" x="321" y="286" text-anchor="middle">Dec</text><text class="ax" x="413" y="286" text-anchor="middle">Jan</text><text class="ax" x="505" y="286" text-anchor="middle">Feb</text><text class="ax" x="597" y="286" text-anchor="middle">Mar</text><text class="ax" x="689" y="286" text-anchor="middle">Apr</text><text class="ax" x="781" y="286" text-anchor="middle">May</text><text class="ax" x="872" y="286" text-anchor="middle">Jun</text><text class="ax" x="964" y="286" text-anchor="middle">Jul</text><text class="ax" x="1056" y="286" text-anchor="middle">Aug</text>
+</svg>
+
+  <div class="legend" style="margin-top: 4px">
+    <span><i style="border-top-width: 3.5px; border-color: #383c0b"></i>Things being thrown out</span>
+    <span><i style="border-top-width: 2.5px; border-color: #6060d2"></i>Things being bought new</span>
+    <span style="margin-left: auto; color: var(--ink-faint)">Schematic. Nobody holds per-week campus discard data, because the thing that would produce it is the Marketplace itself.</span>
+  </div>
+
+  <p class="body" style="margin-top: 14px; max-width: 76ch">
+    Two curves, eight weeks apart, twice a year. Existing campus responses run for one week of that
+    cycle with trucks, storage and volunteers. The gap between the peaks is where a working desk
+    lamp sits in a skip while somebody two floors down is ordering a new one.
+  </p>
+  <div class="foot"><span>3</span><span>Shape is schematic; the volumes behind it are EPA</span></div>
 </section>
 
 <section class="slide slide--peri">
@@ -125,7 +167,7 @@
       people nearby. We are more alike than we think.</p>
     </div>
   </div>
-  <div class="foot" style="color: var(--ink); opacity: .7"><span>3</span><span>betterbarter.vercel.app</span></div>
+  <div class="foot" style="color: var(--ink); opacity: .7"><span>4</span><span>betterbarter.vercel.app</span></div>
 </section>
 
 <section class="slide slide--grid">
@@ -164,7 +206,7 @@
       keeps the Marketplace showing things you can actually get.</p>
     </div>
   </div>
-  <div class="foot"><span>4</span><span>betterbarter.vercel.app · open source</span></div>
+  <div class="foot"><span>5</span><span>betterbarter.vercel.app · open source</span></div>
 </section>
 
 <section class="slide slide--grid">
@@ -191,7 +233,7 @@
     either self-reported or weighed at the back of a truck. Ours requires two people in the same
     place at the same time.
   </p>
-  <div class="foot"><span>5</span><span>Live since 29 August 2026</span></div>
+  <div class="foot"><span>6</span><span>Live since 29 August 2026</span></div>
 </section>
 
 <section class="slide slide--grid">
@@ -228,7 +270,7 @@
       mix and the arithmetic are one file in an open repository.</p>
     </div>
   </div>
-  <div class="foot"><span>6</span><span>betterbarter.vercel.app/#impact</span></div>
+  <div class="foot"><span>7</span><span>betterbarter.vercel.app/#impact</span></div>
 </section>
 
 <section class="slide slide--peri">
@@ -261,7 +303,7 @@
       </p>
     </div>
   </div>
-  <div class="foot" style="color: var(--ink); opacity: .7"><span>7</span><span>NCES IPEDS 2022–23</span></div>
+  <div class="foot" style="color: var(--ink); opacity: .7"><span>8</span><span>NCES IPEDS 2022–23</span></div>
 </section>
 
 <section class="slide slide--peri">
@@ -290,7 +332,7 @@
       and anything else that sits alongside what we do rather than competing with it.</p>
     </div>
   </div>
-  <div class="foot" style="color: var(--ink); opacity: .7"><span>8</span><span></span></div>
+  <div class="foot" style="color: var(--ink); opacity: .7"><span>9</span><span></span></div>
 </section>
 
 <section class="slide slide--grid">
@@ -325,7 +367,7 @@
     Columbia&rsquo;s first-years moved in on 29&ndash;30 August and orientation runs to 7 September.
     Phase 0 is happening the same week this is being submitted.
   </p>
-  <div class="foot"><span>9</span><span>Self-serve campus creation is built and live</span></div>
+  <div class="foot"><span>10</span><span>Self-serve campus creation is built and live</span></div>
 </section>
 
 <section class="slide slide--grid">
@@ -351,7 +393,7 @@
       method that holds up under questioning, and those we do have.</p>
     </div>
   </div>
-  <div class="foot"><span>10</span><span>Every claim on this slide is checkable in the open repository</span></div>
+  <div class="foot"><span>11</span><span>Every claim on this slide is checkable in the open repository</span></div>
 </section>
 
 <section class="slide slide--lime">

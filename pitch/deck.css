@@ -253,3 +253,21 @@ tr.us td { font-weight: 600; }
   overflow: hidden;
 }
 .bleed img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+
+/* ── charts ───────────────────────────────────────────────────────────────────
+ * Two series never share a single encoding here. Where there are two, they
+ * differ in hue, in lightness and in weight, so the chart survives a projector,
+ * a greyscale print and colour-vision deficiency. Checked against the slide
+ * ground: olive 11.2:1, periwinkle 5.0:1, both past the 3:1 a graphical mark
+ * needs. Values are labelled directly, so nobody has to read a legend to read
+ * a number.
+ */
+.chart { width: 100%; }
+.chart text { font-family: 'Plus Jakarta Sans', sans-serif; fill: var(--ink); }
+.chart .ax { font-size: 13px; fill: var(--ink-faint); }
+.chart .val { font-size: 15px; font-weight: 600; }
+.chart .grid { stroke: #e8e3d8; stroke-width: 1; }
+.chart .bar-out { fill: none; stroke: var(--ink); stroke-width: 1.5; }
+.legend { display: flex; gap: 20px; align-items: center; margin-top: 10px; font-size: 13px; color: var(--ink-soft); }
+.legend i { display: inline-block; width: 20px; height: 0; border-top-style: solid; margin-right: 7px; vertical-align: middle; }
