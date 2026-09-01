@@ -5,54 +5,87 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
+  /*
+   * The project introduction, in the deck's visual language.
+   *
+   * It was a dense A4 report sitting next to a well-designed deck, and it read
+   * as typed rather than made. This keeps it a document — the form asks for six
+   * things in prose, and a deck answers a checklist badly — but gives it the
+   * deck's ink outlines, its lime and periwinkle fields, its Fredoka headings
+   * and, mostly, its air. Fewer words per page, more pages.
+   */
   :root{
-    --ink:#14180a; --bg:#fffbf7; --surface:#f6f2ea; --accent:#dfe958; --accent-700:#525810;
-    --accent-100:#f9fbe0; --line:rgba(22,32,26,.22); --muted:rgba(22,32,26,.62);
-    --serif:"Fredoka","Plus Jakarta Sans",system-ui,sans-serif; --sans:"Plus Jakarta Sans",system-ui,sans-serif;
+    --ink:#14180a; --bg:#fffbf7; --lime:#dfe958; --peri:#bbbcf4;
+    --lime-100:#f9fbe0; --peri-100:#f0f0fd;
+    --ink-700:#525810; --peri-700:#4a4ab4;
+    --line:rgba(20,24,10,.20); --muted:rgba(20,24,10,.60);
+    --display:"Fredoka","Plus Jakarta Sans",system-ui,sans-serif;
+    --sans:"Plus Jakarta Sans",system-ui,sans-serif;
   }
-  @page { size: A4; margin: 12mm 13mm 10mm; }
+  @page { size: A4; margin: 14mm 15mm 12mm; }
   *{box-sizing:border-box}
-  body{margin:0;font-family:var(--sans);color:var(--ink);background:#fff;font-size:9.6pt;line-height:1.45}
-  h1,h2,h3{font-family:var(--serif);font-weight:600;font-variation-settings:'SOFT' 70,'WONK' 1,'opsz' 96;margin:0}
-  h1{font-size:31pt;line-height:1;letter-spacing:-.02em}
-  h2{font-size:14pt;margin:0 0 6pt;letter-spacing:-.01em}
-  h3{font-size:11pt;margin:0 0 3pt}
-  p{margin:0 0 7pt}
-  .kicker{font-size:7.5pt;letter-spacing:.14em;text-transform:uppercase;color:var(--accent-700);font-weight:600}
-  .cover{background:var(--accent);color:var(--ink);padding:13mm 13mm;margin:-12mm -13mm 6mm;}
-  .cover .kicker{color:rgba(255,255,255,.85)}
-  .cover p{max-width:78mm;font-size:11pt;margin-top:6pt}
-  .cover .meta{margin-top:10mm;font-size:8.5pt;line-height:1.6;opacity:.9}
-  section{margin-bottom:5.5mm;break-inside:avoid}
-  .rule{height:1px;background:var(--line);margin:4mm 0}
-  .two{display:grid;grid-template-columns:1fr 1fr;gap:6mm}
-  .three{display:grid;grid-template-columns:1fr 1fr 1fr;gap:4mm}
-  .card{border:1px solid var(--line);border-radius:3mm;padding:4mm}
-  .card b{display:block;font-family:var(--serif);font-weight:600;font-size:10.5pt;margin-bottom:2pt}
-  .card span{font-size:9pt;color:var(--muted);line-height:1.45}
-  .stat{background:var(--accent-100);border-radius:3mm;padding:4mm}
-  .stat b{display:block;font-family:var(--serif);font-size:20pt;color:var(--accent-700);line-height:1}
-  .stat span{display:block;font-size:8.5pt;color:var(--muted);margin-top:2pt;line-height:1.4}
-  table{width:100%;border-collapse:collapse;font-size:9pt}
-  td,th{text-align:left;padding:2.4mm 3mm 2.4mm 0;border-bottom:1px solid var(--line);vertical-align:top}
-  th{font-size:7.5pt;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:600}
-  td:first-child{font-weight:600;width:34mm}
-  ul{margin:0 0 7pt;padding-left:4.6mm}
-  li{margin-bottom:2.4pt}
-  .foot{font-size:8pt;color:var(--muted);border-top:1px solid var(--line);padding-top:3mm}
-  .lede{font-size:11pt;color:var(--ink)}
+  body{margin:0;font-family:var(--sans);color:var(--ink);background:var(--bg);
+       font-size:10pt;line-height:1.62;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+
+  h1,h2,h3{font-family:var(--display);font-weight:600;margin:0;letter-spacing:-.02em}
+  h1{font-size:36pt;line-height:.98}
+  h2{font-size:19pt;line-height:1.1;margin:0 0 4mm;break-after:avoid}
+  h3{font-size:12pt;line-height:1.2;margin:0 0 1.5mm}
+  p{margin:0 0 3.4mm;max-width:64em}
+  b.h{font-weight:600}
+
+  .kicker{font-size:8pt;letter-spacing:.16em;text-transform:uppercase;
+          color:var(--peri-700);font-weight:700;margin-bottom:2mm}
+
+  .cover{background:var(--lime);color:var(--ink);padding:12mm 15mm 13mm;margin:-14mm -15mm 7mm;
+         position:relative;overflow:hidden}
+  .cover .kicker{color:var(--ink);opacity:.78}
+  .cover p{max-width:112mm;font-size:13pt;line-height:1.45;margin-top:5mm}
+  .cover .meta{margin-top:8mm;font-size:9pt;line-height:1.7;opacity:.75;max-width:none}
+  .blob{position:absolute;border-radius:50%;background:var(--peri)}
+
+  section{margin-bottom:7mm}
+  .rule{height:1px;background:var(--line);margin:7mm 0}
+
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:5mm}
+  .three{display:grid;grid-template-columns:repeat(3,1fr);gap:4.5mm}
+
+  .card{border:.4mm solid var(--ink);border-radius:5mm;padding:5mm 5.5mm;background:#fff;break-inside:avoid}
+  .card b{display:block;font-family:var(--display);font-weight:600;font-size:11.5pt;
+          line-height:1.2;margin-bottom:2mm}
+  .card span{font-size:9.5pt;color:var(--muted);line-height:1.55;display:block}
+  .card--lime{background:var(--lime)} .card--lime span{color:var(--ink);opacity:.82}
+  .card--peri{background:var(--peri)} .card--peri span{color:var(--ink);opacity:.82}
+
+  .stat{border:.4mm solid var(--ink);border-radius:5mm;padding:5mm;background:var(--lime-100);break-inside:avoid}
+  .stat b{display:block;font-family:var(--display);font-size:23pt;line-height:1;color:var(--ink)}
+  .stat span{display:block;font-size:9pt;color:var(--muted);margin-top:2mm;line-height:1.5}
+
+  table{width:100%;border-collapse:collapse;font-size:9.5pt}
+  td,th{text-align:left;padding:3mm 3mm 3mm 0;border-bottom:1px solid var(--line);vertical-align:top}
+  th{font-size:8pt;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:700}
+  td:first-child{font-weight:600;width:36mm}
+  tr.hi{background:var(--lime-100)}
+
+  ul{margin:0 0 3.4mm;padding-left:5mm}
+  li{margin-bottom:1.6mm}
+  .foot{font-size:8.5pt;color:var(--muted);border-top:1px solid var(--line);padding-top:4mm}
+  .lede{font-size:12pt;line-height:1.55}
   .page-break{break-before:page}
-  b.h{font-weight:700}
 </style></head><body>
 
 <div class="cover">
+  <div class="blob" style="width:44mm;height:44mm;top:-16mm;right:18mm"></div>
+  <div class="blob" style="width:22mm;height:22mm;bottom:-8mm;left:-8mm"></div>
+  <div style="position:relative">
   <div class="kicker">Project introduction · SEE THE FUTURE 2026 · Circular economy</div>
   <h1>BetterBarter</h1>
-  <p>A verified campus reuse board where students give, sell, lend or swap what they already own — and every confirmed handoff is measured.</p>
+  <p>A verified campus Marketplace where a university supplies itself from what it already owns, keeping working things out of landfill and moving them without a single vehicle.</p>
   <div class="meta">
     betterbarter.vercel.app · github.com/mn3265-commits/betterbarter<br>
     Agung Nugroho &amp; Tessa Wong · Columbia University · moh.agungnugroho@gmail.com
   </div>
+</div>
 </div>
 
 <section>
@@ -75,7 +108,7 @@
   <div class="two">
     <div class="card"><b>Twenty seconds to post</b><span>Up to three photos, then a short form: category, condition, size, how you are listing it, and where you want to meet — from a list of real campus places, never a room.</span></div>
     <div class="card"><b>Give, sell, swap — renting next</b><span>Ownership is one way to have a thing. A swap keeps two objects in use instead of one; renting is built and announced on the Marketplace, opening once returns are handled properly.</span></div>
-    <div class="card"><b>Only your campus sees it</b><span>One verified university email per account, enforced in the database. Every school is an isolated board — which removes the stranger problem that stops students listing.</span></div>
+    <div class="card"><b>Only your campus sees it</b><span>One verified university email per account, enforced in the database. Every school is an isolated Marketplace — which removes the stranger problem that stops students listing.</span></div>
     <div class="card"><b>The community is the logistics</b><span>A fridge is not a one-person object. Listings can ask for two people or a trolley, and students on the same campus take that work for a fee paid directly between them — no van dispatched, so the transport term stays zero.</span></div>
     <div class="card"><b>Both sides confirm, in person</b><span>The exchange happens at a library entrance or a dining hall door — and it is counted only when six digits, split three-and-three across the two phones, are put back together there. Neither app can read the other’s half, so the count cannot be raised by one person alone.</span></div>
   </div>
@@ -86,11 +119,11 @@
   <h2>Reuse measured at the object, not at the truck.</h2>
   <ul>
     <li><b class="h">An auditable circularity metric.</b> Drives report a weight after the fact, in aggregate. BetterBarter records one confirmed event per object, with category and timestamp, agreed by both parties — bottom-up, and defensible line by line.</li>
-    <li><b class="h">The measurement is the reputation.</b> The tap that counts the reuse is the tap that raises both people's public handoff count, so the incentive to record impact is intrinsic rather than bolted on for reporting.</li>
+    <li><b class="h">The measurement is the reputation.</b> The act that counts the reuse is the act that raises both people's public meet-up count, so the incentive to record impact is intrinsic rather than bolted on for reporting.</li>
     <li><b class="h">Heavy things move without a vehicle.</b> The wall every reuse venture hits is the fridge nobody can carry. A campus already contains the answer: a student with an hour and a trolley, paid directly, with a public carry count of their own.</li>
     <li><b class="h">No transport term.</b> A collection round burns fuel per item — roughly 2.5 kg CO₂e for a 10 km round trip, at the EPA's passenger-car factor, which flatters a van. Two students crossing a campus they were crossing anyway emit nothing extra.</li>
-    <li><b class="h">An honest model, published in the open.</b> Measured, estimated and conservative numbers are kept apart; factors take the low end; displacement is held at 0.5; and a borrowed object earns no carbon credit at all, because it comes back.</li>
-    <li><b class="h">Any university, instantly.</b> A school with no board gets one the moment its first student signs in — the campus is created, named and marked from a registry of 7,328 academic domains. No waiting list, no launch.</li>
+    <li><b class="h">An honest model, published in the open.</b> Measured, estimated and conservative numbers are kept apart; factors take the low end; displacement is held at 0.5; and a rented object earns no carbon credit at all, because it comes back.</li>
+    <li><b class="h">Any university, instantly.</b> A school with no Marketplace gets one the moment its first student signs in — the campus is created, named and marked from a registry of 7,328 academic domains. No waiting list, no launch.</li>
   </ul>
 </section>
 
